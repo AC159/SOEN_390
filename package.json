@@ -1,0 +1,21 @@
+{
+  "name": "soen390",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app",
+    "client": "cd frontend && npm start",
+    "dev": "concurrently \"nodemon run start\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "concurrently": "^7.0.0",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
+  }
+}
