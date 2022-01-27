@@ -5,6 +5,7 @@ import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { useNavigate } from 'react-router-dom';
 
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
 function SignUp(props) {
 
@@ -25,8 +26,8 @@ function SignUp(props) {
     }, [email])
 
     useEffect(() => {
-        if (password.length <= 3 && password !== '') setPasswordError(true)
-        else setPasswordError(false)
+        if (passwordRegex.test(String(password).toLowerCase()) || password === "") setPasswordError(false)
+        else setPasswordError(true)
     }, [password])
 
     useEffect(() => {
@@ -41,7 +42,7 @@ function SignUp(props) {
         auth.register(email, password).then(data => {
             console.log('Sign in successful...');
             console.log(data);
-            navigate("/", { replace: true });
+            navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
         })
@@ -57,7 +58,9 @@ function SignUp(props) {
 
                 <label>password</label>
                 <input type="password" placeholder="password" value={password} onChange={(event)=> setPassword(event.target.value)}/>
-                {passwordError ? <div className={styles['container-error']}>Password must be greater than 3 characters</div>:null}
+                {passwordError ? <div className={styles['container-error']}>
+                    The password must contain at least eight characters, at least one number, at least one special character, and both lower and upper case letters
+                </div>:null}
 
                 <label>confirm password</label>
                 <input type="password" placeholder="confirm password" value={passwordConf}

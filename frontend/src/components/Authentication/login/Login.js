@@ -10,7 +10,7 @@ function Login(props) {
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
-    let [error, setError] = useState('');
+    let [loginError, setLoginError] = useState('');
 
     const submitForm = () => {
         auth.login(email, password).then(data => {
@@ -18,6 +18,9 @@ function Login(props) {
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
+            if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");
+            if (error.code === 'auth/too-many-requests') setLoginError("Too many requests, try again later");
+            if (error.code === 'auth/user-disabled') setLoginError("User account disabled");
         })
     }
 
@@ -25,6 +28,9 @@ function Login(props) {
         <div className={styles.container}>
             <div className={styles['container-title']}>Welcome to CoviCare!</div>
             <form className={styles['container-item']}>
+
+                {loginError ? <div className={styles['container-error']}>{loginError}</div> : null}
+
                 <label>email</label>
                 <input type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
 
