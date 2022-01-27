@@ -5,6 +5,7 @@ const app = express();
 const routes = require('./routes/index');
 const bodyParser = require('body-parser')
 const port = 3001;
+let colors = require('colors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -12,6 +13,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use('/', routes);
 
 app.listen(port, () => {
-    const mongoClient = connectToCluster(process.env.MONGO_CLUSTER_URL).then(r => console.log("success..."));
-    console.log(`Server listening on port ${port}...`)
+    const mongoClient = connectToCluster(process.env.MONGO_CLUSTER_URL).then(r => {
+        console.log("success...".america);
+    });
+    console.log(`Server listening on port ${port}...`.brightBlue)
 });

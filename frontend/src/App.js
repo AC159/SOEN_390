@@ -1,12 +1,30 @@
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from './components/Authentication/login/Login';
+import SignUp from "./components/Authentication/SignUp/SignUp";
+import PatientDashboard from "./components/Dashboards/PatientDashboard/PatientDashboard";
+import FirebaseAuthProvider from "./components/Authentication/FirebaseAuth/FirebaseAuth";
+import './components/Authentication/FirebaseAuth/FirebaseConfig';
+import PrivateRoute from "./components/RouteHandler/PrivateRoute";
 
 function App() {
   return (
-    <div className="App">
-      <main>
-          <h1>Hello world!</h1>
-      </main>
-    </div>
+      <BrowserRouter>
+          <FirebaseAuthProvider>
+              <div className="App">
+                  <main>
+                      <Routes>
+                          <Route path='/' element={<Login/>} />
+                          <Route path='/signup' element={<SignUp/>} />
+                              <Route path='/patient-dashboard' element={
+                                  <PrivateRoute>
+                                      <PatientDashboard/>
+                                  </PrivateRoute>
+                              }/>
+                      </Routes>
+                  </main>
+              </div>
+          </FirebaseAuthProvider>
+      </BrowserRouter>
   );
 }
 
