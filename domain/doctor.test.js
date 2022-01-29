@@ -11,12 +11,12 @@ describe('test value object', () => {
   })
 })
 
-describe('test User object', () => {
-  describe('user creation tests', () => {
+describe('test Doctor object', () => {
+  describe('doctor creation tests', () => {
 
   })
 
-  describe('user method tests', () => {
+  describe('doctor method tests', () => {
     
   })
 })
