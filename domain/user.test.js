@@ -2,6 +2,7 @@ const User = require('./user');
 const UserId = require('./user').UserId;
 const Name = require('./user').Name;
 const Role = require('./user').Role;
+const UserState = require('./user').UserState;
 
 describe('test value object', () => {
   describe('test userId', () => {
@@ -59,6 +60,7 @@ describe('test value object', () => {
       expect(administrator.isAdministrator()).toBeTruthy();
       expect(administrator.isHealthOfficial()).toBeFalsy();
       expect(administrator.isImmigrationOfficer()).toBeFalsy();
+      expect(administrator.getRole()).toEqual("administrator");
     })
     test('health official role return role and flag', () => {
       const healthOfficial = Role.HealthOfficial;
@@ -68,6 +70,7 @@ describe('test value object', () => {
       expect(healthOfficial.isAdministrator()).toBeFalsy();
       expect(healthOfficial.isHealthOfficial()).toBeTruthy();
       expect(healthOfficial.isImmigrationOfficer()).toBeFalsy();
+      expect(healthOfficial.getRole()).toEqual("health official");
     })
     test('immigration officer role return role and flag', () => {
       const immigrationOfficer = Role.ImmigrationOfficer;
@@ -77,6 +80,24 @@ describe('test value object', () => {
       expect(immigrationOfficer.isAdministrator()).toBeFalsy();
       expect(immigrationOfficer.isHealthOfficial()).toBeFalsy();
       expect(immigrationOfficer.isImmigrationOfficer()).toBeTruthy();
+      expect(immigrationOfficer.getRole()).toEqual("immigration officer");
+    })
+  })
+
+  describe('test user state', () => {
+    test('pending state returns role and flag', () => {
+      const state = UserState.Pending;
+
+      expect(state.isPending()).toBeTruthy();
+      expect(state.isApproved()).toBeFalsy();
+      expect(state.getState()).toEqual("pending");
+    })
+    test('approved state returns role and flag', () => {
+      const state = UserState.Approved;
+
+      expect(state.isPending()).toBeFalsy();
+      expect(state.isApproved()).toBeTruthy();
+      expect(state.getState()).toEqual("approved");
     })
   })
 

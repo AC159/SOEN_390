@@ -121,7 +121,42 @@ class Role {
   }
 }
 
+class UserState {
+  static Pending = new UserState(0);
+  static Approved = new UserState(1);
+
+  #isPending = false;
+  #isApproved = false;
+  #state;
+
+  constructor(code) {
+    switch(code) {
+      case 0:
+        this.#isPending = true;
+        this.#state = "pending";
+        break;
+      case 1:
+        this.#isApproved = true;
+        this.#state = "approved";
+        break;
+    }
+  }
+
+  getState() {
+    return this.#state;
+  }
+
+  isPending() {
+    return this.#isPending;
+  }
+
+  isApproved() {
+    return this.#isApproved;
+  }
+}
+
 module.exports = User;
 module.exports.UserId = UserId;
 module.exports.Name = Name;
 module.exports.Role = Role;
+module.exports.UserState = UserState;
