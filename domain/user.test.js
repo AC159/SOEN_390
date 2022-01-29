@@ -1,6 +1,7 @@
-const User = require('./user').User;
+const User = require('./user');
 const UserId = require('./user').UserId;
 const Name = require('./user').Name;
+const Role = require('./user').Role;
 
 describe('test value object', () => {
   describe('test userId', () => {
@@ -12,7 +13,7 @@ describe('test value object', () => {
 
       expect(userId.getId()).toEqual(id);
     })
-  })
+  });
 
   describe('test name', () => {
     test('firstName throws an error when not valid', () => {})
@@ -27,7 +28,58 @@ describe('test value object', () => {
       expect(userName.getlastName()).toEqual("Doe");
       expect(userName.getFullName()).toEqual("John Doe");
     })
+  });
+
+  describe('test role', () => {
+    test('doctor role return role and flag', () => {
+      const doctor = Role.Doctor;
+
+      expect(doctor.isDoctor()).toBeTruthy();
+      expect(doctor.isPatient()).toBeFalsy();
+      expect(doctor.isAdministrator()).toBeFalsy();
+      expect(doctor.isHealthOfficial()).toBeFalsy();
+      expect(doctor.isImmigrationOfficer()).toBeFalsy();
+      expect(doctor.getRole()).toEqual("doctor");
+    })
+    test('patient role return role and flag', () => {
+      const patient = Role.Patient;
+
+      expect(patient.isDoctor()).toBeFalsy();
+      expect(patient.isPatient()).toBeTruthy();
+      expect(patient.isAdministrator()).toBeFalsy();
+      expect(patient.isHealthOfficial()).toBeFalsy();
+      expect(patient.isImmigrationOfficer()).toBeFalsy();
+      expect(patient.getRole()).toEqual("patient");
+    })
+    test('administrator role return role and flag', () => {
+      const administrator = Role.Administrator;
+
+      expect(administrator.isDoctor()).toBeFalsy();
+      expect(administrator.isPatient()).toBeFalsy();
+      expect(administrator.isAdministrator()).toBeTruthy();
+      expect(administrator.isHealthOfficial()).toBeFalsy();
+      expect(administrator.isImmigrationOfficer()).toBeFalsy();
+    })
+    test('health official role return role and flag', () => {
+      const healthOfficial = Role.HealthOfficial;
+
+      expect(healthOfficial.isDoctor()).toBeFalsy();
+      expect(healthOfficial.isPatient()).toBeFalsy();
+      expect(healthOfficial.isAdministrator()).toBeFalsy();
+      expect(healthOfficial.isHealthOfficial()).toBeTruthy();
+      expect(healthOfficial.isImmigrationOfficer()).toBeFalsy();
+    })
+    test('immigration officer role return role and flag', () => {
+      const immigrationOfficer = Role.ImmigrationOfficer;
+
+      expect(immigrationOfficer.isDoctor()).toBeFalsy();
+      expect(immigrationOfficer.isPatient()).toBeFalsy();
+      expect(immigrationOfficer.isAdministrator()).toBeFalsy();
+      expect(immigrationOfficer.isHealthOfficial()).toBeFalsy();
+      expect(immigrationOfficer.isImmigrationOfficer()).toBeTruthy();
+    })
   })
+
 })
 
 describe('test User object', () => {
