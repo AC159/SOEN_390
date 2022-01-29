@@ -24,7 +24,7 @@ class UserId {
     this.id = id;
   }
 
-  get id() {
+  getId() {
     return this.id;
   }
 }
@@ -45,15 +45,19 @@ class Name {
     this.lastName = lastName;
   }
 
-  get firstName() {
-    return this.firstName;
+  getFirstName() {
+    return this.firstName
   }
 
-  get lastName() {
+  getlastName() {
     return this.lastName;
   }
 
-  get name() {
+  getFullName() {
     return `${this.firstName} ${this.lastName}`;
   }
 }
+
+module.exports.User = User;
+module.exports.UserId = UserId;
+module.exports.Name = Name;

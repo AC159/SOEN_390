@@ -29,35 +29,42 @@ class PatientStatus {
   static Unconfirmed = new PatientStatus(1, 'unconfirmed');
   static Healthy = new PatientStatus(2, 'healthy');
 
-  constructor(status, status) {
-    this.isConfirmed = this.isUnconfirmed = this.Healthy = false;
-    this.status = status;
+  #isConfirmed = false;
+  #isUnconfirmed = false;
+  #isHealthy = false;
+  #status
 
-    switch(status) {
+  constructor(code, status) {
+    this.#status = status;
+
+    switch(code) {
       case 0:
-        this.isConfirmed = true;
+        this.#isConfirmed = true;
         break;
       case 1:
-        this.Unconfirmed = true;
+        this.#isUnconfirmed = true;
         break;
       case 2:
-        this.isHealthy = true;
+        this.#isHealthy = true;
     }
   }
 
-  get status() {
-    return this.status;
+  getStatus() {
+    return this.#status;
   }
 
-  get isHealthy() {
-    return this.isHealthy;
+  isHealthy() {
+    return this.#isHealthy;
   }
 
-  get isConfirmed() {
-    return this.isConfirmed;
+  isConfirmed() {
+    return this.#isConfirmed;
   }
 
-  get isUnconfirmed() {
-    return this.isUnconfirmed;
+  isUnconfirmed() {
+    return this.#isUnconfirmed;
   }
 }
+
+module.exports = Patient;
+module.exports.PatientStatus = PatientStatus;

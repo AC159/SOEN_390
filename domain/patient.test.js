@@ -1,30 +1,33 @@
+const Patient = require('./patient');
+const PatientStatus = require('./patient').PatientStatus;
+
 describe('test value object', () => {
   describe('test PatientStatus', () => {
     test('confimred status returns name and flag', () => {
-      patientStatus = PatientStatus.Confirmed;
+      const patientStatus = PatientStatus.Confirmed;
 
-      expect(patientStatus.isConfirmed).toBeTruthy();
-      expect(patientStatus.isHealthy).toBeFalsy();
-      expect(patientStatus.isUnconfirmed).toBeFalsy();
-      expect(patientStatus.status).toEqual("confirmed");
+      expect(patientStatus.isConfirmed()).toBeTruthy();
+      expect(patientStatus.isHealthy()).toBeFalsy();
+      expect(patientStatus.isUnconfirmed()).toBeFalsy();
+      expect(patientStatus.getStatus()).toEqual("confirmed");
     });
 
     test('unconfimred status returns name and flag', () => {
-      patientStatus = PatientStatus.Unconfirmed;
+      const patientStatus = PatientStatus.Unconfirmed;
 
-      expect(patientStatus.isConfirmed).toBeFalsy();
-      expect(patientStatus.isHealthy).toBeFalsy();
-      expect(patientStatus.isUnconfirmed).toBeTruthy();
-      expect(patientStatus.status).toEqual("unconfirmed");
+      expect(patientStatus.isConfirmed()).toBeFalsy();
+      expect(patientStatus.isHealthy()).toBeFalsy();
+      expect(patientStatus.isUnconfirmed()).toBeTruthy();
+      expect(patientStatus.getStatus()).toEqual("unconfirmed");
     });
 
     test('healthy status returns name and flag', () => {
-      patientStatus = PatientStatus.Confirmed;
+      const patientStatus = PatientStatus.Healthy;
 
-      expect(patientStatus.isConfirmed).toBeFalsy();
-      expect(patientStatus.isHealthy).toBeTruthy();
-      expect(patientStatus.isUnconfirmed).toBeFalsy();
-      expect(patientStatus.status).toEqual("healthy");
+      expect(patientStatus.isConfirmed()).toBeFalsy();
+      expect(patientStatus.isHealthy()).toBeTruthy();
+      expect(patientStatus.isUnconfirmed()).toBeFalsy();
+      expect(patientStatus.getStatus()).toEqual("healthy");
     });
   })
 })

@@ -38,7 +38,10 @@ class License {
     this.id = id;
   }
 
-  get id() {
+  getLicense() {
     return this.id;
   }
 }
+
+module.exports = Doctor;
+module.exports.License = License;

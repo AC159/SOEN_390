@@ -1,12 +1,16 @@
+const User = require('./user').User;
+const UserId = require('./user').UserId;
+const Name = require('./user').Name;
+
 describe('test value object', () => {
   describe('test userId', () => {
     test('userId throws an error when id is not valid', () => {})
 
     test('userId returns valid id', () => {
-      id = "1234-12345";
-      userId = new UserId(id);
+      const id = "1234-12345";
+      const userId = new UserId(id);
 
-      expect(userId.id).toEqual(id);
+      expect(userId.getId()).toEqual(id);
     })
   })
 
@@ -15,13 +19,13 @@ describe('test value object', () => {
     test('lastName throws an error when not valid', () => {})
 
     test('Name returns valid firstName, lastName and name', () => {
-      firstName = "John";
-      lastName = "Doe";
-      userName = new Name(firstName, lastName);
+      const firstName = "John";
+      const lastName = "Doe";
+      const userName = new Name(firstName, lastName);
 
-      expect(userName.firstName).toEqual("John");
-      expect(userName.lastName).toEqual("Doe");
-      expect(userName.name).toEqual("John Doe");
+      expect(userName.getFirstName()).toEqual("John");
+      expect(userName.getlastName()).toEqual("Doe");
+      expect(userName.getFullName()).toEqual("John Doe");
     })
   })
 })
@@ -32,6 +36,6 @@ describe('test User object', () => {
   })
 
   describe('user method tests', () => {
-    
+
   })
 })
