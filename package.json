@@ -7,7 +7,7 @@
     "start": "node ./app",
     "client": "cd frontend && npm start",
     "dev": "concurrently \"nodemon run start\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
