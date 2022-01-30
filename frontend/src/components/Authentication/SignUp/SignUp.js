@@ -186,7 +186,6 @@ function SignUp(props) {
                         onChange={(event) => setAdministratorId(event.target.value)}/>
                 </dic>
 
-
             </form>
 
             <button type="submit" onClick={submitForm}

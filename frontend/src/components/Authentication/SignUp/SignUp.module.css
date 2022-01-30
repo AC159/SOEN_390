@@ -97,6 +97,7 @@ button:focus {
     text-decoration: none;
 }
 
+
 @media (max-width: 30rem) {
     .container {
         width: 100%;
