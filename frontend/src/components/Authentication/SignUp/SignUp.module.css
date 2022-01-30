@@ -1,3 +1,11 @@
+.hidden{
+    display: none;
+}
+
+.visible{
+    display: block;
+}
+
 
 body {
     position: absolute;
@@ -8,6 +16,8 @@ body {
     align-items: center;
     overflow: hidden;
     margin: 0;
+
+
 }
 
 .container {
@@ -87,7 +97,6 @@ button:focus {
     text-decoration: none;
 }
 
-
 @media (max-width: 30rem) {
     .container {
         width: 100%;
@@ -95,3 +104,5 @@ button:focus {
         box-shadow: none;
     }
 }
+
+
