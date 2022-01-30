@@ -1,6 +1,18 @@
-class Patient {
-  constructor(status) {
-    this.status = status
+const User = require('./user');
+const UserRepository = require('../repository/UserRepository')
+
+class Patient extends User {
+  constructor(userId, name, address, phoneNumber, dob, userStatus=PatientStatus.Unconfirmed, isFlagged=false) {
+    super(userId, name);
+    this.userStatus = userStatus;
+    this.isFlagged = isFlagged;
+    this.phoneNumber = phoneNumber;
+    this.dob = dob;
+    this.address = address;
+  }
+
+  updateProfile() {
+    throw new Error(`${this.updateProfile.name} is not implemented.`);
   }
 
   updateStatus(medicalForm) {
@@ -66,5 +78,71 @@ class PatientStatus {
   }
 }
 
+class Address {
+  #civicNumber;
+  #street;
+  #postalCode;
+  #city;
+  #province;
+
+  constructor(civicNumber, street, postalCode, city, province) {
+    this.#setCivicNumber(civicNumber);
+    this.#setStreet(street);
+    this.#setPostalCode(postalCode);
+    this.#setCity(city);
+    this.#setProvince(province);
+  }
+
+  #setCivicNumber(civicNumber) {
+    // validate civic number
+    this.#civicNumber = civicNumber;
+  }
+
+  #setStreet(street) {
+    // validate stree name
+    this.#street = street;
+  }
+
+  #setPostalCode(postalCode) {
+    // validate postal code
+    this.#postalCode = postalCode;
+  }
+
+  #setCity(city) {
+    // validate city
+    this.#city = city;
+  }
+
+  #setProvince(province) {
+    // validate province
+    this.#province = province;
+  }
+
+  getCivicNumber() {
+    return this.#civicNumber;
+  }
+
+  getStreet() {
+    return this.#street;
+  }
+
+  getPostalCode() {
+    return this.#postalCode;
+  }
+
+  getCity() {
+    return this.#city;
+  }
+
+  getProvince() {
+    return this.#province;
+  }
+
+  getAddress() {
+    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${this.#province}), ${this.#postalCode}`
+  }
+}
+
 module.exports = Patient;
 module.exports.PatientStatus = PatientStatus;
+module.exports.Address = Address;
