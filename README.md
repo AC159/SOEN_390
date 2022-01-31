@@ -6,7 +6,7 @@
 |------|-----------------|
 |   Anastassy Cap (Team lead)   | AC159 |
 |   Jamil Hirsh   | jam009 |
-|   Anas Peerzada   | Anas Peerzada |
+|   Anas Peerzada   | DrakeHunterK7 |
 |  Jananee Aruboribaran  | BunnyPrince |
 |  Philippe	Carrier  | p-carrier |
 |  Thanh Ta  | Thanh Ta |
