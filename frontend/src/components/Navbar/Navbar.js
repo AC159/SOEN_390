@@ -12,7 +12,7 @@ function Navbar(props) {
                 <div className="HeaderInnerContainer">
                     <img src={MainLogo} width="300"></img>
                     <div className="user-navbar-display">
-                        <img className="user-icon" src={UserIcon} width="100"/>
+                        <a href='#'><img className="user-icon" src={UserIcon} width="100"/></a>
                     </div>
                 </div>
                 

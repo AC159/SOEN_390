@@ -1,26 +1,58 @@
-body {
-    margin: 0px;
-    padding: 0px;
+html, body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     display: block;
+
+    margin: 0;
 }
 
-.dashboard-main {
-    background-color: #005871;
-    border-radius: 10px;
-    padding: 20px;
-    border: solid 2px black; 
+.main-container {
+    /*background-color: tomato;*/
+    height: 100%;
+    display: flex;
+    flex-flow: row;
+}
 
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 30px;
+.tabs-box {
+    float:left;
+    margin-left: 10px;
+    margin-right: 10px;
+    /*background-color: black;*/
+    border-radius: 5px;
+    max-width: 1500px;
+    height: 100%;
     width: 100%;
 }
 
-.notifications {
+.nav-item {
     background-color: #005871;
-    border-radius: 10px;
-    padding: 20px;
-    border: solid 2px black; 
-    float: right;
-    margin: 10px;
+    margin: 1px;
+    border-radius: 5px;
+    border: solid 1px black;
 }
+
+.nav.nav-tabs nav-link.active {
+    background-color: #00c8ff;
+    margin: 1px;
+    border-radius: 5px;
+    border: solid 1px black;
+}
+
+.notification-outer-box {
+    float:right;
+    
+}
+
+.tab-page{
+    padding: 100px;
+    height: 730px;
+    padding: 10px;
+    background-color: #376975;
+    border-radius: 5px;
+    border-left: solid 2px black;
+    border-right: solid 2px black;
+    border-bottom: solid 2px black;
+}
+
+
