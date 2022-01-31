@@ -25,8 +25,8 @@ function Home(props) {
       width="500"
     />
     <Carousel.Caption>
-      <h3>First slide label</h3>
-      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      <h3>COVID cases going down</h3>
+      <p>The Healthcare system is finally experiencing easing strain</p>
     </Carousel.Caption>
   </Carousel.Item>
   
@@ -39,8 +39,8 @@ function Home(props) {
     />
 
     <Carousel.Caption>
-      <h3>Third slide label</h3>
-      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      <h3>Lockdown restrictions to end tomorrow</h3>
+      <p>Is this finally over?</p>
     </Carousel.Caption>
   </Carousel.Item>
 </Carousel>

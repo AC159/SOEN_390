@@ -1,14 +1,26 @@
 .home-outer.container{
     padding: 10px;
     background-color: #376975;
+    
 }
 
 .home-img {
     justify-content: center;
     width: 500px !important;
+    
 }
 
 .todays-new-title{
     font-size: x-large;
     padding-bottom: 0px;
 }
+
+.carousel-inner img {
+    margin: auto;
+   
+  }
+
+  .carousel-inner {
+    background-color: #003b4b;
+  }
+
