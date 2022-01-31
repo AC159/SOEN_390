@@ -6,6 +6,8 @@ import FirebaseAuthProvider from "./components/Authentication/FirebaseAuth/Fireb
 import './components/Authentication/FirebaseAuth/FirebaseConfig';
 import PrivateRoute from "./components/RouteHandler/PrivateRoute";
 
+//import "bootstrap/dist/css/bootstrap.min.css";
+
 function App() {
   return (
       <BrowserRouter>

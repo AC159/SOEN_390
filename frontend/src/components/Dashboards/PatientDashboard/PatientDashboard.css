@@ -1,0 +1,26 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    display: block;
+}
+
+.dashboard-main {
+    background-color: #005871;
+    border-radius: 10px;
+    padding: 20px;
+    border: solid 2px black; 
+
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.notifications {
+    background-color: #005871;
+    border-radius: 10px;
+    padding: 20px;
+    border: solid 2px black; 
+    float: right;
+    margin: 10px;
+}
