@@ -7,7 +7,7 @@
     "start": "node ./app",
     "client": "cd frontend && npm start",
     "dev": "concurrently \"nodemon run start\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +20,8 @@
     "express": "^4.17.2",
     "mongodb": "^4.3.1",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
   }
 }
