@@ -32,5 +32,9 @@
       margin:auto;
   }
 
+  .card-container {
+      display:flex;
+      flex-wrap: wrap;
+  }
   
 

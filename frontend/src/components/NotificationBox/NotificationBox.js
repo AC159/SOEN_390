@@ -1,6 +1,7 @@
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import "./NotificationBox.css";
 import { Alert } from "react-bootstrap";
+import Notification from "../Notification/Notification";
 
 
 function NotificationBox(props) {
@@ -26,42 +27,36 @@ function NotificationBox(props) {
             <div className="notification-container">
             
             <div className="notification-box">
-            <Alert variant="warning">
-                <Alert.Heading>You haven't updated your COVID Status</Alert.Heading>
-                <p>
-                    It is very important that you update your COVID symptoms before 11:59PM today.
-                </p>
-                    <hr />
-                <p className="mb-0">
-                    You can do so by clicking the "Update COVID Symptoms" tab to the left this page.
-                </p>
-            </Alert>
-            <Alert variant="info">
-                <Alert.Heading>Changes in Government Guidelines</Alert.Heading>
-               <p>
-                    The Government of Quebec announced today that from Monday, 11th January 2021 onwards......
-                </p>
-            </Alert>
-            <Alert variant="success">
-                <Alert.Heading>Good news!</Alert.Heading>
-                <p>
-                    Your doctor has decided that your symptoms are not serious.
-                </p>
-                    <hr />
-                <p className="mb-0">
-                    You can do so by clicking the "Update COVID Symptoms" tab to the left this page.
-                </p>
-            </Alert>
-            <Alert variant="warning">
-                <Alert.Heading>You haven't updated your COVID Status</Alert.Heading>
-                <p>
-                    It is very important that you update your COVID symptoms before 11:59PM today.
-                </p>
-                    <hr />
-                <p className="mb-0">
-                    You can do so by clicking the "Update COVID Symptoms" tab to the left this page.
-                </p>
-            </Alert>
+            <Notification
+                alertType="warning"
+                alertMainText="It is very important that you update your COVID symptoms before 11:59PM today."
+                alertSubText="You can do so by clicking the Update COVID Symptoms tab to the left of this page." 
+                alertHeading="Important!"
+            />
+            <Notification
+                alertType="info"
+                alertMainText="The Government of Quebec announced today that from Monday, 11th January 2021 onwards......"
+                alertSubText=""
+                alertHeading="Changes in Government Guidelines"
+            />
+            <Notification
+                alertType="success"
+                alertMainText="Your doctor has decided that your symptoms are not serious."
+                alertSubText=""
+                alertHeading="Good news!"
+            />
+            <Notification
+                alertType="primary"
+                alertMainText="You have a new message from Dr. Gumsimran Singh"
+                alertSubText="Click here to open Chat" 
+                alertHeading="New Message!"
+            />
+            <Notification
+                alertType="warning"
+                alertMainText="Please verify your email"
+                alertSubText="Follow the instructions on the verification email we sent you." 
+                alertHeading="Important!"
+            />
             </div>
         </div>
         </div>
