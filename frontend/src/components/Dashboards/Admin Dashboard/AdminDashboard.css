@@ -48,22 +48,22 @@ html {
   }
 
 .notification-outer-box {
-    float:right;
-    
+  float:right;
+  
 }
 
 .tab-page{
   height: auto;
-    max-height: 720px;
-    padding: 10px;
-    background-color: #388699;
-    border-radius: 5px;
-    border-left: solid 2px black;
-    border-right: solid 2px black;
-    border-bottom: solid 2px black;
-    border-top: solid 2px black;
+  max-height: 720px;
+  padding: 10px;
+  background-color: #388699;
+  border-radius: 5px;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+  border-bottom: solid 2px black;
+  border-top: solid 2px black;
 
-    overflow-y: scroll;
+  overflow-y: scroll;
     
 }
 

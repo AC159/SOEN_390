@@ -5,7 +5,7 @@ import { Tab } from 'react-bootstrap';
 import Home from '../../PatientTabs/Home';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './PatientDashboard.css';
+import styles from './DoctorDashboard.css';
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
@@ -25,7 +25,7 @@ function PatientDashboard(props) {
                         </div>
                         
                     </Tab>
-                    <Tab eventKey="updateCovidStatus" title="Update COVID Symptoms">
+                    <Tab eventKey="monitor-patient" title="Monitor Patients">
                         
                     </Tab>
                     <Tab eventKey="contact" title="Contact">
