@@ -17,7 +17,7 @@ function Login(props) {
 
     const submitForm = () => {
         auth.login(email, password).then(data => {
-            console.log(email)
+            // console.log(email)
             // fetch('/add', {
             //     method: 'post',
             //     body: JSON.stringify({
@@ -27,9 +27,6 @@ function Login(props) {
             //         "Content-Type": "application/json; charset=UTF-8"
             //     })
             // }).then(r => console.log(r))
-            axios.post('/add', {
-                email: email
-            }).then().catch()
             console.log(data);
             navigate("/patient-dashboard", {replace: true});
         }).catch(error => {

@@ -31,14 +31,15 @@ router.post('/patient/:userId/profile', (req, res) => {
     }
 });
 
-router.get('/read', async (req, res) => {
+router.get('/read/:userId', async (req, res) => {
+    const _id = req.params.userId
     const mongodb = await req.app.locals.mongodb
-    const response = await mongodb.db('test').collection('patients').findOne({name: "what"}, (error, patient) => {
+    const response = await mongodb.db('test').collection('patients').findOne({_id: _id}, (error, patient) => {
         if (error)
             return console.log(error)
         if (!patient)
-            res.send("Can't find patient")
-        else res.send("Patient ID: " + patient._id)
+            res.send("Can't find patient " + _id)
+        else res.send("Patient name: " + patient.name)
     })
 })
 
