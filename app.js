@@ -12,7 +12,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', routes);
 
-app.set('mongo', connectToCluster(process.env.MONGO_CLUSTER_URL));
+connectToCluster(process.env.MONGO_CLUSTER_URL).then(client => {
+    app.locals.mongodb = client
+})
 
 app.listen(port, () => {
     // export const mongoClient = connectToCluster(process.env.MONGO_CLUSTER_URL).then(() => {
