@@ -1,0 +1,70 @@
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  margin: 0 auto;
+}
+
+html {
+margin: 0 auto;
+}
+
+.admin-main-container {
+  /*background-color: tomato;*/
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+}
+
+.tabs-box {
+  float:left;
+  margin-left: 10px;
+  margin-right: 10px;
+  /*background-color: black;*/
+  border-radius: 5px;
+  max-width: 1500px;
+  height: 100%;
+  width: 100%;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  border-top: solid 2px black;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+  border-bottom: solid 2px #388699;
+}
+
+.nav-tabs .nav-link {
+  background-color: #003b4b;
+  color: white;
+  border-bottom: solid 2px #003b4b;
+}
+
+.nav-tabs .nav-link.active{
+  background-color: #388699;
+  color: white;
+}
+
+.notification-outer-box {
+  float:right;
+  max-height: 650px;
+}
+
+.tab-page{
+height: auto;
+  max-height: 650px;
+  padding: 10px;
+  background-color: #388699;
+  border-radius: 5px;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+  border-bottom: solid 2px black;
+  border-top: solid 2px black;
+
+  overflow-y: scroll;
+  
+}
+
+
