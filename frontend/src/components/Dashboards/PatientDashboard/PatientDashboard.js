@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from "../../Navbar/Navbar";
 import { Tabs } from 'react-bootstrap';
 import { Tab } from 'react-bootstrap';
-import Home from '../../PatientTabs/Home';
+import Home from '../../Tabs/Home';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './PatientDashboard.css';
@@ -16,7 +16,7 @@ function PatientDashboard(props) {
     return (
         <div>
             <Navbar />
-            <div className="main-container">
+            <div className="patient-main-container">
                 <div className="tabs-box">
                 <Tabs className="tabStyle" defaultActiveKey="home">
                     <Tab eventKey="home" title="Home">

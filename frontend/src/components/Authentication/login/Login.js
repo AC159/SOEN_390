@@ -15,7 +15,7 @@ function Login(props) {
     const submitForm = () => {
         auth.login(email, password).then(data => {
            console.log(data);
-            navigate("/patient-dashboard", { replace: true });
+            navigate("/admin-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");

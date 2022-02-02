@@ -2,14 +2,14 @@ import React from 'react';
 import Navbar from "../../Navbar/Navbar";
 import { Tabs } from 'react-bootstrap';
 import { Tab } from 'react-bootstrap';
-import Home from '../../PatientTabs/Home';
+import Home from '../../Tabs/Home';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './DoctorDashboard.css';
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
-function PatientDashboard(props) {
+function DoctorDashboard(props) {
 
     let { currentUser } = useAuth();
 
@@ -43,4 +43,4 @@ function PatientDashboard(props) {
     );
 }
 
-export default PatientDashboard;
+export default DoctorDashboard;

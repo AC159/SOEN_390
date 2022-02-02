@@ -3,21 +3,20 @@ import Navbar from "../../Navbar/Navbar";
 import { Tabs } from 'react-bootstrap';
 import { Tab } from 'react-bootstrap';
 import Home from '../../Tabs/Home';
-import RoleRequest from '../../Tabs/AdminTabs/RoleRequest';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './AdminDashboard.css';
+import styles from './HODashboard.css';
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
-function AdminDashboard(props) {
+function HODashboard(props) {
 
     let { currentUser } = useAuth();
 
     return (
         <div>
             <Navbar />
-            <div className="admin-main-container">
+            <div className="main-container">
                 <div className="tabs-box">
                 <Tabs className="tabStyle" defaultActiveKey="home">
                     <Tab eventKey="home" title="Home">
@@ -26,10 +25,7 @@ function AdminDashboard(props) {
                         </div>
                         
                     </Tab>
-                    <Tab eventKey="account-requests" title="Account Requests">
-                        <div className="tab-page">
-                        <RoleRequest />
-                        </div>
+                    <Tab eventKey="monitor-patient" title="Monitor Patients">
                         
                     </Tab>
                     <Tab eventKey="contact" title="Contact">
@@ -47,4 +43,4 @@ function AdminDashboard(props) {
     );
 }
 
-export default AdminDashboard;
+export default HODashboard;
