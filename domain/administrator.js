@@ -1,20 +1,29 @@
 const User = require('./user');
+const UserState = require('./user').UserState;
 
 class Administrator {
   constructor(userId) {
-    super(userId);
+    this.userId = userId;
   }
 
   viewDoctors() {
     throw new Error(`${this.viewDoctors.name} is not implemented.`);
   }
 
-  viewUsers() {
-    throw new Error(`${this.viewDoctors.name} is not implemented.`);
+  async viewUsers(mongo) {
+    const response = await mongo.db('test').collection('users').find({})
+    return response.toArray();
   }
 
-  setUserRole(user, role) {
-    throw new Error(`${this.updateStatus.name} is not implemented.`);
+  async setUserRole(mongo, user, role) {
+    const response = await mongo.db('test')
+      .collection('users')
+      .updateOne({ userId: user.id.getId() }, { $set: { 
+        role: role.getRole(),
+        roleStatus: UserState.Approved.getState()
+      }});
+      
+    return response;
   }
 
   assignPatient(patient, doctor) {
