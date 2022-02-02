@@ -9,24 +9,23 @@
 
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 30px;
+    
 }
 .container {
     width: 30rem;
-    display: flex;
-    flex-direction: column;
+    
     border-radius: 19px;
     background-color: white;
     box-shadow: 2px 2px 5px #f6f2f2;
+    border: solid 2px black;
     position: relative;
     overflow: hidden;
+
+    margin: auto;
 }
 
 .backDrop {
+    border: solid 1px black;
     width: 260%;
     height: 550px;
     position: absolute;
@@ -150,6 +149,7 @@ button:focus {
 .container-footer {
     color: black;
     margin: 1rem auto;
+    text-align: center;
 }
 
 .container-footer a{
