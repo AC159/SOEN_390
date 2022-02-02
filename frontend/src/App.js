@@ -6,6 +6,7 @@ import DoctorDashboard from "./components/Dashboards/DoctorDashboard/DoctorDashb
 import AdminDashboard from "./components/Dashboards/Admin Dashboard/AdminDashboard";
 import HODashboard from "./components/Dashboards/Health Official Dashboard/HODashboard";
 import IODashboard from "./components/Dashboards/Immigration Officer Dashboard/IODashboard";
+import GeneralDashboard from "./components/Dashboards/GeneralDashboard/GeneralDashboard";
 import FirebaseAuthProvider from "./components/Authentication/FirebaseAuth/FirebaseAuth";
 import './components/Authentication/FirebaseAuth/FirebaseConfig';
 import PrivateRoute from "./components/RouteHandler/PrivateRoute";
@@ -48,7 +49,7 @@ function App() {
                             }/>
                             <Route path='/general-dashboard' element={
                                   <PrivateRoute>
-                                      <IODashboard/>
+                                      <GeneralDashboard />
                                   </PrivateRoute>
                             }/>
                       </Routes>
