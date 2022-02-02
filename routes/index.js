@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const User = require('../domain/user');
 const UserId = require('../domain/user').UserId;
 const Role = require('../domain/user').Role;
 const Patient = require('../domain/patient');

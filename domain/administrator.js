@@ -16,13 +16,15 @@ class Administrator {
   }
 
   async setUserRole(mongo, user, role) {
+    console.log("object")
+    console.log(user.id.getId())
     const response = await mongo.db('test')
       .collection('users')
       .updateOne({ userId: user.id.getId() }, { $set: { 
         role: role.getRole(),
         roleStatus: UserState.Approved.getState()
       }});
-      
+
     return response;
   }
 
