@@ -1,6 +1,8 @@
-class Administrator {
-  constructor() {
+const User = require('./user');
 
+class Administrator {
+  constructor(userId) {
+    super(userId);
   }
 
   viewDoctors() {
@@ -19,3 +21,5 @@ class Administrator {
     throw new Error(`${this.assignPatient.name} is not implemented.`);
   }
 }
+
+module.exports = Administrator;
