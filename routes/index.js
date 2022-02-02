@@ -6,9 +6,6 @@ const Role = require('../domain/user').Role;
 const Patient = require('../domain/patient');
 const Administrator = require('../domain/administrator');
 
-router.use(express.json());
-router.user(express.urlencoded({ extended: true }));
-
 router.get('', function (req, res) {
    res.send("Hello world");
 });
@@ -35,11 +32,12 @@ router.post('/patient/:userId/profile', (req, res) => {
    }
 });
 
-router.get('/admin/:adminId/users', (req, res) => {
+router.get('/admin/:adminId/users', async (req, res) => {
    try {
       const adminId = new UserId(req.params.adminId);
       const admin = new Administrator(adminId);
-      const users = admin.viewUsers();
+      const mongodb = await req.app.locals.mongodb
+      const users = await admin.viewUsers(mongodb);
       res.status(200).json({
          users: users
       });
@@ -50,12 +48,13 @@ router.get('/admin/:adminId/users', (req, res) => {
    }
 });
 
-router.post('/admin/:adminId/user/:userId/role', (req, res) => {
+router.post('/admin/:adminId/user/:userId/role', async (req, res) => {
    try {
       let role;
       const adminId = new UserId(req.params.adminId);
       const userId = new UserId(req.params.userId);
       const admin = new Administrator(adminId);
+      const mongodb = await req.app.locals.mongodb
 
       switch (req.body.role) {
          case 'doctor':
@@ -77,7 +76,7 @@ router.post('/admin/:adminId/user/:userId/role', (req, res) => {
             throw new Error(`The provided role ${req.body.role} is not valid.`);
       }
 
-      admin.setUserRole(new User(userId), role);
+      await admin.setUserRole(mongodb, new User(userId), role);
       res.status(201).send();
    } catch (error) {
       res.status(400).json({
