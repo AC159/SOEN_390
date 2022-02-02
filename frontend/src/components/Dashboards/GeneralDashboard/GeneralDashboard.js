@@ -26,10 +26,6 @@ function GeneralDashboard(props) {
                     </Tab>
                 </Tabs>
                 </div>
-
-                <div className="notification-outer-box">
-                <NotificationBox />
-                </div>
             </div>
 
         </div>
