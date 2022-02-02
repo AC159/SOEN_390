@@ -28,7 +28,7 @@ function Login(props) {
             //     })
             // }).then(r => console.log(r))
             console.log(data);
-            navigate("/patient-dashboard", {replace: true});
+            navigate("/general-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");

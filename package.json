@@ -7,7 +7,7 @@
     "start": "node ./app",
     "client": "cd frontend && npm start",
     "dev": "concurrently \"nodemon run start\" \"npm run client\"",
-    "test": "jest"
+    "test": "jest --testPathIgnorePatterns='/frontend/'"
   },
   "keywords": [],
   "author": "",
