@@ -1,0 +1,58 @@
+.Header{
+    background-color: #005871;
+    border-radius: 5px;
+    padding: 20px;
+    border: solid 2px black; 
+    
+    margin: 10px;
+}
+
+
+.HeaderLogo {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    
+}
+
+.HeaderInnerContainer {
+    width: 100%;
+    
+}
+
+.user-navbar-display
+{
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.user-navbar-display p {
+    padding: 10px;
+}
+
+.user-icon
+{
+    float: right;
+    
+}
+
+@media (max-width:1000px){
+    .Header {
+        text-align: center;
+    }
+
+    .link{
+        display:inline-block;
+    }
+
+    .linkWithImage{
+        display:inline-block
+    }
+    
+    .HeaderLogo {
+        margin-bottom: 10px;
+    }
+}
