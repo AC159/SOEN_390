@@ -5,18 +5,18 @@ import { Tab } from 'react-bootstrap';
 import Home from '../../Tabs/Home';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './PatientDashboard.css';
+import styles from './HODashboard.css';
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
-function PatientDashboard(props) {
+function HODashboard(props) {
 
     let { currentUser } = useAuth();
 
     return (
         <div>
             <Navbar />
-            <div className="patient-main-container">
+            <div className="main-container">
                 <div className="tabs-box">
                 <Tabs className="tabStyle" defaultActiveKey="home">
                     <Tab eventKey="home" title="Home">
@@ -25,7 +25,7 @@ function PatientDashboard(props) {
                         </div>
                         
                     </Tab>
-                    <Tab eventKey="updateCovidStatus" title="Update COVID Symptoms">
+                    <Tab eventKey="monitor-patient" title="Monitor Patients">
                         
                     </Tab>
                     <Tab eventKey="contact" title="Contact">
@@ -43,4 +43,4 @@ function PatientDashboard(props) {
     );
 }
 
-export default PatientDashboard;
+export default HODashboard;

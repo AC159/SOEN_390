@@ -5,37 +5,26 @@ import { Tab } from 'react-bootstrap';
 import Home from '../../Tabs/Home';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './PatientDashboard.css';
+import styles from './GeneralDashboard.css';
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
-function PatientDashboard(props) {
+function GeneralDashboard(props) {
 
     let { currentUser } = useAuth();
 
     return (
         <div>
             <Navbar />
-            <div className="patient-main-container">
+            <div className="general-main-container">
                 <div className="tabs-box">
                 <Tabs className="tabStyle" defaultActiveKey="home">
                     <Tab eventKey="home" title="Home">
                         <div className="tab-page">
                             <Home />
                         </div>
-                        
-                    </Tab>
-                    <Tab eventKey="updateCovidStatus" title="Update COVID Symptoms">
-                        
-                    </Tab>
-                    <Tab eventKey="contact" title="Contact">
-                        
                     </Tab>
                 </Tabs>
-                </div>
-
-                <div className="notification-outer-box">
-                <NotificationBox />
                 </div>
             </div>
 
@@ -43,4 +32,4 @@ function PatientDashboard(props) {
     );
 }
 
-export default PatientDashboard;
+export default GeneralDashboard;
