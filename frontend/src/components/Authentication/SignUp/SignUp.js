@@ -112,7 +112,17 @@ function SignUp(props) {
             console.log('Sign in successful...');
             console.log(data);
             axios.post('/add', {
-                email: email
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                user: user,
+                verification: {
+                    insurance: insurance,
+                    doctorLicense: doctorLicense,
+                    healthLicense: healthLicense,
+                    immigrationId: immigrationId,
+                    administratorId: administratorId
+                }
             }).then().catch()
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {

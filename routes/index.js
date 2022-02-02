@@ -7,20 +7,21 @@ const UserId = require('../domain/user').UserId;
 const Role = require('../domain/user').Role;
 const Patient = require('../domain/patient');
 const Administrator = require('../domain/administrator');
+const {ObjectID} = require("mongodb");
 
 router.get('', function (req, res) {
     res.send("Hello world");
 });
 
 router.get('/patient/:userId/profile', (req, res) => {
-   try {
-      const userId = new UserId(req.params.userId);
-      const patient = new Patient(userId);
-      patient.viewProfile();
-      res.status(200).json();
-   } catch (error) {
-      res.status(400).json({ error: error.message });
-   }
+    try {
+        const userId = new UserId(req.params.userId);
+        const patient = new Patient(userId);
+        patient.viewProfile();
+        res.status(200).json();
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
 })
 
 router.post('/patient/:userId/profile', (req, res) => {
@@ -34,87 +35,80 @@ router.post('/patient/:userId/profile', (req, res) => {
     }
 });
 
-
-router.get('/read/:userId', async (req, res) => {
-    const _id = req.params.userId
+router.get('/readTest/:userId', async (req, res) => {
+    const _id = new ObjectID(req.params.userId)
+    console.log("Searched patient with ID: " + _id)
     const mongodb = await req.app.locals.mongodb
-    const response = await mongodb.db('test').collection('patients').findOne({_id: _id}, (error, patient) => {
+    const response = await mongodb.db('test').collection('pendingUsers').findOne({_id: _id}, (error, patient) => {
         if (error)
             return console.log(error)
         if (!patient)
             res.send("Can't find patient " + _id)
-        else res.send("Patient name: " + patient.name)
+        else res.send("Patient name: " + patient.firstName + " " + patient.lastName)
     })
 })
 
-router.get('/addTest', async (req, res) => {
+router.post('/add', async (req, res) => {
     const mongodb = await req.app.locals.mongodb
-    const response = await mongodb.db('test').collection('patients').insertOne({
-        name: "what",
-        email: "who@gmail.com"
-    }, (error, result) => {
+    const response = await mongodb.db('test').collection('pendingUsers').insertOne(req.body, (error, result) => {
         if (error)
             return console.log("Unable to add patient")
-        res.send("Hello ID: " + result.insertedId)
+        res.send("Added patient " + result.firstName + " with ID: " + result.insertedId)
         console.log("Added patient with ID: " + result.insertedId)
     })
 })
 
-router.post('/add', (req, res) => {
-    console.log(req.body )
-})
-
 router.get('/admin/:adminId/users', async (req, res) => {
-   try {
-      const adminId = new UserId(req.params.adminId);
-      const admin = new Administrator(adminId);
-      const mongodb = await req.app.locals.mongodb
-      const users = await admin.viewUsers(mongodb);
-      res.status(200).json({
-         users: users
-      });
-   } catch (error) {
-      res.status(400).json({
-         error: error.message
-      });
-   }
+    try {
+        const adminId = new UserId(req.params.adminId);
+        const admin = new Administrator(adminId);
+        const mongodb = await req.app.locals.mongodb
+        const users = await admin.viewUsers(mongodb);
+        res.status(200).json({
+            users: users
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
 });
 
 router.post('/admin/:adminId/user/:userId/role', async (req, res) => {
-   try {
-      let role;
-      const adminId = new UserId(req.params.adminId);
-      const userId = new UserId(req.params.userId);
-      const admin = new Administrator(adminId);
-      const mongodb = await req.app.locals.mongodb
+    try {
+        let role;
+        const adminId = new UserId(req.params.adminId);
+        const userId = new UserId(req.params.userId);
+        const admin = new Administrator(adminId);
+        const mongodb = await req.app.locals.mongodb
 
-      switch (req.body.role) {
-         case 'doctor':
-            role = Role.Doctor;
-            break;
-         case 'patient':
-            role = Role.Patient;
-            break;
-         case 'administrator':
-            role = Role.Administrator;
-            break;
-         case 'health official':
-            role = Role.HealthOfficial;
-            break;
-         case 'immigration officer':
-            role = Role.ImmigrationOfficer;
-            break;
-         default:
-            throw new Error(`The provided role ${req.body.role} is not valid.`);
-      }
+        switch (req.body.role) {
+            case 'doctor':
+                role = Role.Doctor;
+                break;
+            case 'patient':
+                role = Role.Patient;
+                break;
+            case 'administrator':
+                role = Role.Administrator;
+                break;
+            case 'health official':
+                role = Role.HealthOfficial;
+                break;
+            case 'immigration officer':
+                role = Role.ImmigrationOfficer;
+                break;
+            default:
+                throw new Error(`The provided role ${req.body.role} is not valid.`);
+        }
 
-      await admin.setUserRole(mongodb, new User(userId), role);
-      res.status(201).send();
-   } catch (error) {
-      res.status(400).json({
-         error: error.message
-      });
-   }
+        await admin.setUserRole(mongodb, new User(userId), role);
+        res.status(201).send();
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
 });
 
 module.exports = router;
