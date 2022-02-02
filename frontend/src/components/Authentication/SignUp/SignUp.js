@@ -111,7 +111,7 @@ function SignUp(props) {
         auth.register(email, password).then(data => {
             console.log('Sign in successful...');
             console.log(data);
-            axios.post('/add', {
+            axios.post('/addNewUser', {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -122,7 +122,8 @@ function SignUp(props) {
                     healthLicense: healthLicense,
                     immigrationId: immigrationId,
                     administratorId: administratorId
-                }
+                },
+                userStatus: "PENDING"
             }).then().catch()
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {

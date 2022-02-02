@@ -17,6 +17,7 @@ function Login(props) {
 
     const submitForm = () => {
         auth.login(email, password).then(data => {
+            // DRAFT IN CASE AXIOS DOES NOT WORK, WILL REMOVE WHEN I AM CONFIDENT
             // console.log(email)
             // fetch('/add', {
             //     method: 'post',

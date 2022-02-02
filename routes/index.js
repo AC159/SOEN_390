@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const patientController = require('../controller/patientController')
 
 const User = require('../domain/user');
 const UserId = require('../domain/user').UserId;
@@ -35,26 +34,15 @@ router.post('/patient/:userId/profile', (req, res) => {
     }
 });
 
-router.get('/readTest/:userId', async (req, res) => {
-    const _id = new ObjectID(req.params.userId)
-    console.log("Searched patient with ID: " + _id)
+router.post('/addNewUser', async (req, res) => {
+    // No data conflict check at the moment
+    const newUser = req.body
+    console.log(newUser)
     const mongodb = await req.app.locals.mongodb
-    const response = await mongodb.db('test').collection('pendingUsers').findOne({_id: _id}, (error, patient) => {
-        if (error)
-            return console.log(error)
-        if (!patient)
-            res.send("Can't find patient " + _id)
-        else res.send("Patient name: " + patient.firstName + " " + patient.lastName)
-    })
-})
-
-router.post('/add', async (req, res) => {
-    const mongodb = await req.app.locals.mongodb
-    const response = await mongodb.db('test').collection('pendingUsers').insertOne(req.body, (error, result) => {
+    const response = await mongodb.db('test').collection(newUser.user).insertOne(newUser, (error, result) => {
         if (error)
             return console.log("Unable to add patient")
-        res.send("Added patient " + result.firstName + " with ID: " + result.insertedId)
-        console.log("Added patient with ID: " + result.insertedId)
+        console.log("Added patient with ID " + result.insertedId + " to collection " + result.user + "s")
     })
 })
 
