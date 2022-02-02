@@ -20,9 +20,21 @@ function RoleRequest(props) {
             </div>
             <hr />
 
-            <div>
+            <div className="request-container">
                 <RoleRequestBox 
                     RequesterUsername="Captain America"
+                    RequestType="Patient"
+                />
+                 <RoleRequestBox 
+                    RequesterUsername="Josiah Mercury"
+                    RequestType="Doctor"
+                />
+                 <RoleRequestBox 
+                    RequesterUsername="Perry Kingston"
+                    RequestType="Health Official"
+                />
+                 <RoleRequestBox 
+                    RequesterUsername="Django Unchained"
                     RequestType="Patient"
                 />
             </div>
