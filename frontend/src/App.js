@@ -46,6 +46,11 @@ function App() {
                                       <IODashboard/>
                                   </PrivateRoute>
                             }/>
+                            <Route path='/general-dashboard' element={
+                                  <PrivateRoute>
+                                      <IODashboard/>
+                                  </PrivateRoute>
+                            }/>
                       </Routes>
                   </main>
               </div>
