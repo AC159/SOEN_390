@@ -1,7 +1,10 @@
-import { useState } from 'react';
-import { useAuth } from "../FirebaseAuth/FirebaseAuth";
-import { Link, useNavigate } from 'react-router-dom';
+import {useState} from 'react';
+import {useAuth} from "../FirebaseAuth/FirebaseAuth";
+import {Link, useNavigate} from 'react-router-dom';
 import styles from './Login.module.css';
+import axios from "axios";
+
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 function Login(props) {
 
@@ -14,8 +17,21 @@ function Login(props) {
 
     const submitForm = () => {
         auth.login(email, password).then(data => {
-           console.log(data);
-            navigate("/patient-dashboard", { replace: true });
+            console.log(email)
+            // fetch('/add', {
+            //     method: 'post',
+            //     body: JSON.stringify({
+            //         email: email
+            //     }),
+            //     headers: new Headers({
+            //         "Content-Type": "application/json; charset=UTF-8"
+            //     })
+            // }).then(r => console.log(r))
+            axios.post('/add', {
+                email: email
+            }).then().catch()
+            console.log(data);
+            navigate("/patient-dashboard", {replace: true});
         }).catch(error => {
             console.log(error);
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");
@@ -32,14 +48,19 @@ function Login(props) {
                 {loginError ? <div className={styles['container-error']}>{loginError}</div> : null}
 
                 <label>email</label>
-                <input type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
+                <input type="text" placeholder="email" value={email} onChange={(event) => {
+                    setEmail(event.target.value)
+                }}/>
 
                 <label>password</label>
-                <input type="password" placeholder="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
+                <input type="password" placeholder="password" value={password} onChange={(event) => {
+                    setPassword(event.target.value)
+                }}/>
 
             </form>
             <button type="submit" onClick={submitForm} disabled={email === '' || password === ''}>Submit</button>
-            <div className={styles['container-footer']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link></div>
+            <div className={styles['container-footer']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link>
+            </div>
         </div>
     );
 
