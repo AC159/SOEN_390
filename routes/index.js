@@ -21,7 +21,7 @@ router.get('/patient/:userId/profile', (req, res) => {
     } catch (error) {
         res.status(400).json({error: error.message});
     }
-})
+});
 
 router.post('/patient/:userId/profile', (req, res) => {
     try {
@@ -31,6 +31,18 @@ router.post('/patient/:userId/profile', (req, res) => {
         res.status(201).send();
     } catch (error) {
         res.status(400).json({error: error.message});
+    }
+});
+
+router.post('/updateUserInfo/:userId', async (req, res) => {
+    try {
+        const mongo = await req.app.locals.mongodb;
+        const userId = new UserId(req.params.userId);
+        const user = new User(userId);
+        const response = await user.updateProfile(mongo, req.body.userAttributes);
+        res.status(200).send();
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 
