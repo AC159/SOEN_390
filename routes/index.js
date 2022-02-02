@@ -43,8 +43,10 @@ router.get('/admin/:adminId/users', (req, res) => {
       res.status(200).json({
          users: users
       });
-   } catch (Error) {
-
+   } catch (error) {
+      res.status(400).json({
+         error: error.message
+      });
    }
 });
 
@@ -77,8 +79,10 @@ router.post('/admin/:adminId/user/:userId/role', (req, res) => {
 
       admin.setUserRole(new User(userId), role);
       res.status(201).send();
-   } catch (Error) {
-
+   } catch (error) {
+      res.status(400).json({
+         error: error.message
+      });
    }
 });
 
