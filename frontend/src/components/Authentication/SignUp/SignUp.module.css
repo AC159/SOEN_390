@@ -1,3 +1,4 @@
+
 .hidden{
     display: none;
 }
@@ -8,39 +9,93 @@
 
 
 body {
-    position: absolute;
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     margin: 0;
+    padding: 30px;
+}
+.container {
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 19px;
+    background-color: white;
+    box-shadow: 2px 2px 5px #f6f2f2;
+    position: relative;
+    overflow: hidden;
+}
 
+.backDrop {
+    width: 260%;
+    height: 550px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    border-radius: 50%;
+    -webkit-transform: rotate(160deg);
+    -ms-transform: rotate(160deg);
+    transform: rotate(160deg);
+    top: -450px;
+    left: -300px;
+    background: rgb(0,120,215);
+    background: linear-gradient(
+            53deg,
+            rgba(0,120,215,1) 39%,
+            rgba(23,211,255,1) 100%
+    );
 
 }
 
-.container {
-    width: 30rem;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px #ccc;
-    display: flex;
+.container-top {
+    width: 100%;
+    height: 200px;
+}
+
+.container-title{
+    width: 100%;
+    diplay: flex;
     flex-direction: column;
-    justify-content: center;
+}
+
+h2{
+    font-size: 30px;
+    /*font-family: "Poppins";*/
+    line-weight: 600;
+    line-height: 1.2;
+    color: white;
+    position: relative;
+    z-index: 10;
+    margin: 0;
+    padding: 25px;
+
+}
+
+fieldset {
+    border: 1px solid #d9d9d9 !important;
+    margin: 0 0 24px !important;
+    padding: 18px 22px 24px !important;
+    border-radius: 6px;
+}
+
+fieldset legend{
+    font-weight: 500;
+    background: white;
+    padding: 0 8px;
+    margin: 0;
+    margin-left: -8px;
+    font-size: .8rem;
+
 }
 
 .container-item {
-    width: 80%;
-    margin: 1rem 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4em;
+    padding-bottom: 5em;
 }
 
-.container-title {
-    color: #0d548f;
-    font-size: large;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1rem 0;
-}
 
 .container label, .container input {
     display: block;
@@ -64,14 +119,20 @@ button {
     /* margin-top: 1rem; */
     margin: 1rem 10% 0 10%;
     padding: 0.5rem 2rem;
-    background-color: #61dafb;
+    background: rgb(0,120,215);
+    background: linear-gradient(
+            250deg,
+            rgb(48, 152, 229) 1%,
+            rgba(23,211,255,1) 80%
+    );
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #61dafb;
+    color: #fff;
 }
 
 button:hover {
-    box-shadow: 2px 2px 5px #ccc;
+    box-shadow: 2px 2px 5px #b5b1b1;
 }
 
 button:disabled:hover {
@@ -95,6 +156,22 @@ button:focus {
     color: #61dafb;
     cursor: pointer;
     text-decoration: none;
+}
+
+input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
+    display: block;
+    font-size: .875rem;
+    color: #27272a;
+    height: 45px;
+    width: 100%;
+    margin: 8px 0 20px;
+    padding: 0.625rem 0.875rem 0.75rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    box-shadow: 0 0 0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    background-color: #fff !important;
+    transition: none;
 }
 
 

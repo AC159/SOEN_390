@@ -26,21 +26,32 @@ function Login(props) {
 
     return (
         <div className={styles.container}>
-            <div className={styles['container-title']}>Welcome to CoviCare!</div>
+            <div className={styles['container-top']}>
+                <h2>Welcome to CoviCare</h2>
+                <div className={styles['backDrop']}>
+
+                    <div className={styles['container-title']}>
+
+                    </div>
+                </div>
+            </div>
+
             <form className={styles['container-item']}>
+                <fieldset>
+                    <legend>Sign in</legend>
 
+                    <input type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
+
+                    <input type="password" placeholder="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
+
+                </fieldset>
                 {loginError ? <div className={styles['container-error']}>{loginError}</div> : null}
-
-                <label>email</label>
-                <input type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
-
-                <label>password</label>
-                <input type="password" placeholder="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
 
             </form>
             <button type="submit" onClick={submitForm} disabled={email === '' || password === ''}>Submit</button>
             <div className={styles['container-footer']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link></div>
         </div>
+
     );
 
 }
