@@ -8,8 +8,8 @@ class User {
     throw new Error(`${this.viewProfile.name} is not implemented.`);
   }
 
-  async updateProfile(mongo, obj) {
-    return await mongo.db('test').collection('users').updateOne({userId: this.id.getId()}, { $set: obj });
+  async updateProfile(mongo, userProfile) {
+    return await mongo.db('test').collection('users').updateOne({userId: this.id.getId()}, { $set: userProfile });
   }
 
 }
