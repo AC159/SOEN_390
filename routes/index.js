@@ -62,7 +62,7 @@ router.post('/addNewUser', async (req, res) => {
     // No data conflict check at the moment
     const mongodb = await req.app.locals.mongodb
     const user = req.body
-    const userId = new UserId(user.firebase)
+    const userId = new UserId(user.userId)
     let newUser
     switch(req.body.user) {
         case "patient":
