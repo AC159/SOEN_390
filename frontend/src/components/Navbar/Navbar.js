@@ -1,10 +1,20 @@
+import { useNavigate } from "react-router-dom";
+
 import MainLogo from "../../assets/MainLogo.png";
 import UserIcon from "../../assets/user.png";
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 
 function Navbar(props) {
-    let { currentUser } = useAuth();
+    let navigate = useNavigate();
+    const auth = useAuth();
+    let { currentUser } = auth;
 
+    const handleLogout = () => {
+        auth.logout()
+            .then(() => {
+                navigate('/', { replace: true });
+            });
+    }
 
     return (
         <nav>
@@ -17,7 +27,7 @@ function Navbar(props) {
 
                     </div>
                     <div className="logOut">
-                        <button>Log out</button>
+                        <button onClick={handleLogout}>Log out</button>
                     </div>
                 </div>
 
