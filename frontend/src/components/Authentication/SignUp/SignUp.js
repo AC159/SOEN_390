@@ -12,9 +12,7 @@ const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]
 
 function SignUp(props) {
 
-
     let navigate = useNavigate();
-
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
@@ -129,8 +127,10 @@ function SignUp(props) {
                     administratorId: administratorId
                 },
                 userStatus: "PENDING",
-                firebase: data.user.uid
-            }).then(response => {console.log(response)}).catch()
+                userId: data.user.uid
+            }).then(response => {
+                console.log("DB response: ", response);
+            }).catch()
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
