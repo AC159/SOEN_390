@@ -130,7 +130,7 @@ function SignUp(props) {
                 },
                 userStatus: "PENDING",
                 firebase: data.user.uid
-            }).then().catch()
+            }).then(response => {console.log(response)}).catch()
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);

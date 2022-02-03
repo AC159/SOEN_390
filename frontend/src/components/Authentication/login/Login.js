@@ -2,20 +2,29 @@ import { useState } from 'react';
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
+import axios from 'axios';
 
 function Login(props) {
 
     let navigate = useNavigate();
-    let auth = useAuth();
+    let { login, currentUser} = useAuth();
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
     let [loginError, setLoginError] = useState('');
 
     const submitForm = () => {
-        auth.login(email, password).then(data => {
+        login(email, password).then(data => {
            console.log(data);
-            navigate("/general-dashboard", { replace: true });
+            axios.get(`/user/:${data.user.uid}/profile`) .then(function (response) {
+                console.log(response);
+                currentUser = {currentUser, ...response};
+                console.log(currentUser);
+              })
+              .catch(function (error) {
+                console.log(error);
+              }); 
+           navigate("/general-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");
