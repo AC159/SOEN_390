@@ -5,11 +5,12 @@ class User {
   }
 
   async viewProfile(mongo) {
-    return await mongo.db('test').collection('users').findOne({userId: this.id.getId()});
+    console.log(this.id.getId());
+    return await mongo.db('test').collection('patient').findOne({uid: this.id.getId()});
   }
 
   async updateProfile(mongo, userProfile) {
-    return await mongo.db('test').collection('users').updateOne({userId: this.id.getId()}, { $set: userProfile });
+    return await mongo.db('test').collection('patient').updateOne({userId: this.id.getId()}, { $set: userProfile });
   }
 
 }

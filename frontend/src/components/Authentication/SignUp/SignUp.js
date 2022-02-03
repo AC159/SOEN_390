@@ -108,17 +108,16 @@ function SignUp(props) {
 
 
     const submitForm = async () => {
-        console.log(`Email: ${email}`);
-        console.log(`Password: ${password}`);
-        console.log(`passwordConf: ${passwordConf}`);
         auth.register(email, password).then(data => {
             console.log('Sign in successful...');
-            console.log(data);
+            console.log("UID: ", data.user.uid);
             axios.post('/addNewUser', {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 user: user,
+                phoneNumber: phoneNumber,
+                address: address,
                 verification: {
                     insurance: insurance,
                     doctorLicense: doctorLicense,
@@ -130,7 +129,9 @@ function SignUp(props) {
                 userId: data.user.uid
             }).then(response => {
                 console.log("DB response: ", response);
-            }).catch()
+            }).catch(error => {
+                console.log('Axios error: ', error);
+            })
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);

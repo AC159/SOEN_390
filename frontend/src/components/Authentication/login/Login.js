@@ -16,9 +16,9 @@ function Login(props) {
     const submitForm = () => {
         login(email, password).then(data => {
            console.log(data);
-            axios.get(`/user/:${data.user.uid}/profile`) .then(function (response) {
+            axios.get(`/user/${data.user.uid}/profile`).then(function (response) {
                 console.log(response);
-                currentUser = {currentUser, ...response};
+                currentUser = {currentUser, ...response.data};
                 console.log(currentUser);
               })
               .catch(function (error) {

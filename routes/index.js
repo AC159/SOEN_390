@@ -37,9 +37,11 @@ router.post('/patient/:userId/profile', (req, res) => {
 
 router.get('/user/:userId/profile', async (req, res) => {
     try {
+        console.log(req.params.userId);
         const userId = new UserId(req.params.userId);
         const user = new User(userId);
-        const response = await user.viewProfile(req.app.locals.mongodb);
+        const response = await user.viewProfile(req.app.locals.mongodb, req.params.userId);
+        console.log('DB response: ', response);
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({error: error.message});
@@ -60,26 +62,36 @@ router.post('/updateUserInfo/:userId', async (req, res) => {
 
 router.post('/addNewUser', async (req, res) => {
     // No data conflict check at the moment
-    const mongodb = await req.app.locals.mongodb
-    const user = req.body
-    const userId = new UserId(user.userId)
-    let newUser
+    const mongodb = await req.app.locals.mongodb;
+    const user = req.body;
+    console.log(user);
+    const userId = new UserId(user.userId);
+    let newUser;
     switch(req.body.user) {
         case "patient":
-            newUser = new Patient(userId, user.firstName + " " + user.lastName)
-            break
+            newUser = new Patient(userId, user.firstName + " " + user.lastName, req.body.address, req.body.phoneNumber);
+            break;
         case "doctor":
-            newUser = new Doctor(userId)
-            break
+            newUser = new Doctor(userId);
+            break;
         case "healthOfficial":
-            break
+            break;
         case "immigrationOfficial":
-            break
+            break;
         case "administrator":
-            newUser = new Administrator(userId)
-            break
+            newUser = new Administrator(userId);
+            break;
     }
-    const response = await mongodb.db('test').collection(user.user).insertOne(newUser, (error, result) => {console.log(error)})
+    const response = await mongodb.db('test').collection(user.user).insertOne({
+        uid: newUser.id.getId(),
+        name: newUser.name,
+        userStatus: newUser.userStatus,
+        isFlagged: newUser.isFlagged,
+        phoneNumber: newUser.phoneNumber,
+        dob: newUser.dob,
+        address: newUser.address
+    }, (error, result) => {console.log(error)})
+    res.status(201).send(response);
 })
 
 router.get('/admin/:adminId/users', async (req, res) => {
