@@ -4,8 +4,8 @@ class User {
     this.name = name;
   }
 
-  viewProfile() {
-    throw new Error(`${this.viewProfile.name} is not implemented.`);
+  async viewProfile(mongo) {
+    return await mongo.db('test').collection('users').findOne({userId: this.id.getId()});
   }
 
   async updateProfile(mongo, userProfile) {

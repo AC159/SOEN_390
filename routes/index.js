@@ -35,6 +35,17 @@ router.post('/patient/:userId/profile', (req, res) => {
     }
 });
 
+router.get('/user/:userId/profile', (req, res) => {
+    try {
+        const userId = new UserId(req.params.userId);
+        const user = new User(userId);
+        const response = user.viewProfile();
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+});
+
 router.post('/updateUserInfo/:userId', async (req, res) => {
     try {
         const mongo = await req.app.locals.mongodb;
