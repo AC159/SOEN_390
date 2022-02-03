@@ -43,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "axios": "^0.25.0",
     "jest-watch-typeahead": "^0.6.5"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

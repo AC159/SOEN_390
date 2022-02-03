@@ -3,6 +3,7 @@ import styles from './SignUp.module.css';
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -115,6 +116,20 @@ function SignUp(props) {
         auth.register(email, password).then(data => {
             console.log('Sign in successful...');
             console.log(data);
+            axios.post('/addNewUser', {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                user: user,
+                verification: {
+                    insurance: insurance,
+                    doctorLicense: doctorLicense,
+                    healthLicense: healthLicense,
+                    immigrationId: immigrationId,
+                    administratorId: administratorId
+                },
+                userStatus: "PENDING"
+            }).then().catch()
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
