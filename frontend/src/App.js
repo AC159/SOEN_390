@@ -10,6 +10,7 @@ import GeneralDashboard from "./components/Dashboards/GeneralDashboard/GeneralDa
 import FirebaseAuthProvider from "./components/Authentication/FirebaseAuth/FirebaseAuth";
 import './components/Authentication/FirebaseAuth/FirebaseConfig';
 import PrivateRoute from "./components/RouteHandler/PrivateRoute";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 //import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -51,6 +52,9 @@ function App() {
                                   <PrivateRoute>
                                       <GeneralDashboard />
                                   </PrivateRoute>
+                            }/>
+                            <Route path='/user-profile' element={
+                                      <UserProfile />
                             }/>
                       </Routes>
                   </main>
