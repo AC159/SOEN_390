@@ -5,6 +5,7 @@ const User = require('../domain/user');
 const UserId = require('../domain/user').UserId;
 const Role = require('../domain/user').Role;
 const Patient = require('../domain/patient');
+const Doctor = require('../domain/doctor')
 const Administrator = require('../domain/administrator');
 const {ObjectID} = require("mongodb");
 
@@ -36,14 +37,26 @@ router.post('/patient/:userId/profile', (req, res) => {
 
 router.post('/addNewUser', async (req, res) => {
     // No data conflict check at the moment
-    const newUser = req.body
-    console.log(newUser)
     const mongodb = await req.app.locals.mongodb
-    const response = await mongodb.db('test').collection(newUser.user).insertOne(newUser, (error, result) => {
-        if (error)
-            return console.log("Unable to add patient")
-        console.log("Added patient with ID " + result.insertedId + " to collection " + result.user + "s")
-    })
+    const user = req.body
+    const userId = new UserId(user.firebase)
+    let newUser
+    switch(req.body.user) {
+        case "patient":
+            newUser = new Patient(userId, user.firstName + " " + user.lastName)
+            break
+        case "doctor":
+            newUser = new Doctor(userId)
+            break
+        case "healthOfficial":
+            break
+        case "immigrationOfficial":
+            break
+        case "administrator":
+            newUser = new Administrator(userId)
+            break
+    }
+    const response = await mongodb.db('test').collection(user.user).insertOne(newUser, (error, result) => {console.log(error)})
 })
 
 router.get('/admin/:adminId/users', async (req, res) => {

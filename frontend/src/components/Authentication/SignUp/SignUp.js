@@ -123,7 +123,8 @@ function SignUp(props) {
                     immigrationId: immigrationId,
                     administratorId: administratorId
                 },
-                userStatus: "PENDING"
+                userStatus: "PENDING",
+                firebase: data.user.uid
             }).then().catch()
             navigate("/patient-dashboard", { replace: true });
         }).catch(error => {
