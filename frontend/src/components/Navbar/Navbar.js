@@ -14,9 +14,13 @@ function Navbar(props) {
                     <div className="user-navbar-display">
                         <p>Welcome, {currentUser.email}</p>
                         <a href='#'><img className="user-icon" src={UserIcon} width="100"/></a>
+
+                    </div>
+                    <div className="logOut">
+                        <button>Log out</button>
                     </div>
                 </div>
-                
+
             </div>
         </nav>
     );
