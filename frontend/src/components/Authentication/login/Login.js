@@ -1,10 +1,7 @@
-import {useState} from 'react';
-import {useAuth} from "../FirebaseAuth/FirebaseAuth";
-import {Link, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
+import { useAuth } from "../FirebaseAuth/FirebaseAuth";
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-import axios from "axios";
-
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
 function Login(props) {
 
@@ -17,18 +14,7 @@ function Login(props) {
 
     const submitForm = () => {
         auth.login(email, password).then(data => {
-            // DRAFT IN CASE AXIOS DOES NOT WORK, WILL REMOVE WHEN I AM CONFIDENT
-            // console.log(email)
-            // fetch('/add', {
-            //     method: 'post',
-            //     body: JSON.stringify({
-            //         email: email
-            //     }),
-            //     headers: new Headers({
-            //         "Content-Type": "application/json; charset=UTF-8"
-            //     })
-            // }).then(r => console.log(r))
-            console.log(data);
+           console.log(data);
             navigate("/general-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);
@@ -40,26 +26,32 @@ function Login(props) {
 
     return (
         <div className={styles.container}>
-            <div className={styles['container-title']}>Welcome to CoviCare!</div>
+            <div className={styles['container-top']}>
+                <h2>Welcome to CoviCare</h2>
+                <div className={styles['backDrop']}>
+
+                    <div className={styles['container-title']}>
+
+                    </div>
+                </div>
+            </div>
+
             <form className={styles['container-item']}>
+                <fieldset>
+                    <legend>Sign in</legend>
 
+                    <input type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
+
+                    <input type="password" placeholder="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
+
+                </fieldset>
                 {loginError ? <div className={styles['container-error']}>{loginError}</div> : null}
-
-                <label>email</label>
-                <input type="text" placeholder="email" value={email} onChange={(event) => {
-                    setEmail(event.target.value)
-                }}/>
-
-                <label>password</label>
-                <input type="password" placeholder="password" value={password} onChange={(event) => {
-                    setPassword(event.target.value)
-                }}/>
 
             </form>
             <button type="submit" onClick={submitForm} disabled={email === '' || password === ''}>Submit</button>
-            <div className={styles['container-footer']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link>
-            </div>
+            <div className={styles['container-footer']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link></div>
         </div>
+
     );
 
 }
