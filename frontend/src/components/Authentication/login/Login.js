@@ -7,23 +7,15 @@ import axios from 'axios';
 function Login(props) {
 
     let navigate = useNavigate();
-    let { login, currentUser} = useAuth();
+    let auth = useAuth();
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
     let [loginError, setLoginError] = useState('');
 
     const submitForm = () => {
-        login(email, password).then(data => {
-           console.log(data);
-            axios.get(`/user/${data.user.uid}/profile`).then(function (response) {
-                console.log(response);
-                currentUser = {currentUser, ...response.data};
-                console.log(currentUser);
-              })
-              .catch(function (error) {
-                console.log(error);
-              }); 
+        auth.login(email, password).then(data => {
+           console.log('Data: ', data);
            navigate("/general-dashboard", { replace: true });
         }).catch(error => {
             console.log(error);

@@ -13,12 +13,12 @@ router.get('', function (req, res) {
     res.send("Hello world");
 });
 
-router.get('/patient/:userId/profile', (req, res) => {
+router.get('/patient/:userId/profile', async (req, res) => {
     try {
         const userId = new UserId(req.params.userId);
         const patient = new Patient(userId);
-        patient.viewProfile();
-        res.status(200).json();
+        const response = await patient.viewProfile();
+        res.status(200).json(response);
     } catch (error) {
         res.status(400).json({error: error.message});
     }

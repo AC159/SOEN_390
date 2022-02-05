@@ -5,14 +5,13 @@ import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 function Navbar(props) {
     let { currentUser } = useAuth();
 
-
     return (
         <nav>
             <div className="Header">
                 <div className="HeaderInnerContainer">
                     <img src={MainLogo} width="300"></img>
                     <div className="user-navbar-display">
-                        <p>Welcome, {currentUser.email}</p>
+                        <p>Welcome, {currentUser.dbData.email}</p>
                         <a href='#'><img className="user-icon" src={UserIcon} width="100"/></a>
                     </div>
                 </div>
