@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect} from "react";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import React, {useContext, useEffect, useState} from "react";
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut} from 'firebase/auth';
 import axios from "axios";
 
 const AuthContext = React.createContext();
@@ -18,20 +18,11 @@ function FirebaseAuthProvider({children}) {
     }
 
     const login = async (email, password) => {
-
-        const data = await signInWithEmailAndPassword(auth, email, password);
-        return data;
-        // return signInWithEmailAndPassword(auth, email, password).then(data => {
-        //     axios.get(`/user/${data.user.uid}/profile`).then(function (response) {
-        //         console.log('DB response: ', response);
-        //         const user = { currentUser: data, dbData: response.data };
-        //         console.log("Current user: ", user);
-        //         setCurrentUser(user);
-        //         console.log('After setting currentUser: ', currentUser);
-        //     }).catch(function (error) {
-        //         console.log(error);
-        //     });
-        // });
+        try {
+            return await signInWithEmailAndPassword(auth, email, password);
+        } catch (e) {
+            return e;
+        }
     }
 
     const logout = () => {
