@@ -2,22 +2,29 @@
     background-color: #005871;
     border-radius: 5px;
     padding: 20px;
-    border: solid 2px black; 
-    
+    border: solid 2px black;
+
     margin: 10px;
 }
 
+button{
+    width: 6%;
+    font-size: 70%;
+}
+.logOut{
+text-align: right;
+}
 
 .HeaderLogo {
     margin-top: 5px;
     margin-bottom: 5px;
     margin-right: 20px;
-    
+
 }
 
 .HeaderInnerContainer {
     width: 100%;
-    
+
 }
 
 .user-navbar-display
@@ -36,7 +43,7 @@
 .user-icon
 {
     float: right;
-    
+
 }
 
 @media (max-width:1000px){
@@ -51,7 +58,7 @@
     .linkWithImage{
         display:inline-block
     }
-    
+
     .HeaderLogo {
         margin-bottom: 10px;
     }
