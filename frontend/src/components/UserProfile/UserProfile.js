@@ -1,7 +1,6 @@
 import React from "react";
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import { useState } from 'react';
-import { Link } from "react-router-dom";
 import styles from './UserProfile.module.css';
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,8 +21,7 @@ function UserProfile(props) {
         console.log(`PhoneNumber: ${phoneNumber}`);
         axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {phoneNumber}}).then(function (response) {
             console.log(response);
-          })
-          .catch(function (error) {
+          }).catch(function (error) {
             console.log(error);
           });
     }
@@ -31,8 +29,7 @@ function UserProfile(props) {
         console.log(`Address: ${address}`);
         axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {address}}).then(function (response) {
             console.log(response);
-          })
-          .catch(function (error) {
+          }).catch(function (error) {
             console.log(error);
           });
     }
@@ -42,15 +39,13 @@ function UserProfile(props) {
 
         axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {firstName}}).then(function (response) {
             console.log(response);
-          })
-          .catch(function (error) {
+          }).catch(function (error) {
             console.log(error);
           });
         
           axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
             console.log(response);
-          })
-          .catch(function (error) {
+          }).catch(function (error) {
             console.log(error);
           });
     }
@@ -73,12 +68,12 @@ function UserProfile(props) {
 
         <div className={styles['userInfo']}>
                 <div className={styles['internalCard']}>
-                    <div>Email : {currentUser.email}</div>
+                    <div>Email: {currentUser.user.email}</div>
                 </div>
 
                 {/* SET UP phoneNumber PATH:  */}
                 <div className={styles['internalCard']}>
-                    <div>Phone Number : {currentUser.phoneNumber}</div>
+                    <div>Phone Number: {currentUser.dbData.phoneNumber}</div>
                     <button onClick={handleShowOne}>Change Phone Number</button>
                     <Modal show={showModalOne} onHide={handleCloseOne}>
                         <Modal.Header closeButton>
@@ -101,7 +96,7 @@ function UserProfile(props) {
                 
                 {/* SET UP address PATH */}
                 <div className={styles['internalCard']}>
-                    <div>Address : {currentUser.address}</div>
+                    <div>Address: {currentUser.dbData.address}</div>
                     <button onClick={handleShowTwo}>Change Address</button>
                     <Modal show={showModalTwo} onHide={handleCloseTwo}>
                         <Modal.Header closeButton>
@@ -125,7 +120,7 @@ function UserProfile(props) {
 
                 {/* Make following dynamic, based on user type will generate Patient Status/Medical License info */}
                 <div className={styles['internalCard']}>
-                    <div>Patient status :
+                    <div>Patient status:
                         <div>
                             This patient will never give you up
                         </div>
@@ -138,7 +133,7 @@ function UserProfile(props) {
                     <img className={styles['profilePic']} src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"/>   
                 <div className={styles['nameCard']}>
                     {/* SET UP NAME + DESIGNATION (Dr. Mr. Ms. etc) + */}
-                    <div>Mr Rick Astley</div>
+                    <div>{currentUser.dbData.name}</div>
                     <button onClick={handleShowName}>Edit Name</button>
                     <Modal show={showModalName} onHide={handleCloseName}>
                         <Modal.Header closeButton>
