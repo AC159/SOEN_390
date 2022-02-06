@@ -6,7 +6,6 @@
         "node": true
     },
     "extends": [
-        "plugin:react/recommended",
         "google"
     ],
     "parserOptions": {
@@ -15,14 +14,6 @@
         },
         "ecmaVersion": "latest"
     },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-    },
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    }
+    "plugins": [],
+    "rules": {}
 }
