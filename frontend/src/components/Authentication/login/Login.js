@@ -13,16 +13,23 @@ function Login(props) {
     let [password, setPassword] = useState('');
     let [loginError, setLoginError] = useState('');
 
-    const submitForm = () => {
-        auth.login(email, password).then(data => {
-           console.log('Data: ', data);
-           navigate("/general-dashboard", { replace: true });
-        }).catch(error => {
-            console.log(error);
+    const submitForm = async () => {
+        try {
+            const user = await auth.login(email, password);
+            console.log('User: ', user);
+            // get the requested route from local storage
+            const redirectRoute = sessionStorage.getItem('requestedRoute')
+            if (redirectRoute !== '' && redirectRoute !== undefined && redirectRoute !== null) navigate(redirectRoute, {replace: true});
+            else navigate("/general-dashboard", {replace: true});
+        } catch(error) {
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");
             if (error.code === 'auth/too-many-requests') setLoginError("Too many requests, try again later");
             if (error.code === 'auth/user-disabled') setLoginError("User account disabled");
-        })
+            if (error.code === 'auth/email-already-in-use') setLoginError("Email already in use");
+            if (error.code === 'auth/network-request-failed') setLoginError("Network error");
+            if (error.code === 'auth/weak-password') setLoginError("Weak password");
+            if (error.code === 'auth/wrong-password') setLoginError("Wrong password");
+        }
     }
 
     return (

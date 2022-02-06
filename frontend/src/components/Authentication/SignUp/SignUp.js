@@ -108,10 +108,8 @@ function SignUp(props) {
 
 
     const submitForm = async () => {
-        auth.register(email, password).then(data => {
-            console.log('Sign in successful...');
-            console.log("UID: ", data.user.uid);
-            axios.post('/addNewUser', {
+        try {
+            const userSignUpData = {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -125,17 +123,13 @@ function SignUp(props) {
                     immigrationId: immigrationId,
                     administratorId: administratorId
                 },
-                userStatus: "PENDING",
-                userId: data.user.uid
-            }).then(response => {
-                console.log("DB response: ", response);
-            }).catch(error => {
-                console.log('Axios error: ', error);
-            })
-            navigate("/patient-dashboard", { replace: true });
-        }).catch(error => {
-            console.log(error);
-        })
+                userStatus: "PENDING"
+            }
+            const data = await auth.register(email, password, userSignUpData);
+        } catch (error) {
+            console.log('Sign up error: ', error);
+        }
+        navigate("/patient-dashboard", { replace: true });
     }
 
     return (
