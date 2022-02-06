@@ -82,7 +82,7 @@ router.post('/addNewUser', async (req, res) => {
             newUser = new Administrator(userId);
             break;
     }
-    const response = await mongodb.db('test').collection(user.user).insertOne({
+    const data = {
         uid: newUser.id.getId(),
         name: newUser.name,
         userStatus: newUser.userStatus,
@@ -90,8 +90,14 @@ router.post('/addNewUser', async (req, res) => {
         phoneNumber: newUser.phoneNumber,
         dob: newUser.dob,
         address: newUser.address
-    }, (error, result) => {console.log(error)})
-    res.status(201).send(response);
+    };
+    try {
+        await mongodb.db('test').collection(user.user).insertOne(data);
+        const insertedData = await mongodb.db('test').collection('patient').findOne({uid: data.uid});
+        res.status(201).json(insertedData);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 })
 
 router.get('/admin/:adminId/users', async (req, res) => {
