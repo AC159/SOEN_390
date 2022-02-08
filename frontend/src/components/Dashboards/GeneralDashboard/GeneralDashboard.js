@@ -5,13 +5,12 @@ import { Tab } from 'react-bootstrap';
 import Home from '../../Tabs/Home';
 import "../../Navbar/Navbar.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './GeneralDashboard.css';
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
-import NotificationBox from '../../NotificationBox/NotificationBox';
 
 function GeneralDashboard(props) {
 
     let { currentUser } = useAuth();
+    console.log("General dashboard user: ", currentUser);
 
     return (
         <div>

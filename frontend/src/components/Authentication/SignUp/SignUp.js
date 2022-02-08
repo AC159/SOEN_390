@@ -12,9 +12,7 @@ const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]
 
 function SignUp(props) {
 
-
     let navigate = useNavigate();
-
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
@@ -110,17 +108,14 @@ function SignUp(props) {
 
 
     const submitForm = async () => {
-        console.log(`Email: ${email}`);
-        console.log(`Password: ${password}`);
-        console.log(`passwordConf: ${passwordConf}`);
-        auth.register(email, password).then(data => {
-            console.log('Sign in successful...');
-            console.log(data);
-            axios.post('/addNewUser', {
+        try {
+            const userSignUpData = {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 user: user,
+                phoneNumber: phoneNumber,
+                address: address,
                 verification: {
                     insurance: insurance,
                     doctorLicense: doctorLicense,
@@ -128,13 +123,13 @@ function SignUp(props) {
                     immigrationId: immigrationId,
                     administratorId: administratorId
                 },
-                userStatus: "PENDING",
-                firebase: data.user.uid
-            }).then().catch()
-            navigate("/patient-dashboard", { replace: true });
-        }).catch(error => {
-            console.log(error);
-        })
+                userStatus: "PENDING"
+            }
+            const data = await auth.register(email, password, userSignUpData);
+        } catch (error) {
+            console.log('Sign up error: ', error);
+        }
+        navigate("/patient-dashboard", { replace: true });
     }
 
     return (
