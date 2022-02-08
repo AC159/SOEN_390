@@ -1,3 +1,4 @@
+
 class User {
   constructor(userId, name) {
     this.id = userId;
@@ -6,11 +7,21 @@ class User {
 
   async viewProfile(mongo) {
     console.log(this.id.getId());
-    return await mongo.db('test').collection('patient').findOne({uid: this.id.getId()});
+    // find the type of the user by querying in the generic user collection
+    const response = await mongo.db('test').collection('user').findOne({uid: this.id.getId()});
+    // find more information about that user
+    return await mongo.db('test').collection(response.userType).findOne({uid: this.id.getId()});
   }
 
   async updateProfile(mongo, userProfile) {
     return await mongo.db('test').collection('patient').updateOne({userId: this.id.getId()}, { $set: userProfile });
+  }
+
+  async createProfile(mongodb, userData) {
+    // Insert new user data into two collections: the generic user collection & the collection of the user type (patient, doctor, administrator, etc.)
+    await mongodb.db('test').collection('user').insertOne({uid: userData.uid, userType: userData.userType, email: userData.email});
+    await mongodb.db('test').collection(userData.userType).insertOne(userData);
+    return await mongodb.db('test').collection(userData.userType).findOne({uid: userData.uid});
   }
 
 }
@@ -156,7 +167,7 @@ class UserState {
   }
 }
 
-module.exports = User;
+module.exports.User = User;
 module.exports.UserId = UserId;
 module.exports.Name = Name;
 module.exports.Role = Role;
