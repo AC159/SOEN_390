@@ -113,7 +113,7 @@ function SignUp(props) {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
-                user: user,
+                userType: user,
                 phoneNumber: phoneNumber,
                 address: address,
                 verification: {

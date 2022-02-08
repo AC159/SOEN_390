@@ -20,7 +20,7 @@ function FirebaseAuthProvider({children}) {
             // before sending the user sign up data to the db, we need to append the firebase uid
             userSignUpData['userId'] = userData.user.uid;
             try {
-                const dbResponse = await axios.post('/addNewUser', userSignUpData);
+                const dbResponse = await axios.post('user/addNewUser', userSignUpData);
                 console.log('sign up db response: ', dbResponse);
                 setCurrentUser({user: userData.user, dbData: dbResponse.data});
             } catch (error) {
