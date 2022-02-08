@@ -6,7 +6,6 @@ class User {
   }
 
   async viewProfile(mongo) {
-    console.log(this.id.getId());
     // find the type of the user by querying in the generic user collection
     const response = await mongo.db('test').collection('user').findOne({uid: this.id.getId()});
     // find more information about that user
@@ -14,7 +13,10 @@ class User {
   }
 
   async updateProfile(mongo, userProfile) {
-    return await mongo.db('test').collection('patient').updateOne({userId: this.id.getId()}, { $set: userProfile });
+    // find the type of the user by querying in the generic user collection
+    const response = await mongo.db('test').collection('user').findOne({uid: this.id.getId()});
+    // Update this user in the respective collection
+    return await mongo.db('test').collection(response.userType).updateOne({userId: this.id.getId()}, { $set: userProfile });
   }
 
   async createProfile(mongodb, userData) {
