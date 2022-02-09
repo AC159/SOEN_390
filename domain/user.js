@@ -1,15 +1,26 @@
+const UserRepository = require("../repository/UserRepository");
 
 class User {
-  constructor(userId, name) {
+  constructor(userId, name, userRepository) {
     this.id = userId;
     this.name = name;
+    this.userRepository = userRepository;
   }
 
-  async viewProfile(mongo) {
-    // find the type of the user by querying in the generic user collection
-    const response = await mongo.db('test').collection('user').findOne({uid: this.id.getId()});
-    // find more information about that user
-    return await mongo.db('test').collection(response.userType).findOne({uid: this.id.getId()});
+  async viewProfile() {
+    const profileParameters = {
+      _id: 0,
+      uid: 1,
+      userType: 0,
+      email: 1
+    }
+    const response = await this.userRepository.fetch(this.id.getId(), profileParameters)
+    console.log(response)
+    // // find the type of the user by querying in the generic user collection
+    // const response = await mongo.db('test').collection('user').findOne({uid: this.id.getId()});
+    // // find more information about that user
+    // return await mongo.db('test').collection(response.userType).findOne({uid: this.id.getId()});
+    return response;
   }
 
   async updateProfile(mongo, userProfile) {
