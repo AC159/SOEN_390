@@ -13,11 +13,9 @@ class User {
     return await this.userRepository.update(this.id.getId(), userProfile);
   }
 
-  async createProfile(mongodb, userData) {
-    // Insert new user data into two collections: the generic user collection & the collection of the user type (patient, doctor, administrator, etc.)
-    await mongodb.db('test').collection('user').insertOne({uid: userData.uid, userType: userData.userType, email: userData.email});
-    await mongodb.db('test').collection(userData.userType).insertOne(userData);
-    return await mongodb.db('test').collection(userData.userType).findOne({uid: userData.uid});
+  async createProfile(userData) {
+    await this.userRepository.add(userData);
+    return await this.userRepository.fetch(userData.uid);
   }
 
 }

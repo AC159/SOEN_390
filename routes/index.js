@@ -18,27 +18,28 @@ router.get('/:userId/profile', async (req, res) => {
 });
 
 router.post('/addNewUser', async (req, res) => {
-    // No data conflict check at the moment
     const mongodb = await req.app.locals.mongodb;
-    const user = req.body;
-    console.log(user);
-    const userId = new UserId(user.userId);
-    const userName = new Name(user.firstName, user.lastName);
-    const newUser = new User(userId, userName);
+    const request = req.body;
+
+    const repository = new UserRepository(mongodb);
+    const userId = new UserId(request.userId);
+    const userName = new Name(request.firstName, request.lastName);
+    const newUser = new User(userId, userName, repository);
+
     const data = {
         uid: newUser.id.getId(),
         name: newUser.name.getFullName(),
-        userStatus: user.userStatus,
+        userStatus: request.userStatus,
         isFlagged: false,
-        phoneNumber: user.phoneNumber,
-        dob: user.dob,
-        address: user.address,
-        userType: user.userType,
-        verification: user.verification,
-        email: user.email
+        phoneNumber: request.phoneNumber,
+        dob: request.dob,
+        address: request.address,
+        userType: request.userType,
+        verification: request.verification,
+        email: request.email
     };
     try {
-        const insertedData = await newUser.createProfile(mongodb, data);
+        const insertedData = await newUser.createProfile(data);
         res.status(201).json(insertedData);
     } catch (error) {
         res.status(500).json(error);
