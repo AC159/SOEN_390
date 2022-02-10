@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { User, UserId, Name } = require('../domain/user');
+const UserRepository = require('../repository/UserRepository');
 
 
 router.get('/:userId/profile', async (req, res) => {
     try {
         const userId = new UserId(req.params.userId);
-        const user = new User(userId, null);
-        const response = await user.viewProfile(req.app.locals.mongodb);
+        const mongo = await req.app.locals.mongodb;
+        const user = new User(userId, null, new UserRepository(mongo));
+        const response = await user.viewProfile();
         console.log('Get user profile DB response: ', response);
         res.status(200).json(response);
     } catch (error) {
@@ -45,11 +47,12 @@ router.post('/addNewUser', async (req, res) => {
 
 
 router.post('/update-profile/:userId', async (req, res) => {
+    console.log(req.body)
     try {
         const mongo = req.app.locals.mongodb;
         const userId = new UserId(req.params.userId);
-        const user = new User(userId, null);
-        const data = await user.updateProfile(mongo, req.body.userAttributes);
+        const user = new User(userId, null, new UserRepository(mongo));
+        const data = await user.updateProfile(req.body.userAttributes);
         res.status(201).json(data);
     } catch(error) {
         res.status(500).json(error);
