@@ -5,29 +5,42 @@ class UserRepository {
 
   add(user) {
     return this.mongo.db('test')
-      .collection('users')
+      .collection('user')
       .insertOne(user);
   }
 
-  // TODO: SPECIFY DEFAULT VALUE CORRECTLY
-  fetch(userId, parameters = {}) {
+  fetch(userId) {
     return this.mongo.db('test')
-      .collection('users')
+      .collection('user')
       .findOne({
         uid: userId
-      })
-      .project(parameters);
+      }, {
+        _id: 0,
+        uid: 1,
+        email: 1,
+        userType: 1
+      });
+  }
+
+  update(userId, values) {
+    return this.mongo.db('test')
+      .collection('user')
+      .updateOne({
+        uid: userId,
+      }, {
+        $set: values
+      });
   }
 
   fetchAll() {
     return this.mongo.db('test')
-      .collection('users')
+      .collection('user')
       .find({});
   }
 
   delete(userId) {
     return this.mongo.db('test')
-      .collection('users')
+      .collection('user')
       .deleteOne({
         uid: userId
       })
