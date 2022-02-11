@@ -7,27 +7,50 @@ class AdminRepository {
     }
 
     verifyAdmin(adminId) {
-        return this.mongo.db('test').collection('user').findOne({ uid:adminId }, { userType: 1, userStatus: 1 });
-    }
-
-    async fetchPendingPatients(adminId) {
-        // verify that this administrator is truly an admin
-        const adminData = this.verifyAdmin(adminId);
+        const adminData = this.mongo.db('test').collection('user').findOne({ uid:adminId }, { userType: 1, userStatus: 1 });
         if (adminData.userType.toLowerCase() !== 'administrator' || adminData.userStatus.toLowerCase() !== 'approved') {
             throw new Error('Not a valid administrator');
-        } else {
-            // todo: implement pagination for many users?
-            const response = await this.mongo.db('test').collection('users').find({ userType: 'patient', userStatus: 'PENDING' }, { name: 1, email: 1 });
-            return response.toArray();
         }
     }
 
+    async fetchPendingPatients(adminId) {
+        try {
+            this.verifyAdmin(adminId);
+            // todo: implement pagination for many patients?
+            const response = await this.mongo.db('test').collection('user').find({ userType: 'patient', userStatus: 'PENDING' }, { name: 1, email: 1 });
+            return response.toArray();
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
     async approvePatient(patientId, adminId) {
-        const adminData = this.verifyAdmin(adminId);
-        if (adminData.userType.toLowerCase() !== 'administrator' || adminData.userStatus.toLowerCase() !== 'approved') {
-            throw new Error('Not a valid administrator');
-        } else {
-            return await this.mongo.db('test').collection('users').updateOne({ userId: patientId }, { $set: { userStatus: 'APPROVED' } });
+        try {
+            this.verifyAdmin(adminId);
+            return await this.mongo.db('test').collection('user').updateOne({ userId: patientId }, { $set: { userStatus: 'APPROVED' } });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async fetchPendingDoctors(adminId) {
+        try {
+            this.verifyAdmin(adminId);
+            // todo: implement pagination for many doctors?
+            const response = await this.mongo.db('test').collection('user').find({ userType: 'doctor', userStatus: 'PENDING' }, { name: 1, email: 1 });
+            return response.toArray();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async approveDoctor(doctorId, adminId) {
+        try {
+            this.verifyAdmin(adminId);
+            return await this.mongo.db('test').collection('user').updateOne({ userId: doctorId }, { $set: { userStatus: 'APPROVED' } });
+        } catch (error) {
+            throw error;
         }
     }
 

@@ -14,7 +14,7 @@ router.get('/:adminId/pending-patients', async (req, res) => {
         const admin = new Administrator(adminId, adminRepository);
         const users = await admin.viewPatients();
 
-        res.status(200).json({ users: users });
+        res.status(200).json({ users });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -35,40 +35,33 @@ router.post('/:adminId/approve-patient', async (req, res) => {
     }
 });
 
-router.post('/admin/:adminId/user/:userId/role', async (req, res) => {
+
+router.get('/:adminId/pending-doctors', async (req, res) => {
     try {
-        let role;
         const adminId = new UserId(req.params.adminId);
-        const userId = new UserId(req.params.userId);
-        const admin = new Administrator(adminId);
-        const mongodb = await req.app.locals.mongodb
+        const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
-        switch (req.body.role) {
-            case 'doctor':
-                role = Role.Doctor;
-                break;
-            case 'patient':
-                role = Role.Patient;
-                break;
-            case 'administrator':
-                role = Role.Administrator;
-                break;
-            case 'health official':
-                role = Role.HealthOfficial;
-                break;
-            case 'immigration officer':
-                role = Role.ImmigrationOfficer;
-                break;
-            default:
-                throw new Error(`The provided role ${req.body.role} is not valid.`);
-        }
+        const admin = new Administrator(adminId, adminRepository);
+        const doctors = await admin.viewDoctors();
 
-        await admin.setUserRole(mongodb, new User(userId), role);
-        res.status(201).send();
+        res.status(200).json({ doctors });
     } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
+        res.status(400).json({ error: error.message });
+    }
+});
+
+router.post('/:adminId/approve-doctor', async (req, res) => {
+    try {
+        const doctorUid = req.body.userId;
+        const adminId = new UserId(req.params.adminId);
+        const adminRepository = new AdminRepository(req.app.locals.mongodb);
+
+        const admin = new Administrator(adminId, adminRepository);
+        const response = await admin.approveDoctor(doctorUid);
+
+        res.status(200).json({ data: response });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 

@@ -6,8 +6,20 @@ class Administrator {
     this.adminRepository = adminRepository;
   }
 
-  viewDoctors() {
-    throw new Error(`${this.viewDoctors.name} is not implemented.`);
+  async viewDoctors() {
+    try {
+      return await this.adminRepository.fetchPendingDoctors(this.userId);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async approveDoctor() {
+    try {
+      return await this.adminRepository.approveDoctor(doctorId, this.userId);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async viewPatients() {
