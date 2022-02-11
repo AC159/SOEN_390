@@ -2,6 +2,7 @@ const express = require('express');
 const {UserId, Role} = require("../domain/user");
 const Administrator = require("../domain/administrator");
 const User = require("../domain/user");
+const AdminRepository = require("../repository/AdminRepository");
 const router = express.Router();
 
 
@@ -14,6 +15,21 @@ router.get('/:adminId/pending-patients', async (req, res) => {
         const users = await admin.viewPatients();
 
         res.status(200).json({ users: users });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+router.post('/:adminId/approve-patient', async (req, res) => {
+    try {
+        const patientUid = req.body.userId;
+        const adminId = new UserId(req.params.adminId);
+        const adminRepository = new AdminRepository(req.app.locals.mongodb);
+
+        const admin = new Administrator(adminId, adminRepository);
+        const response = await admin.approvePatient(patientUid);
+
+        res.status(200).json({ data: response });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

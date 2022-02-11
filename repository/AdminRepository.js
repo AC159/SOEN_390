@@ -1,3 +1,4 @@
+const {UserState} = require("../domain/user");
 
 class AdminRepository {
 
@@ -5,13 +6,13 @@ class AdminRepository {
         this.mongo = mongo;
     }
 
-    getAdmin(adminId) {
+    verifyAdmin(adminId) {
         return this.mongo.db('test').collection('user').findOne({ uid:adminId }, { userType: 1, userStatus: 1 });
     }
 
     async fetchPendingPatients(adminId) {
         // verify that this administrator is truly an admin
-        const adminData = this.getAdmin(adminId);
+        const adminData = this.verifyAdmin(adminId);
         if (adminData.userType.toLowerCase() !== 'administrator' || adminData.userStatus.toLowerCase() !== 'approved') {
             throw new Error('Not a valid administrator');
         } else {
@@ -21,4 +22,15 @@ class AdminRepository {
         }
     }
 
+    async approvePatient(patientId, adminId) {
+        const adminData = this.verifyAdmin(adminId);
+        if (adminData.userType.toLowerCase() !== 'administrator' || adminData.userStatus.toLowerCase() !== 'approved') {
+            throw new Error('Not a valid administrator');
+        } else {
+            return await this.mongo.db('test').collection('users').updateOne({ userId: patientId }, { $set: { userStatus: 'APPROVED' } });
+        }
+    }
+
 }
+
+module.exports = AdminRepository;
