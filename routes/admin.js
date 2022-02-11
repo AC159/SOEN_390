@@ -5,19 +5,17 @@ const User = require("../domain/user");
 const router = express.Router();
 
 
-router.get('/admin/:adminId/users', async (req, res) => {
+router.get('/:adminId/pending-patients', async (req, res) => {
     try {
         const adminId = new UserId(req.params.adminId);
-        const admin = new Administrator(adminId);
-        const mongodb = await req.app.locals.mongodb
-        const users = await admin.viewUsers(mongodb);
-        res.status(200).json({
-            users: users
-        });
+        const adminRepository = new AdminRepository(req.app.locals.mongodb);
+
+        const admin = new Administrator(adminId, adminRepository);
+        const users = await admin.viewPatients();
+
+        res.status(200).json({ users: users });
     } catch (error) {
-        res.status(400).json({
-            error: error.message
-        });
+        res.status(400).json({ error: error.message });
     }
 });
 

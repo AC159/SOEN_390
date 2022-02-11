@@ -1,18 +1,21 @@
-const User = require('./user');
 const UserState = require('./user').UserState;
 
 class Administrator {
-  constructor(userId) {
+  constructor(userId, adminRepository) {
     this.userId = userId;
+    this.adminRepository = adminRepository;
   }
 
   viewDoctors() {
     throw new Error(`${this.viewDoctors.name} is not implemented.`);
   }
 
-  async viewUsers(mongo) {
-    const response = await mongo.db('test').collection('users').find({})
-    return response.toArray();
+  async viewPatients() {
+    try {
+      return await this.adminRepository.fetchPendingPatients(this.userId);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async setUserRole(mongo, user, role) {
