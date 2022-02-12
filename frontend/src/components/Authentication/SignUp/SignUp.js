@@ -133,49 +133,49 @@ function SignUp(props) {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles['container-top']}>
-                <h2>Create your CoviCare Account</h2>
-                <div className={styles['backDrop']}>
-                    <div className={styles['container-title']}></div>
+        <div className={styles['container_SingUp']}>
+            <div className={styles['container-top_SingUp']}>
+                <h2 className={styles['h2_SingUp']}>Create your CoviCare Account</h2>
+                <div className={styles['backDrop_SingUp']}>
+                    <div className={styles['container-title_SingUp']}></div>
                 </div>
             </div>
-            <form className={styles['container-item']}>
-                <fieldset>
-                    <legend>Account Information</legend>
+            <form className={styles['container-item_SingUp']}>
+                <fieldset className={styles['fieldset_SingUp']}>
+                    <legend className={styles['legend_SingUp']}>Account Information</legend>
 
-                    <input type="text" placeholder="email" value={email} onChange={(event)=> setEmail(event.target.value)}/>
+                    <input className={styles['input_SingUp']} type="text" placeholder="email" value={email} onChange={(event)=> setEmail(event.target.value)}/>
                     {emailInvalid ? <div className={styles['container-error']}>Invalid email</div>:null}
 
-                    <input type="password" placeholder="password" value={password} onChange={(event)=> setPassword(event.target.value)}/>
+                    <input className={styles['input_SingUp']} type="password" placeholder="password" value={password} onChange={(event)=> setPassword(event.target.value)}/>
                     {passwordError ? <div className={styles['container-error']}>
                         The password must contain at least eight characters, at least one number, at least one special character, and both lower and upper case letters
                     </div>:null}
 
-                    <input type="password" placeholder="confirm password" value={passwordConf}
+                    <input className={styles['input_SingUp']} type="password" placeholder="confirm password" value={passwordConf}
                            onChange={(event)=> setPasswordConf(event.target.value)}/>
                     {passwordConfError ? <div className={styles['container-error']}>Passwords do not match!</div>:null}
 
                 </fieldset>
-                <fieldset>
-                    <legend>Profile Information</legend>
+                <fieldset className={styles['fieldset_SingUp']}>
+                    <legend className={styles['legend_SingUp']}>Profile Information</legend>
 
-                        <input type="text" placeholder="First Name" defaultValue={firstName}
+                        <input className={styles['input_SingUp']} type="text" placeholder="First Name" defaultValue={firstName}
                            onChange={(event) => setFirstName(event.target.value)}/>
 
-                        <input type="text" placeholder="Last Name" value={lastName} defaultValue={lastName}
+                        <input className={styles['input_SingUp']} type="text" placeholder="Last Name" value={lastName} defaultValue={lastName}
                                onChange={(event) => setLastName(event.target.value)}/>
 
-                        <input  type="text" placeholder="Phone Number"  value={phoneNumber}
+                        <input className={styles['input_SingUp']} type="text" placeholder="Phone Number"  value={phoneNumber}
                                onChange={(event) => { setPhoneNumber(event.target.value)}}/>
 
 
-                        <input  type="text" placeholder="Address"  value={address}
+                        <input className={styles['input_SingUp']} type="text" placeholder="Address"  value={address}
                                onChange={(event) => { setAddress(event.target.value)}}/>
 
                 </fieldset>
-                <fieldset>
-                    <legend>User Type</legend>
+                <fieldset className={styles['fieldset_SingUp']}>
+                    <legend className={styles['legend_SingUp']}>User Type</legend>
                         <select name="userType"defaultValue={user}
                                 onChange={(event) => {userSelect(event.target.value); setUser(event.target.value)}}>
                             <option value="" selected disabled>Please select</option>
@@ -186,29 +186,29 @@ function SignUp(props) {
                             <option value="administrator">Administrator</option>
                         </select>
 
-                        <div className={styles[patient ? 'visible' : 'hidden']}>
-                        <input  type="text" placeholder="Health Insurance Number" maxLength={12} value={insurance}
+                        <div className={styles[patient ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input  className={styles['input_SingUp']} type="text" placeholder="Health Insurance Number" maxLength={12} value={insurance}
                                onChange={(event) => { setInsurance(event.target.value)}}/>
 
                         </div>
 
-                        <div className={styles[doctor ? 'visible' : 'hidden']}>
-                        <input  type="text" placeholder="Doctor's License Number" maxLength={6} value={doctorLicense}
+                        <div className={styles[doctor ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input  className={styles['input_SingUp']} type="text" placeholder="Doctor's License Number" maxLength={6} value={doctorLicense}
                                 onChange={(event) => setDoctorLicense(event.target.value)}/>
                         </div>
 
-                        <div className={styles[healthOfficer ? 'visible' : 'hidden']}>
-                        <input  type="number" placeholder="Health officer's License Number" value={healthLicense}
+                        <div className={styles[healthOfficer ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input className={styles['input_SingUp']}  type="number" placeholder="Health officer's License Number" value={healthLicense}
                                 onChange={(event) => setHealthLicense(event.target.value)}/>
                         </div>
 
-                        <div className={styles[immigrationOfficer ? 'visible' : 'hidden']}>
-                        <input  type="number" placeholder="Immigration officer's Id Number" value={immigrationId}
+                        <div className={styles[immigrationOfficer ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input  className={styles['input_SingUp']} type="number" placeholder="Immigration officer's Id Number" value={immigrationId}
                                 onChange={(event) => setImmigrationId(event.target.value)}/>
                         </div>
 
-                        <div className={styles[administrator ? 'visible' : 'hidden']}>
-                        <input  type="number" placeholder="Administrator's Id Number" value={administratorId}
+                        <div className={styles[administrator ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input className={styles['input_SingUp']}  type="number" placeholder="Administrator's Id Number" value={administratorId}
                                 onChange={(event) => setAdministratorId(event.target.value)}/>
                         </div>
                 </fieldset>
@@ -216,9 +216,9 @@ function SignUp(props) {
 
             </form>
 
-            <button type="submit" onClick={submitForm}
+            <button className={styles['button_SingUp']} type="submit" onClick={submitForm}
                     disabled={email === '' || password === '' || passwordConf === '' || passwordError || passwordConfError || emailInvalid}>Submit</button>
-            <div className={styles['container-footer']}>Already have an account? <Link to={'/'}>Login!</Link></div>
+            <div className={styles['container-footer_SingUp']}>Already have an account? <Link to={'/'}>Login!</Link></div>
 
         </div>
     );

@@ -1,17 +1,14 @@
 
-.hidden{
+.hidden_SingUp{
     display: none;
 }
 
-.visible{
+.visible_SingUp{
     display: block;
 }
 
 
-body {
-
-}
-.container {
+.container_SingUp {
     width: 30rem;
 
     border-radius: 19px;
@@ -24,7 +21,7 @@ body {
     margin: auto;
 }
 
-.backDrop {
+.backDrop_SingUp {
     border: solid 1px black;
     width: 260%;
     height: 550px;
@@ -46,18 +43,18 @@ body {
 
 }
 
-.container-top {
+.container-top_SingUp {
     width: 100%;
     height: 200px;
 }
 
-.container-title{
+.container-title_SingUp{
     width: 100%;
     diplay: flex;
     flex-direction: column;
 }
 
-h2{
+.h2_SingUp{
     font-size: 30px;
     /*font-family: "Poppins";*/
     line-weight: 600;
@@ -70,14 +67,14 @@ h2{
 
 }
 
-fieldset {
+.fieldset_SingUp {
     border: 1px solid #d9d9d9 !important;
     margin: 0 0 24px !important;
     padding: 18px 22px 24px !important;
     border-radius: 6px;
 }
 
-fieldset legend{
+.legend_SingUp{
     float: none;
     width: auto;
     font-weight: 500;
@@ -89,7 +86,7 @@ fieldset legend{
 
 }
 
-.container-item {
+.container-item_SingUp {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -98,7 +95,7 @@ fieldset legend{
 }
 
 
-.container label, .container input {
+.label_SingUp, .input_SingUp {
     display: block;
     width: 100%;
     padding: 0.5rem 0;
@@ -106,55 +103,54 @@ fieldset legend{
     box-sizing: border-box;
 }
 
-.container input {
+.input_SingUp {
     border: none;
     border-bottom: 2px solid #ccc;
 }
 
-.container input:focus {
+.input_SingUp:focus {
     outline: none;
     border-bottom-color: #61dafb;
 }
 
-button {
-    /* margin-top: 1rem; */
-    margin: 1rem 10% 0 10%;
-    padding: 0.5rem 2rem;
-    background: rgb(0,120,215);
-    background: linear-gradient(
-            250deg,
-            rgb(48, 152, 229) 1%,
-            rgba(23,211,255,1) 80%
-    );
+.button_SingUp {
+     padding: 0.5rem 2rem;
+    color: white;
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #61dafb;
-    color: #fff;
+    width: 100%;
+    background: rgb(0,120,215);
+    background: linear-gradient(
+            270deg,
+            rgba(0,120,215,1) 39%,
+            rgba(23,211,255,1) 100%
+    );
 }
 
-button:hover {
+.button_SingUp:hover {
     box-shadow: 2px 2px 5px #b5b1b1;
 }
 
-button:disabled:hover {
+.button_SingUp:disabled:hover {
     cursor: not-allowed;
 }
 
-button:focus {
+.button_SingUp:focus {
     outline: none;
 }
 
-.container-error {
+.container-error_SingUp {
     color: red;
 }
 
-.container-footer {
+.container-footer_SingUp {
     color: black;
     margin: 1rem auto;
     text-align: center;
 }
 
-.container-footer a{
+.container-footer_SingUp a{
     color: #61dafb;
     cursor: pointer;
     text-decoration: none;
