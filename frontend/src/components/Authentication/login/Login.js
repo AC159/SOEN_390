@@ -46,7 +46,7 @@ function Login(props) {
 
             <form className={styles['container-item_Login']}>
                 <fieldset className={styles['fieldset_login']}>
-                    <legend className={styles['']}>Sign in</legend>
+                    <legend className={styles['legend_login']}>Sign in</legend>
 
                     <input className={styles['input_Login']} type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
 

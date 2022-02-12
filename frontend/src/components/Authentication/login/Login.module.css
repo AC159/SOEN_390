@@ -112,11 +112,17 @@
 
 .button_Login {
     padding: 0.5rem 2rem;
-    background-color: #61dafb;
+    color: white;
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #61dafb;
     width: 100%;
+    background: rgb(0,120,215);
+    background: linear-gradient(
+            270deg,
+            rgba(0,120,215,1) 39%,
+            rgba(23,211,255,1) 100%
+    );
 }
 
 .button_Login:hover {
