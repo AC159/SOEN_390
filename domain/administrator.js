@@ -1,31 +1,41 @@
-const User = require('./user');
 const UserState = require('./user').UserState;
 
 class Administrator {
-  constructor(userId) {
+  constructor(userId, adminRepository) {
     this.userId = userId;
+    this.adminRepository = adminRepository;
   }
 
-  viewDoctors() {
-    throw new Error(`${this.viewDoctors.name} is not implemented.`);
+  async viewDoctors() {
+    try {
+      return await this.adminRepository.fetchPendingDoctors(this.userId);
+    } catch (error) {
+      throw error;
+    }
   }
 
-  async viewUsers(mongo) {
-    const response = await mongo.db('test').collection('users').find({})
-    return response.toArray();
+  async approveDoctor() {
+    try {
+      return await this.adminRepository.approveDoctor(doctorId, this.userId);
+    } catch (error) {
+      throw error;
+    }
   }
 
-  async setUserRole(mongo, user, role) {
-    console.log("object")
-    console.log(user.id.getId())
-    const response = await mongo.db('test')
-      .collection('users')
-      .updateOne({ userId: user.id.getId() }, { $set: { 
-        role: role.getRole(),
-        roleStatus: UserState.Approved.getState()
-      }});
+  async viewPatients() {
+    try {
+      return await this.adminRepository.fetchPendingPatients(this.userId);
+    } catch (error) {
+      throw error;
+    }
+  }
 
-    return response;
+  async approvePatient(patientId) {
+    try {
+      return await this.adminRepository.approvePatient(patientId, this.userId);
+    } catch (error) {
+      throw error;
+    }
   }
 
   assignPatient(patient, doctor) {

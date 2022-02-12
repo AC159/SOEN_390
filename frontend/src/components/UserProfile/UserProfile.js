@@ -6,8 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
-// route to send get request: /patient/currentUser.uid/profile
-// route for post request: /updateUserInfo/currentUser.uid
+
 function UserProfile(props) {
     let {currentUser} = useAuth();
     
@@ -19,7 +18,7 @@ function UserProfile(props) {
 
     const submitPhoneForm = async() => {
         console.log(`PhoneNumber: ${phoneNumber}`);
-        axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {phoneNumber}}).then(function (response) {
+        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {phoneNumber}}).then(function (response) {
             console.log(response);
           }).catch(function (error) {
             console.log(error);
@@ -27,7 +26,7 @@ function UserProfile(props) {
     }
     const submitAddressForm = async() => {
         console.log(`Address: ${address}`);
-        axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {address}}).then(function (response) {
+        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {address}}).then(function (response) {
             console.log(response);
           }).catch(function (error) {
             console.log(error);
@@ -37,13 +36,13 @@ function UserProfile(props) {
         console.log(`firstName: ${firstName}`);
         console.log(`lastName: ${lastName}`);
 
-        axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {firstName}}).then(function (response) {
+        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {firstName}}).then(function (response) {
             console.log(response);
           }).catch(function (error) {
             console.log(error);
           });
         
-          axios.post(`/updateUserInfo/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
+          axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
             console.log(response);
           }).catch(function (error) {
             console.log(error);

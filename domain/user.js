@@ -1,16 +1,21 @@
 class User {
-  constructor(userId, name) {
+  constructor(userId, name, userRepository) {
     this.id = userId;
     this.name = name;
+    this.userRepository = userRepository;
   }
 
-  async viewProfile(mongo) {
-    console.log(this.id.getId());
-    return await mongo.db('test').collection('patient').findOne({uid: this.id.getId()});
+  async viewProfile() {
+    return await this.userRepository.fetch(this.id.getId());
   }
 
-  async updateProfile(mongo, userProfile) {
-    return await mongo.db('test').collection('patient').updateOne({userId: this.id.getId()}, { $set: userProfile });
+  async updateProfile(userProfile) {
+    return await this.userRepository.update(this.id.getId(), userProfile);
+  }
+
+  async createProfile(userData) {
+    await this.userRepository.add(userData);
+    return await this.userRepository.fetch(userData.uid);
   }
 
 }
@@ -156,7 +161,7 @@ class UserState {
   }
 }
 
-module.exports = User;
+module.exports.User = User;
 module.exports.UserId = UserId;
 module.exports.Name = Name;
 module.exports.Role = Role;
