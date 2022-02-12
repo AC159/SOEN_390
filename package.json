@@ -7,12 +7,14 @@
     "start": "node ./app",
     "client": "cd frontend && npm start",
     "dev": "concurrently \"nodemon run start\" \"npm run client\"",
-    "test": "jest --testPathIgnorePatterns='/frontend/'"
+    "test": "jest --testPathIgnorePatterns='/frontend/'",
+    "lint": "./node_modules/.bin/eslint ./"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.25.0",
     "body-parser": "^1.19.1",
     "colors": "^1.4.0",
     "concurrently": "^7.0.0",
@@ -22,6 +24,9 @@
     "nodemon": "^2.0.15"
   },
   "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.28.0",
     "jest": "^27.4.7"
   }
 }

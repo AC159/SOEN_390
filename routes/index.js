@@ -1,89 +1,63 @@
 const express = require('express');
 const router = express.Router();
+const { User, UserId, Name } = require('../domain/user');
+const UserRepository = require('../repository/UserRepository');
 
-const User = require('../domain/user');
-const UserId = require('../domain/user').UserId;
-const Role = require('../domain/user').Role;
-const Patient = require('../domain/patient');
-const Administrator = require('../domain/administrator');
 
-router.get('', function (req, res) {
-   res.send("Hello world");
+router.get('/:userId/profile', async (req, res) => {
+    try {
+        const userId = new UserId(req.params.userId);
+        const mongo = await req.app.locals.mongodb;
+        const user = new User(userId, null, new UserRepository(mongo));
+        const response = await user.viewProfile();
+        console.log('Get user profile DB response: ', response);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
 });
 
-router.get('/patient/:userId/profile', (req, res) => {
-   try {
-      const userId = new UserId(req.params.userId);
-      const patient = new Patient(userId);
-      patient.viewProfile();
-      res.status(200).json();
-   } catch (error) {
-      res.status(400).json({ error: error.message });
-   }
-})
+router.post('/addNewUser', async (req, res) => {
+    const mongodb = await req.app.locals.mongodb;
+    const request = req.body;
 
-router.post('/patient/:userId/profile', (req, res) => {
-   try {
-      const userId = new UserId(req.params.userId);
-      const patient = new Patient(userId);  // TODO: add all information
-      patient.updateProfile();
-      res.status(201).send();
-   } catch (error) {
-      res.status(400).json({ error: error.message });
-   }
+    const repository = new UserRepository(mongodb);
+    const userId = new UserId(request.userId);
+    const userName = new Name(request.firstName, request.lastName);
+    const newUser = new User(userId, userName, repository);
+
+    const data = {
+        uid: newUser.id.getId(),
+        name: newUser.name.getFullName(),
+        userStatus: request.userStatus,
+        isFlagged: false,
+        phoneNumber: request.phoneNumber,
+        dob: request.dob,
+        address: request.address,
+        userType: request.userType,
+        verification: request.verification,
+        email: request.email
+    };
+    try {
+        const insertedData = await newUser.createProfile(data);
+        res.status(201).json(insertedData);
+    } catch (error) {
+        res.status(500).json(error);
+    }
 });
 
-router.get('/admin/:adminId/users', async (req, res) => {
-   try {
-      const adminId = new UserId(req.params.adminId);
-      const admin = new Administrator(adminId);
-      const mongodb = await req.app.locals.mongodb
-      const users = await admin.viewUsers(mongodb);
-      res.status(200).json({
-         users: users
-      });
-   } catch (error) {
-      res.status(400).json({
-         error: error.message
-      });
-   }
-});
 
-router.post('/admin/:adminId/user/:userId/role', async (req, res) => {
-   try {
-      let role;
-      const adminId = new UserId(req.params.adminId);
-      const userId = new UserId(req.params.userId);
-      const admin = new Administrator(adminId);
-      const mongodb = await req.app.locals.mongodb
-
-      switch (req.body.role) {
-         case 'doctor':
-            role = Role.Doctor;
-            break;
-         case 'patient':
-            role = Role.Patient;
-            break;
-         case 'administrator':
-            role = Role.Administrator;
-            break;
-         case 'health official':
-            role = Role.HealthOfficial;
-            break;
-         case 'immigration officer':
-            role = Role.ImmigrationOfficer;
-            break;
-         default:
-            throw new Error(`The provided role ${req.body.role} is not valid.`);
-      }
-
-      await admin.setUserRole(mongodb, new User(userId), role);
-      res.status(201).send();
-   } catch (error) {
-      res.status(400).json({
-         error: error.message
-      });
-   }
+router.post('/update-profile/:userId', async (req, res) => {
+    console.log(req.body)
+    try {
+        const mongo = req.app.locals.mongodb;
+        const userId = new UserId(req.params.userId);
+        const user = new User(userId, null, new UserRepository(mongo));
+        const data = await user.updateProfile(req.body.userAttributes);
+        res.status(201).json(data);
+    } catch(error) {
+        res.status(500).json(error);
+    }
 });
 
 module.exports = router;

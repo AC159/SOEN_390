@@ -9,11 +9,11 @@
 
 
 body {
-    
+
 }
 .container {
     width: 30rem;
-    
+
     border-radius: 19px;
     background-color: white;
     box-shadow: 2px 2px 5px #f6f2f2;
@@ -78,6 +78,8 @@ fieldset {
 }
 
 fieldset legend{
+    float: none;
+    width: auto;
     font-weight: 500;
     background: white;
     padding: 0 8px;

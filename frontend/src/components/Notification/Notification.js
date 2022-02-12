@@ -1,4 +1,3 @@
-import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import "./Notification.css";
 import { Alert } from "react-bootstrap";
 
@@ -9,8 +8,6 @@ let alertHeading = "";
 
 function Notification(props) {
 
-    console.log(alertType);
-    console.log("lulululululu");
     [
         'primary',
         'secondary',

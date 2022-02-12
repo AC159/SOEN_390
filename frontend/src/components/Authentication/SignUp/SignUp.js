@@ -3,6 +3,7 @@ import styles from './SignUp.module.css';
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -11,9 +12,7 @@ const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]
 
 function SignUp(props) {
 
-
     let navigate = useNavigate();
-
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
@@ -109,16 +108,28 @@ function SignUp(props) {
 
 
     const submitForm = async () => {
-        console.log(`Email: ${email}`);
-        console.log(`Password: ${password}`);
-        console.log(`passwordConf: ${passwordConf}`);
-        auth.register(email, password).then(data => {
-            console.log('Sign in successful...');
-            console.log(data);
-            navigate("/patient-dashboard", { replace: true });
-        }).catch(error => {
-            console.log(error);
-        })
+        try {
+            const userSignUpData = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                userType: user,
+                phoneNumber: phoneNumber,
+                address: address,
+                verification: {
+                    insurance: insurance,
+                    doctorLicense: doctorLicense,
+                    healthLicense: healthLicense,
+                    immigrationId: immigrationId,
+                    administratorId: administratorId
+                },
+                userStatus: "PENDING"
+            }
+            const data = await auth.register(email, password, userSignUpData);
+        } catch (error) {
+            console.log('Sign up error: ', error);
+        }
+        navigate("/patient-dashboard", { replace: true });
     }
 
     return (

@@ -1,15 +1,21 @@
 class User {
-  constructor(userId, name) {
+  constructor(userId, name, userRepository) {
     this.id = userId;
     this.name = name;
+    this.userRepository = userRepository;
   }
 
-  viewProfile() {
-    throw new Error(`${this.viewProfile.name} is not implemented.`);
+  async viewProfile() {
+    return await this.userRepository.fetch(this.id.getId());
   }
 
-  updateProfile() {
-    throw new Error(`${this.updateProfile.name} is not implemented.`);
+  async updateProfile(userProfile) {
+    return await this.userRepository.update(this.id.getId(), userProfile);
+  }
+
+  async createProfile(userData) {
+    await this.userRepository.add(userData);
+    return await this.userRepository.fetch(userData.uid);
   }
 
 }
@@ -155,7 +161,7 @@ class UserState {
   }
 }
 
-module.exports = User;
+module.exports.User = User;
 module.exports.UserId = UserId;
 module.exports.Name = Name;
 module.exports.Role = Role;

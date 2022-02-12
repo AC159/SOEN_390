@@ -10,8 +10,7 @@ import GeneralDashboard from "./components/Dashboards/GeneralDashboard/GeneralDa
 import FirebaseAuthProvider from "./components/Authentication/FirebaseAuth/FirebaseAuth";
 import './components/Authentication/FirebaseAuth/FirebaseConfig';
 import PrivateRoute from "./components/RouteHandler/PrivateRoute";
-
-//import "bootstrap/dist/css/bootstrap.min.css";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 function App() {
   return (
@@ -23,34 +22,39 @@ function App() {
                             <Route path='/' element={<Login/>} />
                             <Route path='/signup' element={<SignUp/>} />
                             <Route path='/patient-dashboard' element={
-                                  <PrivateRoute>
+                                  <PrivateRoute requestedRoute={'/patient-dashboard'}>
                                       <PatientDashboard/>
                                   </PrivateRoute>
                             }/>
                             <Route path='/doctor-dashboard' element={
-                                  <PrivateRoute>
+                                  <PrivateRoute requestedRoute={'/doctor-dashboard'}>
                                       < DoctorDashboard/>
                                   </PrivateRoute>
                             }/>
                             <Route path='/admin-dashboard' element={
-                                  <PrivateRoute>
+                                  <PrivateRoute requestedRoute={'/admin-dashboard'}>
                                       <AdminDashboard/>
                                   </PrivateRoute>
                             }/>
                             <Route path='/health-official-dashboard' element={
-                                  <PrivateRoute>
+                                  <PrivateRoute requestedRoute={'/health-official-dashboard'}>
                                       <HODashboard/>
                                   </PrivateRoute>
                             }/>
                             <Route path='/immigration-officer-dashboard' element={
-                                  <PrivateRoute>
+                                  <PrivateRoute requestedRoute={'/immigration-officer-dashboard'}>
                                       <IODashboard/>
                                   </PrivateRoute>
                             }/>
                             <Route path='/general-dashboard' element={
-                                  <PrivateRoute>
+                                  <PrivateRoute requestedRoute={'/general-dashboard'}>
                                       <GeneralDashboard />
                                   </PrivateRoute>
+                            }/>
+                            <Route path='/user-profile' element={
+                                <PrivateRoute requestedRoute={'/user-profile'}>
+                                    <UserProfile />
+                                </PrivateRoute>
                             }/>
                       </Routes>
                   </main>
