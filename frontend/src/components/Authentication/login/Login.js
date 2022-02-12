@@ -33,31 +33,31 @@ function Login(props) {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles['container-top']}>
-                <h2>Welcome to CoviCare</h2>
-                <div className={styles['backDrop']}>
+        <div className={styles['container_Login']}>
+            <div className={styles['container-top_Login']}>
+                <h2 className={styles['h2_Login']}>Welcome to CoviCare</h2>
+                <div className={styles['backDrop_login']}>
 
-                    <div className={styles['container-title']}>
+                    <div className={styles['container-title_Login']}>
 
                     </div>
                 </div>
             </div>
 
-            <form className={styles['container-item']}>
-                <fieldset>
-                    <legend>Sign in</legend>
+            <form className={styles['container-item_Login']}>
+                <fieldset className={styles['fieldset_login']}>
+                    <legend className={styles['']}>Sign in</legend>
 
-                    <input type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
+                    <input className={styles['input_Login']} type="text" placeholder="email" value={email} onChange={(event) => {setEmail(event.target.value)}}/>
 
-                    <input type="password" placeholder="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
+                    <input className={styles['input_Login']}  type="password" placeholder="password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
 
                 </fieldset>
-                {loginError ? <div className={styles['container-error']}>{loginError}</div> : null}
+                {loginError ? <div className={styles['container-error_Login']}>{loginError}</div> : null}
 
             </form>
-            <button type="submit" onClick={submitForm} disabled={email === '' || password === ''}>Submit</button>
-            <div className={styles['container-footer']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link></div>
+            <button className={styles['button_Login']} type="submit" onClick={submitForm} disabled={email === '' || password === ''}>Submit</button>
+            <div className={styles['container-footer_Login']}>Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link></div>
         </div>
 
     );

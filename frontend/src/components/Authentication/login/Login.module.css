@@ -1,16 +1,12 @@
 
-
-body {
-
-}
-fieldset {
+.fieldset_login {
     border: 1px solid #d9d9d9 !important;
     margin: 0 0 24px !important;
     padding: 18px 22px 24px !important;
     border-radius: 6px;
 }
 
-fieldset legend{
+.legend_login{
     float: none;
     width: auto;
     font-weight: 500;
@@ -22,7 +18,7 @@ fieldset legend{
 
 }
 
-.container {
+.container_Login {
 
     width: 30rem;
     height: 80%;
@@ -40,7 +36,7 @@ fieldset legend{
     margin-top: 200px;
 }
 
-.backDrop {
+.backDrop_login {
     border: solid 2px black;
     width: 260%;
     height: 550px;
@@ -62,18 +58,18 @@ fieldset legend{
 
 }
 
-.container-top {
+.container-top_Login {
     width: 100%;
     height: 200px;
 }
 
-.container-title{
+.container-title_Login{
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-h2{
+.h2_Login{
     font-size: 30px;
     /*font-family: "Poppins";*/
     line-weight: 600;
@@ -85,17 +81,14 @@ h2{
     padding: 25px;
 
 }
-Card {
 
-}
-
-.container-item {
+.container-item_Login {
     width: 80%;
     margin: 1rem 10%;
 }
 
 
-.container label, .container input {
+.label_Login, .input_Login {
     display: block;
     width: 100%;
     padding: 0.5rem 0;
@@ -103,22 +96,21 @@ Card {
     box-sizing: border-box;
 }
 
-.container input {
+.input_Login {
     border: none;
     border-bottom: 2px solid #ccc;
 }
 
-.container input:focus {
+.input_Login:focus {
     outline: none;
     border-bottom-color: #61dafb;
 }
 
-.container-error {
+.container-error_Login {
     color: red;
 }
 
-button {
-    margin: 1rem 10% 0 10%;
+.button_Login {
     padding: 0.5rem 2rem;
     background-color: #61dafb;
     cursor: pointer;
@@ -127,25 +119,25 @@ button {
     width: 100%;
 }
 
-button:hover {
+.button_Login:hover {
     box-shadow: 2px 2px 5px #b5b1b1;
 }
 
-button:disabled:hover {
+.button_Login:disabled:hover {
     cursor: not-allowed;
 }
 
-button:focus {
+.button_Login:focus {
     outline: none;
 }
 
-.container-footer {
+.container-footer_Login {
     color: black;
     margin: 1rem auto;
     text-align: center;
 }
 
-.container-footer a{
+.container-footer_Login a{
     color: #61dafb;
     cursor: pointer;
     text-decoration: none;
