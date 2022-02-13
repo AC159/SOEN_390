@@ -129,7 +129,7 @@ function SignUp(props) {
         } catch (error) {
             console.log('Sign up error: ', error);
         }
-        navigate("/patient-dashboard", { replace: true });
+        navigate("/general-dashboard", { replace: true });
     }
 
     return (
