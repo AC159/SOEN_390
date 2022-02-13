@@ -5,7 +5,7 @@ import styles from './UserProfile.module.css';
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
+import Navbar from "../Navbar/Navbar";
 
 function UserProfile(props) {
     let {currentUser} = useAuth();
@@ -18,35 +18,58 @@ function UserProfile(props) {
 
     const submitPhoneForm = async() => {
         console.log(`PhoneNumber: ${phoneNumber}`);
-        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {phoneNumber}}).then(function (response) {
+        console.log(`Current User ID: ${currentUser.user.uid}`);
+        axios.post(`/user/update-profile/${currentUser.user.uid}`, {
+            userAttributes: {phoneNumber}
+        })
+        .then(function (response) {
             console.log(response);
-          }).catch(function (error) {
+          })
+        .catch(function (error) {
             console.log(error);
           });
     }
     const submitAddressForm = async() => {
         console.log(`Address: ${address}`);
-        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {address}}).then(function (response) {
+        axios.post(`/user/update-profile/${currentUser.user.uid}`, {
+            userAttributes: {address}
+        })
+        .then(function (response) {
             console.log(response);
-          }).catch(function (error) {
+        })
+        .catch(function (error) {
             console.log(error);
-          });
+        });
     }
     const submitNameForm = async() => {
         console.log(`firstName: ${firstName}`);
         console.log(`lastName: ${lastName}`);
 
-        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {firstName}}).then(function (response) {
+        axios.post(`/user/update-profile/${currentUser.user.uid}`, {
+            userAttributes: {firstName}
+        })
+        .then(function (response) {
             console.log(response);
-          }).catch(function (error) {
+        })
+        .catch(function (error) {
             console.log(error);
-          });
+        });
+
+        // axios.post(`/user/update-profile/${currentUser.user.uid}`, {
+        //     userAttributes: {lastName}
+        // })
+        // .then(function (response) {
+        //     console.log(response);
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
         
-          axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
-            console.log(response);
-          }).catch(function (error) {
-            console.log(error);
-          });
+        //   axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
+        //     console.log(response);
+        //   }).catch(function (error) {
+        //     console.log(error);
+        //   });
     }
 
     const [showModalOne, setShowOne] = useState(false);
@@ -63,8 +86,9 @@ function UserProfile(props) {
     
     
     return (
+        <div> <Navbar />
         <div className={styles['container']}>
-
+            
         <div className={styles['userInfo']}>
                 <div className={styles['internalCard']}>
                     <div>Email: {currentUser.user.email}</div>
@@ -133,7 +157,7 @@ function UserProfile(props) {
                 <div className={styles['nameCard']}>
                     {/* SET UP NAME + DESIGNATION (Dr. Mr. Ms. etc) + */}
                     <div>{currentUser.dbData.name}</div>
-                    <button onClick={handleShowName}>Edit Name</button>
+                    {/* <button onClick={handleShowName}>Edit Name</button>
                     <Modal show={showModalName} onHide={handleCloseName}>
                         <Modal.Header closeButton>
                           <Modal.Title>Edit Name</Modal.Title>
@@ -141,7 +165,7 @@ function UserProfile(props) {
                         <Modal.Body>
                             <label>Enter edited name: &nbsp;</label>
                             <input type="text" placeholder="first name"  value={firstName} onChange={(event)=> setFirstName(event.target.value)} />
-                            <input type="text" placeholder="last name" value={lastName} onChange={(event)=> setFirstName(event.target.value)}/>
+                            <input type="text" placeholder="last name" value={lastName} onChange={(event)=> setLastName(event.target.value)}/>
                         </Modal.Body>
                         <Modal.Footer>
                             <button onClick={handleCloseName}>
@@ -151,10 +175,11 @@ function UserProfile(props) {
                                 Save Changes
                             </button>
                         </Modal.Footer>
-                    </Modal>
+                    </Modal> */}
                 </div>
             </div>
 
+        </div>
         </div>
     );
 }
