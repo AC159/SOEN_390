@@ -147,12 +147,12 @@ function SignUp(props) {
                     <input className={styles['input_SingUp']} type="text" placeholder="email" value={email} onChange={(event)=> setEmail(event.target.value)}/>
                     {emailInvalid ? <div className={styles['container-error']}>Invalid email</div>:null}
 
-                    <input className={styles['input_SingUp']} type="password" placeholder="password" value={password} onChange={(event)=> setPassword(event.target.value)}/>
+                    <input className={styles['input_SingUp_Left']} type="password" placeholder="password" value={password} onChange={(event)=> setPassword(event.target.value)}/>
                     {passwordError ? <div className={styles['container-error']}>
                         The password must contain at least eight characters, at least one number, at least one special character, and both lower and upper case letters
                     </div>:null}
 
-                    <input className={styles['input_SingUp']} type="password" placeholder="confirm password" value={passwordConf}
+                    <input className={styles['input_SingUp_Right']} type="password" placeholder="confirm password" value={passwordConf}
                            onChange={(event)=> setPasswordConf(event.target.value)}/>
                     {passwordConfError ? <div className={styles['container-error']}>Passwords do not match!</div>:null}
 
@@ -160,17 +160,17 @@ function SignUp(props) {
                 <fieldset className={styles['fieldset_SingUp']}>
                     <legend className={styles['legend_SingUp']}>Profile Information</legend>
 
-                        <input className={styles['input_SingUp']} type="text" placeholder="First Name" defaultValue={firstName}
+                        <input className={styles['input_SingUp_Left']} type="text" placeholder="First Name" defaultValue={firstName}
                            onChange={(event) => setFirstName(event.target.value)}/>
 
-                        <input className={styles['input_SingUp']} type="text" placeholder="Last Name" value={lastName} defaultValue={lastName}
+                        <input className={styles['input_SingUp_Right']} type="text" placeholder="Last Name" value={lastName} defaultValue={lastName}
                                onChange={(event) => setLastName(event.target.value)}/>
 
-                        <input className={styles['input_SingUp']} type="text" placeholder="Phone Number"  value={phoneNumber}
+                        <input className={styles['input_SingUp_Left']} type="text" placeholder="Phone Number"  value={phoneNumber}
                                onChange={(event) => { setPhoneNumber(event.target.value)}}/>
 
 
-                        <input className={styles['input_SingUp']} type="text" placeholder="Address"  value={address}
+                        <input className={styles['input_SingUp_Right']} type="text" placeholder="Address"  value={address}
                                onChange={(event) => { setAddress(event.target.value)}}/>
 
                 </fieldset>

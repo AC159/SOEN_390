@@ -8,8 +8,9 @@
 }
 
 
+
 .container_SingUp {
-    width: 30rem;
+    width: 61rem;
 
     border-radius: 19px;
     background-color: white;
@@ -29,11 +30,11 @@
     display: flex;
     flex-direction: column;
     border-radius: 50%;
-    -webkit-transform: rotate(160deg);
-    -ms-transform: rotate(160deg);
-    transform: rotate(160deg);
-    top: -450px;
-    left: -300px;
+    -webkit-transform: rotate(163deg);;
+    -ms-transform: rotate(163deg);;
+    transform: rotate(163deg);;
+    top: -575px;
+    left: -132px;
     background: rgb(0,120,215);
     background: linear-gradient(
             53deg,
@@ -70,7 +71,7 @@
 .fieldset_SingUp {
     border: 1px solid #d9d9d9 !important;
     margin: 0 0 24px !important;
-    padding: 18px 22px 24px !important;
+    padding: 18px 22px 12px !important;
     border-radius: 6px;
 }
 
@@ -91,7 +92,7 @@
     flex-direction: column;
     justify-content: flex-end;
     padding: 0 4em;
-    padding-bottom: 5em;
+    /*padding-bottom: 5em;*/
 }
 
 
@@ -112,6 +113,7 @@
     outline: none;
     border-bottom-color: #61dafb;
 }
+
 
 .button_SingUp {
      padding: 0.5rem 2rem;
@@ -171,7 +173,44 @@ input[type=date], input[type=datetime-local], input[type=datetime], input[type=e
     background-color: #fff !important;
     transition: none;
 }
+.input_SingUp_Left {
+    border: none;
+    border-bottom: 2px solid #ccc;
 
+    width: 48% !important;
+    display: inline-block !important;
+    margin-right: 2% !important;
+}
+
+.input_SingUp_Left:focus {
+    outline: none;
+    border-bottom-color: #61dafb;
+}
+.input_SingUp_Right {
+    border: none;
+    border-bottom: 2px solid #ccc;
+
+    width: 48% !important;
+    display: inline-block !important;
+    margin-left: 2% !important;
+}
+
+.input_SingUp_Right:focus {
+    outline: none;
+    border-bottom-color: #61dafb;
+}
+
+/*.left_coloum_SignUp{*/
+/*    width: 48%;*/
+/*    display: inline-block;*/
+/*    margin-right: 2%;*/
+/*}*/
+
+/*.right_coloum_SignUp{*/
+/*    width: 48%;*/
+/*    display: inline-block;*/
+/*    margin-left: 2%;*/
+/*}*/
 
 @media (max-width: 30rem) {
     .container {

@@ -166,6 +166,33 @@ input[type=date], input[type=datetime-local], input[type=datetime], input[type=e
 }
 
 
+.input_SingUp_FirstName {
+    border: none;
+    border-bottom: 2px solid #ccc;
+
+    width: 48%;
+    display: inline-block;
+    margin-right: 2%;
+}
+
+.input_SingUp_FirstName:focus {
+    outline: none;
+    border-bottom-color: #61dafb;
+}
+.input_SingUp_LastName {
+    border: none;
+    border-bottom: 2px solid #ccc;
+
+    width: 48%;
+    display: inline-block;
+    margin-left: 2%;
+}
+
+.input_SingUp_LastName:focus {
+    outline: none;
+    border-bottom-color: #61dafb;
+}
+
 @media (max-width: 30rem) {
     .container {
         width: 100%;
