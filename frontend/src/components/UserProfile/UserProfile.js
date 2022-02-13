@@ -55,21 +55,6 @@ function UserProfile(props) {
             console.log(error);
         });
 
-        // axios.post(`/user/update-profile/${currentUser.user.uid}`, {
-        //     userAttributes: {lastName}
-        // })
-        // .then(function (response) {
-        //     console.log(response);
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
-        
-        //   axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
-        //     console.log(response);
-        //   }).catch(function (error) {
-        //     console.log(error);
-        //   });
     }
 
     const [showModalOne, setShowOne] = useState(false);
@@ -157,25 +142,6 @@ function UserProfile(props) {
                 <div className={styles['nameCard']}>
                     {/* SET UP NAME + DESIGNATION (Dr. Mr. Ms. etc) + */}
                     <div>{currentUser.dbData.name}</div>
-                    {/* <button onClick={handleShowName}>Edit Name</button>
-                    <Modal show={showModalName} onHide={handleCloseName}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Edit Name</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <label>Enter edited name: &nbsp;</label>
-                            <input type="text" placeholder="first name"  value={firstName} onChange={(event)=> setFirstName(event.target.value)} />
-                            <input type="text" placeholder="last name" value={lastName} onChange={(event)=> setLastName(event.target.value)}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button onClick={handleCloseName}>
-                                Close
-                            </button>
-                            <button onClick={() => {handleCloseName(); submitNameForm();}}>
-                                Save Changes
-                            </button>
-                        </Modal.Footer>
-                    </Modal> */}
                 </div>
             </div>
 
