@@ -114,6 +114,7 @@ function SignUp(props) {
                 lastName: lastName,
                 email: email,
                 userType: user,
+                dateOfBirth: dateOfBirth,
                 phoneNumber: phoneNumber,
                 address: address,
                 verification: {

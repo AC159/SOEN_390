@@ -13,7 +13,9 @@ import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 function GeneralDashboard(props) {
 
     let { currentUser } = useAuth();
+    
     console.log("General dashboard user: ", currentUser);
+    
 
     return (
         <div>
