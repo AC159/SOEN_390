@@ -20,7 +20,7 @@ function Login(props) {
             // get the requested route from local storage
             const redirectRoute = sessionStorage.getItem('requestedRoute')
             console.log(redirectRoute);
-            if (redirectRoute !== '' && redirectRoute !== undefined && redirectRoute !== null) navigate("/patient-dashboard", {replace: true});
+            if (redirectRoute !== '' && redirectRoute !== undefined && redirectRoute !== null) navigate(redirectRoute, {replace: true});
             else navigate("/general-dashboard", {replace: true});
         } catch(error) {
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");
