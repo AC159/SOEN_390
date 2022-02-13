@@ -5,7 +5,7 @@ import { Accordion } from "react-bootstrap";
 import RoleRequestBox from "../../AdminComponents/RoleRequestBox";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from "./RoleRequest.css";
+import styles from "./RoleRequest.module.css";
 
 function RoleRequest(props) {
 
@@ -14,13 +14,13 @@ function RoleRequest(props) {
       }
 
     return (
-        <div className="role-outer-container">
-            <div className="todays-new-title">
+        <div className={styles["role-outer-container"]}>
+            <div className={styles["todays-new-title"]}>
                 Role Requests
             </div>
             <hr />
 
-            <div className="request-container">
+            <div className={styles["request-container"]}>
                 <RoleRequestBox 
                     RequesterUsername="Captain America"
                     RequestType="Patient"

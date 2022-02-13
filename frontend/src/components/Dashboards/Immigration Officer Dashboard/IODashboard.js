@@ -3,9 +3,11 @@ import Navbar from "../../Navbar/Navbar";
 import { Tabs } from 'react-bootstrap';
 import { Tab } from 'react-bootstrap';
 import Home from '../../Tabs/Home';
-import "../../Navbar/Navbar.css"
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './IODashboard.css';
+import styles from './IODashboard.module.css';
+import "../DashboardCommonStyles.css";
+
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
@@ -16,11 +18,11 @@ function IODashboard(props) {
     return (
         <div>
             <Navbar />
-            <div className="main-container">
-                <div className="tabs-box">
+            <div className={styles["main-container"]}>
+                <div className={styles["tabs-box"]}>
                 <Tabs className="tabStyle" defaultActiveKey="home">
                     <Tab eventKey="home" title="Home">
-                        <div className="tab-page">
+                        <div className={styles["tab-page"]}>
                             <Home />
                         </div>
                         
@@ -34,7 +36,7 @@ function IODashboard(props) {
                 </Tabs>
                 </div>
 
-                <div className="notification-outer-box">
+                <div className={styles["notification-outer-box"]}>
                 <NotificationBox />
                 </div>
             </div>

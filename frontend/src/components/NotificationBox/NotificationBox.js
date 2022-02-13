@@ -1,5 +1,7 @@
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
-import "./NotificationBox.css";
+
+import styles from "./NotificationBox.module.css";
+
 import { Alert } from "react-bootstrap";
 import Notification from "../Notification/Notification";
 
@@ -22,11 +24,11 @@ function NotificationBox(props) {
       ));
 
     return (
-        <div className="outer-container">
-            <div className="notification-title">Notifications</div>
-            <div className="notification-container">
+        <div className={styles["outer-container"]}>
+            <div className={styles["notification-title"]}>Notifications</div>
+            <div className={styles["notification-container"]}>
             
-            <div className="notification-box">
+            <div className={styles["notification-box"]}>
             <Notification
                 alertType="warning"
                 alertMainText="It is very important that you update your COVID symptoms before 11:59PM today."
