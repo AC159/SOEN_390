@@ -143,9 +143,9 @@ function UserProfile(props) {
 
                 {/* Make following dynamic, based on user type will generate Patient Status/Medical License info */}
                 <div className={styles['internalCard']}>
-                    <div>Patient status:
+                    <div>Patient status: &nbsp;
                         <div>
-                            This patient will never give you up
+                            {/* Enter patient status here */}&nbsp;
                         </div>
                     </div>
                 </div>
