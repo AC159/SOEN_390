@@ -24,7 +24,7 @@ function SignUp(props) {
 
     let [firstName, setFirstName] = useState('');
     let [lastName, setLastName] = useState('');
-    let[country, setCountry] = useState('');
+    let[dateOfBirth, setDateOfBirth] = useState('');
     let[phoneNumber, setPhoneNumber] = useState('');
     let[address, setAddress] = useState('');
 
@@ -166,11 +166,14 @@ function SignUp(props) {
                         <input className={styles['input_SingUp_Right']} type="text" placeholder="Last Name" value={lastName} defaultValue={lastName}
                                onChange={(event) => setLastName(event.target.value)}/>
 
-                        <input className={styles['input_SingUp_Left']} type="text" placeholder="Phone Number"  value={phoneNumber}
+                        <input className={styles['input_SingUp_Left']} type="date"  value={dateOfBirth}
+                               onChange={(event) => setDateOfBirth(event.target.value)}/>
+
+                        <input className={styles['input_SingUp_Right']} type="text" placeholder="Phone Number"  value={phoneNumber}
                                onChange={(event) => { setPhoneNumber(event.target.value)}}/>
 
 
-                        <input className={styles['input_SingUp_Right']} type="text" placeholder="Address"  value={address}
+                        <input className={styles['input_SingUp']} type="text" placeholder="Address"  value={address}
                                onChange={(event) => { setAddress(event.target.value)}}/>
 
                 </fieldset>
