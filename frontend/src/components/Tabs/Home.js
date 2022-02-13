@@ -8,7 +8,8 @@ import { Carousel } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Home.css";
+import styles from "./Home.module.css";
+import "./CommonPageStyling.css";
 
 function Home(props) {
 
@@ -17,8 +18,8 @@ function Home(props) {
       }
 
     return (
-        <div className="home-outer-container">
-            <div className="todays-new-title">
+        <div className={styles["home-outer-container"]}>
+            <div className={styles["todays-new-title"]}>
                 Today's News
             </div>
             <hr />
@@ -93,18 +94,18 @@ function Home(props) {
             </Accordion>
             <hr />
 
-            <div className="todays-new-title">
+            <div className={styles["todays-new-title"]}>
                 Symptoms
 
             </div>
 
             <hr />
 
-            <div className="symptoms">
-                <p className="symptoms-info">
+            <div className={styles["symptoms"]}>
+                <p className={styles["symptoms-info"]}>
                     COVID-19 affects different people in different ways. Most infected people will develop mild to moderate illness and recover without hospitalization.
                 </p>
-                <div className="symptoms-list">
+                <div className={styles["symptoms-list"]}>
                     <strong>Most common symptoms:</strong>
                     <ul>
                         <li>fever</li>
@@ -113,7 +114,7 @@ function Home(props) {
                         <li>loss of taste or smell</li>
                     </ul>  
                 </div>
-                <div className="symptoms-list">
+                <div className={styles["symptoms-list"]}>
                 <strong>Less common symptoms:</strong>
                     <ul>
                         <li>sore throat</li>
@@ -124,7 +125,7 @@ function Home(props) {
                         <li>red or irritated eyes</li>
                     </ul>  
                 </div>
-                <div className="symptoms-list">
+                <div className={styles["symptoms-list"]}>
                 <strong>Serious symptoms:</strong>
                     <ul>
                         <li>difficulty breathing or shortness of breath</li>
@@ -132,7 +133,7 @@ function Home(props) {
                         <li>chest pain</li>
                     </ul>  
                 </div>
-                <p className="symptoms-info">
+                <p className={styles["symptoms-list"]}>
                     Get assigned to a doctor using CoviCare. <strong>Seek immediate medical attention if you have serious symptoms.</strong> People with mild symptoms who are otherwise healthy should<br></br>
                      manage their symptoms at home. On average it takes 5–6 days from when someone is infected with the virus for symptoms to show, however it can take up to 14 days.<br></br>
                     
@@ -140,22 +141,22 @@ function Home(props) {
             </div>
             <hr />
 
-<           div className="todays-new-title">
+<           div className={styles["todays-new-title"]}>
                 What to do if you or someone you've been in contact with has tested positive for COVID-19
 
             </div>
 
             <hr />
 
-            <div className="tips">
+            <div className={styles["tips"]}>
                 
-                <p className="tips-info">
+                <p className={styles["tips-info"]}>
                     If your symptoms are serious, please seek immediate medical attention. Otherwise CoviCare will assign you to a medical doctor that will continuously follow-up with you.
                     <br></br>
                     <br></br>
                     In the meanwhile, here are some things you can do:
                 </p>
-                <ul className="tips-list">
+                <ul className={styles["tips-list"]}>
                     <li>Find out when and where to get tested if you have not done so already.</li>
                     <li>Fill out a contact tracing report on CoviCare.</li>
                     <li>If testing is not available, stay home and away from others for 14 days.</li>
@@ -170,21 +171,21 @@ function Home(props) {
                     <li>Contact your medical doctor immediately if you have any of these danger signs: difficulty breathing, loss of speech or mobility, confusion or chest pain.</li>
                 </ul>
 
-                <p className="tips-info">
+                <p className={styles["tips-info"]}>
                     We are here to help you get through this, so contact your doctor if you have any questions about your health.
                 </p>
             </div>
 
             <hr />
 
-            <div className="todays-new-title">
+            <div className={styles["todays-new-title"]}>
                 Useful
 
             </div>
 
             <hr />
 
-            <div className="card-container">
+            <div className={styles["card-container"]}>
             <Card style={{ width: '18rem', margin: '2px'}}>
             <Card.Body>
                 <Card.Title>COVID-19 Testing</Card.Title>

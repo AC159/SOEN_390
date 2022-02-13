@@ -1,0 +1,23 @@
+.carousel-inner img {
+    margin: auto;
+   
+  }
+
+  .carousel-inner {
+    background-color: #003b4b;
+  }
+
+  .carousel-caption {
+      color: black;
+      background-color: rgba(64, 224, 208, 0.637);
+      width: 50%;
+      height: 30%;
+      margin:auto;
+  }
+
+  
+.home-img {
+    justify-content: center;
+    width: 500px !important;
+    
+}

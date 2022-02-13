@@ -1,18 +1,16 @@
 
-.hidden{
+.hidden_SingUp{
     display: none;
 }
 
-.visible{
+.visible_SingUp{
     display: block;
 }
 
 
-body {
 
-}
-.container {
-    width: 30rem;
+.container_SingUp {
+    width: 61rem;
 
     border-radius: 19px;
     background-color: white;
@@ -24,7 +22,7 @@ body {
     margin: auto;
 }
 
-.backDrop {
+.backDrop_SingUp {
     border: solid 1px black;
     width: 260%;
     height: 550px;
@@ -32,11 +30,11 @@ body {
     display: flex;
     flex-direction: column;
     border-radius: 50%;
-    -webkit-transform: rotate(160deg);
-    -ms-transform: rotate(160deg);
-    transform: rotate(160deg);
-    top: -450px;
-    left: -300px;
+    -webkit-transform: rotate(163deg);;
+    -ms-transform: rotate(163deg);;
+    transform: rotate(163deg);;
+    top: -575px;
+    left: -132px;
     background: rgb(0,120,215);
     background: linear-gradient(
             53deg,
@@ -46,18 +44,18 @@ body {
 
 }
 
-.container-top {
+.container-top_SingUp {
     width: 100%;
     height: 200px;
 }
 
-.container-title{
+.container-title_SingUp{
     width: 100%;
     diplay: flex;
     flex-direction: column;
 }
 
-h2{
+.h2_SingUp{
     font-size: 30px;
     /*font-family: "Poppins";*/
     line-weight: 600;
@@ -70,14 +68,14 @@ h2{
 
 }
 
-fieldset {
+.fieldset_SingUp {
     border: 1px solid #d9d9d9 !important;
     margin: 0 0 24px !important;
-    padding: 18px 22px 24px !important;
+    padding: 18px 22px 4px !important;
     border-radius: 6px;
 }
 
-fieldset legend{
+.legend_SingUp{
     float: none;
     width: auto;
     font-weight: 500;
@@ -89,16 +87,16 @@ fieldset legend{
 
 }
 
-.container-item {
+.container-item_SingUp {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 0 4em;
-    padding-bottom: 5em;
+    /*padding-bottom: 5em;*/
 }
 
 
-.container label, .container input {
+.label_SingUp, .input_SingUp {
     display: block;
     width: 100%;
     padding: 0.5rem 0;
@@ -106,55 +104,55 @@ fieldset legend{
     box-sizing: border-box;
 }
 
-.container input {
+.input_SingUp {
     border: none;
     border-bottom: 2px solid #ccc;
 }
 
-.container input:focus {
+.input_SingUp:focus {
     outline: none;
     border-bottom-color: #61dafb;
 }
 
-button {
-    /* margin-top: 1rem; */
-    margin: 1rem 10% 0 10%;
-    padding: 0.5rem 2rem;
-    background: rgb(0,120,215);
-    background: linear-gradient(
-            250deg,
-            rgb(48, 152, 229) 1%,
-            rgba(23,211,255,1) 80%
-    );
+
+.button_SingUp {
+     padding: 0.5rem 2rem;
+    color: white;
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #61dafb;
-    color: #fff;
+    width: 100%;
+    background: rgb(0,120,215);
+    background: linear-gradient(
+            270deg,
+            rgba(0,120,215,1) 39%,
+            rgba(23,211,255,1) 100%
+    );
 }
 
-button:hover {
+.button_SingUp:hover {
     box-shadow: 2px 2px 5px #b5b1b1;
 }
 
-button:disabled:hover {
+.button_SingUp:disabled:hover {
     cursor: not-allowed;
 }
 
-button:focus {
+.button_SingUp:focus {
     outline: none;
 }
 
-.container-error {
+.container-error_SingUp {
     color: red;
 }
 
-.container-footer {
+.container-footer_SingUp {
     color: black;
     margin: 1rem auto;
     text-align: center;
 }
 
-.container-footer a{
+.container-footer_SingUp a{
     color: #61dafb;
     cursor: pointer;
     text-decoration: none;
@@ -175,7 +173,44 @@ input[type=date], input[type=datetime-local], input[type=datetime], input[type=e
     background-color: #fff !important;
     transition: none;
 }
+.input_SingUp_Left {
+    border: none;
+    border-bottom: 2px solid #ccc;
 
+    width: 48% !important;
+    display: inline-block !important;
+    margin-right: 2% !important;
+}
+
+.input_SingUp_Left:focus {
+    outline: none;
+    border-bottom-color: #61dafb;
+}
+.input_SingUp_Right {
+    border: none;
+    border-bottom: 2px solid #ccc;
+
+    width: 48% !important;
+    display: inline-block !important;
+    margin-left: 2% !important;
+}
+
+.input_SingUp_Right:focus {
+    outline: none;
+    border-bottom-color: #61dafb;
+}
+
+/*.left_coloum_SignUp{*/
+/*    width: 48%;*/
+/*    display: inline-block;*/
+/*    margin-right: 2%;*/
+/*}*/
+
+/*.right_coloum_SignUp{*/
+/*    width: 48%;*/
+/*    display: inline-block;*/
+/*    margin-left: 2%;*/
+/*}*/
 
 @media (max-width: 30rem) {
     .container {

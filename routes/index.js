@@ -32,7 +32,7 @@ router.post('/addNewUser', async (req, res) => {
         userStatus: request.userStatus,
         isFlagged: false,
         phoneNumber: request.phoneNumber,
-        dob: request.dob,
+        dob: request.dateOfBirth,
         address: request.address,
         userType: request.userType,
         verification: request.verification,

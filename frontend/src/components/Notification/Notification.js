@@ -1,4 +1,4 @@
-import "./Notification.css";
+import styles from "./Notification.module.css";
 import { Alert } from "react-bootstrap";
 
 let alertType = ""; 
@@ -24,7 +24,7 @@ function Notification(props) {
       ));
 
     return (
-            <div className="notification-box">
+            <div className={styles["notification-box"]}>
             <Alert variant={props.alertType}>
                 <Alert.Heading>{props.alertHeading}</Alert.Heading>
                 <p>

@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from "./RoleRequestBox.css";
+import styles from "./RoleRequestBox.module.css";
 
 import { Button } from 'react-bootstrap';
 import { Accordion } from 'react-bootstrap';
@@ -17,8 +17,8 @@ function RoleRequestBox(props){
     }
 
     return(
-        <div className="card-container">
-            <Card className="card">
+        <div className={styles["card-container"]}>
+            <Card className={styles["card"]}>
             <Card.Body>
                 <Card.Title>{makeTitle(props.RequestType)}</Card.Title>
                 <Card.Text>
