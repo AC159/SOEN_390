@@ -14,7 +14,7 @@ class Administrator {
     }
   }
 
-  async approveDoctor() {
+  async approveDoctor(doctorId) {
     try {
       return await this.adminRepository.approveDoctor(doctorId, this.userId);
     } catch (error) {
