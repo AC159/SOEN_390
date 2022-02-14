@@ -13,6 +13,7 @@ function UserProfile(props) {
     let [address, setAddress] = useState('');
 
     const [state, setState] = React.useState({phoneNumber: `${currentUser.dbData.phoneNumber}`, address: `${currentUser.dbData.address}`});
+    const userType = `${currentUser.dbData.userType.charAt(0).toUpperCase()}${currentUser.dbData.userType.slice(1)}`;
     
     const submitPhoneForm = async() => {
         console.log(`PhoneNumber: ${phoneNumber}`);
@@ -106,16 +107,17 @@ function UserProfile(props) {
 
                 {/* Make following dynamic, based on user type will generate Patient Status/Medical License info */}
                 <div className={styles['internalCard']}>
-                    <div>Patient status: &nbsp;
+                    <div>{userType} status: &nbsp;
                         <div>
                             {/* Enter patient status here */}
-                            Patient tested negative for Covid-19.
+                            {currentUser.dbData.userStatus}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className={styles['profile']}>
+                <div>{userType} Profile</div>
                 {/* SET UP PROFILE PIC PATH:  */}
                     <img className={styles['profilePic']} src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"/>   
                 <div className={styles['nameCard']}>
