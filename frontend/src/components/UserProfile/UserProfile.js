@@ -9,13 +9,11 @@ import Navbar from "../Navbar/Navbar";
 
 function UserProfile(props) {
     let {currentUser} = useAuth();
-    
     let [phoneNumber, setPhoneNumber] = useState('');
-    let [name, setName] = useState('');
     let [address, setAddress] = useState('');
-    let [firstName, setFirstName] = useState('');
-    let [lastName, setLastName] = useState('');
 
+    const [state, setState] = React.useState({phoneNumber: `${currentUser.dbData.phoneNumber}`, address: `${currentUser.dbData.address}`});
+    
     const submitPhoneForm = async() => {
         console.log(`PhoneNumber: ${phoneNumber}`);
         console.log(`Current User ID: ${currentUser.user.uid}`);
@@ -41,21 +39,6 @@ function UserProfile(props) {
             console.log(error);
         });
     }
-    const submitNameForm = async() => {
-        console.log(`firstName: ${firstName}`);
-        console.log(`lastName: ${lastName}`);
-
-        axios.post(`/user/update-profile/${currentUser.user.uid}`, {
-            userAttributes: {firstName}
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-
-    }
 
     const [showModalOne, setShowOne] = useState(false);
     const handleShowOne = () => setShowOne(true);
@@ -64,11 +47,6 @@ function UserProfile(props) {
     const [showModalTwo, setShowTwo] = useState(false);
     const handleShowTwo = () => setShowTwo(true);
     const handleCloseTwo = () => setShowTwo(false);
-
-    const [showModalName, setShowName] = useState(false);
-    const handleShowName = () => setShowName(true);
-    const handleCloseName = () => setShowName(false);
-    
     
     return (
         <div> <Navbar />
@@ -81,7 +59,7 @@ function UserProfile(props) {
 
                 {/* SET UP phoneNumber PATH:  */}
                 <div className={styles['internalCard']}>
-                    <div>Phone Number: {currentUser.dbData.phoneNumber}</div>
+                    <div>Phone Number: {state.phoneNumber}</div>
                     <button onClick={handleShowOne}>Change Phone Number</button>
                     <Modal show={showModalOne} onHide={handleCloseOne}>
                         <Modal.Header closeButton>
@@ -95,7 +73,7 @@ function UserProfile(props) {
                             <button onClick={handleCloseOne}>
                                 Close
                             </button>
-                            <button onClick={() => {handleCloseOne(); submitPhoneForm();}}>
+                            <button onClick={() => {handleCloseOne(); submitPhoneForm(); setState({...state, phoneNumber: phoneNumber});}}>
                                 Save Changes
                             </button>
                         </Modal.Footer>
@@ -104,7 +82,7 @@ function UserProfile(props) {
                 
                 {/* SET UP address PATH */}
                 <div className={styles['internalCard']}>
-                    <div>Address: {currentUser.dbData.address}</div>
+                    <div>Address: {state.address}</div>
                     <button onClick={handleShowTwo}>Change Address</button>
                     <Modal show={showModalTwo} onHide={handleCloseTwo}>
                         <Modal.Header closeButton>
@@ -118,7 +96,7 @@ function UserProfile(props) {
                             <button onClick={handleCloseTwo}>
                                 Close
                             </button>
-                            <button onClick={() => {handleCloseTwo(); submitAddressForm();}}>
+                            <button onClick={() => {handleCloseTwo(); submitAddressForm(); setState({...state, address: address});}}>
                                 Save Changes
                             </button>
                         </Modal.Footer>
@@ -130,7 +108,8 @@ function UserProfile(props) {
                 <div className={styles['internalCard']}>
                     <div>Patient status: &nbsp;
                         <div>
-                            {/* Enter patient status here */}&nbsp;
+                            {/* Enter patient status here */}
+                            Patient tested negative for Covid-19.
                         </div>
                     </div>
                 </div>
