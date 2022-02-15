@@ -1,10 +1,54 @@
 const Patient = require('./patient');
 const PatientStatus = require('./patient').PatientStatus;
 const Address = require('./patient').Address;
+const {UserId, Name} = require("./user");
+const PatientRepository = require("../repository/PatientRepository");
+jest.mock('../repository/PatientRepository');
+
+
+describe('test Patient API for status forms', () => {
+
+  beforeEach(() => {
+    // Clear all instances and calls to constructor and all methods:
+    PatientRepository.mockClear();
+  });
+
+
+  test('GET /patient/get-status-forms/patientABC',  async () => {
+      const formData = {
+          "patientUid": "FtycBsOtoYSCjDoBkhVXAcb13Uu2",
+          "doctorUid": "TEQ6pJE6NBdXAtJ6ze1KbTuMnye2",
+          "temperature": "39",
+          "fever": "yes",
+          "headache": "no",
+          "breathing issues": "no",
+          "fatigue": "yes"
+      };
+      const userId = new UserId("Patient Id");
+      const name = new Name("Patient", "One");
+      const civicNumber = 1234;
+      const street = "Guy Street";
+      const postalCode = "L5T 3E5";
+      const city = "Montreal";
+      const province = "Quebec";
+      const address = new Address(civicNumber, street, postalCode, city, province);
+
+      const patientRepository = new PatientRepository();
+      console.log(patientRepository.fetchPatientForms(1234));
+      const patient = new Patient(userId, name, address, "4501234569", "1998-01-01", PatientStatus.Confirmed, true, patientRepository);
+      await patient.postStatusForm();
+      await patient.updateStatusForm();
+      expect(PatientRepository).toHaveBeenCalledTimes(1);
+      expect(patientRepository.fetchPatientForms.mock.calls.length).toBe(1);
+  })
+
+  // describe('Patient method tests', () => {})
+})
+
 
 describe('test value object', () => {
   describe('test PatientStatus', () => {
-    test('confimred status returns name and flag', () => {
+    test('confirmed status returns name and flag', () => {
       const patientStatus = PatientStatus.Confirmed;
 
       expect(patientStatus.isConfirmed()).toBeTruthy();
@@ -13,7 +57,7 @@ describe('test value object', () => {
       expect(patientStatus.getStatus()).toEqual("confirmed");
     });
 
-    test('unconfimred status returns name and flag', () => {
+    test('unconfirmed status returns name and flag', () => {
       const patientStatus = PatientStatus.Unconfirmed;
 
       expect(patientStatus.isConfirmed()).toBeFalsy();
@@ -62,15 +106,5 @@ describe('test value object', () => {
         "1234 Guy Street, Montreal (Quebec), L5T 3E5"
       )
     })
-  })
-})
-
-describe('test Patient object', () => {
-  describe('Patient creation tests', () => {
-
-  })
-
-  describe('Patient method tests', () => {
-    
   })
 })

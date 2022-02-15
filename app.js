@@ -32,3 +32,5 @@ app.listen(port, () => {
     // });
     console.log(`Server listening on port ${port}...`.brightBlue)
 });
+
+module.exports = app;
