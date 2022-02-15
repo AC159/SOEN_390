@@ -1,14 +1,26 @@
 const { User } = require('./user');
-const UserRepository = require('../repository/UserRepository')
 
 class Patient extends User {
-  constructor(userId, name, address, phoneNumber, dob, userStatus=PatientStatus.Unconfirmed, isFlagged=false) {
+  constructor(userId, name, address, phoneNumber, dob, userStatus=PatientStatus.Unconfirmed, isFlagged=false, patientRepository) {
     super(userId, name);
     this.userStatus = userStatus;
     this.isFlagged = isFlagged;
     this.phoneNumber = phoneNumber;
     this.dob = dob;
     this.address = address;
+    this.patientRepository = patientRepository;
+  }
+
+  async postStatusForm(formData) {
+    return await this.patientRepository.addStatusForm(formData);
+  }
+
+  async updateStatusForm(formData) {
+    return await this.patientRepository.updateStatusForm(formData);
+  }
+
+  async getPatientStatusForms() {
+    return await this.patientRepository.fetchPatientForms(this.id.getId()).toArray();
   }
 
   updateProfile() {
