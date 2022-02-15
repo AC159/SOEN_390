@@ -5,48 +5,40 @@ import styles from './UserProfile.module.css';
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
+import Navbar from "../Navbar/Navbar";
 
 function UserProfile(props) {
     let {currentUser} = useAuth();
-    
     let [phoneNumber, setPhoneNumber] = useState('');
-    let [name, setName] = useState('');
     let [address, setAddress] = useState('');
-    let [firstName, setFirstName] = useState('');
-    let [lastName, setLastName] = useState('');
 
+    const [state, setState] = React.useState({phoneNumber: `${currentUser.dbData.phoneNumber}`, address: `${currentUser.dbData.address}`});
+    const userType = `${currentUser.dbData.userType.charAt(0).toUpperCase()}${currentUser.dbData.userType.slice(1)}`;
+    
     const submitPhoneForm = async() => {
         console.log(`PhoneNumber: ${phoneNumber}`);
-        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {phoneNumber}}).then(function (response) {
+        console.log(`Current User ID: ${currentUser.user.uid}`);
+        axios.post(`/user/update-profile/${currentUser.user.uid}`, {
+            userAttributes: {phoneNumber}
+        })
+        .then(function (response) {
             console.log(response);
-          }).catch(function (error) {
+          })
+        .catch(function (error) {
             console.log(error);
           });
     }
     const submitAddressForm = async() => {
         console.log(`Address: ${address}`);
-        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {address}}).then(function (response) {
+        axios.post(`/user/update-profile/${currentUser.user.uid}`, {
+            userAttributes: {address}
+        })
+        .then(function (response) {
             console.log(response);
-          }).catch(function (error) {
+        })
+        .catch(function (error) {
             console.log(error);
-          });
-    }
-    const submitNameForm = async() => {
-        console.log(`firstName: ${firstName}`);
-        console.log(`lastName: ${lastName}`);
-
-        axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {firstName}}).then(function (response) {
-            console.log(response);
-          }).catch(function (error) {
-            console.log(error);
-          });
-        
-          axios.post(`/user/update-profile/${currentUser.uid}`, {userAttributes: {lastName}}).then(function (response) {
-            console.log(response);
-          }).catch(function (error) {
-            console.log(error);
-          });
+        });
     }
 
     const [showModalOne, setShowOne] = useState(false);
@@ -56,15 +48,11 @@ function UserProfile(props) {
     const [showModalTwo, setShowTwo] = useState(false);
     const handleShowTwo = () => setShowTwo(true);
     const handleCloseTwo = () => setShowTwo(false);
-
-    const [showModalName, setShowName] = useState(false);
-    const handleShowName = () => setShowName(true);
-    const handleCloseName = () => setShowName(false);
-    
     
     return (
+        <div> <Navbar />
         <div className={styles['container']}>
-
+            
         <div className={styles['userInfo']}>
                 <div className={styles['internalCard']}>
                     <div>Email: {currentUser.user.email}</div>
@@ -72,7 +60,7 @@ function UserProfile(props) {
 
                 {/* SET UP phoneNumber PATH:  */}
                 <div className={styles['internalCard']}>
-                    <div>Phone Number: {currentUser.dbData.phoneNumber}</div>
+                    <div>Phone Number: {state.phoneNumber}</div>
                     <button onClick={handleShowOne}>Change Phone Number</button>
                     <Modal show={showModalOne} onHide={handleCloseOne}>
                         <Modal.Header closeButton>
@@ -86,7 +74,7 @@ function UserProfile(props) {
                             <button onClick={handleCloseOne}>
                                 Close
                             </button>
-                            <button onClick={() => {handleCloseOne(); submitPhoneForm();}}>
+                            <button onClick={() => {handleCloseOne(); submitPhoneForm(); setState({...state, phoneNumber: phoneNumber});}}>
                                 Save Changes
                             </button>
                         </Modal.Footer>
@@ -95,7 +83,7 @@ function UserProfile(props) {
                 
                 {/* SET UP address PATH */}
                 <div className={styles['internalCard']}>
-                    <div>Address: {currentUser.dbData.address}</div>
+                    <div>Address: {state.address}</div>
                     <button onClick={handleShowTwo}>Change Address</button>
                     <Modal show={showModalTwo} onHide={handleCloseTwo}>
                         <Modal.Header closeButton>
@@ -109,7 +97,7 @@ function UserProfile(props) {
                             <button onClick={handleCloseTwo}>
                                 Close
                             </button>
-                            <button onClick={() => {handleCloseTwo(); submitAddressForm();}}>
+                            <button onClick={() => {handleCloseTwo(); submitAddressForm(); setState({...state, address: address});}}>
                                 Save Changes
                             </button>
                         </Modal.Footer>
@@ -119,42 +107,26 @@ function UserProfile(props) {
 
                 {/* Make following dynamic, based on user type will generate Patient Status/Medical License info */}
                 <div className={styles['internalCard']}>
-                    <div>Patient status:
+                    <div>{userType} status: &nbsp;
                         <div>
-                            This patient will never give you up
+                            {/* Enter patient status here */}
+                            {currentUser.dbData.userStatus}
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className={styles['profile']}>
+                <div>{userType} Profile</div>
                 {/* SET UP PROFILE PIC PATH:  */}
                     <img className={styles['profilePic']} src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"/>   
                 <div className={styles['nameCard']}>
                     {/* SET UP NAME + DESIGNATION (Dr. Mr. Ms. etc) + */}
                     <div>{currentUser.dbData.name}</div>
-                    <button onClick={handleShowName}>Edit Name</button>
-                    <Modal show={showModalName} onHide={handleCloseName}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Edit Name</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <label>Enter edited name: &nbsp;</label>
-                            <input type="text" placeholder="first name"  value={firstName} onChange={(event)=> setFirstName(event.target.value)} />
-                            <input type="text" placeholder="last name" value={lastName} onChange={(event)=> setFirstName(event.target.value)}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button onClick={handleCloseName}>
-                                Close
-                            </button>
-                            <button onClick={() => {handleCloseName(); submitNameForm();}}>
-                                Save Changes
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
                 </div>
             </div>
 
+        </div>
         </div>
     );
 }
