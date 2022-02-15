@@ -17,7 +17,6 @@ class User {
     await this.userRepository.add(userData);
     return await this.userRepository.fetch(userData.uid);
   }
-
 }
 
 class UserId {

@@ -1,3 +1,6 @@
+const Notification = require('../domain/notification');
+const NotificationRepository = require('./NotificationRepository');
+
 class UserRepository {
   constructor(mongo) {
     this.mongo = mongo;
@@ -46,26 +49,6 @@ class UserRepository {
       })
   }
 
-  getProfile = async (userId) => {
-    try {
-      const profile = await this.mongo.db('test')
-        .collection('patient')
-        .findOne({
-          uid: userId
-        });
-
-      return {
-        uid: profile.uid,
-        name: profile.name,
-        phoneNumber: profile.phoneNumber,
-        dob: profile.dob,
-        address: profile.address
-      }
-    } catch (e) {
-      console.log(e)
-      throw new Error("Could not fetch user profile");
-    }
-  }
 }
 
 module.exports = UserRepository;

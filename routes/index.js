@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User, UserId, Name } = require('../domain/user');
+const {User, UserId, Name} = require('../domain/user');
 const UserRepository = require('../repository/UserRepository');
 
 
@@ -55,9 +55,20 @@ router.post('/update-profile/:userId', async (req, res) => {
         const user = new User(userId, null, new UserRepository(mongo));
         const data = await user.updateProfile(req.body.userAttributes);
         res.status(201).json(data);
-    } catch(error) {
+    } catch (error) {
         res.status(500).json(error);
     }
 });
+
+router.get('/notifications/:userId', async (req, res) => {
+    const notifications = [];
+    const userId = req.params.userId;
+    const mongo = await req.app.locals.mongodb;
+
+
+
+
+
+})
 
 module.exports = router;
