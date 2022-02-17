@@ -8,7 +8,7 @@
     "client": "cd frontend && npm start",
     "dev": "concurrently \"nodemon run start\" \"npm run client\"",
     "test": "jest --testPathIgnorePatterns='/frontend/'",
-    "lint": "./node_modules/.bin/eslint ./",
+    "lint": "eslint ./",
     "format": "prettier --write ."
   },
   "keywords": [],
