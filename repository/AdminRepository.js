@@ -29,20 +29,8 @@ class AdminRepository {
         return await this.mongo.db('test').collection('user').updateOne({ uid: userId }, { $set: { userStatus: 'APPROVED' } });
     }
 
-    async rejectPatient(patientId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'REJECTED' } });
-    }
-
-    async rejectDoctor(doctorId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'REJECTED' } });
-    }
-
-    async rejectHealthOfficer(officerId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
-    }
-
-    async rejectImmigrationOfficer(officerId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
+    async rejectUser(userId) {
+        return await this.mongo.db('test').collection('user').updateOne({ uid: userId }, { $set: { userStatus: 'REJECTED' } });
     }
 
 }
