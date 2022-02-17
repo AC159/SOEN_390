@@ -13,7 +13,7 @@ class Administrator {
 
   async viewDoctors() {
       await this.verifyAdmin();
-      return await this.adminRepository.fetchPendingDoctors(this.userId.getId());
+      return await this.adminRepository.fetchPendingUsers('doctor');
   }
 
   async approveDoctor(doctorId) {
@@ -28,7 +28,7 @@ class Administrator {
 
   async viewPatients() {
       await this.verifyAdmin();
-      return await this.adminRepository.fetchPendingPatients(this.userId.getId());
+      return await this.adminRepository.fetchPendingUsers('patient');
   }
 
   async approvePatient(patientId) {
@@ -43,7 +43,7 @@ class Administrator {
 
   async viewHealthOfficers() {
       await this.verifyAdmin();
-      return await this.adminRepository.fetchPendingHealthOfficers(this.userId.getId());
+      return await this.adminRepository.fetchPendingUsers('healthOfficer');
   }
 
   async approveHealthOfficer(officerId) {
@@ -58,7 +58,7 @@ class Administrator {
 
   async viewImmigrationOfficers() {
       await this.verifyAdmin();
-      return await this.adminRepository.fetchPendingImmigrationOfficers(this.userId.getId());
+      return await this.adminRepository.fetchPendingUsers('immigrationOfficer');
   }
 
   async approveImmigrationOfficer(officerId) {
