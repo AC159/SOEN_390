@@ -10,7 +10,7 @@ const immigrationOfficialRoutes = require('./routes/immigrationOfficial');
 const healthOfficialRoutes = require('./routes/healthOfficial');
 const bodyParser = require('body-parser');
 const port = 3001;
-const colors = require('colors');
+require('colors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
