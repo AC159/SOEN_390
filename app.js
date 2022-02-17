@@ -10,7 +10,7 @@ const immigrationOfficialRoutes = require('./routes/immigrationOfficial');
 const healthOfficialRoutes = require('./routes/healthOfficial');
 const bodyParser = require('body-parser');
 const port = 3001;
-require('colors');
+const colors = require('colors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -28,7 +28,7 @@ connectToCluster(process.env.MONGO_CLUSTER_URL).then((client) => {
 
 app.listen(port, () => {
   // export const mongoClient = connectToCluster(process.env.MONGO_CLUSTER_URL).then(() => {
-  //     console.log('success...'.america);
+  //     console.log("success...".america);
   // });
   console.log(`Server listening on port ${port}...`.brightBlue);
 });

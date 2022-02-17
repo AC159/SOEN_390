@@ -1,22 +1,25 @@
 {
-  "env": {
-    "browser": true,
-    "commonjs": true,
-    "es2021": true,
-    "node": true
-  },
-  "extends": ["google", "react-app"],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true
     },
-    "ecmaVersion": "latest"
-  },
-  "plugins": [],
-  "rules": {
-    "require-jsdoc" : 0,
-    "max-len": 0,
-    "new-cap": 0,
-    "default-case": 0
-  }
+    "extends": [
+        "google",
+        "react-app"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest"
+    },
+    "plugins": [],
+    "rules": {
+        "max-len": "off",
+        "require-jsdoc": "off",
+        "new-cap": "off",
+        "default-case": "off"
+    }
 }
