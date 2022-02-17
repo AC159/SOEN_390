@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-import axios from "axios";
 
 function Login(props) {
   let navigate = useNavigate();

@@ -1,11 +1,6 @@
 import styles from "./Notification.module.css";
 import { Alert } from "react-bootstrap";
 
-let alertType = "";
-let alertMainText = "";
-let alertSubText = "";
-let alertHeading = "";
-
 function Notification(props) {
   [
     "primary",

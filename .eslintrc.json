@@ -16,6 +16,7 @@
   "rules": {
     "require-jsdoc" : 0,
     "max-len": 0,
-    "new-cap": 0
+    "new-cap": 0,
+    "default-case": 0
   }
 }

@@ -1,4 +1,3 @@
-const User = require('./user');
 const UserId = require('./user').UserId;
 const Name = require('./user').Name;
 const Role = require('./user').Role;

@@ -1,8 +1,5 @@
-import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import photo1 from "../../assets/HomePhotos/doctor_sitting.jpg";
-import photo2 from "../../assets/HomePhotos/mask.jpg";
 import photo3 from "../../assets/HomePhotos/closed.jpg";
-import { ListGroup } from "react-bootstrap";
 import { Accordion } from "react-bootstrap";
 import { Carousel } from "react-bootstrap";
 import { Card } from "react-bootstrap";
@@ -12,9 +9,6 @@ import styles from "./Home.module.css";
 import "./CommonPageStyling.css";
 
 function Home(props) {
-  function alertClicked() {
-    alert("Boo");
-  }
 
   return (
     <div className={styles["home-outer-container"]}>

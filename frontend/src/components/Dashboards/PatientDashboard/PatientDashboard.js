@@ -3,16 +3,12 @@ import Navbar from "../../Navbar/Navbar";
 import { Tabs } from "react-bootstrap";
 import { Tab } from "react-bootstrap";
 import Home from "../../Tabs/Home";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./PatientDashboard.module.css";
 import "../DashboardCommonStyles.css";
-
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from "../../NotificationBox/NotificationBox";
 
 function PatientDashboard(props) {
-  let { currentUser } = useAuth();
 
   return (
     <div>
@@ -25,12 +21,8 @@ function PatientDashboard(props) {
                 <Home />
               </div>
             </Tab>
-            <Tab
-              className={styles}
-              eventKey="updateCovidStatus"
-              title="Update COVID Symptoms"
-            ></Tab>
-            <Tab className={styles} eventKey="contact" title="Contact"></Tab>
+            <Tab className={styles} eventKey="updateCovidStatus" title="Update COVID Symptoms"/>
+            <Tab className={styles} eventKey="contact" title="Contact"/>
           </Tabs>
         </div>
 

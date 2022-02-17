@@ -4,16 +4,12 @@ import { Tabs } from "react-bootstrap";
 import { Tab } from "react-bootstrap";
 import Home from "../../Tabs/Home";
 import RoleRequest from "../../Tabs/AdminTabs/RoleRequest";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./AdminDashboard.module.css";
 import "../DashboardCommonStyles.css";
-
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from "../../NotificationBox/NotificationBox";
 
 function AdminDashboard(props) {
-  let { currentUser } = useAuth();
 
   return (
     <div>

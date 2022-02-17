@@ -1,12 +1,8 @@
-import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
-
 import styles from "./NotificationBox.module.css";
-
 import { Alert } from "react-bootstrap";
 import Notification from "../Notification/Notification";
 
 function NotificationBox(props) {
-  let { currentUser } = useAuth();
   [
     "primary",
     "secondary",

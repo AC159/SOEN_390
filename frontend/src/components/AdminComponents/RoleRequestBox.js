@@ -1,12 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./RoleRequestBox.module.css";
-
 import { Button } from "react-bootstrap";
-import { Accordion } from "react-bootstrap";
 import { Card } from "react-bootstrap";
-
-let RequesterUsername = "";
-let RequestType = "";
 
 function RoleRequestBox(props) {
   function makeTitle(RequestType) {

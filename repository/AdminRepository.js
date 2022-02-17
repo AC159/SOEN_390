@@ -1,4 +1,3 @@
-const {UserState} = require('../domain/user');
 
 class AdminRepository {
   constructor(mongo) {

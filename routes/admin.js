@@ -1,7 +1,6 @@
 const express = require('express');
-const {UserId, Role} = require('../domain/user');
+const {UserId} = require('../domain/user');
 const Administrator = require('../domain/administrator');
-const User = require('../domain/user');
 const AdminRepository = require('../repository/AdminRepository');
 const router = express.Router();
 

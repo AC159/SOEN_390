@@ -3,16 +3,12 @@ import Navbar from "../../Navbar/Navbar";
 import { Tabs } from "react-bootstrap";
 import { Tab } from "react-bootstrap";
 import Home from "../../Tabs/Home";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./DoctorDashboard.module.css";
 import "../DashboardCommonStyles.css";
-
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from "../../NotificationBox/NotificationBox";
 
 function DoctorDashboard(props) {
-  let { currentUser } = useAuth();
 
   return (
     <div>

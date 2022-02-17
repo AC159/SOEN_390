@@ -3,7 +3,6 @@ import styles from "./SignUp.module.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -56,7 +55,7 @@ function SignUp(props) {
   useEffect(() => {
     if (password !== passwordConf) setPasswordConfError(true);
     else setPasswordConfError(false);
-  }, [passwordConf]);
+  }, [password, passwordConf]);
 
   function userSelect(value) {
     if (value === "patient") {
@@ -117,7 +116,7 @@ function SignUp(props) {
         },
         userStatus: "PENDING",
       };
-      const data = await auth.register(email, password, userSignUpData);
+      await auth.register(email, password, userSignUpData);
     } catch (error) {
       console.log("Sign up error: ", error);
     }

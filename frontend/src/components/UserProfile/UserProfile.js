@@ -149,7 +149,7 @@ function UserProfile(props) {
           <img
             className={styles["profilePic"]}
             src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
-          />
+           alt=""/>
           <div className={styles["nameCard"]}>
             {/* SET UP NAME + DESIGNATION (Dr. Mr. Ms. etc) + */}
             <div>{currentUser.dbData.name}</div>

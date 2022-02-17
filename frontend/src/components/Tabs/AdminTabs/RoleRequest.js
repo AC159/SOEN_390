@@ -1,16 +1,8 @@
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
-
-import { Accordion } from "react-bootstrap";
-
 import RoleRequestBox from "../../AdminComponents/RoleRequestBox";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./RoleRequest.module.css";
 
 function RoleRequest(props) {
-  function alertClicked() {
-    alert("Boo");
-  }
 
   return (
     <div className={styles["role-outer-container"]}>
