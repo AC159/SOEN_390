@@ -1,7 +1,6 @@
 const express = require('express');
-const {UserId, Role} = require("../domain/user");
+const {UserId} = require("../domain/user");
 const Administrator = require("../domain/administrator");
-const User = require("../domain/user");
 const AdminRepository = require("../repository/AdminRepository");
 const router = express.Router();
 
@@ -20,37 +19,6 @@ router.get('/:adminId/pending-patients', async (req, res) => {
     }
 });
 
-router.post('/:adminId/approve-patient', async (req, res) => {
-    try {
-        const patientUid = req.body.userId;
-        const adminId = new UserId(req.params.adminId);
-        const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
-        const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.approvePatient(patientUid);
-
-        res.status(200).json({ data: response });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-router.post('/:adminId/reject-patient', async (req, res) => {
-   try {
-       const patientUid = req.body.userId;
-       const adminId = new UserId(req.params.adminId);
-       const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
-       const admin = new Administrator(adminId, adminRepository);
-       const response = await admin.rejectPatient(patientUid);
-
-       res.status(200).json({ data: response });
-   } catch (error) {
-       res.status(400).json({ error: error.message });
-   }
-});
-
-
 router.get('/:adminId/pending-doctors', async (req, res) => {
     try {
         const adminId = new UserId(req.params.adminId);
@@ -65,73 +33,13 @@ router.get('/:adminId/pending-doctors', async (req, res) => {
     }
 });
 
-router.post('/:adminId/approve-doctor', async (req, res) => {
-    try {
-        const doctorUid = req.body.userId;
-        const adminId = new UserId(req.params.adminId);
-        const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
-        const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.approveDoctor(doctorUid);
-
-        res.status(200).json({ data: response });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-router.post('/:adminId/reject-doctor', async (req, res) => {
-    try {
-        const doctorUid = req.body.userId;
-        const adminId = new UserId(req.params.adminId);
-        const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
-        const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.rejectDoctor(doctorUid);
-
-        res.status(200).json({ data: response });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
 router.get('/:adminId/pending-health-officer', async (req, res) => {
-   try {
-       const adminId = new UserId(req.params.adminId);
-       const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
-       const admin = new Administrator(adminId, adminRepository);
-       const response = await admin.viewHealthOfficers();
-
-       res.status(200).json({ data: response });
-   } catch (error) {
-       res.status(400).json({ error: error.message });
-   }
-});
-
-router.post('/:adminId/approve-health-officer', async (req, res) => {
     try {
-        const officerId = req.body.userId;
         const adminId = new UserId(req.params.adminId);
         const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
         const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.approveHealthOfficer(officerId);
-
-        res.status(200).json({ data: response });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-router.post('/:adminId/reject-health-officer', async (req, res) => {
-    try {
-        const officerId = req.body.userId;
-        const adminId = new UserId(req.params.adminId);
-        const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
-        const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.rejectHealthOfficer(officerId);
+        const response = await admin.viewHealthOfficers();
 
         res.status(200).json({ data: response });
     } catch (error) {
@@ -153,14 +61,14 @@ router.get('/:adminId/pending-immigration-officer', async (req, res) => {
     }
 });
 
-router.post('/:adminId/approve-immigration-officer', async (req, res) => {
+router.post('/:adminId/approve-user', async (req, res) => {
     try {
-        const officerId = req.body.userId;
+        const userId = req.body.userId;
         const adminId = new UserId(req.params.adminId);
         const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
         const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.approveImmigrationOfficer(officerId);
+        const response = await admin.approvePendingUser(userId);
 
         res.status(200).json({ data: response });
     } catch (error) {
@@ -168,19 +76,19 @@ router.post('/:adminId/approve-immigration-officer', async (req, res) => {
     }
 });
 
-router.post('/:adminId/reject-immigration-officer', async (req, res) => {
-    try {
-        const officerId = req.body.userId;
-        const adminId = new UserId(req.params.adminId);
-        const adminRepository = new AdminRepository(req.app.locals.mongodb);
+router.post('/:adminId/reject-user', async (req, res) => {
+   try {
+       const userId = req.body.userId;
+       const adminId = new UserId(req.params.adminId);
+       const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
-        const admin = new Administrator(adminId, adminRepository);
-        const response = await admin.rejectImmigrationOfficer(officerId);
+       const admin = new Administrator(adminId, adminRepository);
+       const response = await admin.rejectPendingUser(userId);
 
-        res.status(200).json({ data: response });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+       res.status(200).json({ data: response });
+   } catch (error) {
+       res.status(400).json({ error: error.message });
+   }
 });
 
 module.exports = router;

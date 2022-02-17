@@ -1,4 +1,3 @@
-const UserState = require('./user').UserState;
 
 class Administrator {
 
@@ -16,29 +15,9 @@ class Administrator {
       return await this.adminRepository.fetchPendingUsers('doctor');
   }
 
-  async approveDoctor(doctorId) {
-      await this.verifyAdmin();
-      return await this.adminRepository.approveUser(doctorId);
-  }
-
-  async rejectDoctor(doctorId) {
-      await this.verifyAdmin();
-      return await this.adminRepository.rejectUser(doctorId);
-  }
-
   async viewPatients() {
       await this.verifyAdmin();
       return await this.adminRepository.fetchPendingUsers('patient');
-  }
-
-  async approvePatient(patientId) {
-      await this.verifyAdmin();
-      return await this.adminRepository.approveUser(patientId);
-  }
-
-  async rejectPatient(patientId) {
-      await this.verifyAdmin();
-      return await this.adminRepository.rejectUser(patientId);
   }
 
   async viewHealthOfficers() {
@@ -46,29 +25,19 @@ class Administrator {
       return await this.adminRepository.fetchPendingUsers('healthOfficer');
   }
 
-  async approveHealthOfficer(officerId) {
-      await this.verifyAdmin();
-      return await this.adminRepository.approveUser(officerId);
-  }
-
-  async rejectHealthOfficer(officerId) {
-      await this.verifyAdmin();
-      return await this.adminRepository.rejectUser(officerId);
-  }
-
   async viewImmigrationOfficers() {
       await this.verifyAdmin();
       return await this.adminRepository.fetchPendingUsers('immigrationOfficer');
   }
 
-  async approveImmigrationOfficer(officerId) {
+  async approvePendingUser(userId) {
       await this.verifyAdmin();
-      return await this.adminRepository.approveUser(officerId);
+      return await this.adminRepository.approveUser(userId);
   }
 
-  async rejectImmigrationOfficer(officerId) {
+  async rejectPendingUser(userId) {
       await this.verifyAdmin();
-      return await this.adminRepository.rejectUser(officerId);
+      return await this.adminRepository.rejectUser(userId);
   }
 
   assignPatient(patient, doctor) {
