@@ -50,7 +50,9 @@ class UserRepository {
     }
 
     fetchAllNotifications(userId) {
-        return this.mongo.db('test').collection('notification').find({userId: userId}, {notificationId: 1}).toArray();
+        return this.mongo.db('test')
+            .collection('notification')
+            .find({userId: userId}, {_id: 1}).toArray();
     }
 
 }
