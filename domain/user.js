@@ -17,7 +17,6 @@ class User {
     await this.userRepository.add(userData);
     return await this.userRepository.fetch(userData.uid);
   }
-
 }
 
 class UserId {
@@ -52,7 +51,7 @@ class Name {
   }
 
   getFirstName() {
-    return this.firstName
+    return this.firstName;
   }
 
   getlastName() {
@@ -79,7 +78,7 @@ class Role {
   #role;
 
   constructor(code) {
-    switch(code) {
+    switch (code) {
       case 0:
         this.#isDoctor = true;
         this.#role = "doctor";
@@ -136,7 +135,7 @@ class UserState {
   #state;
 
   constructor(code) {
-    switch(code) {
+    switch (code) {
       case 0:
         this.#isPending = true;
         this.#state = "pending";

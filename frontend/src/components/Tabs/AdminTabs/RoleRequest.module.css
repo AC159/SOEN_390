@@ -1,15 +1,14 @@
-.role-outer.container{
-    padding: 10px;
-    background-color: #376975;
-    
+.role-outer.container {
+  padding: 10px;
+  background-color: #376975;
 }
 
-.todays-new-title{
-    font-size: x-large;
-    padding-bottom: 0px;
-    font-weight: 700;
+.todays-new-title {
+  font-size: x-large;
+  padding-bottom: 0px;
+  font-weight: 700;
 }
 
 .request-container {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }

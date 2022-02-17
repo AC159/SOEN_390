@@ -1,8 +1,16 @@
-const { User } = require('./user');
-const UserRepository = require('../repository/UserRepository')
+const { User } = require("./user");
+const UserRepository = require("../repository/UserRepository");
 
 class Patient extends User {
-  constructor(userId, name, address, phoneNumber, dob, userStatus=PatientStatus.Unconfirmed, isFlagged=false) {
+  constructor(
+    userId,
+    name,
+    address,
+    phoneNumber,
+    dob,
+    userStatus = PatientStatus.Unconfirmed,
+    isFlagged = false
+  ) {
     super(userId, name);
     this.userStatus = userStatus;
     this.isFlagged = isFlagged;
@@ -37,19 +45,19 @@ class Patient extends User {
 }
 
 class PatientStatus {
-  static Confirmed = new PatientStatus(0, 'confirmed');
-  static Unconfirmed = new PatientStatus(1, 'unconfirmed');
-  static Healthy = new PatientStatus(2, 'healthy');
+  static Confirmed = new PatientStatus(0, "confirmed");
+  static Unconfirmed = new PatientStatus(1, "unconfirmed");
+  static Healthy = new PatientStatus(2, "healthy");
 
   #isConfirmed = false;
   #isUnconfirmed = false;
   #isHealthy = false;
-  #status
+  #status;
 
   constructor(code, status) {
     this.#status = status;
 
-    switch(code) {
+    switch (code) {
       case 0:
         this.#isConfirmed = true;
         break;
@@ -139,7 +147,9 @@ class Address {
   }
 
   getAddress() {
-    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${this.#province}), ${this.#postalCode}`
+    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${
+      this.#province
+    }), ${this.#postalCode}`;
   }
 }
 
