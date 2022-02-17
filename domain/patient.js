@@ -1,15 +1,14 @@
-const { User } = require("./user");
-const UserRepository = require("../repository/UserRepository");
+const {User} = require('./user');
 
 class Patient extends User {
   constructor(
-    userId,
-    name,
-    address,
-    phoneNumber,
-    dob,
-    userStatus = PatientStatus.Unconfirmed,
-    isFlagged = false
+      userId,
+      name,
+      address,
+      phoneNumber,
+      dob,
+      userStatus = PatientStatus.Unconfirmed,
+      isFlagged = false,
   ) {
     super(userId, name);
     this.userStatus = userStatus;
@@ -45,9 +44,9 @@ class Patient extends User {
 }
 
 class PatientStatus {
-  static Confirmed = new PatientStatus(0, "confirmed");
-  static Unconfirmed = new PatientStatus(1, "unconfirmed");
-  static Healthy = new PatientStatus(2, "healthy");
+  static Confirmed = new PatientStatus(0, 'confirmed');
+  static Unconfirmed = new PatientStatus(1, 'unconfirmed');
+  static Healthy = new PatientStatus(2, 'healthy');
 
   #isConfirmed = false;
   #isUnconfirmed = false;

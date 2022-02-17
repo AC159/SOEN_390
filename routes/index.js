@@ -1,22 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { User, UserId, Name } = require("../domain/user");
-const UserRepository = require("../repository/UserRepository");
+const {User, UserId, Name} = require('../domain/user');
+const UserRepository = require('../repository/UserRepository');
 
-router.get("/:userId/profile", async (req, res) => {
+router.get('/:userId/profile', async (req, res) => {
   try {
     const userId = new UserId(req.params.userId);
     const mongo = await req.app.locals.mongodb;
     const user = new User(userId, null, new UserRepository(mongo));
     const response = await user.viewProfile();
-    console.log("Get user profile DB response: ", response);
+    console.log('Get user profile DB response: ', response);
     res.status(200).json(response);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({error: error.message});
   }
 });
 
-router.post("/addNewUser", async (req, res) => {
+router.post('/addNewUser', async (req, res) => {
   const mongodb = await req.app.locals.mongodb;
   const request = req.body;
 
@@ -45,7 +45,7 @@ router.post("/addNewUser", async (req, res) => {
   }
 });
 
-router.post("/update-profile/:userId", async (req, res) => {
+router.post('/update-profile/:userId', async (req, res) => {
   console.log(req.body);
   try {
     const mongo = req.app.locals.mongodb;

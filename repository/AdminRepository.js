@@ -1,4 +1,4 @@
-const { UserState } = require("../domain/user");
+const {UserState} = require('../domain/user');
 
 class AdminRepository {
   constructor(mongo) {
@@ -7,14 +7,14 @@ class AdminRepository {
 
   verifyAdmin(adminId) {
     const adminData = this.mongo
-      .db("test")
-      .collection("user")
-      .findOne({ uid: adminId }, { userType: 1, userStatus: 1 });
+        .db('test')
+        .collection('user')
+        .findOne({uid: adminId}, {userType: 1, userStatus: 1});
     if (
-      adminData.userType.toLowerCase() !== "administrator" ||
-      adminData.userStatus.toLowerCase() !== "approved"
+      adminData.userType.toLowerCase() !== 'administrator' ||
+      adminData.userStatus.toLowerCase() !== 'approved'
     ) {
-      throw new Error("Not a valid administrator");
+      throw new Error('Not a valid administrator');
     }
   }
 
@@ -23,12 +23,12 @@ class AdminRepository {
       this.verifyAdmin(adminId);
       // todo: implement pagination for many patients?
       const response = await this.mongo
-        .db("test")
-        .collection("user")
-        .find(
-          { userType: "patient", userStatus: "PENDING" },
-          { name: 1, email: 1 }
-        );
+          .db('test')
+          .collection('user')
+          .find(
+              {userType: 'patient', userStatus: 'PENDING'},
+              {name: 1, email: 1},
+          );
       return response.toArray();
     } catch (error) {
       throw error;
@@ -39,9 +39,9 @@ class AdminRepository {
     try {
       this.verifyAdmin(adminId);
       return await this.mongo
-        .db("test")
-        .collection("user")
-        .updateOne({ userId: patientId }, { $set: { userStatus: "APPROVED" } });
+          .db('test')
+          .collection('user')
+          .updateOne({userId: patientId}, {$set: {userStatus: 'APPROVED'}});
     } catch (error) {
       throw error;
     }
@@ -52,12 +52,12 @@ class AdminRepository {
       this.verifyAdmin(adminId);
       // todo: implement pagination for many doctors?
       const response = await this.mongo
-        .db("test")
-        .collection("user")
-        .find(
-          { userType: "doctor", userStatus: "PENDING" },
-          { name: 1, email: 1 }
-        );
+          .db('test')
+          .collection('user')
+          .find(
+              {userType: 'doctor', userStatus: 'PENDING'},
+              {name: 1, email: 1},
+          );
       return response.toArray();
     } catch (error) {
       throw error;
@@ -68,9 +68,9 @@ class AdminRepository {
     try {
       this.verifyAdmin(adminId);
       return await this.mongo
-        .db("test")
-        .collection("user")
-        .updateOne({ userId: doctorId }, { $set: { userStatus: "APPROVED" } });
+          .db('test')
+          .collection('user')
+          .updateOne({userId: doctorId}, {$set: {userStatus: 'APPROVED'}});
     } catch (error) {
       throw error;
     }

@@ -4,18 +4,18 @@ class HealthOfficialRepository {
   }
 
   async verifyHealthOfficial(userId) {
-    const healthOfficialData = this.mongo.db("test").collection("user").findOne(
-      { userId: userId },
-      {
-        userType: 1,
-        userStatus: 1,
-      }
+    const healthOfficialData = this.mongo.db('test').collection('user').findOne(
+        {userId: userId},
+        {
+          userType: 1,
+          userStatus: 1,
+        },
     );
     if (
-      healthOfficialData.userType.toLowerCase() !== "healthOfficer" ||
-      healthOfficialData.userStatus.toLowerCase() !== "approved"
+      healthOfficialData.userType.toLowerCase() !== 'healthOfficer' ||
+      healthOfficialData.userStatus.toLowerCase() !== 'approved'
     ) {
-      throw new Error("Not a valid health official");
+      throw new Error('Not a valid health official');
     }
   }
 
@@ -23,9 +23,9 @@ class HealthOfficialRepository {
     try {
       await this.verifyHealthOfficial(healthOfficialId);
       const profile = this.mongo
-        .db("test")
-        .collection("user")
-        .findOne({ userId: userId });
+          .db('test')
+          .collection('user')
+          .findOne({userId: userId});
       // todo: not sure on which attributes to be selected, will change later on
       return profile;
     } catch (e) {
@@ -56,9 +56,9 @@ class HealthOfficialRepository {
     try {
       await this.verifyHealthOfficial(healthOfficialId);
       return this.mongo
-        .db("test")
-        .collection("user")
-        .findOneAndUpdate({ userId: userId }, { $set: { isFlagged: true } });
+          .db('test')
+          .collection('user')
+          .findOneAndUpdate({userId: userId}, {$set: {isFlagged: true}});
     } catch (e) {
       throw e;
     }
