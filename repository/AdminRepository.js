@@ -19,118 +19,56 @@ class AdminRepository {
     }
 
     async fetchPendingPatients(adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            // todo: implement pagination for many patients?
-            const response = await this.mongo.db('test').collection('user').find({ userType: 'patient', userStatus: 'PENDING' }, { name: 1, email: 1 });
-            return response.toArray();
-        } catch (error) {
-            throw error;
-        }
-
+        // todo: implement pagination for many patients?
+        const response = await this.mongo.db('test').collection('user').find({ userType: 'patient', userStatus: 'PENDING' }, { name: 1, email: 1 });
     }
 
     async approvePatient(patientId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'APPROVED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'APPROVED' } });
     }
 
     async rejectPatient(patientId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'REJECTED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'REJECTED' } });
     }
 
     async fetchPendingDoctors(adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            // todo: implement pagination for many doctors?
-            const response = await this.mongo.db('test').collection('user').find({ userType: 'doctor', userStatus: 'PENDING' }, { name: 1, email: 1 });
-            return response.toArray();
-        } catch (error) {
-            throw error;
-        }
+        // todo: implement pagination for many doctors?
+        const response = await this.mongo.db('test').collection('user').find({ userType: 'doctor', userStatus: 'PENDING' }, { name: 1, email: 1 });
+        return response.toArray();
     }
 
     async approveDoctor(doctorId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'APPROVED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'APPROVED' } });
     }
 
     async rejectDoctor(doctorId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'REJECTED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'REJECTED' } });
     }
 
     async fetchPendingHealthOfficers(adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            const response = await this.mongo.db('test').collection('user').find({ userType: 'healthOfficer', userStatus: 'PENDING' }, { name: 1, email: 1 });
-            return response.toArray();
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.mongo.db('test').collection('user').find({ userType: 'healthOfficer', userStatus: 'PENDING' }, { name: 1, email: 1 });
+        return response.toArray();
     }
 
     async approveHealthOfficer(officerId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'APPROVED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'APPROVED' } });
     }
 
     async rejectHealthOfficer(officerId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
     }
 
     async fetchPendingImmigrationOfficers(adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            const response = await this.mongo.db('test').collection('user').find({ userType: 'immigrationOfficer', userStatus: 'PENDING' }, { name: 1, email: 1 });
-            return response.toArray();
-        } catch (error) {
-            throw error;
-        }
+        const response = await this.mongo.db('test').collection('user').find({ userType: 'immigrationOfficer', userStatus: 'PENDING' }, { name: 1, email: 1 });
+        return response.toArray();
     }
 
     async approveImmigrationOfficer(officerId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'APPROVED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'APPROVED' } });;
     }
 
     async rejectImmigrationOfficer(officerId, adminId) {
-        try {
-            await this.verifyAdmin(adminId);
-            return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
-        } catch (error) {
-            throw error;
-        }
+        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
     }
 
 }

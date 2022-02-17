@@ -1,13 +1,19 @@
 const UserState = require('./user').UserState;
 
 class Administrator {
+
   constructor(userId, adminRepository) {
     this.userId = userId;
     this.adminRepository = adminRepository;
   }
 
+  async verifyAdmin() {
+    await this.adminRepository.verifyAdmin(this.userId.getId());
+  }
+
   async viewDoctors() {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.fetchPendingDoctors(this.userId.getId());
     } catch (error) {
       throw error;
@@ -16,6 +22,7 @@ class Administrator {
 
   async approveDoctor(doctorId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.approveDoctor(doctorId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -24,6 +31,7 @@ class Administrator {
 
   async rejectDoctor(doctorId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.rejectDoctor(doctorId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -32,6 +40,7 @@ class Administrator {
 
   async viewPatients() {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.fetchPendingPatients(this.userId.getId());
     } catch (error) {
       throw error;
@@ -40,6 +49,7 @@ class Administrator {
 
   async approvePatient(patientId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.approvePatient(patientId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -48,6 +58,7 @@ class Administrator {
 
   async rejectPatient(patientId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.rejectPatient(patientId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -56,6 +67,7 @@ class Administrator {
 
   async viewHealthOfficers() {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.fetchPendingHealthOfficers(this.userId.getId());
     } catch (error) {
       throw error;
@@ -64,6 +76,7 @@ class Administrator {
 
   async approveHealthOfficer(officerId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.approveHealthOfficer(officerId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -72,6 +85,7 @@ class Administrator {
 
   async rejectHealthOfficer(officerId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.rejectHealthOfficer(officerId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -80,6 +94,7 @@ class Administrator {
 
   async viewImmigrationOfficers() {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.fetchPendingImmigrationOfficers(this.userId.getId());
     } catch (error) {
       throw error;
@@ -88,6 +103,7 @@ class Administrator {
 
   async approveImmigrationOfficer(officerId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.approveImmigrationOfficer(officerId, this.userId.getId());
     } catch (error) {
       throw error;
@@ -96,6 +112,7 @@ class Administrator {
 
   async rejectImmigrationOfficer(officerId) {
     try {
+      await this.verifyAdmin();
       return await this.adminRepository.rejectImmigrationOfficer(officerId, this.userId.getId());
     } catch (error) {
       throw error;
