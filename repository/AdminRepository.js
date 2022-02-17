@@ -25,33 +25,20 @@ class AdminRepository {
         return response.toArray();
     }
 
-    async approvePatient(patientId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'APPROVED' } });
+    async approveUser(userId) {
+        return await this.mongo.db('test').collection('user').updateOne({ uid: userId }, { $set: { userStatus: 'APPROVED' } });
     }
 
     async rejectPatient(patientId) {
         return await this.mongo.db('test').collection('user').updateOne({ uid: patientId }, { $set: { userStatus: 'REJECTED' } });
     }
 
-    async approveDoctor(doctorId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'APPROVED' } });
-    }
-
     async rejectDoctor(doctorId) {
         return await this.mongo.db('test').collection('user').updateOne({ uid: doctorId }, { $set: { userStatus: 'REJECTED' } });
     }
 
-    async approveHealthOfficer(officerId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'APPROVED' } });
-    }
-
     async rejectHealthOfficer(officerId) {
         return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'REJECTED' } });
-    }
-
-
-    async approveImmigrationOfficer(officerId) {
-        return await this.mongo.db('test').collection('user').updateOne({ uid: officerId }, { $set: { userStatus: 'APPROVED' } });
     }
 
     async rejectImmigrationOfficer(officerId) {

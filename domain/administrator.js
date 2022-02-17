@@ -18,7 +18,7 @@ class Administrator {
 
   async approveDoctor(doctorId) {
       await this.verifyAdmin();
-      return await this.adminRepository.approveDoctor(doctorId, this.userId.getId());
+      return await this.adminRepository.approveUser(doctorId);
   }
 
   async rejectDoctor(doctorId) {
@@ -33,7 +33,7 @@ class Administrator {
 
   async approvePatient(patientId) {
       await this.verifyAdmin();
-      return await this.adminRepository.approvePatient(patientId, this.userId.getId());
+      return await this.adminRepository.approveUser(patientId);
   }
 
   async rejectPatient(patientId) {
@@ -48,7 +48,7 @@ class Administrator {
 
   async approveHealthOfficer(officerId) {
       await this.verifyAdmin();
-      return await this.adminRepository.approveHealthOfficer(officerId, this.userId.getId());
+      return await this.adminRepository.approveUser(officerId);
   }
 
   async rejectHealthOfficer(officerId) {
@@ -63,7 +63,7 @@ class Administrator {
 
   async approveImmigrationOfficer(officerId) {
       await this.verifyAdmin();
-      return await this.adminRepository.approveImmigrationOfficer(officerId, this.userId.getId());
+      return await this.adminRepository.approveUser(officerId);
   }
 
   async rejectImmigrationOfficer(officerId) {
