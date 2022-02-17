@@ -14,8 +14,8 @@
   },
   "plugins": [],
   "rules": {
-    "require-jsdoc" : 0,
-    "max-len": 0,
-    "new-cap": 0
+    "require-jsdoc" : "off",
+    "max-len": "off",
+    "new-cap": "off"
   }
 }
