@@ -3,6 +3,7 @@ import Navbar from "../../Navbar/Navbar";
 import { Tabs } from 'react-bootstrap';
 import { Tab } from 'react-bootstrap';
 import Home from '../../Tabs/Home';
+import CovidFile from '../../Tabs/PatientSymptoms/CovidFile';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './PatientDashboard.module.css';
@@ -25,13 +26,15 @@ function PatientDashboard(props) {
                         <div className={styles["tab-page"]}>
                             <Home />
                         </div>
-                        
+
                     </Tab>
                     <Tab className={styles} eventKey="updateCovidStatus" title="Update COVID Symptoms">
-                        
+                        <div className={styles["tab-page"]}>
+                            <CovidFile />
+                        </div>
                     </Tab>
                     <Tab className={styles} eventKey="contact" title="Contact">
-                        
+
                     </Tab>
                 </Tabs>
                 </div>
