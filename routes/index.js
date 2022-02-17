@@ -60,15 +60,4 @@ router.post('/update-profile/:userId', async (req, res) => {
     }
 });
 
-router.get('/notifications/:userId', async (req, res) => {
-    const notifications = [];
-    const userId = req.params.userId;
-    const mongo = await req.app.locals.mongodb;
-
-
-
-
-
-})
-
 module.exports = router;
