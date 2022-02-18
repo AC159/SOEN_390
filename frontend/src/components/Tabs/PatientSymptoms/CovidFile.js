@@ -8,7 +8,7 @@ import axios from "axios";
 
 function CovidFile(props) {
     let {currentUser} = useAuth();
-    let [userStatus, setUserStatus] = useState('');
+    let [covidStatus, setCovidStatus] = useState('');
     let [haveSymptoms, setHaveSymptoms] = useState('');
     let userSymptoms = [];
 
@@ -19,25 +19,25 @@ function CovidFile(props) {
     const [state, setState] = React.useState({userStatus: `${currentUser.dbData.userStatus}`, userSymptoms: `${currentUser.dbData.userSymptoms}`});
 
 
-    const submitUserStatus = async () => {
-        console.log(`UserStatus: ${userStatus}`);
-        console.log(`Current User ID: ${currentUser.user.uid}`);
-        axios.post(`'/update-status-form/:${currentUser.user.uid}`, {
-            userAttributes: {userStatus}
-        })
-        .then(function (response) {
-            console.log(response);
-          })
-        .catch(function (error) {
-            console.log(error);
-          });
-    }
+    const submitPatientForm = async() => {
+        try {
+            console.log(`covidStatus: ${covidStatus}`);
+            console.log(`userSymptoms: ${userSymptoms}`);
+            axios.post(`'/patient/submit-status-form/:${currentUser.user.uid}`, {
+                userAttributes: {covidStatus, userSymptoms}
+            })
+            .then(function (response) {
+                console.log(response);
+              })
+            alert(covidStatus + userSymptoms);
+            } catch (error) {
+                console.log('Submit error: ', error);
+            }
+        }
+    
 
-    const submitUserSymptoms = async() => {
-        // alert(symptoms);
-        console.log(`UserSymptoms: ${userSymptoms}`);
-        console.log(`Current User ID: ${currentUser.user.uid}`);
-        axios.post(`'/update-status-form/:${currentUser.user.uid}`, {
+    const updatePatientForm = async() => {
+        axios.post(`'/patient/update-status-form/:${currentUser.user.uid}`, {
             userAttributes: {userSymptoms}
         })
         .then(function (response) {
@@ -47,6 +47,20 @@ function CovidFile(props) {
             console.log(error);
           });
     }
+
+    const getPatientForm = async() => {
+        axios.post(`'/patient/get-status-form/:${currentUser.user.uid}`, {
+            userAttributes: {userSymptoms}
+        })
+        .then(function (response) {
+            console.log(response);
+          })
+        .catch(function (error) {
+            console.log(error);
+          });
+    }
+
+
 
 
     const [popUpStatus, setPopUpStatus] = useState(false);
@@ -71,10 +85,20 @@ function CovidFile(props) {
         // return userSymptoms.map((userSymptoms) => <li>{userSymptoms}</li>);
         return testArray.map((testArray) => <li>{testArray}</li>);
     }
-
-
-    return (
-        <div>
+    /*<Modal show={popUpSymptoms} onHide={handleSymtomsclose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Update your symptoms</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body></Modal.Body>
+                        
+                        
+                        </Modal.Body>
+                        <Modal.Footer>
+                            
+                        </Modal.Footer>
+                    </Modal>*/
+/*
+<div>
             <div className={styles['internal_CovidFile']}>
                 <div>
                     <div>Status: {state.userStatus}</div>
@@ -85,12 +109,7 @@ function CovidFile(props) {
                             <Modal.Title>Update Status</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <label>Select your Covid Status : &nbsp;</label>
-                            <select defaultValue={userStatus} onChange={(event) => setUserStatus(event.target.value)}>
-                                <option value="None">None</option>
-                                <option value="Positive">positive</option>
-                                <option value="Negative">negative</option>
-                            </select>
+                            
 
                         </Modal.Body>
                         <Modal.Footer>
@@ -110,11 +129,27 @@ function CovidFile(props) {
                     <div>Symptoms: {userSymptomsList()}</div>
                     <button className={styles['button-edit_CovidFile']} onClick={handleSymtomeShow}>Edit</button>
 
-                    <Modal show={popUpSymptoms} onHide={handleSymtomsclose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Update your symptoms</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
+                    
+
+                            
+
+                        
+                        
+                </div>
+            </div>
+
+
+        </div>*/
+
+    return (
+        <div>
+<form>
+            <label>Select your Covid Status : &nbsp;</label>
+                            <select defaultValue={covidStatus} onChange={(event) => setCovidStatus(event.target.value)}>
+                                <option value="None">None</option>
+                                <option value="Positive">positive</option>
+                                <option value="Negative">negative</option>
+                            </select>
 
                             <h6>Do you have any symptoms</h6>
                             <select defaultValue={haveSymptoms}
@@ -123,6 +158,7 @@ function CovidFile(props) {
                                 <option value="yes">Yes</option>
                             </select>
                             <br/>
+            
                             <div className={styles[haveSymptoms == "yes" ? 'visible_CovidFile' : 'hidden_CovidFile']}>
                                 <h6>Select all the Symptoms you feel :</h6>
 
@@ -263,20 +299,8 @@ function CovidFile(props) {
                                 <br/>
                             </div>
 
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button type="submit" onClick={() => {
-                                handleSymtomsclose();
-                                submitUserSymptoms(); setState({...state, userSymptoms: userSymptoms});
-                            }}>
-                                update
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-            </div>
-
-
+                            <button onClick={(e) => {submitPatientForm()}}>update</button>
+                </form>
         </div>
 
     );
