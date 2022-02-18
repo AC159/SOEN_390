@@ -42,6 +42,11 @@ class Administrator {
   assignPatient(patient, doctor) {
     throw new Error(`${this.assignPatient.name} is not implemented.`);
   }
+
+  async viewUnassignedPatient() {
+    await this.verifyAdmin();
+    return await this.adminRepository.fetchPatients();
+  }
 }
 
 module.exports = Administrator;

@@ -29,6 +29,16 @@ class AdminRepository {
   async rejectUser(userId) {
     return await this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {userStatus: 'REJECTED'}});
   }
+
+  async fetchPatients() {
+    return await this.mongo.db('test').collection('user')
+        .find({
+          userType: 'patient',
+          userStatus: 'APPROVED',
+          patientInfo: {doctor: null}})
+        .project({_id: 0, name: 1, dob: 1, address: 1})
+        .toArray();
+  }
 }
 
 module.exports = AdminRepository;

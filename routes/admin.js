@@ -92,11 +92,11 @@ router.post('/:adminId/reject-user', async (req, res) => {
 
 router.get('/:adminId/patients', async (req, res) => {
   try {
-    const adminId = req.params.adminId;
+    const adminId = new UserId(req.params.adminId);
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
     const admin = new Administrator(adminId, adminRepository);
-    const response = await admin.viewPatients();
+    const response = await admin.viewUnassignedPatient();
 
     res.status(200).json({data: response});
   } catch (error) {
@@ -122,7 +122,7 @@ router.post('/:adminId/patient', async (req, res) => {
 
 router.get('/:adminId/doctors', async (req, res) => {
   try {
-    const adminId = req.body.adminId;
+    const adminId = new UserId(req.body.adminId);
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
     const admin = new Administrator(adminId, adminRepository);
