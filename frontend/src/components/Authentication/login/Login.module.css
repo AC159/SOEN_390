@@ -1,176 +1,182 @@
-
 .fieldset_login {
-    border: 1px solid #d9d9d9 !important;
-    margin: 0 0 24px !important;
-    padding: 18px 22px 24px !important;
-    border-radius: 6px;
+  border: 1px solid #d9d9d9 !important;
+  margin: 0 0 24px !important;
+  padding: 18px 22px 24px !important;
+  border-radius: 6px;
 }
 
-.legend_login{
-    float: none;
-    width: auto;
-    font-weight: 500;
-    background: white;
-    padding: 0 8px;
-    margin: 0;
-    margin-left: -8px;
-    font-size: .8rem;
-
+.legend_login {
+  float: none;
+  width: auto;
+  font-weight: 500;
+  background: white;
+  padding: 0 8px;
+  margin: 0;
+  margin-left: -8px;
+  font-size: 0.8rem;
 }
 
 .container_Login {
+  width: 30rem;
+  height: 80%;
+  min-height: 550px;
 
-    width: 30rem;
-    height: 80%;
-    min-height: 550px;
+  border-radius: 19px;
+  border: solid 2px black;
+  background-color: white;
+  box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
+  position: relative;
+  overflow: hidden;
 
-    border-radius: 19px;
-    border: solid 2px black;
-    background-color: white;
-    box-shadow: 0 0 2px rgba(15,15,15,0.28);
-    position: relative;
-    overflow: hidden;
-
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 200px;
 }
 
 .backDrop_login {
-    border: solid 2px black;
-    width: 260%;
-    height: 550px;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    border-radius: 50%;
-    -webkit-transform: rotate(160deg);
-    -ms-transform: rotate(160deg);
-    transform: rotate(160deg);
-    top: -450px;
-    left: -300px;
-    background: rgb(0,120,215);
-    background: linear-gradient(
-            53deg,
-            rgba(0,120,215,1) 39%,
-            rgba(23,211,255,1) 100%
-    );
-
+  border: solid 2px black;
+  width: 260%;
+  height: 550px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  -webkit-transform: rotate(160deg);
+  -ms-transform: rotate(160deg);
+  transform: rotate(160deg);
+  top: -450px;
+  left: -300px;
+  background: rgb(0, 120, 215);
+  background: linear-gradient(
+    53deg,
+    rgba(0, 120, 215, 1) 39%,
+    rgba(23, 211, 255, 1) 100%
+  );
 }
 
 .container-top_Login {
-    width: 100%;
-    height: 200px;
+  width: 100%;
+  height: 200px;
 }
 
-.container-title_Login{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+.container-title_Login {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.h2_Login{
-    font-size: 30px;
-    /*font-family: "Poppins";*/
-    line-weight: 600;
-    line-height: 1.2;
-    color: white;
-    position: relative;
-    z-index: 10;
-    margin: 0;
-    padding: 25px;
-
+.h2_Login {
+  font-size: 30px;
+  /*font-family: "Poppins";*/
+  line-weight: 600;
+  line-height: 1.2;
+  color: white;
+  position: relative;
+  z-index: 10;
+  margin: 0;
+  padding: 25px;
 }
 
 .container-item_Login {
-    width: 80%;
-    margin: 1rem 10%;
+  width: 80%;
+  margin: 1rem 10%;
 }
 
-
-.label_Login, .input_Login {
-    display: block;
-    width: 100%;
-    padding: 0.5rem 0;
-    margin: 0;
-    box-sizing: border-box;
+.label_Login,
+.input_Login {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .input_Login {
-    border: none;
-    border-bottom: 2px solid #ccc;
+  border: none;
+  border-bottom: 2px solid #ccc;
 }
 
 .input_Login:focus {
-    outline: none;
-    border-bottom-color: #61dafb;
+  outline: none;
+  border-bottom-color: #61dafb;
 }
 
 .container-error_Login {
-    color: red;
+  color: red;
 }
 
 .button_Login {
-    padding: 0.5rem 2rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid #61dafb;
-    width: 100%;
-    background: rgb(0,120,215);
-    background: linear-gradient(
-            270deg,
-            rgba(0,120,215,1) 39%,
-            rgba(23,211,255,1) 100%
-    );
+  padding: 0.5rem 2rem;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #61dafb;
+  width: 100%;
+  background: rgb(0, 120, 215);
+  background: linear-gradient(
+    270deg,
+    rgba(0, 120, 215, 1) 39%,
+    rgba(23, 211, 255, 1) 100%
+  );
 }
 
 .button_Login:hover {
-    box-shadow: 2px 2px 5px #b5b1b1;
+  box-shadow: 2px 2px 5px #b5b1b1;
 }
 
 .button_Login:disabled:hover {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .button_Login:focus {
-    outline: none;
+  outline: none;
 }
 
 .container-footer_Login {
-    color: black;
-    margin: 1rem auto;
-    text-align: center;
+  color: black;
+  margin: 1rem auto;
+  text-align: center;
 }
 
-.container-footer_Login a{
-    color: #61dafb;
-    cursor: pointer;
-    text-decoration: none;
-
+.container-footer_Login a {
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
-    display: block;
-    font-size: .875rem;
-    color: #27272a;
-    height: 45px;
-    margin: 8px 0 20px;
-    padding: 0.625rem 0.875rem 0.75rem;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    box-shadow: 0 0 0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    background-color: #fff !important;
-    transition: none;
+input[type="date"],
+input[type="datetime-local"],
+input[type="datetime"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select,
+textarea {
+  display: block;
+  font-size: 0.875rem;
+  color: #27272a;
+  height: 45px;
+  margin: 8px 0 20px;
+  padding: 0.625rem 0.875rem 0.75rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  box-shadow: 0 0 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background-color: #fff !important;
+  transition: none;
 }
-
-
 
 @media (max-width: 30rem) {
-    .container {
-        width: 100%;
-        box-sizing: border-box;
-        box-shadow: none;
-    }
+  .container {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: none;
+  }
 }

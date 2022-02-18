@@ -1,22 +1,21 @@
 const express = require('express');
-const {UserId} = require("../domain/user");
-const Administrator = require("../domain/administrator");
-const AdminRepository = require("../repository/AdminRepository");
+const {UserId} = require('../domain/user');
+const Administrator = require('../domain/administrator');
+const AdminRepository = require('../repository/AdminRepository');
 const router = express.Router();
 
-
 router.get('/:adminId/pending-patients', async (req, res) => {
-    try {
-        const adminId = new UserId(req.params.adminId);
-        const adminRepository = new AdminRepository(req.app.locals.mongodb);
+  try {
+    const adminId = new UserId(req.params.adminId);
+    const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
-        const admin = new Administrator(adminId, adminRepository);
-        const users = await admin.viewPatients();
+    const admin = new Administrator(adminId, adminRepository);
+    const users = await admin.viewPatients();
 
-        res.status(200).json({ users });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+    res.status(200).json({users});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
 });
 
 router.get('/:adminId/pending-doctors', async (req, res) => {
@@ -41,10 +40,10 @@ router.get('/:adminId/pending-health-officer', async (req, res) => {
         const admin = new Administrator(adminId, adminRepository);
         const response = await admin.viewHealthOfficers();
 
-        res.status(200).json({ data: response });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+    res.status(200).json({data: response});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
 });
 
 router.get('/:adminId/pending-immigration-officer', async (req, res) => {

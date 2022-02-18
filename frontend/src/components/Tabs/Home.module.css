@@ -1,42 +1,41 @@
-.home-outer.container{
-    padding: 10px;
-    background-color: #376975;
-    
+.home-outer.container {
+  padding: 10px;
+  background-color: #376975;
 }
 
-.todays-new-title{
-    font-size: x-large;
-    padding-bottom: 0px;
-    font-weight: 700;
+.todays-new-title {
+  font-size: x-large;
+  padding-bottom: 0px;
+  font-weight: 700;
 }
 
-  .card-container {
-      display:flex;
-      flex-wrap: wrap;
-  }
-  
-  .symptoms{
-    background-color: white;
-    border-radius: 5px;
-  }
-  
-  .symptoms-info{
-      margin-left: 5px;
-  }
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  .symptoms-list{
-      margin-left: 15px;
-  }
+.symptoms {
+  background-color: white;
+  border-radius: 5px;
+}
 
-  .tips{
-      background-color: white;
-      border-radius: 5px;
-  }
+.symptoms-info {
+  margin-left: 5px;
+}
 
-  .tips-info{
-      margin-left: 5px;
-  }
+.symptoms-list {
+  margin-left: 15px;
+}
 
-  .tips-list{
-      margin-left: 15px;
-  }
+.tips {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.tips-info {
+  margin-left: 5px;
+}
+
+.tips-list {
+  margin-left: 15px;
+}
