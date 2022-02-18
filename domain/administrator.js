@@ -39,8 +39,13 @@ class Administrator {
     return await this.adminRepository.rejectUser(userId);
   }
 
-  assignPatient(patient, doctor) {
-    throw new Error(`${this.assignPatient.name} is not implemented.`);
+  async assignPatient(patient, doctor) {
+    await this.verifyAdmin();
+    const response = await this.adminRepository.assignPatient(patient, doctor);
+
+    if (response.value?.patientInfo?.doctor !== doctor) {
+      this.adminRepository.incrementDoctorPatientCount(doctor);
+    }
   }
 
   async viewUnassignedPatient() {

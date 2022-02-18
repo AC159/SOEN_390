@@ -106,7 +106,7 @@ router.get('/:adminId/patients', async (req, res) => {
 
 router.post('/:adminId/patient', async (req, res) => {
   try {
-    const adminId = req.params.adminId;
+    const adminId = new UserId(req.params.adminId);
     const patientId = req.body.patient;
     const doctorId = req.body.doctor;
 
