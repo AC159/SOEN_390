@@ -90,4 +90,48 @@ router.post('/:adminId/reject-user', async (req, res) => {
   }
 });
 
+router.get('/:adminId/patients', async (req, res) => {
+  try {
+    const adminId = req.params.adminId;
+    const adminRepository = new AdminRepository(req.app.locals.mongodb);
+
+    const admin = new Administrator(adminId, adminRepository);
+    const response = await admin.viewPatients();
+
+    res.status(200).json({data: response});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
+router.post('/:adminId/patient', async (req, res) => {
+  try {
+    const adminId = req.params.adminId;
+    const patientId = req.body.patient;
+    const doctorId = req.body.doctor;
+
+    const adminRepository = new AdminRepository(req.app.locals.mongodb);
+    const admin = new Administrator(adminId, adminRepository);
+    admin.assignPatient(patientId, doctorId);
+
+    res.status(200).json({message: 'success'});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
+router.get('/:adminId/doctors', async (req, res) => {
+  try {
+    const adminId = req.body.adminId;
+    const adminRepository = new AdminRepository(req.app.locals.mongodb);
+
+    const admin = new Administrator(adminId, adminRepository);
+    const response = await admin.viewDoctors();
+
+    res.status(200).json({data: response});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
 module.exports = router;
