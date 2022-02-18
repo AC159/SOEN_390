@@ -1,8 +1,15 @@
-const { User } = require('./user');
-const UserRepository = require('../repository/UserRepository')
+const {User} = require('./user');
 
 class Patient extends User {
-  constructor(userId, name, address, phoneNumber, dob, userStatus=PatientStatus.Unconfirmed, isFlagged=false) {
+  constructor(
+      userId,
+      name,
+      address,
+      phoneNumber,
+      dob,
+      userStatus = PatientStatus.Unconfirmed,
+      isFlagged = false,
+  ) {
     super(userId, name);
     this.userStatus = userStatus;
     this.isFlagged = isFlagged;
@@ -44,12 +51,12 @@ class PatientStatus {
   #isConfirmed = false;
   #isUnconfirmed = false;
   #isHealthy = false;
-  #status
+  #status;
 
   constructor(code, status) {
     this.#status = status;
 
-    switch(code) {
+    switch (code) {
       case 0:
         this.#isConfirmed = true;
         break;
@@ -139,7 +146,9 @@ class Address {
   }
 
   getAddress() {
-    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${this.#province}), ${this.#postalCode}`
+    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${
+      this.#province
+    }), ${this.#postalCode}`;
   }
 }
 

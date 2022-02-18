@@ -5,59 +5,79 @@ const HealthOfficial = require('../domain/healthOfficial');
 const HealthOfficialRepository = require('../repository/HealthOfficialRepository');
 
 router.post('/:healthOfficialId/raise-flag', async (req, res) => {
-    try {
-        const userId = req.body.userId;
-        const healthOfficialId = new UserId(req.params.healthOfficialId);
-        const healthOfficialRepository = new HealthOfficialRepository(req.body.mongo);
+  try {
+    const userId = req.body.userId;
+    const healthOfficialId = new UserId(req.params.healthOfficialId);
+    const healthOfficialRepository = new HealthOfficialRepository(
+        req.body.mongo,
+    );
 
-        const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
-        const response = await healthOfficial.raiseFlag(userId);
-        res.status(200).json({data: response});
-    } catch (e) {
-        res.status(400).json({error: e.message});
-    }
-})
+    const healthOfficial = new HealthOfficial(
+        healthOfficialId,
+        healthOfficialRepository,
+    );
+    const response = await healthOfficial.raiseFlag(userId);
+    res.status(200).json({data: response});
+  } catch (e) {
+    res.status(400).json({error: e.message});
+  }
+});
 
 router.get('/:healthOfficialId/user-covid-info', async (req, res) => {
-    try {
-        const userId = req.body.userId;
-        const healthOfficialId = new UserId(req.params.healthOfficialId);
-        const healthOfficialRepository = new HealthOfficialRepository(req.body.mongo);
+  try {
+    const userId = req.body.userId;
+    const healthOfficialId = new UserId(req.params.healthOfficialId);
+    const healthOfficialRepository = new HealthOfficialRepository(
+        req.body.mongo,
+    );
 
-        const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
-        const profile = await healthOfficial.getUserCovidInfo(userId);
-        res.status(200).json({profile});
-    } catch (e) {
-        res.status(400).json({error: e.message});
-    }
-})
+    const healthOfficial = new HealthOfficial(
+        healthOfficialId,
+        healthOfficialRepository,
+    );
+    const profile = await healthOfficial.getUserCovidInfo(userId);
+    res.status(200).json({profile});
+  } catch (e) {
+    res.status(400).json({error: e.message});
+  }
+});
 
 router.get('/:healthOfficialId/user-report', async (req, res) => {
-    try {
-        const userId = req.body.userId;
-        const healthOfficialId = new UserId(req.params.healthOfficialId);
-        const healthOfficialRepository = new HealthOfficialRepository(req.body.mongo);
+  try {
+    const userId = req.body.userId;
+    const healthOfficialId = new UserId(req.params.healthOfficialId);
+    const healthOfficialRepository = new HealthOfficialRepository(
+        req.body.mongo,
+    );
 
-        const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
-        const reports = await healthOfficial.getReportsFromUser(userId);
-        res.status(200).json({reports});
-    } catch (e) {
-        res.status(400).json({error: e.message});
-    }
-})
+    const healthOfficial = new HealthOfficial(
+        healthOfficialId,
+        healthOfficialRepository,
+    );
+    const reports = await healthOfficial.getReportsFromUser(userId);
+    res.status(200).json({reports});
+  } catch (e) {
+    res.status(400).json({error: e.message});
+  }
+});
 
 router.get('/:healthOfficialId/report-contact-list', async (req, res) => {
-    try {
-        const reportId = req.body.reportId;
-        const healthOfficialId = new UserId(req.params.healthOfficialId);
-        const healthOfficialRepository = new HealthOfficialRepository(req.body.mongo);
+  try {
+    const reportId = req.body.reportId;
+    const healthOfficialId = new UserId(req.params.healthOfficialId);
+    const healthOfficialRepository = new HealthOfficialRepository(
+        req.body.mongo,
+    );
 
-        const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
-        const contacts = await healthOfficial.getContactListFromReport(reportId);
-        res.status(200).json({contacts});
-    } catch (e) {
-        res.status(400).json({error: e.message});
-    }
-})
+    const healthOfficial = new HealthOfficial(
+        healthOfficialId,
+        healthOfficialRepository,
+    );
+    const contacts = await healthOfficial.getContactListFromReport(reportId);
+    res.status(200).json({contacts});
+  } catch (e) {
+    res.status(400).json({error: e.message});
+  }
+});
 
 module.exports = router;

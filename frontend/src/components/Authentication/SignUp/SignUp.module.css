@@ -1,203 +1,210 @@
-
-.hidden_SingUp{
-    display: none;
+.hidden_SingUp {
+  display: none;
 }
 
-.visible_SingUp{
-    display: block;
+.visible_SingUp {
+  display: block;
 }
-
-
 
 .container_SingUp {
-    width: 61rem;
+  width: 61rem;
 
-    border-radius: 19px;
-    background-color: white;
-    box-shadow: 2px 2px 5px #f6f2f2;
-    border: solid 2px black;
-    position: relative;
-    overflow: hidden;
+  border-radius: 19px;
+  background-color: white;
+  box-shadow: 2px 2px 5px #f6f2f2;
+  border: solid 2px black;
+  position: relative;
+  overflow: hidden;
 
-    margin: auto;
+  margin: auto;
 }
 
 .backDrop_SingUp {
-    border: solid 1px black;
-    width: 260%;
-    height: 550px;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    border-radius: 50%;
-    -webkit-transform: rotate(163deg);;
-    -ms-transform: rotate(163deg);;
-    transform: rotate(163deg);;
-    top: -575px;
-    left: -132px;
-    background: rgb(0,120,215);
-    background: linear-gradient(
-            53deg,
-            rgba(0,120,215,1) 39%,
-            rgba(23,211,255,1) 100%
-    );
-
+  border: solid 1px black;
+  width: 260%;
+  height: 550px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  -webkit-transform: rotate(163deg);
+  -ms-transform: rotate(163deg);
+  transform: rotate(163deg);
+  top: -575px;
+  left: -132px;
+  background: rgb(0, 120, 215);
+  background: linear-gradient(
+    53deg,
+    rgba(0, 120, 215, 1) 39%,
+    rgba(23, 211, 255, 1) 100%
+  );
 }
 
 .container-top_SingUp {
-    width: 100%;
-    height: 200px;
+  width: 100%;
+  height: 200px;
 }
 
-.container-title_SingUp{
-    width: 100%;
-    diplay: flex;
-    flex-direction: column;
+.container-title_SingUp {
+  width: 100%;
+  diplay: flex;
+  flex-direction: column;
 }
 
-.h2_SingUp{
-    font-size: 30px;
-    /*font-family: "Poppins";*/
-    line-weight: 600;
-    line-height: 1.2;
-    color: white;
-    position: relative;
-    z-index: 10;
-    margin: 0;
-    padding: 25px;
-
+.h2_SingUp {
+  font-size: 30px;
+  /*font-family: "Poppins";*/
+  line-weight: 600;
+  line-height: 1.2;
+  color: white;
+  position: relative;
+  z-index: 10;
+  margin: 0;
+  padding: 25px;
 }
 
 .fieldset_SingUp {
-    border: 1px solid #d9d9d9 !important;
-    margin: 0 0 24px !important;
-    padding: 18px 22px 4px !important;
-    border-radius: 6px;
+  border: 1px solid #d9d9d9 !important;
+  margin: 0 0 24px !important;
+  padding: 18px 22px 4px !important;
+  border-radius: 6px;
 }
 
-.legend_SingUp{
-    float: none;
-    width: auto;
-    font-weight: 500;
-    background: white;
-    padding: 0 8px;
-    margin: 0;
-    margin-left: -8px;
-    font-size: .8rem;
-
+.legend_SingUp {
+  float: none;
+  width: auto;
+  font-weight: 500;
+  background: white;
+  padding: 0 8px;
+  margin: 0;
+  margin-left: -8px;
+  font-size: 0.8rem;
 }
 
 .container-item_SingUp {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 4em;
-    /*padding-bottom: 5em;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 4em;
+  /*padding-bottom: 5em;*/
 }
 
-
-.label_SingUp, .input_SingUp {
-    display: block;
-    width: 100%;
-    padding: 0.5rem 0;
-    margin: 0;
-    box-sizing: border-box;
+.label_SingUp,
+.input_SingUp {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .input_SingUp {
-    border: none;
-    border-bottom: 2px solid #ccc;
+  border: none;
+  border-bottom: 2px solid #ccc;
 }
 
 .input_SingUp:focus {
-    outline: none;
-    border-bottom-color: #61dafb;
+  outline: none;
+  border-bottom-color: #61dafb;
 }
 
-
 .button_SingUp {
-     padding: 0.5rem 2rem;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid #61dafb;
-    width: 100%;
-    background: rgb(0,120,215);
-    background: linear-gradient(
-            270deg,
-            rgba(0,120,215,1) 39%,
-            rgba(23,211,255,1) 100%
-    );
+  padding: 0.5rem 2rem;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #61dafb;
+  width: 100%;
+  background: rgb(0, 120, 215);
+  background: linear-gradient(
+    270deg,
+    rgba(0, 120, 215, 1) 39%,
+    rgba(23, 211, 255, 1) 100%
+  );
 }
 
 .button_SingUp:hover {
-    box-shadow: 2px 2px 5px #b5b1b1;
+  box-shadow: 2px 2px 5px #b5b1b1;
 }
 
 .button_SingUp:disabled:hover {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .button_SingUp:focus {
-    outline: none;
+  outline: none;
 }
 
 .container-error_SingUp {
-    color: red;
+  color: red;
 }
 
 .container-footer_SingUp {
-    color: black;
-    margin: 1rem auto;
-    text-align: center;
+  color: black;
+  margin: 1rem auto;
+  text-align: center;
 }
 
-.container-footer_SingUp a{
-    color: #61dafb;
-    cursor: pointer;
-    text-decoration: none;
+.container-footer_SingUp a {
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
-    display: block;
-    font-size: .875rem;
-    color: #27272a;
-    height: 45px;
-    width: 100%;
-    margin: 8px 0 20px;
-    padding: 0.625rem 0.875rem 0.75rem;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    box-shadow: 0 0 0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    background-color: #fff !important;
-    transition: none;
+input[type="date"],
+input[type="datetime-local"],
+input[type="datetime"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select,
+textarea {
+  display: block;
+  font-size: 0.875rem;
+  color: #27272a;
+  height: 45px;
+  width: 100%;
+  margin: 8px 0 20px;
+  padding: 0.625rem 0.875rem 0.75rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  box-shadow: 0 0 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background-color: #fff !important;
+  transition: none;
 }
 .input_SingUp_Left {
-    border: none;
-    border-bottom: 2px solid #ccc;
+  border: none;
+  border-bottom: 2px solid #ccc;
 
-    width: 48% !important;
-    display: inline-block !important;
-    margin-right: 2% !important;
+  width: 48% !important;
+  display: inline-block !important;
+  margin-right: 2% !important;
 }
 
 .input_SingUp_Left:focus {
-    outline: none;
-    border-bottom-color: #61dafb;
+  outline: none;
+  border-bottom-color: #61dafb;
 }
 .input_SingUp_Right {
-    border: none;
-    border-bottom: 2px solid #ccc;
+  border: none;
+  border-bottom: 2px solid #ccc;
 
-    width: 48% !important;
-    display: inline-block !important;
-    margin-left: 2% !important;
+  width: 48% !important;
+  display: inline-block !important;
+  margin-left: 2% !important;
 }
 
 .input_SingUp_Right:focus {
-    outline: none;
-    border-bottom-color: #61dafb;
+  outline: none;
+  border-bottom-color: #61dafb;
 }
 
 /*.left_coloum_SignUp{*/
@@ -213,9 +220,9 @@ input[type=date], input[type=datetime-local], input[type=datetime], input[type=e
 /*}*/
 
 @media (max-width: 30rem) {
-    .container {
-        width: 100%;
-        box-sizing: border-box;
-        box-shadow: none;
-    }
+  .container {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: none;
+  }
 }

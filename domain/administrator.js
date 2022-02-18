@@ -1,4 +1,3 @@
-const UserState = require('./user').UserState;
 
 class Administrator {
   constructor(userId, adminRepository) {

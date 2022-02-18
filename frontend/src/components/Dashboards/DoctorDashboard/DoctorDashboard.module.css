@@ -8,7 +8,7 @@ body {
 }
 
 html {
-margin: 0 auto;
+  margin: 0 auto;
 }
 
 .main-container {
@@ -19,7 +19,7 @@ margin: 0 auto;
 }
 
 .tabs-box {
-  float:left;
+  float: left;
   margin-left: 10px;
   margin-right: 10px;
   /*background-color: black;*/
@@ -29,14 +29,13 @@ margin: 0 auto;
   width: 100%;
 }
 
-
 .notification-outer-box {
-  float:right;
+  float: right;
   max-height: 650px;
 }
 
-.tab-page{
-height: auto;
+.tab-page {
+  height: auto;
   max-height: 650px;
   padding: 10px;
   background-color: #388699;
@@ -47,7 +46,4 @@ height: auto;
   border-top: solid 2px black;
 
   overflow-y: scroll;
-  
 }
-
-
