@@ -36,7 +36,23 @@ class AdminRepository {
           userType: 'patient',
           userStatus: 'APPROVED',
           patientInfo: {doctor: null}})
-        .project({_id: 0, name: 1, dob: 1, address: 1})
+        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1})
+        .toArray();
+  }
+
+  async fetchDoctors() {
+    return await this.mongo.db('test').collection('user')
+        .find({
+          userType: 'doctor',
+          userStatus: 'APPROVED',
+        })
+        .project({
+          _id: 0,
+          uid: 1,
+          name: 1,
+          address: 1,
+          doctorInfo: 1,
+        })
         .toArray();
   }
 }

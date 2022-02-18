@@ -47,6 +47,18 @@ class Administrator {
     await this.verifyAdmin();
     return await this.adminRepository.fetchPatients();
   }
+
+  async fetchDoctorProfiles() {
+    await this.verifyAdmin();
+    const response = await this.adminRepository.fetchDoctors();
+
+    return response.map((doctor) => ({
+      'uid': doctor.uid,
+      'name': doctor.name,
+      'address': doctor.address,
+      'patientCount': doctor.doctorInfo.patientCount,
+    }));
+  }
 }
 
 module.exports = Administrator;

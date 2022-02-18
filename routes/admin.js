@@ -122,11 +122,11 @@ router.post('/:adminId/patient', async (req, res) => {
 
 router.get('/:adminId/doctors', async (req, res) => {
   try {
-    const adminId = new UserId(req.body.adminId);
+    const adminId = new UserId(req.params.adminId);
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
     const admin = new Administrator(adminId, adminRepository);
-    const response = await admin.viewDoctors();
+    const response = await admin.fetchDoctorProfiles();
 
     res.status(200).json({data: response});
   } catch (error) {
