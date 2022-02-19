@@ -4,6 +4,8 @@ const router = express.Router();
 const {UserId, User} = require("../domain/user");
 const {Notification} = require("../domain/notification");
 const UserRepository = require("../repository/UserRepository");
+const NotificationRepository = require("../repository/NotificationRepository");
+const {ObjectId} = require("mongodb");
 
 
 router.get('/:userId/notifications', async (req, res) => {
@@ -20,19 +22,20 @@ router.get('/:userId/notifications', async (req, res) => {
 
 router.get('/:notificationId/view', async (req, res) => {
     try {
-        const notificationId = req.params.notificationId;
+        const notificationId = ObjectId(req.params.notificationId);
         const mongo = await req.app.locals.mongodb;
         const notification = new Notification(notificationId, new NotificationRepository(mongo));
         const response = await notification.viewNotification();
         res.status(201).json(response);
     } catch (error) {
+        console.log(error);
         res.status(500).json(error);
     }
 })
 
 router.post('/:notificationId/delete', async (req, res) => {
     try {
-        const notificationId = req.params.notificationId;
+        const notificationId = ObjectId(req.params.notificationId);
         const mongo = await req.app.locals.mongodb;
         const notification = new Notification(notificationId, new NotificationRepository(mongo));
         const response = await notification.removeNotification();

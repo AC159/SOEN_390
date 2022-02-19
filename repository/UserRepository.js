@@ -1,6 +1,3 @@
-const Notification = require('../domain/notification');
-const NotificationRepository = require('./NotificationRepository');
-
 class UserRepository {
     constructor(mongo) {
         this.mongo = mongo;

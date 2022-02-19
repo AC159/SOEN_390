@@ -5,7 +5,7 @@ class NotificationRepository {
 
     async getNotification(notificationId) {
         try {
-            return await this.mongo.db('test').collection('notification').findOne({_id: notificationId});
+            return await this.mongo.db('test').collection('notification').findOne({}, {_id: 1});
         } catch (e) {
             throw new Error('Can not get notification');
         }
@@ -26,5 +26,6 @@ class NotificationRepository {
             throw new Error('Can not delete notification');
         }
     }
-
 }
+
+module.exports = NotificationRepository;
