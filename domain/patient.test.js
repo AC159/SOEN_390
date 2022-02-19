@@ -6,43 +6,38 @@ const PatientRepository = require("../repository/PatientRepository");
 jest.mock('../repository/PatientRepository');
 
 
-describe('test Patient API for status forms', () => {
+describe('test Patient status forms creation, update and retrieval', () => {
 
-  beforeEach(() => {
-    // Clear all instances and calls to constructor and all methods:
-    PatientRepository.mockClear();
-  });
+    const userId = new UserId("Patient Id");
+    const name = new Name("Patient", "One");
+    const civicNumber = 1234;
+    const street = "Guy Street";
+    const postalCode = "L5T 3E5";
+    const city = "Montreal";
+    const province = "Quebec";
+    const address = new Address(civicNumber, street, postalCode, city, province);
 
-
-  test('GET /patient/get-status-forms/patientABC',  async () => {
-      const formData = {
-          "patientUid": "FtycBsOtoYSCjDoBkhVXAcb13Uu2",
-          "doctorUid": "TEQ6pJE6NBdXAtJ6ze1KbTuMnye2",
-          "temperature": "39",
-          "fever": "yes",
-          "headache": "no",
-          "breathing issues": "no",
-          "fatigue": "yes"
-      };
-      const userId = new UserId("Patient Id");
-      const name = new Name("Patient", "One");
-      const civicNumber = 1234;
-      const street = "Guy Street";
-      const postalCode = "L5T 3E5";
-      const city = "Montreal";
-      const province = "Quebec";
-      const address = new Address(civicNumber, street, postalCode, city, province);
-
+    test('GET /patient/get-status-form/patientABC',  async () => {
       const patientRepository = new PatientRepository();
-      console.log(patientRepository.fetchPatientForms(1234));
       const patient = new Patient(userId, name, address, "4501234569", "1998-01-01", PatientStatus.Confirmed, true, patientRepository);
-      await patient.postStatusForm();
-      await patient.updateStatusForm();
-      expect(PatientRepository).toHaveBeenCalledTimes(1);
-      expect(patientRepository.fetchPatientForms.mock.calls.length).toBe(1);
-  })
+      await patient.getPatientStatusForms();
+      expect(patientRepository.fetchPatientForms).toHaveBeenCalledTimes(1);
+    })
 
-  // describe('Patient method tests', () => {})
+    test('POST /update-status-form/patientABC',  async () => {
+        const patientRepository = new PatientRepository();
+        const patient = new Patient(userId, name, address, "4501234569", "1998-01-01", PatientStatus.Confirmed, true, patientRepository);
+        await patient.updateStatusForm();
+        expect(patientRepository.updateStatusForm).toHaveBeenCalledTimes(1);
+    })
+
+    test('POST /submit-status-form',  async () => {
+        const patientRepository = new PatientRepository();
+        const patient = new Patient(userId, name, address, "4501234569", "1998-01-01", PatientStatus.Confirmed, true, patientRepository);
+        await patient.postStatusForm();
+        expect(patientRepository.addStatusForm).toHaveBeenCalledTimes(1);
+    })
+
 })
 
 

@@ -1,10 +1,7 @@
 
-
-const fetchPatientForms = jest.fn((userId) => {
-    return { _id: "123456789", patientUid: "abcdef", doctorUid: "asdfgg"};
+const fetchPatientForms = jest.fn(() => {
+    return { toArray: _ => [{_id: "123456789", patientUid: "abcdef", doctorUid: "asdfgg"}]};
 });
-
-fetchPatientForms.toArray = jest.fn(() => ({ toArray: obj => [obj] }));
 
 const updateStatusForm = jest.fn();
 const addStatusForm = jest.fn();
