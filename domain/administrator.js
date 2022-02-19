@@ -44,7 +44,7 @@ class Administrator {
     const response = await this.adminRepository.assignPatient(patient, doctor);
 
     if (response.value?.patientInfo?.doctor !== doctor) {
-      this.adminRepository.incrementDoctorPatientCount(doctor);
+      await this.adminRepository.incrementDoctorPatientCount(doctor);
     }
   }
 
