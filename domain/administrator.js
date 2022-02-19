@@ -42,8 +42,12 @@ class Administrator {
   async assignPatient(patient, doctor) {
     await this.verifyAdmin();
     const response = await this.adminRepository.assignPatient(patient, doctor);
+    const doctorId = response.value?.patientInfo?.doctor;
 
-    if (response.value?.patientInfo?.doctor !== doctor) {
+    if (doctorId !== doctor) {
+      if (doctorId !== null) {
+        await this.adminRepository.decrementDoctorPatientCount(doctorId);
+      }
       await this.adminRepository.incrementDoctorPatientCount(doctor);
     }
   }

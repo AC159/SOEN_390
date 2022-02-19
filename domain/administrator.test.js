@@ -16,8 +16,19 @@ describe('test Administrator object', () => {
   });
 
   describe('Administrator method tests', () => {
+    let mockIncrementDoctorPatientCount;
+    let mockDecrementDoctorPatientCount;
+
     beforeEach(() => {
       AdminRepository.mockClear();
+      mockIncrementDoctorPatientCount = jest.spyOn(AdminRepository.prototype, 'incrementDoctorPatientCount');
+      mockDecrementDoctorPatientCount = jest.spyOn(AdminRepository.prototype, 'decrementDoctorPatientCount');
+      jest.spyOn(AdminRepository.prototype, 'verifyAdmin');
+    });
+
+    afterEach(() => {
+      mockDecrementDoctorPatientCount.mockRestore();
+      mockIncrementDoctorPatientCount.mockRestore();
     });
 
     describe('assignPatient', () => {
@@ -31,8 +42,6 @@ describe('test Administrator object', () => {
                 },
               },
             }));
-        const mockIncrementDoctorPatientCount = jest.spyOn(AdminRepository.prototype, 'incrementDoctorPatientCount');
-        jest.spyOn(AdminRepository.prototype, 'verifyAdmin');
 
         const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
         const doctorId = 'doctor-1';
@@ -41,10 +50,34 @@ describe('test Administrator object', () => {
         await admin.assignPatient(patientId, doctorId);
 
         expect(mockAssignPatient).toHaveBeenCalledTimes(1);
+        expect(mockDecrementDoctorPatientCount).not.toHaveBeenCalled();
         expect(mockIncrementDoctorPatientCount).toHaveBeenCalledTimes(1);
 
         mockAssignPatient.mockRestore();
-        mockIncrementDoctorPatientCount.mockRestore();
+      });
+
+      it('should call increment patient count for new doctor and decrement old doctor', async () => {
+        const mockAssignPatient = jest
+            .spyOn(AdminRepository.prototype, 'assignPatient')
+            .mockImplementation(() => ({
+              value: {
+                patientInfo: {
+                  doctor: 'doctor-2',
+                },
+              },
+            }));
+
+        const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
+        const doctorId = 'doctor-1';
+        const patientId = 'patient-1';
+
+        await admin.assignPatient(patientId, doctorId);
+
+        expect(mockAssignPatient).toHaveBeenCalledTimes(1);
+        expect(mockDecrementDoctorPatientCount).toHaveBeenCalledTimes(1);
+        expect(mockIncrementDoctorPatientCount).toHaveBeenCalledTimes(1);
+
+        mockAssignPatient.mockRestore();
       });
 
       it('should not call increment patient count when doctor is already assign to the doctor', async () => {
@@ -59,18 +92,16 @@ describe('test Administrator object', () => {
                 },
               },
             }));
-        const mockIncrementDoctorPatientCount = jest.spyOn(AdminRepository.prototype, 'incrementDoctorPatientCount');
-        jest.spyOn(AdminRepository.prototype, 'verifyAdmin');
 
         const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
 
         await admin.assignPatient(patientId, doctorId);
 
         expect(mockAssignPatient).toHaveBeenCalledTimes(1);
+        expect(mockDecrementDoctorPatientCount).not.toHaveBeenCalled();
         expect(mockIncrementDoctorPatientCount).not.toHaveBeenCalled();
 
         mockAssignPatient.mockRestore();
-        mockIncrementDoctorPatientCount.mockRestore();
       });
     });
 

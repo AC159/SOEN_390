@@ -79,6 +79,18 @@ class AdminRepository {
           throw (error);
         });
   }
+
+  async decrementDoctorPatientCount(doctorId) {
+    return await this.mongo.db('test')
+        .collection('user')
+        .updateOne(
+            {uid: doctorId},
+            {$inc: {'doctorInfo.patientCount': -1}},
+        )
+        .catch((error) => {
+          throw (error);
+        });
+  }
 }
 
 module.exports = AdminRepository;
