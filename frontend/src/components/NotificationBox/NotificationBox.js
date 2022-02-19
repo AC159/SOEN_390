@@ -1,13 +1,14 @@
+import React, {useState, useEffect} from 'react';
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 
 import styles from "./NotificationBox.module.css";
 
 import { Alert } from "react-bootstrap";
 import Notification from "../Notification/Notification";
-
+import axios from 'axios';
 
 function NotificationBox(props) {
-    let { currentUser } = useAuth();
+    let {currentUser} = useAuth();
     [
         'primary',
         'secondary',
@@ -23,43 +24,38 @@ function NotificationBox(props) {
         </Alert>
       ));
 
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        getNotifications();
+    }, []);
+
+    const getNotifications = async() => {
+        axios.get(`/notification/${currentUser.user.uid}/notifications`)
+        .then((res) => {
+            console.log('Data received!');
+            console.log(res);
+            setNotifications(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+
     return (
         <div className={styles["outer-container"]}>
             <div className={styles["notification-title"]}>Notifications</div>
             <div className={styles["notification-container"]}>
-            
-            <div className={styles["notification-box"]}>
-            <Notification
-                alertType="warning"
-                alertMainText="It is very important that you update your COVID symptoms before 11:59PM today."
-                alertSubText="You can do so by clicking the Update COVID Symptoms tab to the left of this page." 
-                alertHeading="Important!"
-            />
-            <Notification
-                alertType="info"
-                alertMainText="The Government of Quebec announced today that from Monday, 11th January 2021 onwards......"
-                alertSubText=""
-                alertHeading="Changes in Government Guidelines"
-            />
-            <Notification
-                alertType="success"
-                alertMainText="Your doctor has decided that your symptoms are not serious."
-                alertSubText=""
-                alertHeading="Good news!"
-            />
-            <Notification
-                alertType="primary"
-                alertMainText="You have a new message from Dr. Gumsimran Singh"
-                alertSubText="Click here to open Chat" 
-                alertHeading="New Message!"
-            />
-            <Notification
-                alertType="warning"
-                alertMainText="Please verify your email"
-                alertSubText="Follow the instructions on the verification email we sent you." 
-                alertHeading="Important!"
-            />
-            </div>
+                {notifications.map((notification) => (
+                    <div className='notify' key={notification._id}>
+                        <Notification
+                            alertType={notification.type}
+                            alertMainText={notification.mainText}
+                            alertSubText={notification.subtext}
+                            alertHeading={notification.heading}
+                        />
+                    </div>
+                ))}
         </div>
         </div>
         
