@@ -77,7 +77,7 @@ describe('test Administrator object', () => {
     describe('fetch doctor profile', () => {
       beforeEach(() => {
         AdminRepository.mockClear();
-        const mockFetchDoctors = jest.spyOn(AdminRepository.prototype, 'fetchDoctors')
+        jest.spyOn(AdminRepository.prototype, 'fetchDoctors')
             .mockImplementation(() => {
               return [
                 {
