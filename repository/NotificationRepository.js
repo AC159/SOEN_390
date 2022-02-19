@@ -5,7 +5,7 @@ class NotificationRepository {
 
     async getNotification(notificationId) {
         try {
-            return await this.mongo.db('test').collection('notification').findOne({notificationId: notificationId});
+            return await this.mongo.db('test').collection('notification').findOne({_id: notificationId});
         } catch (e) {
             throw new Error('Can not get notification');
         }
