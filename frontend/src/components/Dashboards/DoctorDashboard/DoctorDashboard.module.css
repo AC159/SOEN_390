@@ -47,3 +47,23 @@ html {
 
   overflow-y: scroll;
 }
+
+.patientInfoCard {
+  /* background: rgb(37, 150, 190); */
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: baseline;
+
+  background: #005871;
+  margin: 5px;
+  border: 2px solid black;
+  width: 99%;
+  padding: 10px;
+  border-radius: 10px;
+  color:white;
+}
+
+.patientInfoCard div{
+  width: 20%;
+}
