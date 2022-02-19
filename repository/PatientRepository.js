@@ -17,8 +17,8 @@ class PatientRepository {
         return this.mongo.db('test').collection('patientForms').updateOne({_id: mongoId}, {$set: formData});
     }
 
-    fetchPatientForms(userId) {
-        return this.mongo.db('test').collection('patientForms').find({patientUid: userId});
+    fetchPatientForm(userId) {
+        return this.mongo.db('test').collection('patientForms').findOne({patientUid: userId});
     }
 
 }

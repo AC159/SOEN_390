@@ -20,8 +20,8 @@ describe('test Patient status forms creation, update and retrieval', () => {
     test('GET /patient/get-status-form/patientABC',  async () => {
       const patientRepository = new PatientRepository();
       const patient = new Patient(userId, name, address, "4501234569", "1998-01-01", PatientStatus.Confirmed, true, patientRepository);
-      await patient.getPatientStatusForms();
-      expect(patientRepository.fetchPatientForms).toHaveBeenCalledTimes(1);
+      await patient.getPatientStatusForm();
+      expect(patientRepository.fetchPatientForm).toHaveBeenCalledTimes(1);
     })
 
     test('POST /update-status-form/patientABC',  async () => {

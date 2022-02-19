@@ -19,8 +19,8 @@ class Patient extends User {
     return await this.patientRepository.updateStatusForm(formData);
   }
 
-  async getPatientStatusForms() {
-    return await this.patientRepository.fetchPatientForms(this.id.getId()).toArray();
+  async getPatientStatusForm() {
+    return await this.patientRepository.fetchPatientForm(this.id.getId());
   }
 
   updateProfile() {
