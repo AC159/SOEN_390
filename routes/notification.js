@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {UserId, User} = require("../domain/user");
+const {Notification} = require("../domain/notification");
 const UserRepository = require("../repository/UserRepository");
 
 

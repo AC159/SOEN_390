@@ -1,4 +1,4 @@
-class notification {
+class Notification {
     constructor(notificationId, notificationRepository) {
         this.notificationId = notificationId;
         this.notificationRepository = notificationRepository;
@@ -27,5 +27,6 @@ class notification {
             throw e;
         }
     }
-
 }
+
+module.exports = Notification;
