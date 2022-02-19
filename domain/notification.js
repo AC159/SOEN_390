@@ -5,28 +5,20 @@ class Notification {
     }
 
     async createNotification(notificationData) {
-        try {
-            return await this.notificationRepository.addNewNotification(notificationData);
-        } catch (e) {
-            throw e;
-        }
+        return await this.notificationRepository.addNewNotification(notificationData);
     }
 
     async removeNotification() {
-        try {
-            return await this.notificationRepository.deleteNotification(this.notificationId);
-        } catch (e) {
-            throw e;
-        }
+        return await this.notificationRepository.deleteNotification(this.notificationId);
     }
 
     async viewNotification() {
-        try {
-            return await this.notificationRepository.getNotification(this.notificationId);
-        } catch (e) {
-            throw e;
-        }
+        return await this.notificationRepository.getNotification(this.notificationId);
+    }
+
+    getNotificationId() {
+        return this.notificationId;
     }
 }
 
-module.exports = Notification;
+module.exports= Notification;

@@ -1,4 +1,4 @@
-class healthOfficial {
+class HealthOfficial {
     constructor(userId, healthOfficialRepository) {
         this.userId = userId;
         this.healthOfficialRepository = healthOfficialRepository;
@@ -35,4 +35,10 @@ class healthOfficial {
             throw new Error('Can not get contact list from this report');
         }
     }
+
+    getId() {
+        return this.userId;
+    }
 }
+
+module.exports = HealthOfficial;
