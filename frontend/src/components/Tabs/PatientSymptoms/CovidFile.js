@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +11,7 @@ function CovidFile(props) {
     let [covidStatus, setCovidStatus] = useState('');
     let [haveSymptoms, setHaveSymptoms] = useState('');
     let userSymptoms = [];
+    const [symptoms, setSymptoms] = useState([]);
 
     //remove this like when the unerSymptoms is setup
     let testArray = ["hello", "hey", "hi", "hello", "hey", "hi"];
@@ -18,14 +19,14 @@ function CovidFile(props) {
 
     const [state, setState] = React.useState({userStatus: `${currentUser.dbData.userStatus}`, userSymptoms: `${currentUser.dbData.userSymptoms}`});
 
-
     const submitPatientForm = async() => {
         try {
-            console.log(`covidStatus: ${covidStatus}`);
-            console.log(`userSymptoms: ${userSymptoms}`);
-            axios.post(`'/patient/submit-status-form/:${currentUser.user.uid}`, {
-                userAttributes: {covidStatus, userSymptoms}
-            })
+            const userAttributes = {
+                patientUid: currentUser.user.uid,
+                covidStat: covidStatus,
+                userSympt: userSymptoms
+            };
+            axios.post(`/patient/submit-status-form`, userAttributes)
             .then(function (response) {
                 console.log(response);
               })
@@ -35,31 +36,39 @@ function CovidFile(props) {
             }
         }
     
-
+    //Need to impletent update
     const updatePatientForm = async() => {
-        axios.post(`'/patient/update-status-form/:${currentUser.user.uid}`, {
-            userAttributes: {userSymptoms}
-        })
-        .then(function (response) {
+        try {
+            const userAttributes = {
+                uid: currentUser.user.uid,
+                covidStatus: covidStatus,
+                userSymptoms: userSymptoms
+            };
+            axios.post(`/patient/update-status-form/${currentUser.user.uid}`, userAttributes)
+            .then(function (response) {
+                console.log(response);
+              })
+            alert(covidStatus + userSymptoms);
+            } catch (error) {
+                console.log('Submit error: ', error);
+            }
+    }
+
+    useEffect(() => {
+        fetchPatientForm();
+      }, []);
+
+
+    const fetchPatientForm = async() => {
+        axios.get(`patient/get-status-form/${currentUser.user.uid}`)
+        .then((response) => {
             console.log(response);
+            setSymptoms(response.data);
           })
         .catch(function (error) {
             console.log(error);
-          });
-    }
-
-    const getPatientForm = async() => {
-        axios.post(`'/patient/get-status-form/:${currentUser.user.uid}`, {
-            userAttributes: {userSymptoms}
-        })
-        .then(function (response) {
-            console.log(response);
-          })
-        .catch(function (error) {
-            console.log(error);
-          });
-    }
-
+        });
+    };
 
 
 
@@ -143,7 +152,11 @@ function CovidFile(props) {
 
     return (
         <div>
-<form>
+            <div>
+                <p>Symptoms:</p>
+               
+            </div>
+        <form>
             <label>Select your Covid Status : &nbsp;</label>
                             <select defaultValue={covidStatus} onChange={(event) => setCovidStatus(event.target.value)}>
                                 <option value="None">None</option>
@@ -301,7 +314,10 @@ function CovidFile(props) {
 
                             <button onClick={(e) => {submitPatientForm()}}>update</button>
                 </form>
+                
+ 
         </div>
+        
 
     );
 }
