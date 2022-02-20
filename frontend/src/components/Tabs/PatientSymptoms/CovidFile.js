@@ -153,8 +153,7 @@ function CovidFile(props) {
             </div>
             <div >
                 <ul>
-                    {patientData}
-                {/*{patientData?.map((post) => <li> {post.userStatus}</li>)}*/}
+                {patientData?.map((post) => <li> {post.userStatus}</li>)}
                 </ul>
             </div>
         {/*<form>*/}
