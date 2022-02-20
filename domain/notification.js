@@ -17,7 +17,7 @@ class Notification {
     }
 
     getNotificationId() {
-        return this.notificationId;
+        return this.notificationId._id;
     }
 }
 

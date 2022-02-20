@@ -14,7 +14,7 @@ router.get('/:userId/notifications', async (req, res) => {
         const mongo = await req.app.locals.mongodb;
         const user = new User(userId, null, new UserRepository(mongo));
         const notifications = await user.viewNotifications();
-        res.status(201).json(notifications);
+        res.status(200).json(notifications);
     } catch (error) {
         res.status(500).json(error);
     }
@@ -26,7 +26,7 @@ router.get('/:notificationId/view', async (req, res) => {
         const mongo = await req.app.locals.mongodb;
         const notification = new Notification(notificationId, new NotificationRepository(mongo));
         const response = await notification.viewNotification();
-        res.status(201).json(response);
+        res.status(200).json(response);
     } catch (error) {
         console.log(error);
         res.status(500).json(error);

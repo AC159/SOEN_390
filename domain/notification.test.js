@@ -1,10 +1,35 @@
-const Notification = require('./notification.js');
+const {Notification} = require('./notification');
+const {ObjectId} = require("mongodb");
+const NotificationRepository = require("../repository/NotificationRepository");
+
+jest.mock('../repository/NotificationRepository');
 
 describe('test Notification object', () => {
     describe('test Notification constructor', () => {
         test('should return notification id', () => {
-            const notification = new Notification('a1b2c3d4e5', null);
-            expect(notification.getNotificationId()).toEqual('a1b2c3d4e5');
+            const n_id = new ObjectId();
+            const notification = new Notification(n_id, null);
+            expect(notification.getNotificationId()).toEqual(n_id._id);
+        })
+    })
+
+    describe('test Notification creation, view and removal - connection to repository', () => {
+        const notificationRepository = new NotificationRepository();
+        const notification = new Notification(new ObjectId(), notificationRepository);
+
+        test('GET /notification/12345/view', async () => {
+            await notification.viewNotification();
+            expect(notificationRepository.getNotification).toHaveBeenCalledTimes(1);
+        })
+
+        test('POST /notification/12345/delete', async () => {
+            await notification.removeNotification();
+            expect(notificationRepository.deleteNotification).toHaveBeenCalledTimes(1);
+        })
+
+        test('POST /notification/addNewNotification', async () => {
+            await notification.createNotification();
+            expect(notificationRepository.addNewNotification).toHaveBeenCalledTimes(1);
         })
 
     })
