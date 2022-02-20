@@ -7,6 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./DoctorDashboard.module.css";
 import "../DashboardCommonStyles.css";
 import NotificationBox from "../../NotificationBox/NotificationBox";
+import axios from "axios";
+import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
+import { useState } from "react";
 
 function DoctorDashboard(props) {
 
@@ -25,7 +28,25 @@ function DoctorDashboard(props) {
   const patientOne = Patient("First Patient", "POSITIVE", "02/05/1999", "Patient1@gmail.com", "514-514-5145");
   const patientTwo = Patient("Second Patient", "PENDING", "14/02/2014", "iAmPatient2@gmail.com", "438-438-4384");
   const patientThree = Patient("Third Patient", "NEGATIVE", "17/08/1984", "patientTHREE@gmail.com", "514-438-5145");
-  const patients = [patientOne, patientTwo, patientThree];
+  // const patients = [patientOne, patientTwo, patientThree];
+
+
+  let {currentUser} = useAuth();
+
+  const [patientList, setPatientList] = useState([]);
+
+  const getPatientArray = async () => {
+    // axios.get(`/${currentUser.user.uid}/patientArray`)
+    axios.get('/doctor_id/patientArray')
+    .then((response) => {
+      setPatientList(response.data.data);
+      console.log(patientList);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    })
+  }
+
 
   return (
     <div>
@@ -38,10 +59,10 @@ function DoctorDashboard(props) {
                 <Home />
               </div>
             </Tab>
-            <Tab eventKey="monitor-patient" title="Monitor Patients">
+            <Tab eventKey="monitor-patient" title="Monitor Patients" >
             <div className={styles["tab-page"]}>
               <div>
-                {patients.map(patient =>
+                {patientList.map(patient =>
                 <div className={styles["patientInfoCard"]}>
                   <div>
                     <h6>Name:</h6>
