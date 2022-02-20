@@ -16,7 +16,7 @@ function AdminDashboard(props) {
       <Navbar />
       <div className={styles["admin-main-container"]}>
         <div className={styles["tabs-box"]}>
-          <Tabs className="tabStyle" defaultActiveKey="home">
+          <Tabs className="tabStyle" defaultActiveKey="home" unmountOnExit={true} mountOnEnter={true}>
             <Tab eventKey="home" title="Home">
               <div className={styles["tab-page"]}>
                 <Home />
