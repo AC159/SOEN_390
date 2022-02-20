@@ -36,8 +36,8 @@ function DoctorDashboard(props) {
   const [patientList, setPatientList] = useState([]);
 
   const getPatientArray = async () => {
-    // axios.get(`/${currentUser.user.uid}/patientArray`)
-    axios.get('/doctor_id/patientArray')
+     axios.get( `doctor/${currentUser.user.uid}/patientArray` )
+    //axios.get('/:doctor_id/patientArray')
     .then((response) => {
       setPatientList(response.data.data);
       console.log(patientList);
