@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from "./CovidFile.module.css";
-import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
 function CovidFile(props) {
@@ -13,7 +10,7 @@ function CovidFile(props) {
     let userSymptoms = [];
     const [symptoms, setSymptoms] = useState([]);
 
-    let [patientData, setpatientData] = useState();
+    let [patientData, setPatientData] = useState();
     let patientD = [];
     //remove this like when the unerSymptoms is setup
     let testArray = ["hello", "hey", "hi", "hello", "hey", "hi"];
@@ -36,8 +33,8 @@ function CovidFile(props) {
                 console.log('Submit error: ', error);
             }
         }
-
-    //Need to impletent update
+    
+    //Need to implement update
     const updatePatientForm = async() => {
         try {
             const userAttributes = {
@@ -55,16 +52,15 @@ function CovidFile(props) {
             }
     }
 
-    useEffect(async () => {
-
-        const response = await axios.get(`patient/get-status-form/${currentUser.user.uid}`)
-        setpatientData(response.data);
-            // console.log(response);
-        console.log(response.data);
+    useEffect(() => {
+        axios.get(`/patient/get-status-form/${currentUser.user.uid}`)
+            .then((response) => {
+                setPatientData(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
       }, []);
-
-
-
 
 
     const [popUpStatus, setPopUpStatus] = useState(false);
@@ -94,11 +90,11 @@ function CovidFile(props) {
                             <Modal.Title>Update your symptoms</Modal.Title>
                         </Modal.Header>
                         <Modal.Body></Modal.Body>
-
-
+                        
+                        
                         </Modal.Body>
                         <Modal.Footer>
-
+                            
                         </Modal.Footer>
                     </Modal>*/
 /*
@@ -113,7 +109,7 @@ function CovidFile(props) {
                             <Modal.Title>Update Status</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-
+                            
 
                         </Modal.Body>
                         <Modal.Footer>
@@ -133,12 +129,12 @@ function CovidFile(props) {
                     <div>Symptoms: {userSymptomsList()}</div>
                     <button className={styles['button-edit_CovidFile']} onClick={handleSymtomeShow}>Edit</button>
 
+                    
 
+                            
 
-
-
-
-
+                        
+                        
                 </div>
             </div>
 
@@ -149,11 +145,11 @@ function CovidFile(props) {
         <div>
             <div>
                 <p>Symptoms:</p>
-
+               
             </div>
             <div >
                 <ul>
-                {patientData?.map((post) => <li> {post.userStatus}</li>)}
+                {patientData ? Object.keys(patientData).map((key, index) => <li key={index}>{key}:{patientData[key]}</li>) : null}
                 </ul>
             </div>
         {/*<form>*/}
@@ -319,7 +315,7 @@ function CovidFile(props) {
 
 
         </div>
-
+        
 
     );
 }
