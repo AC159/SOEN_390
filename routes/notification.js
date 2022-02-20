@@ -38,8 +38,8 @@ router.post('/:notificationId/delete', async (req, res) => {
         const notificationId = ObjectId(req.params.notificationId);
         const mongo = await req.app.locals.mongodb;
         const notification = new Notification(notificationId, new NotificationRepository(mongo));
-        const response = await notification.removeNotification();
-        res.status(201).json(response);
+        const deletedNotification = await notification.removeNotification();
+        res.status(201).json(deletedNotification);
     } catch (error) {
         res.status(500).json(error);
     }

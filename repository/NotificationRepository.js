@@ -3,14 +3,6 @@ class NotificationRepository {
         this.mongo = mongo;
     }
 
-    async getNotification(notificationId) {
-        try {
-            return await this.mongo.db('test').collection('notification').findOne(notificationId);
-        } catch (e) {
-            throw new Error('Can not get notification');
-        }
-    }
-
     async addNewNotification(notificationData) {
         try {
             return await this.mongo.db('test').collection('notification').insertOne(notificationData);
@@ -19,9 +11,17 @@ class NotificationRepository {
         }
     }
 
+    async getNotification(notificationId) {
+        try {
+            return await this.mongo.db('test').collection('notification').findOne({_id: notificationId});
+        } catch (e) {
+            throw new Error('Can not get notification');
+        }
+    }
+
     async deleteNotification(notificationId) {
         try {
-            return await this.mongo.db('test').collection('notification').findOneAndDelete({notificationId: notificationId});
+            return await this.mongo.db('test').collection('notification').deleteOne({_id: notificationId});
         } catch (e) {
             throw new Error('Can not delete notification');
         }
