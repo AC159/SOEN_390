@@ -34,9 +34,9 @@ class AdminRepository {
     return await this.mongo.db('test').collection('user')
         .find({
           userType: 'patient',
-          userStatus: 'APPROVED',
-          patientInfo: {doctor: null}})
-        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1})
+          userStatus: 'APPROVED'})
+          //patientInfo: {doctor: null}})
+        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1, patientInfo: 1})
         .toArray();
   }
 
@@ -56,14 +56,14 @@ class AdminRepository {
         .toArray();
   }
 
-  async assignPatient(patientId, doctorId) {
+  async assignPatient(patientId, doctorId, doctorName) {
     return await this.mongo.db('test')
         .collection('user')
         .findOneAndUpdate(
             {uid: patientId},
             {$set: {
               patientInfo: {
-                doctor: doctorId,
+                doctor: doctorName,
               },
             }});
   }

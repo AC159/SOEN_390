@@ -6,3 +6,7 @@
   width: 100%;
   margin-bottom: 10px;
 }
+
+.doctor-select-button {
+  float: right;
+}

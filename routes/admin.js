@@ -109,10 +109,11 @@ router.post('/:adminId/patient', async (req, res) => {
     const adminId = new UserId(req.params.adminId);
     const patientId = req.body.patient;
     const doctorId = req.body.doctor;
+    const doctorName = req.body.doctorName;
 
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
     const admin = new Administrator(adminId, adminRepository);
-    await admin.assignPatient(patientId, doctorId);
+    await admin.assignPatient(patientId, doctorId, doctorName);
 
     res.status(200).json({message: 'success'});
   } catch (error) {

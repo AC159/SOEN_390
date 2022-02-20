@@ -39,9 +39,9 @@ class Administrator {
     return await this.adminRepository.rejectUser(userId);
   }
 
-  async assignPatient(patient, doctor) {
+  async assignPatient(patient, doctor, doctorName) {
     await this.verifyAdmin();
-    const response = await this.adminRepository.assignPatient(patient, doctor);
+    const response = await this.adminRepository.assignPatient(patient, doctor, doctorName);
     const doctorId = response.value?.patientInfo?.doctor;
 
     if (doctorId !== doctor) {

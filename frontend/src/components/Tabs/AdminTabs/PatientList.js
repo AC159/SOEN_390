@@ -22,7 +22,7 @@ function PatientList(props) {
     fetchListOfPatients();
   }, [patientList.length]);
 
-  const fetchListOfPatients = () => {
+  const fetchListOfPatients = async () => {
     
     axios.get(`admin/${currentUser.user.uid}/patients`)
     .then((response) => {
@@ -33,11 +33,6 @@ function PatientList(props) {
       console.log(error.response);
     })
   }
- 
-  function renderPatientList(list)
-  {
-
-  }
 
   function renderPatientList()
   {
@@ -46,6 +41,7 @@ function PatientList(props) {
       <PatientBox 
       eventKey={`${index}`}
       patient={patient}
+      currentUser={currentUser}
       />)}
     </Accordion>;
   }
