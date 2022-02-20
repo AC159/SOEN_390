@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../Navbar/Navbar";
-import { Tabs } from "react-bootstrap";
-import { Tab } from "react-bootstrap";
+import {Tabs} from "react-bootstrap";
+import {Tab} from "react-bootstrap";
 import Home from "../../Tabs/Home";
 import RoleRequest from "../../Tabs/AdminTabs/RoleRequest";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -27,7 +27,7 @@ function AdminDashboard(props) {
                 <RoleRequest />
               </div>
             </Tab>
-            <Tab eventKey="contact" title="Contact"></Tab>
+            <Tab eventKey="contact" title="Contact"/>
           </Tabs>
         </div>
 

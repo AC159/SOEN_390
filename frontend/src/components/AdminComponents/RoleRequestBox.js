@@ -1,14 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./RoleRequestBox.module.css";
-import { Button } from "react-bootstrap";
-import { Card } from "react-bootstrap";
-
+import {Button} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import axios from "axios";
-
-import { useState } from "react";
-
-const uID = "";
-const adminID = "";
+import {useState} from "react";
 
 function RoleRequestBox(props) {
   function makeTitle(RequestType) {
@@ -17,10 +12,12 @@ function RoleRequestBox(props) {
 
   const [displayRequestBox, setDisplayRB] = useState(true);
 
-  const approveUser = () => {
+  const approveUser = async () => {
     const approveInfo = {
       userId: props.uID,
-      adminId: props.adminID
+      adminId: props.adminID,
+      userEmail: props.userEmail,
+      message: `Hi ${props.RequesterUsername}, \nThis email is to let you know that your account has been approved!` // email can be plain text or html
     }
 
     axios.post(`admin/${props.adminID}/approve-user`, approveInfo)
