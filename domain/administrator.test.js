@@ -38,7 +38,7 @@ describe('test Administrator object', () => {
             .mockImplementation(() => ({
               value: {
                 patientInfo: {
-                  doctor: null,
+                  doctorId: null,
                 },
               },
             }));
@@ -46,8 +46,9 @@ describe('test Administrator object', () => {
         const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
         const doctorId = 'doctor-1';
         const patientId = 'patient-1';
+        const doctorName = 'Dr. Doe';
 
-        await admin.assignPatient(patientId, doctorId);
+        await admin.assignPatient(patientId, doctorId, doctorName);
 
         expect(mockAssignPatient).toHaveBeenCalledTimes(1);
         expect(mockDecrementDoctorPatientCount).not.toHaveBeenCalled();
@@ -62,7 +63,7 @@ describe('test Administrator object', () => {
             .mockImplementation(() => ({
               value: {
                 patientInfo: {
-                  doctor: 'doctor-2',
+                  doctorId: 'doctor-2',
                 },
               },
             }));
@@ -70,8 +71,9 @@ describe('test Administrator object', () => {
         const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
         const doctorId = 'doctor-1';
         const patientId = 'patient-1';
+        const doctorName = 'Dr. Doe';
 
-        await admin.assignPatient(patientId, doctorId);
+        await admin.assignPatient(patientId, doctorId, doctorName);
 
         expect(mockAssignPatient).toHaveBeenCalledTimes(1);
         expect(mockDecrementDoctorPatientCount).toHaveBeenCalledTimes(1);
@@ -83,19 +85,20 @@ describe('test Administrator object', () => {
       it('should not call increment patient count when doctor is already assign to the doctor', async () => {
         const doctorId = 'doctor-1';
         const patientId = 'patient-1';
+        const doctorName = 'Dr. Doe';
         const mockAssignPatient = jest
             .spyOn(AdminRepository.prototype, 'assignPatient')
             .mockImplementation(() => ({
               value: {
                 patientInfo: {
-                  doctor: doctorId,
+                  doctorId: doctorId,
                 },
               },
             }));
 
         const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
 
-        await admin.assignPatient(patientId, doctorId);
+        await admin.assignPatient(patientId, doctorId, doctorName);
 
         expect(mockAssignPatient).toHaveBeenCalledTimes(1);
         expect(mockDecrementDoctorPatientCount).not.toHaveBeenCalled();

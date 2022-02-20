@@ -39,16 +39,16 @@ class Administrator {
     return await this.adminRepository.rejectUser(userId);
   }
 
-  async assignPatient(patient, doctor, doctorName) {
+  async assignPatient(patient, doctorId, doctorName) {
     await this.verifyAdmin();
-    const response = await this.adminRepository.assignPatient(patient, doctor, doctorName);
-    const doctorId = response.value?.patientInfo?.doctor;
+    const response = await this.adminRepository.assignPatient(patient, doctorId, doctorName);
+    const oldDoctorId = response.value?.patientInfo?.doctorId;
 
-    if (doctorId !== doctor) {
-      if (doctorId !== null) {
+    if (oldDoctorId !== doctorId) {
+      if (oldDoctorId !== null && oldDoctorId !== undefined) {
         await this.adminRepository.decrementDoctorPatientCount(doctorId);
       }
-      await this.adminRepository.incrementDoctorPatientCount(doctor);
+      await this.adminRepository.incrementDoctorPatientCount(doctorId);
     }
   }
 

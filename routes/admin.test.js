@@ -74,15 +74,23 @@ describe('integration test of admin routes', () => {
       jest.spyOn(AdminRepository.prototype, 'fetchPatients')
           .mockImplementation(() => [
             {
-              'uid': 'doctor-1',
+              'uid': 'patient-1',
               'name': 'John Doe',
               'dob': '1111-11-11',
               'address': '1234 street',
+              'patientInfo': {
+                'doctor': 'Dr. Doe',
+                'doctorId': 'doctor-1',
+              },
             }, {
-              'uid': 'doctor-2',
+              'uid': 'patient-2',
               'name': 'Jane Doe',
               'dob': '2222-22-22',
               'address': '4321 street',
+              'patientInfo': {
+                'doctor': 'Dr. Doe',
+                'doctorId': 'doctor-1',
+              },
             },
           ]);
       jest.spyOn(MongoClient.prototype, 'connect')
@@ -95,15 +103,23 @@ describe('integration test of admin routes', () => {
       expect(response.statusCode).toBe(200);
       expect(JSON.stringify(response.body.data)).toBe(JSON.stringify([
         {
-          'uid': 'doctor-1',
+          'uid': 'patient-1',
           'name': 'John Doe',
           'dob': '1111-11-11',
           'address': '1234 street',
+          'patientInfo': {
+            'doctor': 'Dr. Doe',
+            'doctorId': 'doctor-1',
+          },
         }, {
-          'uid': 'doctor-2',
+          'uid': 'patient-2',
           'name': 'Jane Doe',
           'dob': '2222-22-22',
           'address': '4321 street',
+          'patientInfo': {
+            'doctor': 'Dr. Doe',
+            'doctorId': 'doctor-1',
+          },
         },
       ]));
     });

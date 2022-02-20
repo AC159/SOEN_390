@@ -35,7 +35,7 @@ class AdminRepository {
         .find({
           userType: 'patient',
           userStatus: 'APPROVED'})
-          //patientInfo: {doctor: null}})
+    // patientInfo: {doctor: null}})
         .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1, patientInfo: 1})
         .toArray();
   }
@@ -64,6 +64,7 @@ class AdminRepository {
             {$set: {
               patientInfo: {
                 doctor: doctorName,
+                doctorId: doctorId,
               },
             }});
   }
