@@ -1,9 +1,7 @@
 .notification-box {
     flex: 1 1 auto;
     height: 100%;
-    margin-bottom: 10px;
     max-height: 615px;
-    padding-bottom: 10px;
 }
 
 .notification-container {
@@ -21,7 +19,7 @@
 }
 
 .outer-container{
-    
+    padding-bottom: 10px;
 }
 
 .notification-title{
