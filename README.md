@@ -29,6 +29,8 @@
 
     Create another .env file and place it at the root of the project
         MONGO_CLUSTER_URL=
+        COVICARE_EMAIL=covicare390@gmail.com (must be a valid gmail account)
+        COVICARE_EMAIL_PASSWORD=
 
     Start the local development server with the following command:
         npm run dev
