@@ -23,7 +23,11 @@ class AdminRepository {
   }
 
   async approveUser(userId) {
-    return await this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {userStatus: 'APPROVED'}});
+    return await this.mongo.db('test').collection('user').findOneAndUpdate({uid: userId}, {$set: {userStatus: 'APPROVED'}});
+  }
+
+  async setUserDefaultInformation(userId, additionalInfo={}) {
+    await this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: additionalInfo});
   }
 
   async rejectUser(userId) {

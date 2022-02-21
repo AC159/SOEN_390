@@ -1,5 +1,5 @@
 require('dotenv').config();
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 class Administrator {
   constructor(userId, adminRepository) {
@@ -33,8 +33,19 @@ class Administrator {
 
   async approvePendingUser(userId) {
     await this.verifyAdmin();
-    return await this.adminRepository.approveUser(userId);
+    const user = await this.adminRepository.approveUser(userId);
+    switch (user.value.userType) {
+      case 'patient':
+        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: null}});
+        break;
+      case 'doctor':
+        this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});
+        break;
+      default:
+        break;
+    }
 
+    return user.value;
   }
 
   async rejectPendingUser(userId) {
@@ -48,8 +59,8 @@ class Administrator {
 
   async sendConfirmationEmail(userEmail, message) {
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
@@ -59,22 +70,21 @@ class Administrator {
     });
 
     // send mail with defined transport object
-    let info = await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: process.env.COVICARE_EMAIL, // sender address
       to: userEmail, // list of receivers
-      subject: "CoviCare Account Confirmation ✔", // Subject line
+      subject: 'CoviCare Account Confirmation ✔', // Subject line
       text: message, // plain text body
       // html: "<b>Hello world?</b>", // html body
     });
 
-    console.log("Message sent: %s", info.messageId);
+    console.log('Message sent: %s', info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
     // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     return info;
   }
-
 }
 
 module.exports = Administrator;
