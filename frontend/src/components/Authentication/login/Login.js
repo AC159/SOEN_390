@@ -17,6 +17,7 @@ function Login(props) {
       console.log("User: ", user);
       // get the requested route from local storage
       const redirectRoute = sessionStorage.getItem("requestedRoute");
+      console.log("Here be the route:");
       console.log(redirectRoute);
       if (
         redirectRoute !== "" &&

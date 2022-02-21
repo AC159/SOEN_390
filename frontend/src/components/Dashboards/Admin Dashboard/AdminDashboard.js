@@ -4,6 +4,7 @@ import {Tabs} from "react-bootstrap";
 import {Tab} from "react-bootstrap";
 import Home from "../../Tabs/Home";
 import RoleRequest from "../../Tabs/AdminTabs/RoleRequest";
+import PatientList from "../../Tabs/AdminTabs/PatientList"
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./AdminDashboard.module.css";
 import "../DashboardCommonStyles.css";
@@ -27,7 +28,12 @@ function AdminDashboard(props) {
                 <RoleRequest />
               </div>
             </Tab>
-            <Tab eventKey="contact" title="Contact"/>
+            <Tab eventKey="patient-list" title="Patient List">
+              <div className={styles["tab-page"]}>
+                <PatientList />
+              </div>
+            </Tab>
+            <Tab eventKey="contact" title="Contact"></Tab>
           </Tabs>
         </div>
 

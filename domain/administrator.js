@@ -53,8 +53,34 @@ class Administrator {
     return await this.adminRepository.rejectUser(userId);
   }
 
-  assignPatient(patient, doctor) {
-    throw new Error(`${this.assignPatient.name} is not implemented.`);
+  async assignPatient(patient, doctorId, doctorName) {
+    await this.verifyAdmin();
+    const response = await this.adminRepository.assignPatient(patient, doctorId, doctorName);
+    const oldDoctorId = response.value?.patientInfo?.doctorId;
+
+    if (oldDoctorId !== doctorId) {
+      if (oldDoctorId !== null && oldDoctorId !== undefined) {
+        await this.adminRepository.decrementDoctorPatientCount(doctorId);
+      }
+      await this.adminRepository.incrementDoctorPatientCount(doctorId);
+    }
+  }
+
+  async viewUnassignedPatient() {
+    await this.verifyAdmin();
+    return await this.adminRepository.fetchPatients();
+  }
+
+  async fetchDoctorProfiles() {
+    await this.verifyAdmin();
+    const response = await this.adminRepository.fetchDoctors();
+
+    return response.map((doctor) => ({
+      'uid': doctor.uid,
+      'name': doctor.name,
+      'address': doctor.address,
+      'patientCount': doctor.doctorInfo.patientCount,
+    }));
   }
 
   async sendConfirmationEmail(userEmail, message) {
