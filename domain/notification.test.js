@@ -13,7 +13,7 @@ describe('test Notification object', () => {
         })
     })
 
-    describe('test Notification creation, view and removal - connection to repository', () => {
+    describe('integration test - Notification creation, view and removal - connection to repository', () => {
         const notificationRepository = new NotificationRepository();
         const notification = new Notification(new ObjectId(), notificationRepository);
 
