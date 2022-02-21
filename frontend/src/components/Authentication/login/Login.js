@@ -1,27 +1,55 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import axios from 'axios';
 
+
+
 function Login(props) {
 
     let navigate = useNavigate();
     let auth = useAuth();
+    let {currentUser} = useAuth()
 
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
     let [loginError, setLoginError] = useState('');
 
+
     const submitForm = async () => {
         try {
             const user = await auth.login(email, password);
+            const userType = `${currentUser.dbData.userType}`;
+            const userStatus = `${currentUser.dbData.userStatus}`;
+
+
             console.log('User: ', user);
+            console.log('UserType: ', userType);
+            console.log('UserStatus: ', userStatus);
+            // console.log("/" + userType + "-dashboard")
             // get the requested route from local storage
-            const redirectRoute = sessionStorage.getItem('requestedRoute')
-            console.log(redirectRoute);
-            if (redirectRoute !== '' && redirectRoute !== undefined && redirectRoute !== null) navigate(redirectRoute, {replace: true});
-            else navigate("/general-dashboard", {replace: true});
+            // const redirectRoute = sessionStorage.getItem('requestedRoute')
+            // console.log(redirectRoute);
+            // alert(userType);
+
+            if(userStatus === "APPROVED"){
+                if(userType === "patient"){
+                    console.log('/patient-dashboard');
+                }else if(userType === "doctor"){
+                    console.log('/doctor-dashboard');
+                }else if(userType === "administrator"){
+                    console.log('/admin-dashboard');
+                }else if(userType === "healthOfficial"){
+                    console.log('/health-official-dashboard');
+                }else if(userType === "immigrationOfficial"){
+                    console.log('/immigration-officer-dashboard');
+                }
+            }else{
+                console.log('/general-dashboard')
+            }
+            // if (redirectRoute !== '' && redirectRoute !== undefined && redirectRoute !== null) navigate(redirectRoute, {replace: true});
+            // else navigate("/general-dashboard", {replace: true});
         } catch(error) {
             if (error.code === 'auth/user-not-found') setLoginError("User not found, sign up?");
             if (error.code === 'auth/too-many-requests') setLoginError("Too many requests, try again later");

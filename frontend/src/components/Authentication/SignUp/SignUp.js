@@ -32,8 +32,8 @@ function SignUp(props) {
     let [user, setUser] = useState('');
     let [patient, setPatient] = useState(false);
     let [doctor, setDoctor] = useState('');
-    let [healthOfficer, setHealthOfficer] = useState('');
-    let [immigrationOfficer, setImmigrationOfficer] = useState('');
+    let [healthOfficial, setHealthOfficial] = useState('');
+    let [immigrationOfficial, setImmigrationOfficial] = useState('');
     let [administrator, setAdministrator] = useState('');
 
     let [insurance, setInsurance] = useState('');
@@ -65,43 +65,43 @@ function SignUp(props) {
         if(value === "patient"){
             setPatient(!patient);
             setDoctor(false);
-            setHealthOfficer(false);
-            setImmigrationOfficer(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
             setAdministrator(false);
         }
         else if(value === "doctor") {
             setDoctor(!doctor);
             setPatient(false);
-            setHealthOfficer(false);
-            setImmigrationOfficer(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
             setAdministrator(false);
         }
-        else if(value === "healthOfficer"){
-            setHealthOfficer(!healthOfficer);
+        else if(value === "healthOfficial"){
+            setHealthOfficial(!healthOfficial);
             setPatient(false);
             setDoctor(false);
-            setImmigrationOfficer(false);
+            setImmigrationOfficial(false);
             setAdministrator(false);
         }
-        else if(value === "immigrationOfficer"){
-            setImmigrationOfficer(!immigrationOfficer);
+        else if(value === "immigrationOfficial"){
+            setImmigrationOfficial(!immigrationOfficial);
             setPatient(false);
             setDoctor(false);
-            setHealthOfficer(false);
+            setHealthOfficial(false);
             setAdministrator(false);
         }
         else if(value === "administrator"){
             setAdministrator(!administrator);
             setPatient(false);
             setDoctor(false);
-            setHealthOfficer(false);
-            setImmigrationOfficer(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
         }
         else {
             setPatient(false);
             setDoctor(false);
-            setHealthOfficer(false);
-            setImmigrationOfficer(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
             setAdministrator(false);
         }
     }
@@ -185,8 +185,8 @@ function SignUp(props) {
                             <option value="" selected disabled>Please select</option>
                             <option value="patient" >Patient</option>
                             <option value="doctor" >Doctor</option>
-                            <option value="healthOfficer">Health Officer</option>
-                            <option value="immigrationOfficer">Immigration Officer</option>
+                            <option value="healthOfficial">Health Official</option>
+                            <option value="immigrationOfficial">Immigration Official</option>
                             <option value="administrator">Administrator</option>
                         </select>
 
@@ -201,13 +201,13 @@ function SignUp(props) {
                                 onChange={(event) => setDoctorLicense(event.target.value)}/>
                         </div>
 
-                        <div className={styles[healthOfficer ? 'visible_SingUp' : 'hidden_SingUp']}>
-                        <input className={styles['input_SingUp']}  type="number" placeholder="Health officer's License Number" value={healthLicense}
+                        <div className={styles[healthOfficial ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input className={styles['input_SingUp']}  type="number" placeholder="Health official's License Number" value={healthLicense}
                                 onChange={(event) => setHealthLicense(event.target.value)}/>
                         </div>
 
-                        <div className={styles[immigrationOfficer ? 'visible_SingUp' : 'hidden_SingUp']}>
-                        <input  className={styles['input_SingUp']} type="number" placeholder="Immigration officer's Id Number" value={immigrationId}
+                        <div className={styles[immigrationOfficial ? 'visible_SingUp' : 'hidden_SingUp']}>
+                        <input  className={styles['input_SingUp']} type="number" placeholder="Immigration official's Id Number" value={immigrationId}
                                 onChange={(event) => setImmigrationId(event.target.value)}/>
                         </div>
 
