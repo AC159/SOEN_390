@@ -69,7 +69,11 @@ router.post('/:adminId/approve-user', async (req, res) => {
     const admin = new Administrator(adminId, adminRepository);
     const response = await admin.approvePendingUser(userId);
 
-    res.status(200).json({data: response});
+    const userEmail = req.body.userEmail;
+    const message = req.body.message;
+    const emailResponse = await admin.sendConfirmationEmail(userEmail, message);
+
+    res.status(200).json({data: response, emailResponse});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

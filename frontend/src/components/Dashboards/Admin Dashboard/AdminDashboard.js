@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../Navbar/Navbar";
-import { Tabs } from "react-bootstrap";
-import { Tab } from "react-bootstrap";
+import {Tabs} from "react-bootstrap";
+import {Tab} from "react-bootstrap";
 import Home from "../../Tabs/Home";
 import RoleRequest from "../../Tabs/AdminTabs/RoleRequest";
 import PatientList from "../../Tabs/AdminTabs/PatientList"
