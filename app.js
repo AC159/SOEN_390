@@ -28,9 +28,12 @@ connectToCluster(process.env.MONGO_CLUSTER_URL).then(client => {
     app.locals.mongodb = client
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     // export const mongoClient = connectToCluster(process.env.MONGO_CLUSTER_URL).then(() => {
     //     console.log("success...".america);
     // });
     console.log(`Server listening on port ${port}...`.brightBlue)
 });
+
+module.exports = app;
+module.exports.server = server;
