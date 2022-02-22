@@ -8,28 +8,11 @@ import {Modal} from "react-bootstrap";
 import axios from 'axios';
 
 function Notification(props) {
-    [
-        'primary',
-        'secondary',
-        'success',
-        'danger',
-        'warning',
-        'info',
-        'light',
-        'dark',
-    ].map((variant, idx) => (
-        <Alert key={idx} variant={variant}>
-            This is a {variant} alert—check it out!
-        </Alert>
-    ));
-
     const [show, setShow] = useState(true);
     const [showing, setShowing] = useState(false);
 
-
     const handleModalClose = () => setShowing(false);
     const handleModalShow = () => setShowing(true);
-
 
     const id = props.notificationId;
     const timeStamp = props.timeStamp;
@@ -57,7 +40,6 @@ function Notification(props) {
             }).format(timeStamp)
         );
     }
-
 
     return (
         <div className={styles["notification-box"]}>

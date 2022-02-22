@@ -5,26 +5,11 @@ import styles from "./NotificationBox.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Tabs/CommonPageStyling.css";
 
-import {Alert} from "react-bootstrap";
 import Notification from "../Notification/Notification";
 import axios from 'axios';
 
-function NotificationBox(props) {
+function NotificationBox() {
     let {currentUser} = useAuth();
-    [
-        'primary',
-        'secondary',
-        'success',
-        'danger',
-        'warning',
-        'info',
-        'light',
-        'dark',
-    ].map((variant, idx) => (
-        <Alert key={idx} variant={variant}>
-            This is a {variant} alert—check it out!
-        </Alert>
-    ));
 
     const [notifications, setNotifications] = useState([]);
     const [emptyMessage, setEmptyMessage] = useState(false);
@@ -56,26 +41,25 @@ function NotificationBox(props) {
             <div className={styles["notification-title"]}>Notifications</div>
             <div className={styles["notification-container"]}>
                 {emptyMessage ? <EmptyMessage/> : null}
-                {notifications.map((notifications) => (
-                    <div className={styles["notification-box"]} key={notifications._id}>
+                {notifications.map((notification) => (
+                    <div className={styles["notification-box"]} key={notification._id}>
                         <Notification
-                            notificationId={notifications._id}
-                            timeStamp={notifications.timeStamp}
+                            notificationId={notification._id}
+                            timeStamp={notification.timeStamp}
 
-                            alertType={notifications.type}
-                            alertHeading={notifications.heading}
-                            alertMainText={notifications.mainText}
+                            alertType={notification.type}
+                            alertHeading={notification.heading}
+                            alertMainText={notification.mainText}
 
-                            modalHeading={notifications.heading}
-                            modalMainText={notifications.mainText}
-                            modalSubText={notifications.subText}
+                            modalHeading={notification.heading}
+                            modalMainText={notification.mainText}
+                            modalSubText={notification.subText}
                         />
                     </div>
                 ))}
             </div>
 
         </div>
-
     );
 }
 
