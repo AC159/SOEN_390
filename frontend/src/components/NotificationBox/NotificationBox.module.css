@@ -33,3 +33,7 @@
     border: solid 2px black;
     margin-bottom: 5px;
 }
+
+.empty-message{
+    color: white;
+}
