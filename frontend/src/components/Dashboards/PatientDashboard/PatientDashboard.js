@@ -1,20 +1,14 @@
-import React from 'react';
+import React from "react";
 import Navbar from "../../Navbar/Navbar";
-import { Tabs } from 'react-bootstrap';
-import { Tab } from 'react-bootstrap';
-import Home from '../../Tabs/Home';
-import CovidFile from '../../Tabs/PatientSymptoms/CovidFile';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './PatientDashboard.module.css';
+import { Tabs } from "react-bootstrap";
+import { Tab } from "react-bootstrap";
+import Home from "../../Tabs/Home";
+import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "./PatientDashboard.module.css";
 import "../DashboardCommonStyles.css";
-
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
-import NotificationBox from '../../NotificationBox/NotificationBox';
+import NotificationBox from "../../NotificationBox/NotificationBox";
 
 function PatientDashboard(props) {
-
-    let { currentUser } = useAuth();
 
     return (
         <div>
@@ -26,7 +20,6 @@ function PatientDashboard(props) {
                         <div className={styles["tab-page"]}>
                             <Home />
                         </div>
-
                     </Tab>
                     <Tab className={styles} eventKey="updateCovidStatus" title="Update COVID Symptoms">
                         <div className={styles["tab-page"]}>
@@ -34,18 +27,16 @@ function PatientDashboard(props) {
                         </div>
                     </Tab>
                     <Tab className={styles} eventKey="contact" title="Contact">
-
                     </Tab>
                 </Tabs>
                 </div>
 
-                <div className={styles["notification-outer-box"]}>
-                <NotificationBox />
-                </div>
-            </div>
-
+        <div className={styles["notification-outer-box"]}>
+          <NotificationBox />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default PatientDashboard;
