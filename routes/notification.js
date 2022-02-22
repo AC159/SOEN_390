@@ -54,23 +54,24 @@ router.post('/:userId/createTestNotifications', async (req, res) => {
         const userId = req.params.userId;
         const mongo = await req.app.locals.mongodb;
         const notification = new Notification(null, new NotificationRepository(mongo));
-        const firstNotification = await notification.createNotification({
+        const firstNotification = {
             type: "warning",
             heading: "Test Warning!",
             mainText: "You have been flagged as F1!",
             subText: "Not really, it's just the template",
             timeStamp: Date.now(),
             userId: userId
-        });
-        const secondNotification = await notification.createNotification({
+        };
+        const secondNotification = {
             type: "primary",
             heading: "Welcome to CoviCare!",
             mainText: "Let's get you going...",
             subText: "First, update your profile information by clicking in your profile picture.",
             timeStamp: Date.now(),
             userId: userId
-        });
-        res.status(201).json([firstNotification, secondNotification]);
+        };
+        const response = await notification.createManyNotifications([firstNotification, secondNotification]);
+        res.status(201).json(response);
     } catch (error) {
         res.status(500).json(error);
     }

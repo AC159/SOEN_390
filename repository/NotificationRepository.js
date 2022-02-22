@@ -7,6 +7,10 @@ class NotificationRepository {
         return this.mongo.db('test').collection('notification').insertOne(notificationData);
     }
 
+    addManyNotifications(notificationData) {
+        return this.mongo.db('test').collection('notification').insertMany(notificationData);
+    }
+
     getNotification(notificationId) {
         return this.mongo.db('test').collection('notification').findOne({_id: notificationId});
     }

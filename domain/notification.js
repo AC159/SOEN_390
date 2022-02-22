@@ -8,6 +8,10 @@ class Notification {
         return await this.notificationRepository.addNewNotification(notificationData);
     }
 
+    async createManyNotifications(notificationData) {
+        return await this.notificationRepository.addManyNotifications(notificationData);
+    }
+
     async removeNotification() {
         return await this.notificationRepository.deleteNotification(this.notificationId);
     }
