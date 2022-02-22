@@ -56,7 +56,7 @@ router.post('/:userId/createTestNotifications', async (req, res) => {
         const notification = new Notification(null, new NotificationRepository(mongo));
         const firstNotification = await notification.createNotification({
             type: "warning",
-            heading: "Important!",
+            heading: "Test Warning!",
             mainText: "You have been flagged as F1!",
             subText: "Not really, it's just the template",
             timeStamp: Date.now(),
