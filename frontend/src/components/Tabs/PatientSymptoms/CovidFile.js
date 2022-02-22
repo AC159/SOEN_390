@@ -9,13 +9,13 @@ function CovidFile(props) {
     let {currentUser} = useAuth();
     let [covidStat, setCovidStat] = useState('');
     let [haveSymptoms, setHaveSymptoms] = useState('');
-    let [userSympt, setUserSympt] = useState([]);
+    let [userSymptoms, setUserSymptoms] = useState([]);
     let [haveFever, setHaveFever] = useState(false);
     let [temp, setTemp] = useState('');
     let [other, setOther] = useState(false)
-    let [whatOtherSymp, setWhatOtherSympt] = useState('');
-    let [symptDetail, setSymptDetail] = useState('');
-    let [health, sethealth] = useState('');
+    let [whatOtherSymptoms, setWhatOtherSymptoms] = useState('');
+    let [symptomDetails, setSymptomDetails] = useState('');
+    let [health, setHealth] = useState('');
 
 
     let [patientData, setPatientData] = useState();
@@ -24,18 +24,17 @@ function CovidFile(props) {
         try {
             const userAttributes = {
                 patientUid: currentUser.user.uid,
-                covidStat: covidStat,
-                userSympt: userSympt,
-                temp : temp,
-                whatOtherSymp: whatOtherSymp,
-                symptDetail: symptDetail,
+                covidStatus: covidStat,
+                symptoms: userSymptoms,
+                temperature: temp,
+                otherSymptoms: whatOtherSymptoms,
+                symptomDetails: symptomDetails,
                 health: health
             };
             axios.post(`/patient/submit-status-form`, userAttributes)
                 .then(function (response) {
                     console.log(response);
                 })
-            console.log(userSympt);
         } catch (error) {
             console.log('Submit error: ', error);
         }
@@ -43,11 +42,12 @@ function CovidFile(props) {
 
     const updatePatientForm = async () => {
         const userAttributes = {
+            patientUid: currentUser.user.uid,
             covidStatus: covidStat,
-            symptoms: userSympt,
+            symptoms: userSymptoms,
             temperature: temp,
-            otherSymptoms: whatOtherSymp,
-            symptomDetails: symptDetail,
+            otherSymptoms: whatOtherSymptoms,
+            symptomDetails: symptomDetails,
             health: health
         };
         axios.post(`/patient/update-status-form/${currentUser.user.uid}`, userAttributes)
@@ -70,13 +70,13 @@ function CovidFile(props) {
 
 
     const [popUpSymptoms, setPopUpSymptoms] = useState(false);
-    const handleSymtomeShow = () => setPopUpSymptoms(true);
-    const handleSymtomsclose = () => setPopUpSymptoms(false);
+    const handleSymptomShow = () => setPopUpSymptoms(true);
+    const handleSymptomsClose = () => setPopUpSymptoms(false);
 
     function removeUnchecked(value) {
-        const index = userSympt.indexOf(value)
+        const index = userSymptoms.indexOf(value)
         if (index !== -1) {
-            userSympt.splice(index, 1);
+            userSymptoms.splice(index, 1);
         }
     }
 
@@ -88,7 +88,7 @@ function CovidFile(props) {
                 <div className={styles['internal_CovidFile']}>
                     <div>
                         <div>Covid Status: </div>
-                        {patientData ?  Object.values(patientData)[Object.keys(patientData).indexOf("covidStat")] : null}
+                        {patientData ?  Object.values(patientData)[Object.keys(patientData).indexOf("covidStatus")] : null}
                     </div>
 
                 </div>
@@ -96,8 +96,8 @@ function CovidFile(props) {
                     <div>
                         <div>Symptoms:</div>
                         <ul>
-                            {patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("userSympt")].map((key, index) =>
-                                <li key={index}>{patientData.userSympt[index]}</li>) : null}
+                            {patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("symptoms")].map((key, index) =>
+                                <li key={index}>{patientData.symptoms[index]}</li>) : null}
                         </ul>
                     </div>
                 </div>
@@ -105,7 +105,7 @@ function CovidFile(props) {
                 <div className={styles['internal_CovidFile']}>
                     <div>
                         <div>Other Symptoms: </div>
-                        {patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("whatOtherSymp")] : null}
+                        {patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("otherSymptoms")] : null}
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@ function CovidFile(props) {
                 <div className={styles['internal_CovidFile']}>
                     <div>
                         <div>Details about the symptoms: </div>
-                        {patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("symptDetail")] : null}
+                        {patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("symptomDetails")] : null}
                     </div>
                 </div>
 
@@ -134,9 +134,11 @@ function CovidFile(props) {
             <br/><br/>
 
                 <div>
-                    <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) === null ? 'visible_CovidFile' : 'hidden_CovidFile']} onClick={handleSymtomeShow}>submit</button>
-                    <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) !== null ? 'visible_CovidFile' : 'hidden_CovidFile']} onClick={handleSymtomeShow}>update</button>
-                    <Modal show={popUpSymptoms} onHide={handleSymtomsclose}>
+                    <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) === null ? 'visible_CovidFile' : 'hidden_CovidFile']}
+                            onClick={handleSymptomShow}>submit</button>
+                    <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) !== null ? 'visible_CovidFile' : 'hidden_CovidFile']}
+                            onClick={handleSymptomShow}>update</button>
+                    <Modal show={popUpSymptoms} onHide={handleSymptomsClose}>
                         <Modal.Header closeButton>
                           <Modal.Title>Update your file</Modal.Title>
                         </Modal.Header>
@@ -158,7 +160,7 @@ function CovidFile(props) {
                                 </select>
 
                                 <div
-                                    className={styles[haveSymptoms == "yes" ? 'visible_CovidFile' : 'hidden_CovidFile']}>
+                                    className={styles[haveSymptoms === "yes" ? 'visible_CovidFile' : 'hidden_CovidFile']}>
                                     <br/>
                                     <h6>Select all the Symptoms you feel :</h6>
 
@@ -167,7 +169,7 @@ function CovidFile(props) {
                                            value="Fever or feeling feverish (such as chills, sweating)"
                                            onChange={(e) => {
                                                if (e.target.checked) {
-                                                   setUserSympt( [...userSympt, e.target.value]);
+                                                   setUserSymptoms( [...userSymptoms, e.target.value]);
                                                    setHaveFever(true);
                                                } else {
                                                    removeUnchecked(e.target.value);
@@ -183,7 +185,7 @@ function CovidFile(props) {
                                            value="Mild or moderate difficulty breathing (breathing slightly faster than normal, feeling like you can’t inhale or exhale, or wheezing, especially during exhaling or breathing out)"
                                            onChange={(e) => {
                                                if (e.target.checked) {
-                                                   setUserSympt( [...userSympt, e.target.value]);
+                                                   setUserSymptoms( [...userSymptoms, e.target.value]);
                                                } else {
                                                    removeUnchecked(e.target.value);
                                                }
@@ -198,7 +200,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="throat" name="symptoms"
                                            value="Sore throat" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -210,7 +212,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="muscle" name="symptoms"
                                            value="Muscle aches or body aches" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -223,7 +225,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="fatigue" name="symptoms"
                                            value="Unusual fatigue" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -235,7 +237,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="headache" name="symptoms"
                                            value="Headache" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -247,7 +249,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="taste" name="symptoms"
                                            value="New loss of taste or smell" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -260,7 +262,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="congestion" name="symptoms"
                                            value="Congestion or runny nose" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -273,7 +275,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="nausea" name="symptoms"
                                            value="Nausea or vomiting" onChange={(e) => {
                                         if (e.target.checked) {
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -285,7 +287,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="diarrhea" name="symptoms"
                                            value="Diarrhea" onChange={(e) => {
                                         if (e.target.checked) {
-                                           setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -298,7 +300,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="other" name="symptoms"
                                            value="Other symptoms" onChange={(e) => {
                                         if (e.target.checked) { setOther(true);
-                                            setUserSympt( [...userSympt, e.target.value]);
+                                            setUserSymptoms( [...userSymptoms, e.target.value]);
 
                                         } else {setOther(false);
                                             removeUnchecked(e.target.value);
@@ -308,7 +310,6 @@ function CovidFile(props) {
                                     <label className={styles['checkBox-Label_CovidFile']} htmlFor="other">Other
                                         symptoms</label>
                                     <br/>
-
 
                                 </div>
 
@@ -321,40 +322,32 @@ function CovidFile(props) {
                                     <div className={styles[other ? 'visible_CovidFile' : 'hidden_CovidFile']}>
                                         <br/>
                                         <h6>What are the other symptoms?  </h6>
-                                        <textarea type="input" rows="4" cols="50" value={whatOtherSymp}  onChange={(e) => setWhatOtherSympt(e.target.value)}/>
+                                        <textarea rows="4" cols="50" value={whatOtherSymptoms}  onChange={(e) => setWhatOtherSymptoms(e.target.value)}/>
                                     </div>
 
                                 <div  className={styles[haveSymptoms === "yes" ? 'visible_CovidFile' : 'hidden_CovidFile']}>
                                      <br/>
                                     <h6>Anything to add about your symptoms? </h6>
-                                    <textarea type="input" rows="4" cols="50" value={symptDetail}  onChange={(e) => setSymptDetail(e.target.value)}/>
+                                    <textarea rows="4" cols="50" value={symptomDetails}  onChange={(e) => setSymptomDetails(e.target.value)}/>
                                 </div>
-
-
 
                                  <br/>
                                 <h6>Anything to add about your health? </h6>
-                                <textarea type="input" rows="4" cols="50" value={health}  onChange={(e) => sethealth(e.target.value)}/>
-
-
+                                <textarea rows="4" cols="50" value={health}  onChange={(e) => setHealth(e.target.value)}/>
 
                             </form>
 
                         </Modal.Body>
                         <Modal.Footer>
-                                <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) === null ? 'visible_CovidFile' : 'hidden_CovidFile']} onClick={(e) => {
-                                    submitPatientForm()
-                                }}>submit
+                                <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) === null ? 'visible_CovidFile' : 'hidden_CovidFile']}
+                                        onClick={submitPatientForm}>submit
                                 </button>
-                                <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) !== null ? 'visible_CovidFile' : 'hidden_CovidFile']} onClick={(e) => {
-                                    updatePatientForm();
-                                }}>update
+                                <button className={styles[(patientData ? Object.keys(patientData).indexOf("patientUid") : null) !== null ? 'visible_CovidFile' : 'hidden_CovidFile']}
+                                        onClick={updatePatientForm}>update
                                 </button>
                         </Modal.Footer>
                     </Modal>
                 </div>
-
-
 
         </div>
 
