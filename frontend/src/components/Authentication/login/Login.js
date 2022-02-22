@@ -43,18 +43,18 @@ function Login(props) {
 
             if (userStatus === "APPROVED") {
                 if (userType === "patient") {
-                    console.log('/patient-dashboard');
+                    navigate('/patient-dashboard');
                 } else if (userType === "doctor") {
-                    console.log('/doctor-dashboard');
+                    navigate('/doctor-dashboard');
                 } else if (userType === "administrator") {
-                    console.log('/admin-dashboard');
+                    navigate('/admin-dashboard');
                 } else if (userType === "healthOfficial") {
-                    console.log('/health-official-dashboard');
+                    navigate('/health-official-dashboard');
                 } else if (userType === "immigrationOfficial") {
-                    console.log('/immigration-officer-dashboard');
+                    navigate('/immigration-officer-dashboard');
                 }
             } else {
-                console.log('/general-dashboard')
+                navigate('/general-dashboard')
             }
             // if (redirectRoute !== '' && redirectRoute !== undefined && redirectRoute !== null) navigate(redirectRoute, {replace: true});
             // else navigate("/general-dashboard", {replace: true});
