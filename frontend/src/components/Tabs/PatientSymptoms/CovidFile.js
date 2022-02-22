@@ -9,7 +9,7 @@ function CovidFile(props) {
     let {currentUser} = useAuth();
     let [covidStat, setCovidStat] = useState('');
     let [haveSymptoms, setHaveSymptoms] = useState('');
-    let userSympt = [];
+    let [userSympt, setUserSympt] = useState([]);
     let [haveFever, setHaveFever] = useState(false);
     let [temp, setTemp] = useState('');
     let [other, setOther] = useState(false)
@@ -31,12 +31,11 @@ function CovidFile(props) {
                 symptDetail: symptDetail,
                 health: health
             };
-            //Need to uncomment when the bug of sending symptoms array and other detail together
-            // axios.post(`/patient/submit-status-form`, userAttributes)
-            //     .then(function (response) {
-            //         console.log(response);
-            //     })
-            alert(covidStat + "  "+userSympt+ "  " + temp + "  " + whatOtherSymp+ "  " + symptDetail + "   " + health);
+            axios.post(`/patient/submit-status-form`, userAttributes)
+                .then(function (response) {
+                    console.log(response);
+                })
+            console.log(userSympt);
         } catch (error) {
             console.log('Submit error: ', error);
         }
@@ -47,7 +46,11 @@ function CovidFile(props) {
         const userAttributes = {
             patientUid: currentUser.user.uid,
             covidStat: covidStat,
-            userSympt: userSympt
+            userSympt: userSympt,
+            temp : temp,
+            whatOtherSymp: whatOtherSymp,
+            symptDetail: symptDetail,
+            health: health
         };
         axios.post(`/patient/update-status-form/${currentUser.user.uid}`, userAttributes)
             .then(function (response) {
@@ -55,7 +58,6 @@ function CovidFile(props) {
             }).catch(function (error) {
             console.log(error);
         });
-        alert(covidStat + "  " + userSympt);
     }
 
     useEffect(() => {
@@ -74,11 +76,9 @@ function CovidFile(props) {
     const handleSymtomsclose = () => setPopUpSymptoms(false);
 
     function removeUnchecked(value) {
-        let array = userSympt; // make a separate copy of the array
-        const index = array.indexOf(value)
+        const index = userSympt.indexOf(value)
         if (index !== -1) {
-            array.splice(index, 1);
-            userSympt = array;
+            userSympt.splice(index, 1);
         }
     }
 
@@ -169,7 +169,7 @@ function CovidFile(props) {
                                            value="Fever or feeling feverish (such as chills, sweating)"
                                            onChange={(e) => {
                                                if (e.target.checked) {
-                                                   userSympt.push(e.target.value);
+                                                   setUserSympt( [...userSympt, e.target.value]);
                                                    setHaveFever(true);
                                                } else {
                                                    removeUnchecked(e.target.value);
@@ -185,7 +185,7 @@ function CovidFile(props) {
                                            value="Mild or moderate difficulty breathing (breathing slightly faster than normal, feeling like you can’t inhale or exhale, or wheezing, especially during exhaling or breathing out)"
                                            onChange={(e) => {
                                                if (e.target.checked) {
-                                                   userSympt.push(e.target.value);
+                                                   setUserSympt( [...userSympt, e.target.value]);
                                                } else {
                                                    removeUnchecked(e.target.value);
                                                }
@@ -200,7 +200,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="throat" name="symptoms"
                                            value="Sore throat" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -212,7 +212,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="muscle" name="symptoms"
                                            value="Muscle aches or body aches" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -225,7 +225,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="fatigue" name="symptoms"
                                            value="Unusual fatigue" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -237,7 +237,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="headache" name="symptoms"
                                            value="Headache" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -249,7 +249,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="taste" name="symptoms"
                                            value="New loss of taste or smell" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -262,7 +262,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="congestion" name="symptoms"
                                            value="Congestion or runny nose" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -275,7 +275,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="nausea" name="symptoms"
                                            value="Nausea or vomiting" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -287,7 +287,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="diarrhea" name="symptoms"
                                            value="Diarrhea" onChange={(e) => {
                                         if (e.target.checked) {
-                                            userSympt.push(e.target.value);
+                                           setUserSympt( [...userSympt, e.target.value]);
                                         } else {
                                             removeUnchecked(e.target.value);
                                         }
@@ -300,7 +300,7 @@ function CovidFile(props) {
                                     <input type="checkbox" id="other" name="symptoms"
                                            value="Other symptoms" onChange={(e) => {
                                         if (e.target.checked) { setOther(true);
-                                            userSympt.push(e.target.value);
+                                            setUserSympt( [...userSympt, e.target.value]);
 
                                         } else {setOther(false);
                                             removeUnchecked(e.target.value);
@@ -317,7 +317,7 @@ function CovidFile(props) {
                                     <div className={styles[haveFever ? 'visible_CovidFile' : 'hidden_CovidFile']}>
                                         <br/>
                                         <h6>What is your temperature? </h6>
-                                        <input type="number"  value={temp}  min={0} step=".01" onChange={(event) => setTemp(event.target.value)}/>
+                                        <input type="number"  value={temp}  min={0} step=".01" onChange={(e) => setTemp(e.target.value)}/>
                                     </div>
 
                                     <div className={styles[other ? 'visible_CovidFile' : 'hidden_CovidFile']}>
@@ -326,7 +326,7 @@ function CovidFile(props) {
                                         <textarea type="input" rows="4" cols="50" value={whatOtherSymp}  onChange={(e) => setWhatOtherSympt(e.target.value)}/>
                                     </div>
 
-                                <div  className={styles[haveSymptoms == "yes" ? 'visible_CovidFile' : 'hidden_CovidFile']}>
+                                <div  className={styles[haveSymptoms === "yes" ? 'visible_CovidFile' : 'hidden_CovidFile']}>
                                      <br/>
                                     <h6>Anything to add about your symptoms? </h6>
                                     <textarea type="input" rows="4" cols="50" value={symptDetail}  onChange={(e) => setSymptDetail(e.target.value)}/>
