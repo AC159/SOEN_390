@@ -41,15 +41,13 @@ function CovidFile(props) {
         }
     }
 
-    //Need to implement update
     const updatePatientForm = async () => {
         const userAttributes = {
-            patientUid: currentUser.user.uid,
-            covidStat: covidStat,
-            userSympt: userSympt,
-            temp : temp,
-            whatOtherSymp: whatOtherSymp,
-            symptDetail: symptDetail,
+            covidStatus: covidStat,
+            symptoms: userSympt,
+            temperature: temp,
+            otherSymptoms: whatOtherSymp,
+            symptomDetails: symptDetail,
             health: health
         };
         axios.post(`/patient/update-status-form/${currentUser.user.uid}`, userAttributes)
