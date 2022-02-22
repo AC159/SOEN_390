@@ -28,4 +28,14 @@ describe('integration test notificationRoutes - connection to notification domai
         })
     })
 
+    describe('test POST /notification/:notificationId/createTestNotifications', () => {
+        jest.spyOn(Notification.prototype, 'createManyNotifications').mockImplementation(() => {});
+        jest.spyOn(MongoClient.prototype, 'connect').mockImplementation(() => {});
+
+        it('should be able to add 2 new template notifications', async () => {
+            const res = await request(app).post('/notification/12345/createTestNotifications');
+            expect(res.status).toEqual(201);
+        })
+    })
+
 })

@@ -32,5 +32,10 @@ describe('test Notification object', () => {
             expect(notificationRepository.addNewNotification).toHaveBeenCalledTimes(1);
         })
 
+        test('POST /notification/createManyNotifications', async () => {
+            await notification.createManyNotifications();
+            expect(notificationRepository.addManyNotifications).toHaveBeenCalledTimes(1);
+        })
+
     })
 })
