@@ -12,9 +12,9 @@ class PatientRepository {
     }
 
     updateStatusForm(formData) {
-        const mongoId = ObjectId(formData._id);
-        delete formData._id;
-        return this.mongo.db('test').collection('patientForms').updateOne({_id: mongoId}, {$set: formData});
+        const patientUid = formData.patientUid;
+        delete formData.patientUid;
+        return this.mongo.db('test').collection('patientForms').updateOne({patientUid: patientUid}, {$set: formData});
     }
 
     fetchPatientForm(userId) {

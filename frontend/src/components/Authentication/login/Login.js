@@ -7,7 +7,6 @@ import axios from 'axios';
 function Login(props) {
     let navigate = useNavigate();
     let auth = useAuth();
-    let {currentUser} = useAuth()
 
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");

@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./PatientDashboard.module.css";
 import "../DashboardCommonStyles.css";
 import NotificationBox from "../../NotificationBox/NotificationBox";
+import CovidFile from "../../Tabs/PatientSymptoms/CovidFile";
 
 function PatientDashboard(props) {
 
