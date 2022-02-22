@@ -100,7 +100,7 @@ function PatientBox(props) {
         <Accordion.Header><h5>{props.patient.name}</h5></Accordion.Header>
         <AccordionBody>
           <h6>Date of Birth: {props.patient.dob}</h6>
-          <h6>Assigned Doctor: {(props.patient.patientInfo.doctor === null ? "No Doctor Assigned" : assignedDoctor)}</h6>
+          <h6>Assigned Doctor: {(props.patient.patientInfo.doctor === "" ? "No Doctor Assigned" : assignedDoctor)}</h6>
 
           <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button>
           
