@@ -1,7 +1,7 @@
 class UserRepository {
-    constructor(mongo) {
-        this.mongo = mongo;
-    }
+  constructor(mongo) {
+    this.mongo = mongo;
+  }
 
   add(user) {
     return this.mongo.db('test').collection('user').insertOne(user);
@@ -10,25 +10,25 @@ class UserRepository {
   fetch(userId) {
     return this.mongo.db('test').collection('user').findOne(
         {
-          uid: userId
+          uid: userId,
         },
         {
           _id: 0,
           uid: 1,
           email: 1,
-          userType: 1
-        }
+          userType: 1,
+        },
     );
   }
 
   update(userId, values) {
     return this.mongo.db('test').collection('user').updateOne(
         {
-          uid: userId
+          uid: userId,
         },
         {
-          $set: values
-        }
+          $set: values,
+        },
     );
   }
 
@@ -45,7 +45,7 @@ class UserRepository {
       const profile = await this.mongo.db('test')
           .collection('patient')
           .findOne({
-            uid: userId
+            uid: userId,
           });
 
       return {
@@ -53,23 +53,23 @@ class UserRepository {
         name: profile.name,
         phoneNumber: profile.phoneNumber,
         dob: profile.dob,
-        address: profile.address
+        address: profile.address,
       };
     } catch (e) {
       console.log(e);
-      throw new Error("Could not fetch user profile");
+      throw new Error('Could not fetch user profile');
     }
-  }
+  };
 
   fetchTypeAndStatus = async (userId) => {
-      const profile = await this.mongo.db('test').collection('user').findOne({
-          uid: userId
-      });
-      return {
-          userStatus: profile.userStatus,
-          userType: profile.userType
-      };
-  }
+    const profile = await this.mongo.db('test').collection('user').findOne({
+      uid: userId,
+    });
+    return {
+      userStatus: profile.userStatus,
+      userType: profile.userType,
+    };
+  };
 }
 
 module.exports = UserRepository;

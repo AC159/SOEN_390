@@ -9,7 +9,7 @@ class Patient extends User {
       dob,
       userStatus = PatientStatus.Unconfirmed,
       isFlagged = false,
-      patientRepository
+      patientRepository,
   ) {
     super(userId, name);
     this.userStatus = userStatus;
