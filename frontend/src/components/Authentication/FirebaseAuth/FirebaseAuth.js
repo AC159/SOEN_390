@@ -23,6 +23,7 @@ function FirebaseAuthProvider({children}) {
                 const dbResponse = await axios.post('user/addNewUser', userSignUpData);
                 console.log('sign up db response: ', dbResponse);
                 setCurrentUser({user: userData.user, dbData: dbResponse.data});
+                await createTestNotificationsForNewUser(userSignUpData.userId);
             } catch (error) {
                 console.log('error sending sign up user data to back-end...');
                 console.log('Error: ', error);
@@ -32,6 +33,10 @@ function FirebaseAuthProvider({children}) {
         } catch (error) {
             throw error;
         }
+    }
+
+    const createTestNotificationsForNewUser = async (userId) => {
+        return await axios.post(`/notification/${userId}/createTestNotifications`);
     }
 
     const login = async (email, password) => {

@@ -49,4 +49,31 @@ router.post('/addNewNotification', async (req, res) => {
     // todo: agree on format for adding new notifications
 })
 
+router.post('/:userId/createTestNotifications', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const mongo = await req.app.locals.mongodb;
+        const notification = new Notification(null, new NotificationRepository(mongo));
+        const firstNotification = await notification.createNotification({
+            type: "warning",
+            heading: "Important!",
+            mainText: "You have been flagged as F1!",
+            subText: "Not really, it's just the template",
+            timeStamp: Date.now(),
+            userId: userId
+        });
+        const secondNotification = await notification.createNotification({
+            type: "primary",
+            heading: "Welcome to CoviCare!",
+            mainText: "Let's get you going...",
+            subText: "First, update your profile information by clicking in your profile picture.",
+            timeStamp: Date.now(),
+            userId: userId
+        });
+        res.status(201).json([firstNotification, secondNotification]);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+
 module.exports = router;
