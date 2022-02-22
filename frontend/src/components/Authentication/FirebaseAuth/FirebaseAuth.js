@@ -66,7 +66,7 @@ function FirebaseAuthProvider({ children }) {
       }
     });
     return unsubscribe;
-  });
+  }, []);
 
   // value will be passed down using the Provider API
   const value = {
