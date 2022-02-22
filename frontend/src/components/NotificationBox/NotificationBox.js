@@ -52,6 +52,7 @@ function NotificationBox(props) {
                         <div className={styles["notification-box"]} key={notifications._id}>
                             <Notification 
                                 notificationId={notifications._id}
+                                timeStamp={notifications.timeStamp}
 
                                 alertType={notifications.type}
                                 alertHeading={notifications.heading} 

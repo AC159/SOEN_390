@@ -32,6 +32,7 @@ function Notification(props) {
 
 
   const id = props.notificationId;
+  const timeStamp = props.timeStamp;
 
   const deleteNotification = (id) => {
     axios.post(`/notification/${id}/delete`)
@@ -44,22 +45,34 @@ function Notification(props) {
     });
 };
 
+function showTimeStamp(){
+    return(
+     new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timeStamp)
+    );
+}
+
 
     return (
         <div className={styles["notification-box"]}>
             <Alert show={show} variant={props.alertType}>
-                <Alert.Heading>{props.alertHeading}</Alert.Heading>
+                <Alert.Heading>
+                    {props.alertHeading}
+                </Alert.Heading>
                 <p>
                     {props.alertMainText}
                 </p>
-                
-                <div className="d-flex justify-content-end">
-                  <Button onClick={handleModalShow} variant="outline-success">
-                    View
-                  </Button>
-                  <Button onClick={() => deleteNotification(id)} variant="outline-success">
-                    Delete
-                  </Button>
+                <div className="d-flex">
+                    <div class="mr-auto p-2">
+                        {showTimeStamp()}
+                    </div>
+                    <div class="p-1">
+                        <Button onClick={handleModalShow} variant="outline-success">
+                            View
+                        </Button>
+                        <Button onClick={() => deleteNotification(id)} variant="outline-success">
+                            Delete
+                        </Button>
+                    </div>
                 </div>
             </Alert> 
 
@@ -80,6 +93,9 @@ function Notification(props) {
                     </Modal.Body>
 
                     <Modal.Footer>
+                        <p>
+                            {showTimeStamp()}
+                        </p>
                         <Button variant="secondary" onClick={handleModalClose}>
                             Close
                         </Button>
