@@ -42,6 +42,7 @@ function PatientList(props) {
       eventKey={`${index}`}
       patient={patient}
       currentUser={currentUser}
+      className={styles["patient-box"]}
       />)}
     </Accordion>;
   }

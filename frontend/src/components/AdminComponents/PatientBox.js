@@ -75,12 +75,16 @@ function PatientBox(props) {
       {doctorList.map((doctor) => 
         <ListGroup.Item>
           {doctor.name}
+          <div className={styles["doctor-side"]}>
+          <div className={styles["doctor-patient-count"]}>{"Patients Assigned: " + doctor.patientCount}</div>
           <Button 
           variant="primary" 
           onClick={() => selectDoctor(doctor.uid, doctor.name)} 
           className={styles["doctor-select-button"]}>
           Select
           </Button>
+          </div>
+          
         </ListGroup.Item> )}
     </ListGroup>;
   } 
@@ -92,7 +96,7 @@ function PatientBox(props) {
   return (
     <div className={styles["card-container"]}>
       
-      <Accordion.Item eventKey={props.eventKey}>
+      <Accordion.Item eventKey={props.eventKey} className={styles["patient-box"]}>
         <Accordion.Header><h5>{props.patient.name}</h5></Accordion.Header>
         <AccordionBody>
           <h6>Date of Birth: {props.patient.dob}</h6>

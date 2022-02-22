@@ -36,7 +36,7 @@ class Administrator {
     const user = await this.adminRepository.approveUser(userId);
     switch (user.value.userType) {
       case 'patient':
-        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: null}});
+        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ""}});
         break;
       case 'doctor':
         this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});
@@ -60,7 +60,7 @@ class Administrator {
 
     if (oldDoctorId !== doctorId) {
       if (oldDoctorId !== null && oldDoctorId !== undefined) {
-        await this.adminRepository.decrementDoctorPatientCount(doctorId);
+        await this.adminRepository.decrementDoctorPatientCount(oldDoctorId);
       }
       await this.adminRepository.incrementDoctorPatientCount(doctorId);
     }
