@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 
+import axios from 'axios';
 
 function Notification(props) {
     [
@@ -25,10 +26,23 @@ function Notification(props) {
   const [show, setShow] = useState(true);
   const [showing, setShowing] = useState(false);
 
-  const handleAlertClose = () => setShow(false);
 
   const handleModalClose  = () => setShowing(false);
   const handleModalShow  = () => setShowing(true);
+
+
+  const id = props.notificationId;
+
+  const deleteNotification = (id) => {
+    axios.post(`/notification/${id}/delete`)
+    .then(() => {
+        console.log('Notification deleted!');
+        setShow(false);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
 
 
     return (
@@ -43,7 +57,7 @@ function Notification(props) {
                   <Button onClick={handleModalShow} variant="outline-success">
                     View
                   </Button>
-                  <Button onClick={handleAlertClose} variant="outline-success">
+                  <Button onClick={() => deleteNotification(id)} variant="outline-success">
                     Delete
                   </Button>
                 </div>

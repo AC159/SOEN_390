@@ -51,6 +51,8 @@ function NotificationBox(props) {
                 {notifications.map((notifications) => (
                         <div className={styles["notification-box"]} key={notifications._id}>
                             <Notification 
+                                notificationId={notifications._id}
+
                                 alertType={notifications.type}
                                 alertHeading={notifications.heading} 
                                 alertMainText={notifications.mainText}
