@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'firebase/auth';
 import axios from "axios";
 
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export function useAuth() {
     return useContext(AuthContext);

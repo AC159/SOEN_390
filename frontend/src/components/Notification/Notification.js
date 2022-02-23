@@ -58,9 +58,8 @@ function Notification(props) {
         );
     }
 
-
     return (
-        <div className={styles["notification-box"]}>
+        <div data-testid="notification-1" className={styles["notification-box"]}>
             <Alert show={show} variant={props.alertType}>
                 <Alert.Heading>
                     {props.alertHeading}
@@ -68,15 +67,15 @@ function Notification(props) {
                 <p>
                     {props.alertMainText}
                 </p>
-                <div className="d-flex">
-                    <div class="mr-auto p-2">
+                <div className="d-flex justify-content-end">
+                    <div className="me-auto">
                         {showTimeStamp()}
                     </div>
-                    <div class="p-1">
-                        <Button onClick={handleModalShow} variant="outline-success">
+                    <div>
+                        <Button data-testid="viewNotificationButton" onClick={handleModalShow} variant="outline-success">
                             View
                         </Button>
-                        <Button onClick={() => deleteNotification(id)} variant="outline-success">
+                        <Button data-testid="deleteNotificationButton" onClick={() => deleteNotification(id)} variant="outline-success">
                             Delete
                         </Button>
                     </div>
