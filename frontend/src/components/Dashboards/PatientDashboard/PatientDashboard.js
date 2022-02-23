@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Navbar from "../../Navbar/Navbar";
 import {Tabs} from 'react-bootstrap';
 import {Tab} from 'react-bootstrap';
@@ -12,9 +12,7 @@ import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
 
 function PatientDashboard(props) {
-
     let {currentUser} = useAuth();
-
     return (
         <div>
             <Navbar/>
@@ -40,9 +38,8 @@ function PatientDashboard(props) {
                     <NotificationBox/>
                 </div>
             </div>
-
-        </div>
-    );
+    </div>
+  );
 }
 
 export default PatientDashboard;

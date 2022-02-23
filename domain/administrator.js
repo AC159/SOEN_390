@@ -1,4 +1,3 @@
-const UserState = require('./user').UserState;
 
 class Administrator {
   constructor(userId, adminRepository) {
@@ -6,36 +5,38 @@ class Administrator {
     this.adminRepository = adminRepository;
   }
 
-  async viewDoctors() {
-    try {
-      return await this.adminRepository.fetchPendingDoctors(this.userId);
-    } catch (error) {
-      throw error;
-    }
+  async verifyAdmin() {
+    await this.adminRepository.verifyAdmin(this.userId.getId());
   }
 
-  async approveDoctor(doctorId) {
-    try {
-      return await this.adminRepository.approveDoctor(doctorId, this.userId);
-    } catch (error) {
-      throw error;
-    }
+  async viewDoctors() {
+    await this.verifyAdmin();
+    return await this.adminRepository.fetchPendingUsers('doctor');
   }
 
   async viewPatients() {
-    try {
-      return await this.adminRepository.fetchPendingPatients(this.userId);
-    } catch (error) {
-      throw error;
-    }
+    await this.verifyAdmin();
+    return await this.adminRepository.fetchPendingUsers('patient');
   }
 
-  async approvePatient(patientId) {
-    try {
-      return await this.adminRepository.approvePatient(patientId, this.userId);
-    } catch (error) {
-      throw error;
-    }
+  async viewHealthOfficers() {
+    await this.verifyAdmin();
+    return await this.adminRepository.fetchPendingUsers('healthOfficer');
+  }
+
+  async viewImmigrationOfficers() {
+    await this.verifyAdmin();
+    return await this.adminRepository.fetchPendingUsers('immigrationOfficer');
+  }
+
+  async approvePendingUser(userId) {
+    await this.verifyAdmin();
+    return await this.adminRepository.approveUser(userId);
+  }
+
+  async rejectPendingUser(userId) {
+    await this.verifyAdmin();
+    return await this.adminRepository.rejectUser(userId);
   }
 
   assignPatient(patient, doctor) {
