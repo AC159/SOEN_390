@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -20,27 +20,28 @@ function FirebaseAuthProvider({ children }) {
 
   const register = async (email, password, userSignUpData) => {
     try {
-      const userData = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log("Sign in successful...");
+      const userData = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Sign in successful...');
       // before sending the user sign up data to the db, we need to append the firebase uid
-      userSignUpData["userId"] = userData.user.uid;
+      userSignUpData['userId'] = userData.user.uid;
       try {
-        const dbResponse = await axios.post("user/addNewUser", userSignUpData);
-        console.log("sign up db response: ", dbResponse);
-        setCurrentUser({ user: userData.user, dbData: dbResponse.data });
+        const dbResponse = await axios.post('user/addNewUser', userSignUpData);
+        console.log('sign up db response: ', dbResponse);
+        setCurrentUser({user: userData.user, dbData: dbResponse.data});
+        await createTestNotificationsForNewUser(userSignUpData.userId);
       } catch (error) {
-        console.log("error sending sign up user data to back-end...");
-        console.log("Error: ", error);
+        console.log('error sending sign up user data to back-end...');
+        console.log('Error: ', error);
         throw error;
       }
     } catch (error) {
-      throw error;
+        throw error;
     }
-  };
+  }
+
+  const createTestNotificationsForNewUser = async (userId) => {
+    return await axios.post(`/notification/${userId}/createTestNotifications`);
+  }
 
   const login = async (email, password) => {
     try {
@@ -49,7 +50,7 @@ function FirebaseAuthProvider({ children }) {
     } catch (error) {
       throw error;
     }
-  };
+  }
 
   const logout = () => {
     return signOut(auth);

@@ -12,8 +12,6 @@ function PatientList(props) {
 
   let {currentUser} = useAuth();
 
-  let testArray = ["hello", "hey", "hi", "hello", "hey", "hi"];
-
   const [patientList, setPatientList] = useState([]);
  
 
