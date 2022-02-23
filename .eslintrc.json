@@ -6,7 +6,8 @@
         "node": true
     },
     "extends": [
-        "google"
+        "google",
+        "react-app"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -15,5 +16,10 @@
         "ecmaVersion": "latest"
     },
     "plugins": [],
-    "rules": {}
+    "rules": {
+        "max-len": "off",
+        "require-jsdoc": "off",
+        "new-cap": "off",
+        "default-case": "off"
+    }
 }

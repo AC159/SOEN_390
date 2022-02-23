@@ -1,86 +1,91 @@
-body{
-    display: block;
+body {
+  display: block;
 }
-html, body, #app, #app>div {
-    height: 100%
-  }
-.userInfo, .profile {
-    box-shadow: 2px 2px 5px #ccc;
-    color:white;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin: 5px;
+html,
+body,
+#app,
+#app > div {
+  height: 100%;
+}
+.userInfo,
+.profile {
+  box-shadow: 2px 2px 5px #ccc;
+  color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 5px;
 }
 
-.userInfo{
-    background:rgb(37, 150, 190);
-    float: left;
-    width: 70%;
-    padding: 5px 50px 5px 5px;
+.userInfo {
+  background: rgb(37, 150, 190);
+  float: left;
+  width: 70%;
+  padding: 5px 50px 5px 5px;
 }
 
 .profile {
-    float: right;
-    width: 30%;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
+  float: right;
+  width: 30%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 
-    background: #005871;
-    padding: 5px;
-    color: black;
-    font-weight: bold;
+  background: #005871;
+  padding: 5px;
+  color: black;
+  font-weight: bold;
 }
-.profilePic{
-    object-fit: cover;
-    width: 9rem;
-    height: 9rem;
-    border-radius: 50%;
-    border: 2px solid black;
-    margin: 5px;
-}
-
-.nameCard{
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: baseline;
-
-    background:#028fb4;
-    border-radius: 5px;
-    border: 2px solid black;
-    padding: 5px 5px 5px 5px;
-    width: 90%;
-}
-.container{
-    display: flex;
-    width: 100%;
-    height: 100%;
+.profilePic {
+  object-fit: cover;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  border: 2px solid black;
+  margin: 5px;
 }
 
-.container button{
-    background: rgb(255, 255, 132);
-    border: 2px solid black;
-    padding: 4px 7px;
-    border-radius: 10px;
-    width: 8rem;
-    color:black;
+.nameCard {
+  display: flex;
+  flex-flow: row nowrap;
+  /* justify-content: space-between; */
+  justify-content: center;
+  align-items: baseline;
+
+  background: #028fb4;
+  border-radius: 5px;
+  border: 2px solid black;
+  padding: 5px 5px 5px 5px;
+  width: 90%;
+}
+.container {
+  display: flex;
+  width: 100%;
+  height: 45rem;
 }
 
-.container button:hover{
-    background-color:orange ;
+.container button {
+  background: rgb(255, 255, 132);
+  border: 2px solid black;
+  padding: 4px 7px;
+  border-radius: 10px;
+  width: 8rem;
+  color: black;
 }
 
-.internalCard{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    
-    background: #005871;
-    margin: 5px;
-    border: 2px solid black;
-    width: 85%;
-    padding: 10px;
-    border-radius: 10px;
+.container button:hover {
+  background-color: orange;
+}
+
+.internalCard {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: baseline;
+
+  background: #005871;
+  margin: 5px;
+  border: 2px solid black;
+  width: 85%;
+  padding: 10px;
+  border-radius: 10px;
 }

@@ -17,10 +17,13 @@ class User {
     await this.userRepository.add(userData);
     return await this.userRepository.fetch(userData.uid);
   }
+<<<<<<< HEAD
 
   async viewNotifications() {
     return await this.userRepository.fetchAllNotifications(this.id.getId());
   }
+=======
+>>>>>>> master
 }
 
 class UserId {
@@ -55,7 +58,7 @@ class Name {
   }
 
   getFirstName() {
-    return this.firstName
+    return this.firstName;
   }
 
   getlastName() {
@@ -82,26 +85,26 @@ class Role {
   #role;
 
   constructor(code) {
-    switch(code) {
+    switch (code) {
       case 0:
         this.#isDoctor = true;
-        this.#role = "doctor";
+        this.#role = 'doctor';
         break;
       case 1:
         this.#isPatient = true;
-        this.#role = "patient";
+        this.#role = 'patient';
         break;
       case 2:
         this.#isAdministrator = true;
-        this.#role = "administrator";
+        this.#role = 'administrator';
         break;
       case 3:
         this.#isHealthOfficial = true;
-        this.#role = "health official";
+        this.#role = 'health official';
         break;
       case 4:
         this.#isImmigrationOfficer = true;
-        this.#role = "immigration officer";
+        this.#role = 'immigration officer';
     }
   }
 
@@ -139,14 +142,14 @@ class UserState {
   #state;
 
   constructor(code) {
-    switch(code) {
+    switch (code) {
       case 0:
         this.#isPending = true;
-        this.#state = "pending";
+        this.#state = 'pending';
         break;
       case 1:
         this.#isApproved = true;
-        this.#state = "approved";
+        this.#state = 'approved';
         break;
     }
   }

@@ -14,7 +14,8 @@ function NotificationBox() {
     const [notifications, setNotifications] = useState([]);
     const [emptyMessage, setEmptyMessage] = useState(false);
 
-    useEffect(async () => {
+    useEffect(() => {
+      async function fetchData() {
         await axios.get(`/notification/${currentUser.user.uid}/notifications`)
             .then((res) => {
                 console.log('Data received!');
@@ -28,6 +29,8 @@ function NotificationBox() {
             .catch((err) => {
                 console.log(err);
             });
+          }
+        fetchData();
     }, []);
 
     const EmptyMessage = () => (

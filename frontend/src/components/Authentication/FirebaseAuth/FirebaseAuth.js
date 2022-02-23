@@ -1,17 +1,22 @@
-import React, {useContext, useEffect, useState} from "react";
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged} from 'firebase/auth';
+import React, { useContext, useEffect, useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import axios from "axios";
 
 const AuthContext = React.createContext();
 
 export function useAuth() {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 }
 
-function FirebaseAuthProvider({children}) {
-
-    const [currentUser, setCurrentUser] = useState({});
-    const auth = getAuth();
+function FirebaseAuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState({});
+  const auth = getAuth();
 
     const register = async (email, password, userSignUpData) => {
         try {
@@ -48,37 +53,32 @@ function FirebaseAuthProvider({children}) {
         }
     }
 
-    const logout = () => {
-        return signOut(auth);
-    }
+  const logout = () => {
+    return signOut(auth);
+  };
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async userData => {
-            if (userData && userData.uid) {
-                console.log('onAuthStateChanged: ', userData);
-                const dbResponse = await axios.get(`/user/${userData.uid}/profile`);
-                console.log('DB response: ', dbResponse);
-                setCurrentUser({user: userData, dbData: dbResponse.data});
-                console.log("Current user: ", currentUser);
-            }
-        });
-        return unsubscribe;
-    }, [])
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (userData) => {
+      if (userData && userData.uid) {
+        console.log("onAuthStateChanged: ", userData);
+        const dbResponse = await axios.get(`/user/${userData.uid}/profile`);
+        console.log("DB response: ", dbResponse);
+        setCurrentUser({ user: userData, dbData: dbResponse.data });
+        console.log("Current user: ", currentUser);
+      }
+    });
+    return unsubscribe;
+  }, []);
 
-    // value will be passed down using the Provider API
-    const value = {
-        currentUser,
-        register,
-        login,
-        logout
-    }
+  // value will be passed down using the Provider API
+  const value = {
+    currentUser,
+    register,
+    login,
+    logout,
+  };
 
-    return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
-    )
-
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export default FirebaseAuthProvider;
