@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import styles from "./SignUp.module.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-const emailRegex =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const passwordRegex =
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
 function SignUp(props) {
   let navigate = useNavigate();
@@ -122,7 +120,7 @@ function SignUp(props) {
     }
     navigate("/general-dashboard", { replace: true });
   };
-
+    
   return (
     <div className={styles["container_SingUp"]}>
       <div className={styles["container-top_SingUp"]}>

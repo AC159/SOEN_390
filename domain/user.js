@@ -17,6 +17,10 @@ class User {
     await this.userRepository.add(userData);
     return await this.userRepository.fetch(userData.uid);
   }
+
+  async viewNotifications() {
+    return await this.userRepository.fetchAllNotifications(this.id.getId());
+  }
 }
 
 class UserId {
