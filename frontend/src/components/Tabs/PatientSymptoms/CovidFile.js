@@ -182,16 +182,30 @@ function CovidFile(props) {
                         <Modal.Body>
                             <form>
                                 <h6>Select your Covid Status :</h6>
-                                <select defaultValue={patientData ?  Object.values(patientData)[Object.keys(patientData).indexOf("covidStatus")] : null} onChange={(event) => setCovidStat(event.target.value)}>
+                                <select defaultValue={patientData ?  Object.values(patientData)[Object.keys(patientData).indexOf("covidStatus")] : null} onChange={(event) => {
+                                    setCovidStat(event.target.value);
+                                    if(event.target.value === "None"){
+                                        setUserSymptoms([]);
+                                        setTemp("");
+                                        setWhatOtherSymptoms("");
+                                        setSymptomDetails("");
+                                    }
+                                }}>
                                     <option value="None">None</option>
-                                    <option value="Positive">positive</option>
-                                    <option value="Negative">negative</option>
+                                    <option value="Not tested">Not tested</option>
+                                    <option value="Positive">Positive</option>
+                                    <option value="Negative">Negative</option>
                                 </select>
                                 <br/>
 
                                 <h6>Do you have any symptoms :</h6>
                                 <select defaultValue={(patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("symptoms")].length : 0) === 0 ? "no" : "yes"}
-                                        onChange={(event) => setHaveSymptoms(event.target.value)}>
+                                        onChange={(event) => {
+                                            setHaveSymptoms(event.target.value);
+                                            if (event.target.value === "no") {
+                                                setUserSymptoms([]);
+                                            }
+                                        }}>
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
                                 </select>
