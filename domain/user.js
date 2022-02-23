@@ -17,6 +17,10 @@ class User {
     await this.userRepository.add(userData);
     return await this.userRepository.fetch(userData.uid);
   }
+
+  async getTypeAndStatus() {
+    return await this.userRepository.fetchTypeAndStatus(this.id.getId());
+  }
 }
 
 class UserId {

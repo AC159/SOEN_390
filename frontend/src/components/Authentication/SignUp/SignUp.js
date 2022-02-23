@@ -28,8 +28,8 @@ function SignUp(props) {
   let [user, setUser] = useState("");
   let [patient, setPatient] = useState(false);
   let [doctor, setDoctor] = useState("");
-  let [healthOfficer, setHealthOfficer] = useState("");
-  let [immigrationOfficer, setImmigrationOfficer] = useState("");
+  let [healthOfficial, setHealthOfficial] = useState("");
+  let [immigrationOfficial, setImmigrationOfficial] = useState("");
   let [administrator, setAdministrator] = useState("");
 
   let [insurance, setInsurance] = useState("");
@@ -57,45 +57,50 @@ function SignUp(props) {
     else setPasswordConfError(false);
   }, [password, passwordConf]);
 
-  function userSelect(value) {
-    if (value === "patient") {
-      setPatient(!patient);
-      setDoctor(false);
-      setHealthOfficer(false);
-      setImmigrationOfficer(false);
-      setAdministrator(false);
-    } else if (value === "doctor") {
-      setDoctor(!doctor);
-      setPatient(false);
-      setHealthOfficer(false);
-      setImmigrationOfficer(false);
-      setAdministrator(false);
-    } else if (value === "healthOfficer") {
-      setHealthOfficer(!healthOfficer);
-      setPatient(false);
-      setDoctor(false);
-      setImmigrationOfficer(false);
-      setAdministrator(false);
-    } else if (value === "immigrationOfficer") {
-      setImmigrationOfficer(!immigrationOfficer);
-      setPatient(false);
-      setDoctor(false);
-      setHealthOfficer(false);
-      setAdministrator(false);
-    } else if (value === "administrator") {
-      setAdministrator(!administrator);
-      setPatient(false);
-      setDoctor(false);
-      setHealthOfficer(false);
-      setImmigrationOfficer(false);
-    } else {
-      setPatient(false);
-      setDoctor(false);
-      setHealthOfficer(false);
-      setImmigrationOfficer(false);
-      setAdministrator(false);
+    function userSelect(value){
+        if (value === "patient") {
+            setPatient(!patient);
+            setDoctor(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
+            setAdministrator(false);
+        }
+        else if(value === "doctor") {
+            setDoctor(!doctor);
+            setPatient(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
+            setAdministrator(false);
+        }
+        else if(value === "healthOfficial"){
+            setHealthOfficial(!healthOfficial);
+            setPatient(false);
+            setDoctor(false);
+            setImmigrationOfficial(false);
+            setAdministrator(false);
+        }
+        else if (value === "immigrationOfficial") {
+            setImmigrationOfficial(!immigrationOfficial);
+            setPatient(false);
+            setDoctor(false);
+            setHealthOfficial(false);
+            setAdministrator(false);
+        }
+        else if(value === "administrator"){
+            setAdministrator(!administrator);
+            setPatient(false);
+            setDoctor(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
+        }
+        else {
+            setPatient(false);
+            setDoctor(false);
+            setHealthOfficial(false);
+            setImmigrationOfficial(false);
+            setAdministrator(false);
+        }
     }
-  }
 
   const submitForm = async () => {
     try {
@@ -240,8 +245,8 @@ function SignUp(props) {
             </option>
             <option value="patient">Patient</option>
             <option value="doctor">Doctor</option>
-            <option value="healthOfficer">Health Officer</option>
-            <option value="immigrationOfficer">Immigration Officer</option>
+            <option value="healthOfficial">Health Officer</option>
+            <option value="immigrationOfficial">Immigration Officer</option>
             <option value="administrator">Administrator</option>
           </select>
 
@@ -269,33 +274,15 @@ function SignUp(props) {
             />
           </div>
 
-          <div
-            className={
-              styles[healthOfficer ? "visible_SingUp" : "hidden_SingUp"]
-            }
-          >
-            <input
-              className={styles["input_SingUp"]}
-              type="number"
-              placeholder="Health officer's License Number"
-              value={healthLicense}
-              onChange={(event) => setHealthLicense(event.target.value)}
-            />
-          </div>
+                        <div className={styles[healthOfficial ? "visible_SingUp" : "hidden_SingUp"]}>
+                        <input className={styles["input_SingUp"]}  type="number" placeholder="Health official's License Number" value={healthLicense}
+                                onChange={(event) => setHealthLicense(event.target.value)}/>
+                        </div>
 
-          <div
-            className={
-              styles[immigrationOfficer ? "visible_SingUp" : "hidden_SingUp"]
-            }
-          >
-            <input
-              className={styles["input_SingUp"]}
-              type="number"
-              placeholder="Immigration officer's Id Number"
-              value={immigrationId}
-              onChange={(event) => setImmigrationId(event.target.value)}
-            />
-          </div>
+                        <div className={styles[immigrationOfficial ? "visible_SingUp" : 'hidden_SingUp']}>
+                        <input  className={styles["input_SingUp"]} type="number" placeholder="Immigration official's Id Number" value={immigrationId}
+                                onChange={(event) => setImmigrationId(event.target.value)}/>
+                        </div>
 
           <div
             className={

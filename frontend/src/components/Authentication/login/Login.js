@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
+import axios from 'axios';
 
 function Login(props) {
-  let navigate = useNavigate();
-  let auth = useAuth();
+    let navigate = useNavigate();
+    let auth = useAuth();
 
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -14,17 +15,34 @@ function Login(props) {
   const submitForm = async () => {
     try {
       const user = await auth.login(email, password);
-      console.log("User: ", user);
-      // get the requested route from local storage
-      const redirectRoute = sessionStorage.getItem("requestedRoute");
-      console.log(redirectRoute);
-      if (
-        redirectRoute !== "" &&
-        redirectRoute !== undefined &&
-        redirectRoute !== null
-      )
-        navigate(redirectRoute, { replace: true });
-      else navigate("/general-dashboard", { replace: true });
+        let userType, userStatus;
+
+        await axios.get(`/user/${user.user.uid}/getTypeAndStatus`)
+            .then((res) => {
+                console.log('Got type and status');
+                console.log(res.data);
+                userType = res.data.userType;
+                userStatus = res.data.userStatus;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        if (userStatus === "APPROVED") {
+            if (userType === "patient") {
+                navigate('/patient-dashboard');
+            } else if (userType === "doctor") {
+                navigate('/doctor-dashboard');
+            } else if (userType === "administrator") {
+                navigate('/admin-dashboard');
+            } else if (userType === "healthOfficial") {
+                navigate('/health-official-dashboard');
+            } else if (userType === "immigrationOfficial") {
+                navigate('/immigration-officer-dashboard');
+            }
+        } else {
+            navigate('/general-dashboard')
+        }
     } catch (error) {
       if (error.code === "auth/user-not-found")
         setLoginError("User not found, sign up?");

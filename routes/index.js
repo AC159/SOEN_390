@@ -58,4 +58,16 @@ router.post('/update-profile/:userId', async (req, res) => {
   }
 });
 
+router.get('/:userId/getTypeAndStatus', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.userId);
+    const user = new User(userId, null, new UserRepository(mongo));
+    const data = await user.getTypeAndStatus();
+    res.status(201).json(data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;

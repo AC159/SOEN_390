@@ -37,15 +37,12 @@ class UserRepository {
   }
 
   delete(userId) {
-    return this.mongo.db('test').collection('user').deleteOne({
-      uid: userId,
-    });
+    return this.mongo.db('test').collection('user').deleteOne({uid: userId});
   }
 
   getProfile = async (userId) => {
     try {
-      const profile = await this.mongo
-          .db('test')
+      const profile = await this.mongo.db('test')
           .collection('patient')
           .findOne({
             uid: userId,
@@ -62,6 +59,16 @@ class UserRepository {
       console.log(e);
       throw new Error('Could not fetch user profile');
     }
+  };
+
+  fetchTypeAndStatus = async (userId) => {
+    const profile = await this.mongo.db('test').collection('user').findOne({
+      uid: userId,
+    });
+    return {
+      userStatus: profile.userStatus,
+      userType: profile.userType,
+    };
   };
 }
 
