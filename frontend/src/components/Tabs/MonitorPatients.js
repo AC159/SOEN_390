@@ -37,9 +37,11 @@ function MonitorPatients(props) {
     let {currentUser} = useAuth();
 
     const renderPatientList = () => {
-        return <div>
-          {patientList.map(patient =>
-            <div className={styles["patientInfoCard"]}>
+        return <div className={styles["noPatientsMessage"]}>
+        {patientList.length === 0 ? <div>You have no patients assigned to you.</div> : 
+        
+        patientList.map((patient, index) =>
+            <div key = {index} className={styles["patientInfoCard"]}>
                 <div>
                     <h6>Name:</h6>
                     <p data-testid="patient-name">{patient.name}</p>

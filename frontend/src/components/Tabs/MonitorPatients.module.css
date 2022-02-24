@@ -19,3 +19,7 @@
     display:block;
     word-break: break-all;
   }
+
+  .noPatientsMessage{
+    color: white;
+  }
