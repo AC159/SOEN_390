@@ -8,10 +8,10 @@ jest.mock('../domain/notification');
 jest.mock('mongodb');
 
 describe('integration test notificationRoutes - connection to notification domain', () => {
-  afterAll(() => {
+  afterEach(() => {
     server.close();
   });
-  
+
   describe('test GET /notification/:notificationId/view', () => {
     jest.spyOn(Notification.prototype, 'viewNotification').mockImplementation(() => {});
     jest.spyOn(MongoClient.prototype, 'connect').mockImplementation(() => {});
