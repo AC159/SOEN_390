@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
