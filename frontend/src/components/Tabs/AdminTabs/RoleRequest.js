@@ -57,7 +57,8 @@ function RoleRequest(props) {
   function renderPendingPatientList() {
     if (patientList === null) return;
     return <div>
-    {patientList.map((patient, index) => <RoleRequestBox 
+    {patientList.map((patient, index) => <RoleRequestBox
+        key={index}
     RequesterUsername={patient.name}
     RequestType={patient.userType}
     uID={patient.uid}
@@ -71,6 +72,7 @@ function RoleRequest(props) {
     if(doctorList !== null) {
       return <div>
     {doctorList.map((doctor, index) => <RoleRequestBox
+        key={index}
     RequesterUsername={doctor.name}
     RequestType={doctor.userType}
     uID={doctor.uid}
@@ -86,6 +88,7 @@ function RoleRequest(props) {
     if (healthOfficialList !== null) {
       return <div>
     {healthOfficialList.map((officer, index) => <RoleRequestBox
+        key={index}
     RequesterUsername={officer.name}
     RequestType={officer.userType}
     uID={officer.uid}
@@ -101,6 +104,7 @@ function RoleRequest(props) {
     if (immigrationOfficerList.users !== null) {
       return <div>
       {immigrationOfficerList.map((officer, index) => <RoleRequestBox
+          key={index}
       RequesterUsername={officer.name}
       RequestType={officer.userType}
       uID={officer.uid}

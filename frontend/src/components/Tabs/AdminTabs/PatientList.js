@@ -33,8 +33,9 @@ function PatientList(props) {
   {
     return <Accordion>
       {patientList.map((patient, index) => 
-      <PatientBox 
-      eventKey={`${index}`}
+      <PatientBox
+      key={index}
+      eventKey={index}
       patient={patient}
       currentUser={currentUser}
       className={styles["patient-box"]}
