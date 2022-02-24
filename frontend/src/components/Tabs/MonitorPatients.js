@@ -36,18 +36,12 @@ function MonitorPatients(props) {
         axios.get( `doctor/${currentUser.user.uid}/patientArray` )
         .then((response) => {
         const newData = response.data.data.map(
-            (patient) => {
-                const num=Math.random();
-                if (num < 0.5){
-                    patient.status = 'Negative';
-                }
-                else{
-                    patient.status = 'Positive';
-                }
-                console.log(patient.status);
-            }
+            (patient) => ({
+                ...patient,
+                status: 'Negative'
+            })
         )
-        setPatientList(response.data.data);
+        setPatientList(newData);
         console.log(patientList);
         console.log(response);
         })
