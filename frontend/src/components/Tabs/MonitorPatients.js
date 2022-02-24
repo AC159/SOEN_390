@@ -1,37 +1,27 @@
-import photo1 from "../../assets/HomePhotos/doctor_sitting.jpg";
-import photo3 from "../../assets/HomePhotos/closed.jpg";
-import { Accordion } from "react-bootstrap";
-import { Carousel } from "react-bootstrap";
-import { Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./MonitorPatients.module.css";
 import "./CommonPageStyling.css";
 import axios from "axios";
-import { ListGroup } from "react-bootstrap";
 
 function MonitorPatients(props) {
 
     const [patientList, setPatientList] = useState([]);
-    const [status, setPatientStatus] = useState([]);
     
-    const getPatientArray = () => {
-        axios.get( `doctor/${currentUser.user.uid}/patientArray` )
-        .then((response) => {
-        const newData = response.data.data.map(
-            (patient) => ({
-                ...patient,
-                status: 'Negative'
-            })
-        )
-        setPatientList(newData);
-        console.log(patientList);
-        console.log(response);
-        })
-        .catch((error) => {
-        console.log(error.response);
-        })
+    const getPatientArray = async () => {
+        try {
+            const response = await axios.get(`doctor/${currentUser.user.uid}/patientArray`);
+            const newData = response.data.data.map(
+                (patient) => ({
+                    ...patient,
+                    status: 'Negative'
+                })
+            )
+            setPatientList(newData);
+        } catch (error) {
+            console.log(error);
+        }
     }
     
     let {currentUser} = useAuth();

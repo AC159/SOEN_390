@@ -11,22 +11,18 @@ import { Accordion } from "react-bootstrap";
 function PatientList(props) {
 
   let {currentUser} = useAuth();
-
   const [patientList, setPatientList] = useState([]);
  
 
   useEffect(() => {fetchListOfPatients()}, [patientList.length]);
 
   const fetchListOfPatients = async () => {
-    
-    axios.get(`admin/${currentUser.user.uid}/patients`)
-    .then((response) => {
-      setPatientList(response.data.data);
-      console.log(patientList);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    })
+    try {
+        const response = await axios.get(`admin/${currentUser.user.uid}/patients`);
+        setPatientList(response.data.data);
+    } catch (error) {
+        console.log(error);
+    }
   }
 
   function renderPatientList()
