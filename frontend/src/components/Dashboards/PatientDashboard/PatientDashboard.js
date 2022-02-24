@@ -6,13 +6,10 @@ import Home from '../../Tabs/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './PatientDashboard.module.css';
 import "../DashboardCommonStyles.css";
-import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import NotificationBox from '../../NotificationBox/NotificationBox';
-import NotificationBox from "../../NotificationBox/NotificationBox";
 import CovidFile from "../../Tabs/PatientSymptoms/CovidFile";
 
 function PatientDashboard(props) {
-    let {currentUser} = useAuth();
     return (
         <div>
             <Navbar/>
