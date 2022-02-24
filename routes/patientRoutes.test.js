@@ -12,7 +12,7 @@ describe('test Patient routes', () => {
     jest.spyOn(MongoClient, 'connect').mockImplementation(() => jest.fn());
   });
 
-  afterAll(() => {
+  afterEach(() => {
     server.close();
   });
 
