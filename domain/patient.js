@@ -9,6 +9,7 @@ class Patient extends User {
       dob,
       userStatus = PatientStatus.Unconfirmed,
       isFlagged = false,
+      patientRepository,
   ) {
     super(userId, name);
     this.userStatus = userStatus;
@@ -16,6 +17,19 @@ class Patient extends User {
     this.phoneNumber = phoneNumber;
     this.dob = dob;
     this.address = address;
+    this.patientRepository = patientRepository;
+  }
+
+  async postStatusForm(formData) {
+    return await this.patientRepository.addStatusForm(formData);
+  }
+
+  async updateStatusForm(formData) {
+    return await this.patientRepository.updateStatusForm(formData);
+  }
+
+  async getPatientStatusForm() {
+    return await this.patientRepository.fetchPatientForm(this.id.getId());
   }
 
   updateProfile() {
