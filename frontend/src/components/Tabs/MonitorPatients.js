@@ -13,22 +13,6 @@ import { ListGroup } from "react-bootstrap";
 
 function MonitorPatients(props) {
 
-    // //the following 5 const's are to test the ui without the backend:
-    // const Patient = function(pName, pStatus, pDob, pEmail, pPhoneNumber)
-    // {
-    //     const name = pName;
-    //     const status = pStatus;
-    //     const dob = pDob;
-    //     const email = pEmail;
-    //     const phoneNumber = pPhoneNumber;
-  
-    //     return {name, status, dob, email, phoneNumber};
-    // };
-    // const patientOne = Patient("First Patient", "POSITIVE", "02/05/1999", "Patient1@gmail.com", "514-514-5145");
-    // const patientTwo = Patient("Second Patient", "PENDING", "14/02/2014", "iAmPatient2@gmail.com", "438-438-4384");
-    // const patientThree = Patient("Third Patient", "NEGATIVE", "17/08/1984", "patientTHREE@gmail.com", "514-438-5145");
-    // const patients = [patientOne, patientTwo, patientThree];
-
     const [patientList, setPatientList] = useState([]);
     const [status, setPatientStatus] = useState([]);
     

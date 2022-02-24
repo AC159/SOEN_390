@@ -7,9 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./DoctorDashboard.module.css";
 import "../DashboardCommonStyles.css";
 import NotificationBox from "../../NotificationBox/NotificationBox";
-import axios from "axios";
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
-import { useState } from "react";
 import MonitorPatients from "../../Tabs/MonitorPatients";
 
 function DoctorDashboard(props) {
