@@ -1,7 +1,5 @@
 import {render, screen} from '@testing-library/react';
-
 import PatientBox from './PatientBox';
-
 jest.mock('axios');
 
 describe('visual test of the component', () => {

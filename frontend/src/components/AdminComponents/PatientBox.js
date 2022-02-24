@@ -16,11 +16,8 @@ let selectedDoctorName = "";
 function PatientBox(props) {
   
   const [show, setShow] = useState(false);
-
   const [doctorList, setDoctorList] = useState([]);
-
   const [assignedDoctor, setAssignedDoctor] = useState(props.patient.patientInfo.doctor);
-  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -35,15 +32,13 @@ function PatientBox(props) {
     selectedDoctorName=name;
   }
 
-  const fetchDoctorList = () => {
-    axios.get(`admin/${props.currentUser.user.uid}/doctors`)
-    .then((response) => {
+  const fetchDoctorList = async () => {
+    try {
+      const response = await axios.get(`admin/${props.currentUser.user.uid}/doctors`);
       setDoctorList(response.data.data);
-      console.log(doctorList);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const assignDoctorToPatient = () => {
@@ -55,13 +50,12 @@ function PatientBox(props) {
       doctorName: selectedDoctorName
     }
 
-    axios.post(`admin/${props.currentUser.user.uid}/patient`, pair)
-    .then((response) => {
+    try {
+      const response = axios.post(`admin/${props.currentUser.user.uid}/patient`, pair);
       console.log(response);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    })
+    } catch (error) {
+      console.log(error);
+    }
 
     setAssignedDoctor(selectedDoctorName);
     handleClose();
