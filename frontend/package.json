@@ -47,5 +47,10 @@
     "axios": "^0.25.0",
     "jest-watch-typeahead": "^0.6.5"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-navigation)/"
+    ]
+  }
 }
