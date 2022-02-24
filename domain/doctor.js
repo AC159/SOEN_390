@@ -1,6 +1,11 @@
 class Doctor {
-  constructor(userId) {
+  constructor(userId, doctorRepository) {
     this.id = userId;
+    this.doctorRepository = doctorRepository;
+  }
+
+  async getPatients() {
+    return await this.doctorRepository.getPatients(this.id.getId());
   }
 
   getPatientFile(patient) {

@@ -1,16 +1,17 @@
 const express = require('express');
+const {UserId} = require("../domain/user");
+const Doctor = require("../domain/doctor");
+const DoctorRepository = require("../repository/DoctorRepository");
 const router = express.Router();
 
-router.get('/:doctor_id/patientArray',async function(req,res){    
-    const doctor=req.params.doctor_id;
+router.get('/:doctorId/patientArray',async function(req,res){
+    const doctorId = new UserId(req.params.doctorId);
     const mongo =req.app.locals.mongodb;
-    const response = await mongo.db('test').collection('user').find({ userType: 'patient', "patientInfo.doctorId":doctor } ).project({ name: 1, dob: 1,phoneNumber: 1 ,email: 1 ,uid :1 }).toArray();
-    console.log(response)
-    res.status(200).json({data:response})
-    
-    }
-    
-    );
+    const doctorRepository = new DoctorRepository(mongo);
+    const doctor = new Doctor(doctorId, doctorRepository);
+    const response = await doctor.getPatients();
+    res.status(200).json({data:response});
+});
     
 
 module.exports = router;
