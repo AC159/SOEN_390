@@ -30,10 +30,23 @@ function MonitorPatients(props) {
     // const patients = [patientOne, patientTwo, patientThree];
 
     const [patientList, setPatientList] = useState([]);
+    const [status, setPatientStatus] = useState([]);
     
     const getPatientArray = () => {
         axios.get( `doctor/${currentUser.user.uid}/patientArray` )
         .then((response) => {
+        const newData = response.data.data.map(
+            (patient) => {
+                const num=Math.random();
+                if (num < 0.5){
+                    patient.status = 'Negative';
+                }
+                else{
+                    patient.status = 'Positive';
+                }
+                console.log(patient.status);
+            }
+        )
         setPatientList(response.data.data);
         console.log(patientList);
         console.log(response);
@@ -51,7 +64,7 @@ function MonitorPatients(props) {
             <div className={styles["patientInfoCard"]}>
                 <div>
                     <h6>Name:</h6>
-                    <p>{patient.name}</p>
+                    <p data-testid="patient-name">{patient.name}</p>
                 </div>
                 <div>
                     <h6>Status:</h6>
