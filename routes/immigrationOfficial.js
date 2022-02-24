@@ -12,12 +12,9 @@ router.post('/:immigrationOfficialId/raise-flag', async (req, res) => {
         req.body.mongo,
     );
 
-    const immigrationOfficial = new ImmigrationOfficial(
-        immigrationOfficialId,
-        immigrationOfficialRepository,
-    );
+    const immigrationOfficial = new ImmigrationOfficial(immigrationOfficialId, immigrationOfficialRepository);
     const response = await immigrationOfficial.raiseFlag(userId);
-    res.status(200).json({data: response});
+    res.status(201).json({data: response});
   } catch (e) {
     res.status(400).json({error: e.message});
   }

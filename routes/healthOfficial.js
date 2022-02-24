@@ -8,16 +8,11 @@ router.post('/:healthOfficialId/raise-flag', async (req, res) => {
   try {
     const userId = req.body.userId;
     const healthOfficialId = new UserId(req.params.healthOfficialId);
-    const healthOfficialRepository = new HealthOfficialRepository(
-        req.body.mongo,
-    );
+    const healthOfficialRepository = new HealthOfficialRepository(req.body.mongo);
 
-    const healthOfficial = new HealthOfficial(
-        healthOfficialId,
-        healthOfficialRepository,
-    );
+    const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
     const response = await healthOfficial.raiseFlag(userId);
-    res.status(200).json({data: response});
+    res.status(201).json({data: response});
   } catch (e) {
     res.status(400).json({error: e.message});
   }
