@@ -21,6 +21,10 @@ class User {
   async getTypeAndStatus() {
     return await this.userRepository.fetchTypeAndStatus(this.id.getId());
   }
+
+  async viewNotifications() {
+    return await this.userRepository.fetchAllNotifications(this.id.getId());
+  }
 }
 
 class UserId {

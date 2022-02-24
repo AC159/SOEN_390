@@ -8,6 +8,7 @@ const doctorRoutes = require('./routes/doctor');
 const adminRoutes = require('./routes/admin');
 const immigrationOfficialRoutes = require('./routes/immigrationOfficial');
 const healthOfficialRoutes = require('./routes/healthOfficial');
+const notificationRoutes = require('./routes/notification');
 const bodyParser = require('body-parser');
 const port = 3001;
 require('colors');
@@ -21,6 +22,7 @@ app.use('/doctor', doctorRoutes);
 app.use('/admin', adminRoutes);
 app.use('/immigration-official', immigrationOfficialRoutes);
 app.use('/health-official', healthOfficialRoutes);
+app.use('/notification', notificationRoutes);
 
 connectToCluster(process.env.MONGO_CLUSTER_URL).then((client) => {
   app.locals.mongodb = client;

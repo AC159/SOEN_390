@@ -35,7 +35,6 @@
     Start the local development server with the following command:
         npm run dev
 
-
 ## Pull Requests
 
 Follow this template to create PR: [PR template](https://github.com/bean-pod/switchboard/blob/master/.github/pull_request_template.md)

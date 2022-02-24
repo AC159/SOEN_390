@@ -1,4 +1,4 @@
-class immigrationOfficial {
+class ImmigrationOfficial {
   constructor(userId, immigrationOfficialRepository) {
     this.userId = userId;
     this.immigrationOfficialRepository = immigrationOfficialRepository;
@@ -39,4 +39,10 @@ class immigrationOfficial {
       throw e;
     }
   }
+
+  getId() {
+    return this.userId;
+  }
 }
+
+module.exports = ImmigrationOfficial;
