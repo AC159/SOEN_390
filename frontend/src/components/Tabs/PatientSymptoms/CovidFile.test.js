@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import {BrowserRouter, MemoryRouter} from 'react-router-dom'
+import {BrowserRouter} from 'react-router-dom'
 
 import CovidFile from './CovidFile';
 import {AuthContext} from '../../Authentication/FirebaseAuth/FirebaseAuth';

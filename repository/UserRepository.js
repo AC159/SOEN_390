@@ -4,15 +4,12 @@ class UserRepository {
   }
 
   add(user) {
-    return this.mongo.db('test')
-        .collection('user')
-        .insertOne(user);
+    return this.mongo.db('test').collection('user').insertOne(user);
   }
 
   fetch(userId) {
-    return this.mongo.db('test')
-        .collection('user')
-        .findOne({
+    return this.mongo.db('test').collection('user').findOne(
+        {
           uid: userId,
         }, {
           _id: 0,
@@ -23,9 +20,8 @@ class UserRepository {
   }
 
   update(userId, values) {
-    return this.mongo.db('test')
-        .collection('user')
-        .updateOne({
+    return this.mongo.db('test').collection('user').updateOne(
+        {
           uid: userId,
         }, {
           $set: values,
@@ -33,17 +29,11 @@ class UserRepository {
   }
 
   fetchAll() {
-    return this.mongo.db('test')
-        .collection('user')
-        .find({});
+    return this.mongo.db('test').collection('user').find({});
   }
 
   delete(userId) {
-    return this.mongo.db('test')
-        .collection('user')
-        .deleteOne({
-          uid: userId,
-        });
+    return this.mongo.db('test').collection('user').deleteOne({uid: userId});
   }
 
   fetchAllNotifications(userId) {
