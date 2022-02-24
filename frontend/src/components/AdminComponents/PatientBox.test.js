@@ -46,13 +46,13 @@ describe('visual test of the component', () => {
       }
     }
 
-    const {getByTestId} = render(
+    render(
       <PatientBox 
         eventKey="event-key"
         currentUser={currentUser}
         patient={patient} 
       />)
-    expect(getByTestId('patient-name')).toHaveTextContent("Alfred")
+    expect(screen.getByTestId('patient-name')).toHaveTextContent("Alfred")
 
   })
 
@@ -73,13 +73,13 @@ describe('visual test of the component', () => {
       }
     }
 
-    const {getByTestId} = render(
+    render(
       <PatientBox
         eventKey="event-key"
         currentUser={currentUser}
         patient={patient} 
       />)
-    expect(getByTestId('patient-dob')).toHaveTextContent("1234-12-12")
+    expect(screen.getByTestId('patient-dob')).toHaveTextContent("1234-12-12")
 
   })
 
