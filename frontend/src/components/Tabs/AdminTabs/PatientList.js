@@ -15,10 +15,7 @@ function PatientList(props) {
   const [patientList, setPatientList] = useState([]);
  
 
-  useEffect(() => {
-    console.log("Patient List Tab is Loaded!");
-    fetchListOfPatients();
-  }, [patientList.length]);
+  useEffect(() => {fetchListOfPatients()}, [patientList.length]);
 
   const fetchListOfPatients = async () => {
     

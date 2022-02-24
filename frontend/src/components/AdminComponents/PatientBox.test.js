@@ -1,11 +1,7 @@
 import {render, screen} from '@testing-library/react';
-import {BrowserRouter, MemoryRouter} from 'react-router-dom';
-import userEvent from '@testing-library/user-event'
 
 import PatientBox from './PatientBox';
-import fetchDoctorList from './PatientBox';
 
-import axios from 'axios'
 jest.mock('axios');
 
 describe('visual test of the component', () => {

@@ -10,9 +10,6 @@ import { ListGroup } from "react-bootstrap";
 
 import axios from "axios";
 
-const eventKey = "0";
-const patient = null;
-const currentUser = null;
 let selectedDoctorID = "";
 let selectedDoctorName = "";
 
@@ -78,7 +75,7 @@ function PatientBox(props) {
           <div className={styles["doctor-side"]}>
           <div className={styles["doctor-patient-count"]}>{"Patients Assigned: " + doctor.patientCount}</div>
           <Button 
-          variant="primary" 
+          variant="outline-primary" 
           onClick={() => selectDoctor(doctor.uid, doctor.name)} 
           className={styles["doctor-select-button"]}>
           Select
@@ -88,10 +85,6 @@ function PatientBox(props) {
         </ListGroup.Item> )}
     </ListGroup>;
   } 
-
-  useEffect(()=> {
-    
-  }, []);
 
   return (
     <div className={styles["card-container"]}>

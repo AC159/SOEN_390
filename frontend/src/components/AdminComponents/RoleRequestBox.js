@@ -32,12 +32,12 @@ function RoleRequestBox(props) {
   }
 
   const rejectUser = () => {
-    const approveInfo = {
+    const rejectInfo = {
       userId: props.uID,
       adminId: props.adminID
     }
 
-    axios.post(`admin/${props.adminID}/reject-user`, approveInfo)
+    axios.post(`admin/${props.adminID}/reject-user`, rejectInfo)
     .then((response) => {
       console.log(response);
     })

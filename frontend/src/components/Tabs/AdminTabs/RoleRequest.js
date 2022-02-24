@@ -11,7 +11,6 @@ function RoleRequest(props) {
 
   const [patientList, setPatientList] = useState([]);
   const [doctorList, setDoctorList] = useState([]);
-  const [adminList, setAdminList] = useState([]);
   const [healthOfficialList, setHOList] = useState([]);
   const [immigrationOfficerList, setIOList] = useState([]);
  
@@ -112,20 +111,6 @@ function RoleRequest(props) {
     }
     
   }
-
-  /*return (
-    <div className={styles["role-outer-container"]}>
-      <div className={styles["todays-new-title"]}>Patient List</div>
-      <hr />
-      <div>
-        {renderPatientList()}
-      </div>
-        
-      <div className={styles["request-container"]}>
-        
-      </div>
-    </div>
-  );*/
 
 
   return (
