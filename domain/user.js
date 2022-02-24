@@ -18,8 +18,8 @@ class User {
     return await this.userRepository.fetch(userData.uid);
   }
 
-  async getTypeAndStatus() {
-    return await this.userRepository.fetchTypeAndStatus(this.id.getId());
+  async viewNotifications() {
+    return await this.userRepository.fetchAllNotifications(this.id.getId());
   }
 }
 
