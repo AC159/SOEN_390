@@ -16,9 +16,6 @@ function CovidFile(props) {
     let [whatOtherSymptoms, setWhatOtherSymptoms] = useState('');
     let [symptomDetails, setSymptomDetails] = useState('');
     let [health, setHealth] = useState('');
-     const textInput = useRef(null);
-
-
     let [patientData, setPatientData] = useState();
 
     const submitPatientForm = async () => {
@@ -86,16 +83,6 @@ function CovidFile(props) {
             userSymptoms.splice(index, 1);
         }
     }
-
-    // &&
-    //         (patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("temperature")] : "") === "" &&
-    //         (patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("otherSymptoms")] : "") === "" &&
-    //         (patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("symptomDetails")] : "") === "" &&
-    //         (patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("health")] : "") === "" &&
-    //         (patientData ? Object.values(patientData)[Object.keys(patientData).indexOf("symptoms")].isEmpty : true) === true)
-
-
-
 
     return (
 
