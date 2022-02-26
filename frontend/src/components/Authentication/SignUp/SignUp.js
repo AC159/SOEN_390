@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import styles from "./SignUp.module.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
@@ -7,125 +7,139 @@ import { useNavigate } from 'react-router-dom';
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
+const BASIC_CHANGE = "BASIC_CHANGE";
+const EMAIL_CHANGE = "EMAIL_CHANGE";
+const PASSWORD_CHANGE = "PASSWORD_CHANGE";
+const PASSWORD_CONF = "PASSWORD_CONF";
+const USER_TYPE_CHANGE = "USER_TYPE_CHANGE";
+
+const initialState = {
+  email: '',
+  password: '',
+  passwordConf: '',
+  passwordError: false,
+  passwordConfError: false,
+  emailInvalid: false,
+  firstName: '',
+  lastName: '',
+  dateOfBirth: '',
+  phoneNumber: '',
+  address: '',
+  userType: '',
+  idCard: '',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case BASIC_CHANGE:
+      return {
+        ...state,
+        ...action.payload
+      }
+    case EMAIL_CHANGE:
+      const {email} = action.payload;
+      const emailInvalid = !(emailRegex.test(String(email).toLowerCase()) || email === "");
+      return {
+        ...state,
+        ...action.payload,
+        emailInvalid
+      }
+    case PASSWORD_CHANGE:
+      const {password} = action.payload;
+      const passwordError = !passwordRegex.test(String(password).toLowerCase()) && password !== "";
+      return {
+        ...state,
+        ...action.payload,
+        passwordError
+      }
+    case PASSWORD_CONF:
+      const passwordConfError = state.password !== action.payload.passwordConf;
+      return {
+        ...state,
+        ...action.payload,
+        passwordConfError
+      }
+    case USER_TYPE_CHANGE:
+      return {
+        ...state,
+        idCard: '',
+        ...action.payload
+      }
+    default:
+      return state
+  }
+}
+
 function SignUp(props) {
-  let navigate = useNavigate();
-
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
-  let [passwordConf, setPasswordConf] = useState("");
-  let [passwordError, setPasswordError] = useState(false);
-  let [passwordConfError, setPasswordConfError] = useState(false);
-  let [emailInvalid, setEmailInvalid] = useState(false);
-
-  let [firstName, setFirstName] = useState("");
-  let [lastName, setLastName] = useState("");
-  let [dateOfBirth, setDateOfBirth] = useState("");
-  let [phoneNumber, setPhoneNumber] = useState("");
-  let [address, setAddress] = useState("");
-
-  let [user, setUser] = useState("");
-  let [patient, setPatient] = useState(false);
-  let [doctor, setDoctor] = useState("");
-  let [healthOfficial, setHealthOfficial] = useState("");
-  let [immigrationOfficial, setImmigrationOfficial] = useState("");
-  let [administrator, setAdministrator] = useState("");
-
-  let [insurance, setInsurance] = useState("");
-  let [doctorLicense, setDoctorLicense] = useState("");
-  let [healthLicense, setHealthLicense] = useState("");
-  let [immigrationId, setImmigrationId] = useState("");
-  let [administratorId, setAdministratorId] = useState("");
+  const navigate = useNavigate();
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   let auth = useAuth();
 
-  useEffect(() => {
-    if (emailRegex.test(String(email).toLowerCase()) || email === "")
-      setEmailInvalid(false);
-    else setEmailInvalid(true);
-  }, [email]);
-
-  useEffect(() => {
-    if (passwordRegex.test(String(password).toLowerCase()) || password === "")
-      setPasswordError(false);
-    else setPasswordError(true);
-  }, [password]);
-
-  useEffect(() => {
-    if (password !== passwordConf) setPasswordConfError(true);
-    else setPasswordConfError(false);
-  }, [password, passwordConf]);
-
-    function userSelect(value){
-        if (value === "patient") {
-            setPatient(!patient);
-            setDoctor(false);
-            setHealthOfficial(false);
-            setImmigrationOfficial(false);
-            setAdministrator(false);
-        }
-        else if(value === "doctor") {
-            setDoctor(!doctor);
-            setPatient(false);
-            setHealthOfficial(false);
-            setImmigrationOfficial(false);
-            setAdministrator(false);
-        }
-        else if(value === "healthOfficial"){
-            setHealthOfficial(!healthOfficial);
-            setPatient(false);
-            setDoctor(false);
-            setImmigrationOfficial(false);
-            setAdministrator(false);
-        }
-        else if (value === "immigrationOfficial") {
-            setImmigrationOfficial(!immigrationOfficial);
-            setPatient(false);
-            setDoctor(false);
-            setHealthOfficial(false);
-            setAdministrator(false);
-        }
-        else if(value === "administrator"){
-            setAdministrator(!administrator);
-            setPatient(false);
-            setDoctor(false);
-            setHealthOfficial(false);
-            setImmigrationOfficial(false);
-        }
-        else {
-            setPatient(false);
-            setDoctor(false);
-            setHealthOfficial(false);
-            setImmigrationOfficial(false);
-            setAdministrator(false);
-        }
+  const maxLengthValue = (userType) => {
+    switch(userType) {
+      case 'patient':
+        return 12;
+      case 'doctor':
+        return 6;
+      default:
+        return 200;
     }
+  }
+
+  const placeholderValue = (userType) => {
+    switch(userType) {
+      case 'patient':
+        return "Health Insurance Number";
+      case 'doctor':
+        return "Doctor's License Number";
+      case 'administrator':
+        return "Administrator's Id Number";
+      case 'immigrationOfficial':
+        return "Immigration official's Id Number";
+      case 'healthOfficial':
+        return "Health official's License Number";
+      default:
+        return '';
+    }
+  }
 
   const submitForm = async () => {
     try {
-      const userSignUpData = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        userType: user,
-        dateOfBirth: dateOfBirth,
-        phoneNumber: phoneNumber,
-        address: address,
-        verification: {
-          insurance: insurance,
-          doctorLicense: doctorLicense,
-          healthLicense: healthLicense,
-          immigrationId: immigrationId,
-          administratorId: administratorId,
-        },
-        userStatus: "PENDING",
-      };
-      await auth.register(email, password, userSignUpData);
+      const {
+        passwordError, passwordConfError, emailInvalid,
+        idCard, password, passwordConf, ...rest
+      } = state;
+      const validation = {};
+      switch(state.userType) {
+        case 'patient':
+          validation['insurance'] = idCard
+          break;
+        case 'doctor':
+          validation['doctorLicense'] = idCard
+          break;
+        case 'administrator':
+          validation['administratorId'] = idCard
+          break;
+        case 'immigrationOfficial':
+          validation['immigrationId'] = idCard
+          break;
+        case 'healthOfficial':
+          validation['healthLicense'] = idCard
+          break;
+        default:
+      }
+      await auth.register(state.email, state.password, {
+        ...rest,
+        verification: validation,
+        userStatus: 'PENDING'
+      });
+      navigate("/general-dashboard", { replace: true });
     } catch (error) {
       console.log("Sign up error: ", error);
     }
-    navigate("/general-dashboard", { replace: true });
   };
-    
+
   return (
     <div className={styles["container_SingUp"]}>
       <div className={styles["container-top_SingUp"]}>
@@ -144,10 +158,10 @@ function SignUp(props) {
             className={styles["input_SingUp"]}
             type="text"
             placeholder="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            value={state.email}
+            onChange={(event) => dispatch({type: EMAIL_CHANGE, payload: {email: event.target.value}})}
           />
-          {emailInvalid ? (
+          {state.emailInvalid ? (
             <div className={styles["container-error"]}>Invalid email</div>
           ) : null}
 
@@ -155,25 +169,29 @@ function SignUp(props) {
             className={styles["input_SingUp_Left"]}
             type="password"
             placeholder="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            value={state.password}
+            onChange={(event) => dispatch({type: PASSWORD_CHANGE, payload: {password: event.target.value}})}
           />
-          {passwordError ? (
-            <div className={styles["container-error"]}>
-              The password must contain at least eight characters, at least one
-              number, at least one special character, and both lower and upper
-              case letters
-            </div>
-          ) : null}
 
           <input
             className={styles["input_SingUp_Right"]}
             type="password"
             placeholder="confirm password"
-            value={passwordConf}
-            onChange={(event) => setPasswordConf(event.target.value)}
+            value={state.passwordConf}
+            onChange={(event) => dispatch({type: PASSWORD_CONF, payload: {passwordConf: event.target.value}})}
           />
-          {passwordConfError ? (
+          {state.passwordError ? (
+            <div className={styles["container-error"]}>
+              The password must contain:
+              <ul>
+                <li>at least eight characters</li>
+                <li>at least one number</li>
+                <li>at least one special character</li>
+                <li>lower and upper case letters</li>
+              </ul>
+            </div>
+          ) : null}
+          {state.passwordConfError ? (
             <div className={styles["container-error"]}>
               Passwords do not match!
             </div>
@@ -188,33 +206,32 @@ function SignUp(props) {
             className={styles["input_SingUp_Left"]}
             type="text"
             placeholder="First Name"
-            defaultValue={firstName}
-            onChange={(event) => setFirstName(event.target.value)}
+            value={state.firstName}
+            onChange={(event) => dispatch({type: BASIC_CHANGE, payload: {firstName: event.target.value}})}
           />
 
           <input
             className={styles["input_SingUp_Right"]}
             type="text"
             placeholder="Last Name"
-            value={lastName}
-            defaultValue={lastName}
-            onChange={(event) => setLastName(event.target.value)}
+            value={state.lastName}
+            onChange={(event) => dispatch({type: BASIC_CHANGE, payload: {lastName: event.target.value}})}
           />
 
           <input
             className={styles["input_SingUp_Left"]}
             type="date"
-            value={dateOfBirth}
-            onChange={(event) => setDateOfBirth(event.target.value)}
+            value={state.dateOfBirth}
+            onChange={(event) => dispatch({type: BASIC_CHANGE, payload: {dateOfBirth: event.target.value}})}
           />
 
           <input
             className={styles["input_SingUp_Right"]}
             type="text"
             placeholder="Phone Number"
-            value={phoneNumber}
+            value={state.phoneNumber}
             onChange={(event) => {
-              setPhoneNumber(event.target.value);
+              dispatch({type: BASIC_CHANGE, payload: {phoneNumber: event.target.value}})
             }}
           />
 
@@ -222,9 +239,9 @@ function SignUp(props) {
             className={styles["input_SingUp"]}
             type="text"
             placeholder="Address"
-            value={address}
+            value={state.address}
             onChange={(event) => {
-              setAddress(event.target.value);
+              dispatch({type: BASIC_CHANGE, payload: {address: event.target.value}})
             }}
           />
         </fieldset>
@@ -232,10 +249,9 @@ function SignUp(props) {
           <legend className={styles["legend_SingUp"]}>User Type</legend>
           <select
             name="userType"
-            defaultValue={user}
+            defaultValue={state.user}
             onChange={(event) => {
-              userSelect(event.target.value);
-              setUser(event.target.value);
+              dispatch({type: USER_TYPE_CHANGE, payload: {userType: event.target.value}})
             }}
           >
             <option value="" selected disabled>
@@ -247,54 +263,20 @@ function SignUp(props) {
             <option value="immigrationOfficial">Immigration Officer</option>
             <option value="administrator">Administrator</option>
           </select>
-
-          <div className={styles[patient ? "visible_SingUp" : "hidden_SingUp"]}>
-            <input
-              className={styles["input_SingUp"]}
-              type="text"
-              placeholder="Health Insurance Number"
-              maxLength={12}
-              value={insurance}
-              onChange={(event) => {
-                setInsurance(event.target.value);
-              }}
-            />
-          </div>
-
-          <div className={styles[doctor ? "visible_SingUp" : "hidden_SingUp"]}>
-            <input
-              className={styles["input_SingUp"]}
-              type="text"
-              placeholder="Doctor's License Number"
-              maxLength={6}
-              value={doctorLicense}
-              onChange={(event) => setDoctorLicense(event.target.value)}
-            />
-          </div>
-
-                        <div className={styles[healthOfficial ? "visible_SingUp" : "hidden_SingUp"]}>
-                        <input className={styles["input_SingUp"]}  type="number" placeholder="Health official's License Number" value={healthLicense}
-                                onChange={(event) => setHealthLicense(event.target.value)}/>
-                        </div>
-
-                        <div className={styles[immigrationOfficial ? "visible_SingUp" : 'hidden_SingUp']}>
-                        <input  className={styles["input_SingUp"]} type="number" placeholder="Immigration official's Id Number" value={immigrationId}
-                                onChange={(event) => setImmigrationId(event.target.value)}/>
-                        </div>
-
-          <div
-            className={
-              styles[administrator ? "visible_SingUp" : "hidden_SingUp"]
-            }
-          >
-            <input
-              className={styles["input_SingUp"]}
-              type="number"
-              placeholder="Administrator's Id Number"
-              value={administratorId}
-              onChange={(event) => setAdministratorId(event.target.value)}
-            />
-          </div>
+          {state.userType !== '' && (
+            <div className={styles["visible_SingUp"]}>
+              <input
+                className={styles["input_SingUp"]}
+                type="text"
+                placeholder={placeholderValue(state.userType)}
+                maxLength={maxLengthValue(state.userType)}
+                value={state.idCard}
+                onChange={(event) => {
+                  dispatch({type: BASIC_CHANGE, payload: {idCard: event.target.value}})
+                }}
+              />
+            </div>
+          )}
         </fieldset>
       </form>
 
@@ -303,12 +285,12 @@ function SignUp(props) {
         type="submit"
         onClick={submitForm}
         disabled={
-          email === "" ||
-          password === "" ||
-          passwordConf === "" ||
-          passwordError ||
-          passwordConfError ||
-          emailInvalid
+          state.email === "" ||
+          state.password === "" ||
+          state.passwordConf === "" ||
+          state.passwordError ||
+          state.passwordConfError ||
+          state.emailInvalid
         }
       >
         Submit
