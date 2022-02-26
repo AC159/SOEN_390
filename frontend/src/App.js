@@ -21,7 +21,7 @@ function App() {
               inner = route.element
             }
             return (
-            <Route path={route.path} element={inner} />
+            <Route key={route.path} path={route.path} element={inner} />
           )})}
         </Routes>
       </main>
