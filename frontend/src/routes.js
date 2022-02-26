@@ -1,12 +1,11 @@
 import Login from "./components/Authentication/login/Login";
 import SignUp from "./components/Authentication/SignUp/SignUp";
-import PatientDashboard from "./components/Dashboards/PatientDashboard/PatientDashboard";
-import DoctorDashboard from "./components/Dashboards/DoctorDashboard/DoctorDashboard";
-import AdminDashboard from "./components/Dashboards/Admin Dashboard/AdminDashboard";
-import HODashboard from "./components/Dashboards/Health Official Dashboard/HODashboard";
-import IODashboard from "./components/Dashboards/Immigration Officer Dashboard/IODashboard";
-import GeneralDashboard from "./components/Dashboards/GeneralDashboard/GeneralDashboard";
+
 import UserProfile from "./components/UserProfile/UserProfile";
+import {
+  PatientDashboard, DoctorDashboard, AdminDashboard,
+  HODashboard, IODashboard, GeneralDashboard
+} from './pages'
 
 const routes = [
   {
