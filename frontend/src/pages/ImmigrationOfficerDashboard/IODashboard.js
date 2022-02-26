@@ -11,8 +11,8 @@ const tabs = [
     element: <Home />
   },
   {
-    eventKey: 'updateCovidStatus',
-    title: 'Update COVID Symptoms',
+    eventKey: 'monitor-patient',
+    title: 'Monitor Patients',
     element: <CovidFile />
   },
   {
