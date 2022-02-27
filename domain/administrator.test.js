@@ -136,5 +136,62 @@ describe('test Administrator object', () => {
         expect(response[0].patientCount).toBe(2);
       });
     });
+
+    describe('approve pending User', () => {
+      let mockSetDefaultInfo;
+      let mockApproveUser;
+      beforeEach(() => {
+        AdminRepository.mockClear();
+        mockSetDefaultInfo = jest.spyOn(AdminRepository.prototype, 'setUserDefaultInformation');
+        mockApproveUser = jest.spyOn(AdminRepository.prototype, 'approveUser');
+      });
+
+      afterEach(() => {
+        mockApproveUser.mockRestore();
+        mockSetDefaultInfo.mockRestore();
+      });
+
+      it('should set patient default value', async () => {
+        mockApproveUser.mockReturnValueOnce({
+          value: {
+            userType: 'patient',
+          },
+        });
+
+        const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
+        await admin.approvePendingUser('1234');
+
+        expect(mockSetDefaultInfo).toHaveBeenCalledTimes(1);
+        expect(mockApproveUser).toHaveBeenCalledTimes(1);
+      });
+
+      it('should set doctor default value', async () => {
+        mockApproveUser.mockReturnValueOnce({
+          value: {
+            userType: 'doctor',
+          },
+        });
+
+        const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
+        await admin.approvePendingUser('1234');
+
+        expect(mockSetDefaultInfo).toHaveBeenCalledTimes(1);
+        expect(mockApproveUser).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not set default value for other user type', async () => {
+        mockApproveUser.mockReturnValueOnce({
+          value: {
+            userType: 'admin',
+          },
+        });
+
+        const admin = new Administrator(new UserId('123456'), new AdminRepository(''));
+        await admin.approvePendingUser('1234');
+
+        expect(mockSetDefaultInfo).toHaveBeenCalledTimes(0);
+        expect(mockApproveUser).toHaveBeenCalledTimes(1);
+      });
+    });
   });
 });

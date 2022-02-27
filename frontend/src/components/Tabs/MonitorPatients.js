@@ -12,13 +12,7 @@ function MonitorPatients(props) {
     const getPatientArray = async () => {
         try {
             const response = await axios.get(`doctor/${currentUser.user.uid}/patientArray`);
-            const newData = response.data.data.map(
-                (patient) => ({
-                    ...patient,
-                    status: 'Negative'
-                })
-            )
-            setPatientList(newData);
+            setPatientList(response.data.data);
         } catch (error) {
             console.log(error);
         }

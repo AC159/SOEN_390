@@ -5,7 +5,14 @@ class Doctor {
   }
 
   async getPatients() {
-    return await this.doctorRepository.getPatients(this.id.getId());
+    const patients = await this.doctorRepository.getPatients(this.id.getId());
+    return await Promise.all(patients.map(async (patient) => {
+      const status = await this.doctorRepository.getPatientStatus(patient.uid);
+      return await {
+        ...patient,
+        status: status.covidStatus,
+      };
+    }));
   }
 
   getPatientFile(patient) {
