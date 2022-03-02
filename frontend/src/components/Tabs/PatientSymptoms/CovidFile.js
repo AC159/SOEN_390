@@ -19,7 +19,7 @@ function CovidFile(props) {
     let [symptomDetails, setSymptomDetails] = useState('');
     let [health, setHealth] = useState('');
     let [patientData, setPatientData] = useState();
-    const [showModal, setShowModal] = useState(false);
+    let [showModal, setShowModal] = useState(false);
     let [selectedFormIndex, setSelectedFormIndex] = useState(-1);
 
     const submitPatientForm = async () => {
