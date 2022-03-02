@@ -41,7 +41,7 @@ router.get('/get-status-form/:userId', async (req, res) => {
   }
 });
 
-router.post('/raise-flag/:userId', async (res, req) => {
+router.post('/raise-flag/:userId', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userId);

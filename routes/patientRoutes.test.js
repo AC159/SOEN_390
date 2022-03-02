@@ -31,4 +31,9 @@ describe('test Patient routes', () => {
     const response = await request(app).post('/patient/submit-status-form');
     expect(response.statusCode).toBe(200);
   });
+
+  test('POST /raise-flag', async () => {
+    const response = await request(app).post('/patient/raise-flag/patientABC').send({flagType: 'doctorFlag', flagValue: true});
+    expect(response.statusCode).toBe(200);
+  });
 });
