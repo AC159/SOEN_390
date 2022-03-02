@@ -32,6 +32,10 @@ class Patient extends User {
     return await this.patientRepository.fetchPatientForm(this.id.getId());
   }
 
+  async raiseFlag(flagType, flagValue) {
+    return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue);
+  }
+
   updateProfile() {
     throw new Error(`${this.updateProfile.name} is not implemented.`);
   }

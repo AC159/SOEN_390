@@ -41,4 +41,17 @@ router.get('/get-status-form/:userId', async (req, res) => {
   }
 });
 
+router.post('/raise-flag/:userId', async (res, req) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.userId);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    // flagType can be either doctorFlag, immigrationOfficerFlag or healthOfficerFlag and flagValue can be either true or false
+    const response = await patient.raiseFlag(req.body.flagType, req.body.flagValue);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
 module.exports = router;

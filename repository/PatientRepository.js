@@ -19,6 +19,11 @@ class PatientRepository {
   fetchPatientForm(userId) {
     return this.mongo.db('test').collection('patientForms').findOne({patientUid: userId});
   }
+
+  raiseFlag(userId, flagType, flagValue) {
+    return this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {flagType: flagValue}});
+  }
+
 }
 
 module.exports = PatientRepository;
