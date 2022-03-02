@@ -85,7 +85,7 @@ function CovidFile(props) {
         setCovidStat(patientData[formIndex].covidStatus);
         setHaveSymptoms(patientData[formIndex].symptoms.length > 0 ? 'yes' : 'no');
         setUserSymptoms(patientData[formIndex].symptoms);
-        setHaveFever(!!patientData[formIndex].temperature || patientData[formIndex].symptoms.indexOf());
+        setHaveFever(!!patientData[formIndex].temperature);
         setTemp(patientData[formIndex].temperature);
         setOther(!!patientData[formIndex].otherSymptoms);
         setWhatOtherSymptoms(patientData[formIndex].otherSymptoms);
