@@ -33,10 +33,8 @@ function CovidFile(props) {
                 symptomDetails: symptomDetails,
                 health: health
             };
-            axios.post(`/patient/submit-status-form`, userAttributes)
-                .then(function (response) {
-                    console.log(response);
-                })
+            const response = await axios.post(`/patient/submit-status-form`, userAttributes);
+            console.log(response);
         } catch (error) {
             console.log('Submit error: ', error);
         }
@@ -374,9 +372,9 @@ function CovidFile(props) {
                 <Modal.Footer>
                     <button
                         className={styles['visible_CovidFile']}
-                        onClick={event => {
-                            selectedFormIndex >= 0  ? updatePatientForm() : submitPatientForm();
-                            fetchPatientForm();
+                        onClick={async event => {
+                            selectedFormIndex >= 0 ? await updatePatientForm() : await submitPatientForm();
+                            await fetchPatientForm();
                             closeModal();
                         }}>{selectedFormIndex >= 0 ? 'update' : 'submit'}</button>
                 </Modal.Footer>

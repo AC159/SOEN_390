@@ -5,8 +5,9 @@ class PatientRepository {
     this.mongo = mongo;
   }
 
-  addStatusForm(formData) {
+  async addStatusForm(formData) {
     // Add a timestamp in seconds to the patient form
+    await this.mongo.db('test').collection('user').updateOne({uid: formData.patientUid}, {$set: {covidStatus: formData.covidStatus}})
     formData['timestamp'] = Math.floor(Date.now() / 1000);
     return this.mongo.db('test').collection('patientForms').insertOne({...formData});
   }
