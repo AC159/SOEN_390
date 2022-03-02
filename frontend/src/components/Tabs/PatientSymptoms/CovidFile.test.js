@@ -4,9 +4,19 @@ import {BrowserRouter} from 'react-router-dom'
 import CovidFile from './CovidFile';
 import {AuthContext} from '../../Authentication/FirebaseAuth/FirebaseAuth';
 
-const patientData = [{covidStatus: 'Positive'}, {symptoms: ['Headache', 'Sore throat']}, {otherSymptoms: ''}, {temp: '38'},{symptomDetails: ''}, {symptomDetails: ''}];
+const patientData = [
+    {
+        covidStatus: 'Positive',
+        symptoms: ['Headache', 'Sore throat'],
+        otherSymptoms: '',
+        temp: '38',
+        symptomDetails: '',
+        timestamp: 1646233975
+    }
+];
 
 describe('visual test of the component', () => {
+
   it('should display default covid status null', () => {
     render(
       <BrowserRouter>
@@ -15,11 +25,11 @@ describe('visual test of the component', () => {
             user: 'john@email.com',
           },
         }}>
-          <CovidFile/>
+            <CovidFile state={{patientData}} />
         </AuthContext.Provider>
       </BrowserRouter>)
 
-    expect(screen.getByText(/^Covid Status:/)).toHaveTextContent('Covid Status:');
+    expect(screen.queryByText('Created on Wednesday, March 2nd 2022, 10:12:55 am')).toBeNull();
   })
   
   it('should display default symptoms null', () => {
@@ -34,7 +44,7 @@ describe('visual test of the component', () => {
         </AuthContext.Provider>
       </BrowserRouter>)
 
-    expect(screen.getByText(/^Symptoms:/)).toHaveTextContent('Symptoms:');
+    expect(screen.queryByText('Do you have any symptoms:')).toBeNull();
   })
 
   it('should display default other symptoms null', () => {
@@ -49,7 +59,7 @@ describe('visual test of the component', () => {
         </AuthContext.Provider>
       </BrowserRouter>)
 
-    expect(screen.getByText(/^Other Symptoms:/)).toHaveTextContent('Other Symptoms:');
+    expect(screen.queryByText('Other Symptoms:')).toBeNull();
   })
 
   it('should display default temperature null', () => {
@@ -64,7 +74,7 @@ describe('visual test of the component', () => {
         </AuthContext.Provider>
       </BrowserRouter>)
 
-    expect(screen.getByText(/^Temperature:/)).toHaveTextContent('Temperature:');
+    expect(screen.queryByText('Temperature:')).toBeNull();
   })
 
   it('should display default details about the symptoms null', () => {
@@ -79,7 +89,7 @@ describe('visual test of the component', () => {
         </AuthContext.Provider>
       </BrowserRouter>)
 
-    expect(screen.getByText(/^Details about the symptoms:/)).toHaveTextContent('Details about the symptoms:');
+    expect(screen.queryByText('Details about the symptoms:')).toBeNull();
   })
 
   it('should display default detail about health null', () => {
@@ -94,7 +104,7 @@ describe('visual test of the component', () => {
         </AuthContext.Provider>
       </BrowserRouter>)
 
-    expect(screen.getByText(/^Detail about health:/)).toHaveTextContent('Detail about health:');
+    expect(screen.queryByText('Detail about health:')).toBeNull();
   })
 
   it('should have array of patient information', () => {
