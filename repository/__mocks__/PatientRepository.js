@@ -1,11 +1,11 @@
 
-const fetchPatientForm = jest.fn(() => [{_id: '123456789', patientUid: 'abcdef', doctorUid: 'asdfgg'}]);
+const fetchPatientStatusForms = jest.fn(() => [{_id: '123456789', patientUid: 'abcdef', doctorUid: 'asdfgg'}]);
 
 const updateStatusForm = jest.fn();
 const addStatusForm = jest.fn();
 
 const mockPatientRepository = jest.fn().mockImplementation(() => {
-  return {fetchPatientForm: fetchPatientForm, updateStatusForm: updateStatusForm, addStatusForm: addStatusForm};
+  return {fetchPatientStatusForms: fetchPatientStatusForms, updateStatusForm: updateStatusForm, addStatusForm: addStatusForm};
 });
 
 module.exports = mockPatientRepository;

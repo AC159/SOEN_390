@@ -1,3 +1,4 @@
+const {ObjectId} = require("mongodb");
 
 class PatientRepository {
   constructor(mongo) {
@@ -11,13 +12,14 @@ class PatientRepository {
   }
 
   updateStatusForm(formData) {
-    const patientUid = formData.patientUid;
+    const mongoId = ObjectId(formData._id);
     delete formData.patientUid;
-    return this.mongo.db('test').collection('patientForms').updateOne({patientUid: patientUid}, {$set: formData});
+    delete formData._id;
+    return this.mongo.db('test').collection('patientForms').updateOne({_id: mongoId}, {$set: formData});
   }
 
-  fetchPatientForm(userId) {
-    return this.mongo.db('test').collection('patientForms').findOne({patientUid: userId});
+  fetchPatientStatusForms(userId) {
+    return this.mongo.db('test').collection('patientForms').find({patientUid: userId}).toArray();
   }
 }
 

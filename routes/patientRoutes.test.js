@@ -17,7 +17,7 @@ describe('test Patient routes', () => {
   });
 
   test('GET /patient/get-status-form/patientABC', async () => {
-    const response = await request(app).get('/patient/get-status-form/patientABC');
+    const response = await request(app).get('/patient/get-status-forms/patientABC');
     expect(response.statusCode).toBe(200);
     expect(JSON.stringify(response.body[0])).toBe(JSON.stringify({_id: '123456789', patientUid: 'abcdef', doctorUid: 'asdfgg'}));
   });
