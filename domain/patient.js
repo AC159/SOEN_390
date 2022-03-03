@@ -36,6 +36,10 @@ class Patient extends User {
     return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue);
   }
 
+  async getPatientsCovidInfo() {
+    return await this.patientRepository.fetchPatientsCovidInfo();
+  }
+
   updateProfile() {
     throw new Error(`${this.updateProfile.name} is not implemented.`);
   }
