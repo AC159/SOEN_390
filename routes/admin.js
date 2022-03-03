@@ -32,29 +32,29 @@ router.get('/:adminId/pending-doctors', async (req, res) => {
   }
 });
 
-router.get('/:adminId/pending-health-officer', async (req, res) => {
+router.get('/:adminId/pending-health-officials', async (req, res) => {
   try {
     const adminId = new UserId(req.params.adminId);
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
     const admin = new Administrator(adminId, adminRepository);
-    const response = await admin.viewHealthOfficers();
+    const healthOfficials = await admin.viewHealthOfficers();
 
-    res.status(200).json({data: response});
+    res.status(200).json({healthOfficials});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 });
 
-router.get('/:adminId/pending-immigration-officer', async (req, res) => {
+router.get('/:adminId/pending-immigration-officials', async (req, res) => {
   try {
     const adminId = new UserId(req.params.adminId);
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
 
     const admin = new Administrator(adminId, adminRepository);
-    const response = await admin.viewImmigrationOfficers();
+    const immigrationOfficials = await admin.viewImmigrationOfficers();
 
-    res.status(200).json({data: response});
+    res.status(200).json({immigrationOfficials});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

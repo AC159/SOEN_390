@@ -16,7 +16,7 @@ class AdminRepository {
   }
 
   async fetchPendingUsers(userType) {
-    // userType can be either administrator, doctor, immigrationOfficer, healthOfficer or patient
+    // userType can be either administrator, doctor, immigrationOfficial, healthOfficial or patient
     // todo: implement pagination for many users?
     const response = await this.mongo.db('test').collection('user').find({userType: userType, userStatus: 'PENDING'}, {name: 1, email: 1});
     return response.toArray();

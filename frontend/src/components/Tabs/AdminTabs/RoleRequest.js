@@ -12,12 +12,12 @@ function RoleRequest(props) {
   const [patientList, setPatientList] = useState([]);
   const [doctorList, setDoctorList] = useState([]);
   const [healthOfficialList, setHOList] = useState([]);
-  const [immigrationOfficerList, setIOList] = useState([]);
- 
+  const [immigrationOfficialList, setIOList] = useState([]);
 
-  useEffect(() => {
+
+  useEffect(async () => {
     console.log("Patient List is Loaded!");
-    axios.get(`admin/${currentUser.user.uid}/pending-patients`)
+    await axios.get(`admin/${currentUser.user.uid}/pending-patients`)
         .then((response) => {
           setPatientList(response.data.users);
           console.log(response.data);
@@ -26,7 +26,7 @@ function RoleRequest(props) {
           console.log(error.response);
         })
 
-    axios.get(`admin/${currentUser.user.uid}/pending-doctors`)
+    await axios.get(`admin/${currentUser.user.uid}/pending-doctors`)
         .then((response) => {
           setDoctorList(response.data.doctors);
           console.log(response.data);
@@ -35,18 +35,18 @@ function RoleRequest(props) {
           console.log(error.response);
         })
 
-    axios.get(`admin/${currentUser.user.uid}/pending-health-officer`)
+    await axios.get(`admin/${currentUser.user.uid}/pending-health-officials`)
         .then((response) => {
-          setHOList(response.data.users);
+          setHOList(response.data.healthOfficials);
           console.log(response.data);
         })
         .catch((error) => {
           console.log(error.response);
         })
 
-    axios.get(`admin/${currentUser.user.uid}/pending-immigration-officer`)
+    await axios.get(`admin/${currentUser.user.uid}/pending-immigration-officials`)
         .then((response) => {
-          setIOList(response.data.users);
+          setIOList(response.data.immigrationOfficials);
           console.log(response.data);
         })
         .catch((error) => {
@@ -65,7 +65,7 @@ function RoleRequest(props) {
     adminID={currentUser.user.uid}
     userEmail={patient.email}
     />)}
-  </div>;  
+  </div>;
   }
 
   function renderPendingDoctorList() {
@@ -79,14 +79,13 @@ function RoleRequest(props) {
     adminID={currentUser.user.uid}
     userEmail={doctor.email}
     />)}
-  </div>; 
+  </div>;
     }
-     
   }
 
   function renderPendingHOList() {
-    if (healthOfficialList !== null) {
-      return <div>
+    if (healthOfficialList === null) return;
+    return <div>
     {healthOfficialList.map((officer, index) => <RoleRequestBox
         key={index}
     RequesterUsername={officer.name}
@@ -95,15 +94,13 @@ function RoleRequest(props) {
     adminID={currentUser.user.uid}
     userEmail={officer.email}
     />)}
-  </div>; 
+  </div>;
     }
-     
-  }
 
   function renderPendingIOList() {
-    if (immigrationOfficerList.users !== null) {
-      return <div>
-      {immigrationOfficerList.map((officer, index) => <RoleRequestBox
+    if (immigrationOfficialList === null) return;
+    return <div>
+      {immigrationOfficialList.map((officer, index) => <RoleRequestBox
           key={index}
       RequesterUsername={officer.name}
       RequestType={officer.userType}
@@ -111,11 +108,8 @@ function RoleRequest(props) {
       adminID={currentUser.user.uid}
       userEmail={officer.email}
     />)}
-  </div>;  
+  </div>;
     }
-    
-  }
-
 
   return (
     <div className={styles["role-outer-container"]}>
@@ -137,11 +131,11 @@ function RoleRequest(props) {
         <hr />
         <div className={styles["user-category"]}>Health Official Requests</div>
         <hr />
-        {renderPendingHOList}
+        {renderPendingHOList()}
         <hr />
-        <div className={styles["user-category"]}>Immigration Officer Requests</div>
+        <div className={styles["user-category"]}>Immigration Official Requests</div>
         <hr />
-        {renderPendingIOList}
+        {renderPendingIOList()}
         <hr />
       </div>
     </div>
