@@ -1,3 +1,4 @@
+const {ObjectId} = require("mongodb");
 
 class PatientRepository {
   constructor(mongo) {
@@ -10,25 +11,27 @@ class PatientRepository {
     if (officialData === null || officialData === undefined) {
       throw new Error('Not a valid official');
     } else if ((officialData.userType.toLowerCase() !== 'immigrationOfficial' || officialData.userStatus.toLowerCase() !== 'approved')
-                && (officialData.userType.toLowerCase() !== 'healthOfficial' || officialData.userStatus.toLowerCase() !== 'approved')) {
+        && (officialData.userType.toLowerCase() !== 'healthOfficial' || officialData.userStatus.toLowerCase() !== 'approved')) {
       throw new Error('Not a valid official');
     }
   }
 
-  addStatusForm(formData) {
+  async addStatusForm(formData) {
     // Add a timestamp in seconds to the patient form
+    await this.mongo.db('test').collection('user').updateOne({uid: formData.patientUid}, {$set: {covidStatus: formData.covidStatus}})
     formData['timestamp'] = Math.floor(Date.now() / 1000);
     return this.mongo.db('test').collection('patientForms').insertOne({...formData});
   }
 
   updateStatusForm(formData) {
-    const patientUid = formData.patientUid;
+    const mongoId = ObjectId(formData._id);
     delete formData.patientUid;
-    return this.mongo.db('test').collection('patientForms').updateOne({patientUid: patientUid}, {$set: formData});
+    delete formData._id;
+    return this.mongo.db('test').collection('patientForms').updateOne({_id: mongoId}, {$set: formData});
   }
 
-  fetchPatientForm(userId) {
-    return this.mongo.db('test').collection('patientForms').findOne({patientUid: userId});
+  fetchPatientStatusForms(userId) {
+    return this.mongo.db('test').collection('patientForms').find({patientUid: userId}).toArray();
   }
 
   raiseFlag(userId, flagType, flagValue) {

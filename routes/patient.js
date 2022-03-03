@@ -30,12 +30,13 @@ router.post('/update-status-form/:userId', async (req, res) => {
   }
 });
 
-router.get('/get-status-form/:userId', async (req, res) => {
+router.get('/get-status-forms/:userId', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userId);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
-    const data = await patient.getPatientStatusForm();
+    const data = await patient.getPatientStatusForms();
+    console.log('get-status-forms: ', data);
     res.status(200).json(data);
   } catch (error) {
     res.status(400).json({error: error.message});
