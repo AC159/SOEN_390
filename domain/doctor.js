@@ -1,9 +1,15 @@
-const {Timestamp} = require('mongodb');
-
 class Doctor {
   constructor(userId, doctorRepository) {
     this.id = userId;
     this.doctorRepository = doctorRepository;
+  }
+
+  async verifyDoctor() {
+    const doctorData = await this.doctorRepository.verifyDoctor(this.userId.getId());
+    if (!(doctorData?.userType === 'doctor' &&
+    doctorData?.userStatus.toLowerCase() === 'approved')) {
+      throw new Error('Not a valid doctor');
+    }
   }
 
   async getPatients() {
@@ -29,22 +35,28 @@ class Doctor {
     throw new Error(`${this.flagPatient.name} is not implemented.`);
   }
 
-  createAppointment(patientId, appointmentInfo) {
+  async createAppointment(patientId, appointmentInfo) {
     // const doctor = verifyAndFetch();
     const appointment = {
       ...appointmentInfo,
       patientId,
       doctorId: this.id.getId(),
     };
-    this.doctorRepository.insertAppointment(appointment);
-    // const patient = this.doctorRepository.getPatientInfo(patientId);
+    const response = await this.doctorRepository.insertAppointment(appointment);
+    const ack = await response.acknowledged;
+    if (!ack) {
+      throw new Error('The appointment was not saved.');
+    }
+
     const notification = {
-      title: appointmentInfo.title,
-      message: appointmentInfo.information,
-      zoomLinkg: 'https//zoom.us/123456789',
-      timestamp: Math.floor(Date.now() / 1000),
+      type: 'primary',
+      heading: appointmentInfo.title,
+      mainText: appointmentInfo.information,
+      subText: 'https//zoom.us/123456789',
+      timestamp: Date.now(),
+      userId: patientId,
     };
-    this.doctorRepository.insertNotification(notification);
+    await this.doctorRepository.insertNotification(notification);
   }
 
   createForm() {

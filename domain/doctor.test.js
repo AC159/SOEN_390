@@ -67,5 +67,125 @@ describe('test Doctor object', () => {
       expect(response[1].uid).toBe('patient-2');
       expect(response[1].status).toBe('Positive');
     });
+
+    describe('create appointment', () => {
+      let mockInsertAppointment;
+      let mockInsertNotification;
+      beforeEach(() => {
+        DoctorRepository.mockClear();
+        mockInsertAppointment = jest.spyOn(DoctorRepository.prototype, 'insertAppointment');
+        mockInsertNotification = jest.spyOn(DoctorRepository.prototype, 'insertNotification');
+      });
+
+      afterEach(() => {
+        mockInsertAppointment.mockRestore();
+        mockInsertNotification.mockRestore();
+      });
+
+      it('should notify the user after saving the appointment', async () => {
+        mockInsertAppointment.mockImplementation(() => ({acknowledged: true}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+        const patientId = '12345';
+
+        await doctor.createAppointment(patientId, {title: ''});
+
+        expect(mockInsertAppointment).toHaveBeenCalledTimes(1);
+        expect(mockInsertNotification).toHaveBeenCalledTimes(1);
+      });
+
+      it('should throw an error if appointment is not saved properly', async () => {
+        mockInsertAppointment.mockImplementation(() => ({acknowledged: false}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+        const patientId = '12345';
+
+        try {
+          await doctor.createAppointment(patientId, {title: ''});
+        } catch (e) {
+          expect(e.message).toEqual('The appointment was not saved.');
+        }
+
+        expect(mockInsertAppointment).toHaveBeenCalledTimes(1);
+        expect(mockInsertNotification).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('verify doctor', () => {
+      let mockVerifyDoctor;
+      beforeEach(() => {
+        DoctorRepository.mockClear();
+        mockVerifyDoctor = jest.spyOn(DoctorRepository.prototype, 'verifyDoctor');
+      });
+
+      afterEach(() => {
+        mockVerifyDoctor.mockRestore();
+      });
+
+      it('should pass when user is a doctor', async () => {
+        mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor', userStatus: 'approved'}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+
+        try {
+          doctor.verifyDoctor();
+          expect(true).toBe(true);
+        } catch (e) {
+          expect(true).toBe(false);
+        }
+      });
+
+      it('should throw when user is not doctor', async () => {
+        mockVerifyDoctor.mockImplementation(() => ({userType: 'patient', userStatus: 'approved'}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
+          expect(e.message).toBe('Not a valid doctor');
+        }
+      });
+
+      it('should throw when user is not approved', async () => {
+        mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor', userStatus: 'rejected'}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
+          expect(e.message).toBe('Not a valid doctor');
+        }
+      });
+
+      it('should throw when userType is not set', async () => {
+        mockVerifyDoctor.mockImplementation(() => ({userStatus: 'rejected'}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
+          expect(e.message).toBe('Not a valid doctor');
+        }
+      });
+
+      it('should throw when userStatus is set', async () => {
+        mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor'}));
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
+          expect(e.message).toBe('Not a valid doctor');
+        }
+      });
+
+      it('should throw when no data is returned', async () => {
+        mockVerifyDoctor.mockImplementation(() => {});
+        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
+
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
+          expect(e.message).toBe('Not a valid doctor');
+        }
+      });
+    });
   });
 });

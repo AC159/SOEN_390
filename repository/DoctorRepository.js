@@ -3,6 +3,12 @@ class DoctorRepository {
     this.mongo = mongo;
   }
 
+  async verifyDoctor(doctorId) {
+    return await this.mongo.db('test')
+        .collection('user')
+        .findOne({uid: doctorId}, {_id: 0, userType: 1, userStatus: 1});
+  }
+
   getPatients(doctorId) {
     return this.mongo.db('test').collection('user')
         .find({'userType': 'patient', 'patientInfo.doctorId': doctorId})
@@ -28,6 +34,12 @@ class DoctorRepository {
     return this.mongo.db('test')
         .collection('appointment')
         .insertOne(appointment);
+  }
+
+  insertNotification(notification) {
+    return this.mongo.db('test')
+        .collection('notification')
+        .insertOne(notification);
   }
 }
 
