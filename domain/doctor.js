@@ -43,8 +43,7 @@ class Doctor {
       doctorId: this.id.getId(),
     };
     const response = await this.doctorRepository.insertAppointment(appointment);
-    const ack = await response.acknowledged;
-    if (!ack) {
+    if (!await response.acknowledged) {
       throw new Error('The appointment was not saved.');
     }
 
