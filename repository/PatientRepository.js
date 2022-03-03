@@ -4,6 +4,17 @@ class PatientRepository {
     this.mongo = mongo;
   }
 
+  async verifyOfficial(officialUid) {
+    const officialData = await this.mongo.db('test').collection('user').findOne({uid: officialUid}, {userType: 1, userStatus: 1});
+    console.log('Official data: ', officialData);
+    if (officialData === null || officialData === undefined) {
+      throw new Error('Not a valid official');
+    } else if ((officialData.userType.toLowerCase() !== 'immigrationOfficial' || officialData.userStatus.toLowerCase() !== 'approved')
+                && (officialData.userType.toLowerCase() !== 'healthOfficial' || officialData.userStatus.toLowerCase() !== 'approved')) {
+      throw new Error('Not a valid official');
+    }
+  }
+
   addStatusForm(formData) {
     // Add a timestamp in seconds to the patient form
     formData['timestamp'] = Math.floor(Date.now() / 1000);

@@ -59,12 +59,11 @@ router.get('/get-patients-covid-info/:officialId', async (req, res) => {
   try {
     // officialId is the uid of either the immigration official or the health official
     const mongo = req.app.locals.mongodb;
-    const userId = new UserId(req.params.officialId);
-    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
-    const data = await patient.getPatientsCovidInfo();
+    const patient = new Patient(null, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.getPatientsCovidInfo(req.params.officialId);
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({error: error.message});
   }
 });
 
