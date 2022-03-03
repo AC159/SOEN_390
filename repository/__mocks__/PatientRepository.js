@@ -5,8 +5,10 @@ const updateStatusForm = jest.fn();
 const addStatusForm = jest.fn();
 const raiseFlag = jest.fn();
 
+const verifyOfficial = jest.fn(() => true);
+
 const mockPatientRepository = jest.fn().mockImplementation(() => {
-  return {fetchPatientForm, updateStatusForm, addStatusForm, raiseFlag, fetchPatientsCovidInfo};
+  return {fetchPatientForm, updateStatusForm, addStatusForm, raiseFlag, fetchPatientsCovidInfo, verifyOfficial};
 });
 
 module.exports = mockPatientRepository;
