@@ -17,5 +17,17 @@ router.get('/:doctorId/patientArray', async function(req, res) {
   }
 });
 
+router.post('/:doctorId/appointment', async (req, res) => {
+  try {
+    const doctorId = new UserId(req.params.doctorId);
+    const {patientId, ...rest} = req.body;
+    const doctorRepository = new DoctorRepository(req.app.locals.mongodb);
+    const doctor = new Doctor(doctorId, doctorRepository);
+    const response = await doctor.createAppointment(patientId, rest);
+  } catch (e) {
+
+  }
+});
+
 
 module.exports = router;

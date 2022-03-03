@@ -18,6 +18,17 @@ class DoctorRepository {
         .project({_id: 0, covidStatus: 1})
         .next();
   }
+
+  // getPatientInfo(patientId) {
+  //   return this.mongo.db('test').collection('user')
+  //       .find({uid: patientId});
+  // }
+
+  insertAppointment(appointment) {
+    return this.mongo.db('test')
+        .collection('appointment')
+        .insertOne(appointment);
+  }
 }
 
 module.exports = DoctorRepository;

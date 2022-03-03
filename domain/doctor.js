@@ -1,3 +1,5 @@
+const {Timestamp} = require('mongodb');
+
 class Doctor {
   constructor(userId, doctorRepository) {
     this.id = userId;
@@ -27,8 +29,22 @@ class Doctor {
     throw new Error(`${this.flagPatient.name} is not implemented.`);
   }
 
-  createAppointment(patient, date) {
-    throw new Error(`${this.createAppointment.name} is not implemented.`);
+  createAppointment(patientId, appointmentInfo) {
+    // const doctor = verifyAndFetch();
+    const appointment = {
+      ...appointmentInfo,
+      patientId,
+      doctorId: this.id.getId(),
+    };
+    this.doctorRepository.insertAppointment(appointment);
+    // const patient = this.doctorRepository.getPatientInfo(patientId);
+    const notification = {
+      title: appointmentInfo.title,
+      message: appointmentInfo.information,
+      zoomLinkg: 'https//zoom.us/123456789',
+      timestamp: Math.floor(Date.now() / 1000),
+    };
+    this.doctorRepository.insertNotification(notification);
   }
 
   createForm() {
