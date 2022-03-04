@@ -20,6 +20,10 @@ class Patient extends User {
     this.patientRepository = patientRepository;
   }
 
+  async verifyOfficial(officialUid) {
+    await this.patientRepository.verifyOfficial(officialUid);
+  }
+
   async postStatusForm(formData) {
     return await this.patientRepository.addStatusForm(formData);
   }
@@ -30,6 +34,15 @@ class Patient extends User {
 
   async getPatientStatusForms() {
     return await this.patientRepository.fetchPatientStatusForms(this.id.getId());
+  }
+
+  async raiseFlag(flagType, flagValue) {
+    return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue);
+  }
+
+  async getPatientsCovidInfo(officialUid) {
+    await this.verifyOfficial(officialUid);
+    return await this.patientRepository.fetchPatientsCovidInfo();
   }
 
   updateProfile() {

@@ -23,12 +23,12 @@ class Administrator {
 
   async viewHealthOfficers() {
     await this.verifyAdmin();
-    return await this.adminRepository.fetchPendingUsers('healthOfficer');
+    return await this.adminRepository.fetchPendingUsers('healthOfficial');
   }
 
   async viewImmigrationOfficers() {
     await this.verifyAdmin();
-    return await this.adminRepository.fetchPendingUsers('immigrationOfficer');
+    return await this.adminRepository.fetchPendingUsers('immigrationOfficial');
   }
 
   async approvePendingUser(userId) {
