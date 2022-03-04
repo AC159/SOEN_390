@@ -17,7 +17,7 @@ function PatientBox(props) {
   
   const [show, setShow] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
-  const [assignedDoctor, setAssignedDoctor] = useState(props.patient.patientInfo.doctor);
+  const [assignedDoctor, setAssignedDoctor] = useState(props.doctorName);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -37,7 +37,7 @@ function PatientBox(props) {
       const response = await axios.get(`admin/${props.currentUser.user.uid}/doctors`);
       setDoctorList(response.data.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }
 
@@ -59,6 +59,21 @@ function PatientBox(props) {
 
     setAssignedDoctor(selectedDoctorName);
     handleClose();
+  }
+
+  
+
+  function isValidAdmin(currentUserType){
+
+    switch(currentUserType){
+
+      case "administrator": return true;
+      
+
+      default: return false;
+      
+    }
+
   }
 
   const renderDoctorList = () => {
@@ -87,9 +102,10 @@ function PatientBox(props) {
         <Accordion.Header data-testid="patient-name"><h5>{props.patient.name}</h5></Accordion.Header>
         <AccordionBody>
           <h6 data-testid="patient-dob">Date of Birth: {props.patient.dob}</h6>
-          <h6>Assigned Doctor: {(props.patient.patientInfo.doctor === "" ? "No Doctor Assigned" : assignedDoctor)}</h6>
+          <h6>Assigned Doctor: {(props.doctorName === "" ? "No Doctor Assigned" : assignedDoctor)}</h6>
 
-          <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button>
+          {isValidAdmin(props.userType) ? <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button> : <div></div>}
+          
           
         </AccordionBody>
       </Accordion.Item>

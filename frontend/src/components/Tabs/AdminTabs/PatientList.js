@@ -14,7 +14,7 @@ function PatientList(props) {
   const [patientList, setPatientList] = useState([]);
  
 
-  useEffect(() => {fetchListOfPatients()}, [patientList.length]);
+  useEffect(() => {fetchListOfPatients(); console.log(localStorage.getItem("userType"))}, [patientList.length]);
 
   const fetchListOfPatients = async () => {
     try {
@@ -33,7 +33,9 @@ function PatientList(props) {
       key={index}
       eventKey={index}
       patient={patient}
+      doctorName={patient.patientInfo.doctor}
       currentUser={currentUser}
+      userType={localStorage.getItem("userType")}
       className={styles["patient-box"]}
       />)}
     </Accordion>;

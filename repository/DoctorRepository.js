@@ -6,7 +6,7 @@ class DoctorRepository {
   getPatients(doctorId) {
     return this.mongo.db('test').collection('user')
         .find({'userType': 'patient', 'patientInfo.doctorId': doctorId})
-        .project({_id: 0, name: 1, dob: 1, phoneNumber: 1, email: 1, uid: 1})
+        .project({_id: 0, name: 1, dob: 1, phoneNumber: 1, email: 1, uid: 1, patientInfo: 1})
         .toArray();
   }
 
