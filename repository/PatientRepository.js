@@ -42,6 +42,10 @@ class PatientRepository {
     return this.mongo.db('test').collection('user').find({userType: 'patient', userStatus: 'APPROVED'}, {_id: 0, uid: 1, covidStatus: 1, name: 1}).toArray();
   }
 
+  addContactTracingReport(ctrData) {
+    return this.mongo.db('test').collection('contactTracing').insertOne({...ctrData});
+  }
+
 }
 
 module.exports = PatientRepository;

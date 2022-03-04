@@ -5,7 +5,6 @@ const PatientRepository = require('../repository/PatientRepository');
 const UserRepository = require("../repository/UserRepository");
 const router = express.Router();
 
-
 router.post('/submit-status-form', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
@@ -67,5 +66,19 @@ router.get('/get-patients-covid-info/:officialId', async (req, res) => {
     res.status(500).json({error: error.message});
   }
 });
+
+router.post('/submit-contact-tracing', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.body.patientUid);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.postContactTracingReport(req.body);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
+
 
 module.exports = router;
