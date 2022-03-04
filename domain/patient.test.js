@@ -40,7 +40,7 @@ describe('test Patient status forms creation, update and retrieval', () => {
   test('POST /submit-contact-tracing', async () => {
     const patientRepository = new PatientRepository();
     const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
-    await patient.addCovidContact();
+    await patient.postContactTracingReport();
     expect(patientRepository.addContactTracingReport).toHaveBeenCalledTimes(1);
   })
 });
