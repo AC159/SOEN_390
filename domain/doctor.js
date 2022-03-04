@@ -5,9 +5,9 @@ class Doctor {
   }
 
   async verifyDoctor() {
-    const doctorData = await this.doctorRepository.verifyDoctor(this.userId.getId());
+    const doctorData = await this.doctorRepository.verifyDoctor(this.id.getId());
     if (!(doctorData?.userType === 'doctor' &&
-    doctorData?.userStatus.toLowerCase() === 'approved')) {
+    doctorData?.userStatus?.toLowerCase() === 'approved')) {
       throw new Error('Not a valid doctor');
     }
   }
