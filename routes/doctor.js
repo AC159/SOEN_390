@@ -23,9 +23,11 @@ router.post('/:doctorId/appointment', async (req, res) => {
     const {patientId, ...rest} = req.body;
     const doctorRepository = new DoctorRepository(req.app.locals.mongodb);
     const doctor = new Doctor(doctorId, doctorRepository);
-    const response = await doctor.createAppointment(patientId, rest);
-  } catch (e) {
+    await doctor.createAppointment(patientId, rest);
 
+    res.status(200).json({message: 'success'});
+  } catch (e) {
+    res.status(400).json({error: e.message});
   }
 });
 
