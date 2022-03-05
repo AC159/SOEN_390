@@ -21,38 +21,15 @@ function PatientBox(props) {
   const [doctorList, setDoctorList] = useState([]);
   const [assignedDoctor, setAssignedDoctor] = useState(props.doctorName);
 
-  const [showPatientInfoForDoctor, setShowPatientInfoForDoctor] = useState(false);
-  const [showPatientInfoForAdmin, setShowPatientInfoForAdmin] = useState(false);
-  const [showPatientInfoForHO, setShowPatientInfoForHO] = useState(false);
-  const [showPatientInfoForIO, setShowPatientInfoForIO] = useState(false);
+  const [showPatientInfo, setShowPatientInfo] = useState(false)
 
 
   const handleDoctorListClose = () => setShowDoctorList(false);
   const handleDoctorListShow = () => setShowDoctorList(true);
 
-  const handlePatientInfoClose = () => {
-     if(currentUser.dbData.userType === "doctor") {
-       setShowPatientInfoForDoctor(false);
-     } else if(currentUser.dbData.userType === "administrator") {
-       setShowPatientInfoForAdmin(false);
-     }else if(currentUser.dbData.userType === "administrator") {
-       setShowPatientInfoForHO(false);
-     }else if(currentUser.dbData.userType === "administrator") {
-       setShowPatientInfoForIO(false);
-     }
-  }
-  const handlePatientInfoShow = () => {
-    if(currentUser.dbData.userType === "doctor"){
-      setShowPatientInfoForDoctor(true);
-    }else if(currentUser.dbData.userType === "administrator") {
-      setShowPatientInfoForAdmin(true);
-    }else if(currentUser.dbData.userType === "administrator") {
-      setShowPatientInfoForHO(true);
-    }else if(currentUser.dbData.userType === "administrator") {
-      setShowPatientInfoForIO(true);
-    }
+  const handlePatientInfoClose = () => setShowPatientInfo(false);
+  const handlePatientInfoShow = () => setShowPatientInfo(true);
 
-  }
 
   let [patientData, setPatientData] = useState();
   let {currentUser} = useAuth();
@@ -197,7 +174,7 @@ function PatientBox(props) {
 
 
       {/*This is the modal for the doctor */}
-      <Modal fullscreen ={true} contentClassName={styles["patient-info-modal"]} data-testid="patient-info-modal" show={showPatientInfoForDoctor} onHide={handlePatientInfoClose} animation={true} centered>
+      <Modal fullscreen ={true} contentClassName={styles["patient-info-modal"]} data-testid="patient-info-modal" show={showPatientInfo} onHide={handlePatientInfoClose} animation={true} centered>
         <Modal.Header closeButton>
           <Modal.Title>{props.patient.name}</Modal.Title>
         </Modal.Header>
@@ -210,73 +187,21 @@ function PatientBox(props) {
                         <Accordion.Header>Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Accordion.Header>
                         <Accordion.Body>
                             {Object.entries(element).map(([key, value], index) => {
+                              if(currentUser.dbData.userType === 'doctor'){
                                 if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
                                 if (Array.isArray(value)) {
                                     return <div key={index}><strong>{key}</strong>: <ul>{value.map((element, i) => <li key={i}>{element}</li>)}</ul></div>;
                                 } else return <div key={index}><strong>{key}</strong>: {value}</div>;
-                            })}
-                        </Accordion.Body>
-                    </Accordion.Item>;
-            })} </Accordion> : null}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handlePatientInfoClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-
-      {/*This is the modal for the admin*/}
-      <Modal fullscreen ={true} contentClassName={styles["patient-info-modal"]}  show={showPatientInfoForAdmin} onHide={handlePatientInfoClose} animation={true} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{props.patient.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-             {patientData ? <Accordion defaultActiveKey="0">
-                {patientData.map((element, index) => {
-                let date = new Date(element.timestamp * 1000);
-                return <Accordion.Item eventKey={index} key={index}>
-                        <Accordion.Header>Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Accordion.Header>
-                        <Accordion.Body>
-                            {Object.entries(element).map(([key, value], index) => {
+                              } else if(currentUser.dbData.userType === "administrator" || currentUser.dbData.userType === "immigrationOfficial") {
                                 if(key === 'covidStatus') return <div><strong>Covid Status</strong>: {value}</div>
-                            })}
-                        </Accordion.Body>
-                    </Accordion.Item>;
-            })} </Accordion> : null}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handlePatientInfoClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-
-      {/*This is the modal for the Health official*/}
-      <Modal fullscreen ={true} contentClassName={styles["patient-info-modal"]}  show={showPatientInfoForHO} onHide={handlePatientInfoClose} animation={true} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{props.patient.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-             {patientData ? <Accordion defaultActiveKey="0">
-                {patientData.map((element, index) => {
-                let date = new Date(element.timestamp * 1000);
-                return <Accordion.Item eventKey={index} key={index}>
-                        <Accordion.Header>Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Accordion.Header>
-                        <Accordion.Body>
-                            {Object.entries(element).map(([key, value], index) => {
-                                if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp'|| key === 'temperature'
+                               }else if(currentUser.dbData.userType === "healthOfficial") {
+                                 if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp'|| key === 'temperature'
                                     || key === 'otherSymptoms' || key === 'symptomDetails' || key === 'health'
                                     || value.length === 0) return null;
                                 if (Array.isArray(value)) {
                                     return <div key={index}><strong>{key}</strong>: <ul>{value.map((element, i) => <li key={i}>{element}</li>)}</ul></div>;
                                 } else return <div key={index}><strong>{key}</strong>: {value}</div>;
+                               }
                             })}
                         </Accordion.Body>
                     </Accordion.Item>;
@@ -290,34 +215,6 @@ function PatientBox(props) {
         </Modal.Footer>
       </Modal>
 
-
-      {/*This is the modal for the Immigration official*/}
-      <Modal fullscreen ={true} contentClassName={styles["patient-info-modal"]}  show={showPatientInfoForIO} onHide={handlePatientInfoClose} animation={true} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{props.patient.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-             {patientData ? <Accordion defaultActiveKey="0">
-                {patientData.map((element, index) => {
-                let date = new Date(element.timestamp * 1000);
-                return <Accordion.Item eventKey={index} key={index}>
-                        <Accordion.Header>Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Accordion.Header>
-                        <Accordion.Body>
-                            {Object.entries(element).map(([key, value], index) => {
-                                if(key === 'covidStatus') return <div><strong>Covid Status</strong>: {value}</div>
-                            })}
-                        </Accordion.Body>
-                    </Accordion.Item>;
-            })} </Accordion> : null}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handlePatientInfoClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
 
 
     </div>
