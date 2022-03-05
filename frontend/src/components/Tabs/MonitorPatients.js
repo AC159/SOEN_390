@@ -12,24 +12,12 @@ import { Accordion } from "react-bootstrap";
 function MonitorPatients(props) {
 
     const [patientList, setPatientList] = useState([]);
-    const [userInfo, setUserInfo] = useState([]);
     
     const getPatientArray = async () => {
         try {
             const response = await axios.get(`doctor/${currentUser.user.uid}/patientArray`);
             setPatientList(response.data.data);
             console.log(patientList);
-        } catch (error) {
-            console.log(error.response);
-        }
-    }
-
-    const getCurrentUserInfo = async () => {
-        try {
-            const response = await axios.get(`/user/${currentUser.user.uid}/getTypeAndStatus`);
-            setUserInfo(response.data);
-            console.log('Here is the current user');
-            console.log(userInfo);
         } catch (error) {
             console.log(error.response);
         }
@@ -54,7 +42,6 @@ function MonitorPatients(props) {
 
     useEffect(() => {
         getPatientArray();
-        getCurrentUserInfo();
     }, [patientList.length]);
 
   return (

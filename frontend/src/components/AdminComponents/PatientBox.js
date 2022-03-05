@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./PatientBox.module.css";
 import { useState, useEffect } from "react";
 
-import { Accordion } from "react-bootstrap";
+import { Accordion, Navbar } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
 import { Modal } from "react-bootstrap";
@@ -15,15 +15,19 @@ let selectedDoctorName = "";
 
 function PatientBox(props) {
   
-  const [show, setShow] = useState(false);
+  const [showDoctorList, setShowDoctorList] = useState(false);
+  const [showPatientInfo, setShowPatientInfo] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [assignedDoctor, setAssignedDoctor] = useState(props.doctorName);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleDoctorListClose = () => setShowDoctorList(false);
+  const handleDoctorListShow = () => setShowDoctorList(true);
+
+  const handlePatientInfoClose = () => setShowPatientInfo(false);
+  const handlePatientInfoShow = () => setShowPatientInfo(true);
 
   const openDoctorList = () => {
-    handleShow();
+    handleDoctorListShow();
     fetchDoctorList();
   }
 
@@ -58,7 +62,7 @@ function PatientBox(props) {
     }
 
     setAssignedDoctor(selectedDoctorName);
-    handleClose();
+    handleDoctorListClose();
   }
 
   
@@ -69,6 +73,21 @@ function PatientBox(props) {
 
       case "administrator": return true;
       
+
+      default: return false;
+      
+    }
+
+  }
+
+  function isValidUserForPatientInfo(currentUserType){
+
+    switch(currentUserType){
+
+      case "administrator": return true;
+      case "health-official": return true;
+      case "immigration-officer": return true;
+      case "doctor": return true;
 
       default: return false;
       
@@ -105,12 +124,13 @@ function PatientBox(props) {
           <h6>Assigned Doctor: {(props.doctorName === "" ? "No Doctor Assigned" : assignedDoctor)}</h6>
 
           {isValidAdmin(props.userType) ? <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button> : <div></div>}
+          {isValidUserForPatientInfo(props.userType) ? <Button variant="primary" onClick={handlePatientInfoShow}>Patient Information</Button> : <div></div>}
           
           
         </AccordionBody>
       </Accordion.Item>
 
-      <Modal data-testid="doctor-list-modal" show={show} onHide={handleClose} animation={false} centered>
+      <Modal className={styles["doctor-list-modal"]} data-testid="doctor-list-modal" show={showDoctorList} onHide={handleDoctorListClose} animation={true} centered>
         <Modal.Header closeButton>
           <Modal.Title>Doctors</Modal.Title>
         </Modal.Header>
@@ -120,7 +140,7 @@ function PatientBox(props) {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleDoctorListClose}>
             Close
           </Button>
           <Button variant="primary" onClick={assignDoctorToPatient}>
@@ -128,6 +148,24 @@ function PatientBox(props) {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal fullscreen ={true} contentClassName={styles["patient-info-modal"]} data-testid="patient-info-modal" show={showPatientInfo} onHide={handlePatientInfoClose} animation={true} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{props.patient.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handlePatientInfoClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      
       
     </div>
   );

@@ -13,6 +13,12 @@
 }
 
 .patient-box{
-  
   margin-bottom: 10px;
+}
+
+.patient-info-modal{
+  background-color: #005871;
+  margin: 5%;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
