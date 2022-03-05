@@ -5,7 +5,7 @@ import styles from "./MonitorPatients.module.css";
 import "./CommonPageStyling.css";
 import axios from "axios";
 
-import PatientBox from "../AdminComponents/PatientBox";
+import PatientBox from "../GeneralComponents/PatientBox";
 
 import { Accordion } from "react-bootstrap";
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PatientBox from "../../AdminComponents/PatientBox";
+import PatientBox from "../../GeneralComponents/PatientBox";
 
 import styles from "./PatientList.module.css";
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
