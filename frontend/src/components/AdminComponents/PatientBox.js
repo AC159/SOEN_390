@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./PatientBox.module.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Accordion, Navbar } from "react-bootstrap";
 import { Button } from "react-bootstrap";
@@ -9,12 +9,14 @@ import { Modal } from "react-bootstrap";
 import { ListGroup } from "react-bootstrap";
 
 import axios from "axios";
+import moment from "moment";
+import {useAuth} from "../Authentication/FirebaseAuth/FirebaseAuth";
 
 let selectedDoctorID = "";
 let selectedDoctorName = "";
 
 function PatientBox(props) {
-  
+
   const [showDoctorList, setShowDoctorList] = useState(false);
   const [showPatientInfo, setShowPatientInfo] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
@@ -25,6 +27,8 @@ function PatientBox(props) {
 
   const handlePatientInfoClose = () => setShowPatientInfo(false);
   const handlePatientInfoShow = () => setShowPatientInfo(true);
+
+    let [patientData, setPatientData] = useState();
 
   const openDoctorList = () => {
     handleDoctorListShow();
@@ -48,7 +52,7 @@ function PatientBox(props) {
   const assignDoctorToPatient = () => {
 
     const pair = {
-      patient:props.patient.uid, 
+      patient:props.patient.uid,
       doctor:selectedDoctorID,
       adminID:props.currentUser.uid,
       doctorName: selectedDoctorName
@@ -65,17 +69,17 @@ function PatientBox(props) {
     handleDoctorListClose();
   }
 
-  
+
 
   function isValidAdmin(currentUserType){
 
     switch(currentUserType){
 
       case "administrator": return true;
-      
+
 
       default: return false;
-      
+
     }
 
   }
@@ -90,33 +94,45 @@ function PatientBox(props) {
       case "doctor": return true;
 
       default: return false;
-      
+
     }
 
   }
 
+  async function fetchPatientInfo(patientUid) {
+    try {
+            const response = await axios.get(`/patient/get-status-forms/${patientUid}`);
+            console.log(response);
+            setPatientData(response.data);
+        } catch (error) {
+            console.log('Unable to fetch patient status forms: ', error);
+        }
+  }
+
+
+
   const renderDoctorList = () => {
     return <ListGroup>
-      {doctorList.map((doctor) => 
+      {doctorList.map((doctor) =>
         <ListGroup.Item>
           {doctor.name}
           <div className={styles["doctor-side"]}>
           <div className={styles["doctor-patient-count"]}>{"Patients Assigned: " + doctor.patientCount}</div>
-          <Button 
-          variant="outline-primary" 
-          onClick={() => selectDoctor(doctor.uid, doctor.name)} 
+          <Button
+          variant="outline-primary"
+          onClick={() => selectDoctor(doctor.uid, doctor.name)}
           className={styles["doctor-select-button"]}>
           Select
           </Button>
           </div>
-          
+
         </ListGroup.Item> )}
     </ListGroup>;
-  } 
+  }
 
   return (
     <div className={styles["card-container"]}>
-      
+
       <Accordion.Item eventKey={props.eventKey} className={styles["patient-box"]}>
         <Accordion.Header data-testid="patient-name"><h5>{props.patient.name}</h5></Accordion.Header>
         <AccordionBody>
@@ -124,9 +140,9 @@ function PatientBox(props) {
           <h6>Assigned Doctor: {(props.doctorName === "" ? "No Doctor Assigned" : assignedDoctor)}</h6>
 
           {isValidAdmin(props.userType) ? <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button> : <div></div>}
-          {isValidUserForPatientInfo(props.userType) ? <Button variant="primary" onClick={handlePatientInfoShow}>Patient Information</Button> : <div></div>}
-          
-          
+          {isValidUserForPatientInfo(props.userType) ? <Button variant="primary" onClick={event => {handlePatientInfoShow(); fetchPatientInfo(props.patient.uid);}}>Patient Information</Button> : <div></div>}
+
+
         </AccordionBody>
       </Accordion.Item>
 
@@ -155,7 +171,21 @@ function PatientBox(props) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            
+             {patientData ? <Accordion defaultActiveKey="0">
+                {patientData.map((element, index) => {
+                let date = new Date(element.timestamp * 1000);
+                return <Accordion.Item eventKey={index} key={index}>
+                        <Accordion.Header>Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Accordion.Header>
+                        <Accordion.Body>
+                            {Object.entries(element).map(([key, value], index) => {
+                                if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
+                                if (Array.isArray(value)) {
+                                    return <div key={index}><strong>{key}</strong>: <ul>{value.map((element, i) => <li key={i}>{element}</li>)}</ul></div>;
+                                } else return <div key={index}><strong>{key}</strong>: {value}</div>;
+                            })}
+                        </Accordion.Body>
+                    </Accordion.Item>;
+            })} </Accordion> : null}
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -165,8 +195,8 @@ function PatientBox(props) {
         </Modal.Footer>
       </Modal>
 
-      
-      
+
+
     </div>
   );
 }
