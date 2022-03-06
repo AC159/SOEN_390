@@ -157,7 +157,21 @@ function PatientBox(props) {
 
   const flagPatient = () => {
     console.log("Patient Flagged!");
+    const userFlagType =`${currentUser.dbData.userType}` + 'Flag';
+    console.log(userFlagType);
+    console.log(props.patient.uid);
+
+    const info = {
+    flagType:userFlagType,
+    flagValue:true
   }
+  try{
+    const response = axios.post(`patient/raise-flag/${props.patient.uid}`, info);
+    console.log(response);
+  } catch (error){
+    console.log(error.response);
+  }
+}
 
   return (
     <div className={styles["card-container"]}>
