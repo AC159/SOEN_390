@@ -3,8 +3,6 @@ const router = express.Router();
 const {UserId} = require('../domain/user');
 const HealthOfficial = require('../domain/healthOfficial');
 const HealthOfficialRepository = require('../repository/HealthOfficialRepository');
-const AdminRepository = require("../repository/AdminRepository");
-const Administrator = require("../domain/administrator");
 
 router.post('/:healthOfficialId/raise-flag', async (req, res) => {
   try {

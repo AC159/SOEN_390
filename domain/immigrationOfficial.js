@@ -5,24 +5,15 @@ class ImmigrationOfficial {
   }
 
   async raiseFlag(userId) {
-    return await this.immigrationOfficialRepository.raiseFlag(
-      this.userId,
-      userId,
-    );
+    return await this.immigrationOfficialRepository.raiseFlag(this.userId, userId);
   }
 
   async getUserCovidInfo(userId) {
-    return await this.immigrationOfficialRepository.viewUserCovidInformation(
-      this.userId,
-      userId,
-    );
+    return await this.immigrationOfficialRepository.viewUserCovidInformation(this.userId, userId);
   }
 
   async getTravelerInfo(travelerId) {
-    return await this.immigrationOfficialRepository.viewTravelerProfile(
-      this.userId,
-      travelerId,
-    );
+    return await this.immigrationOfficialRepository.viewTravelerProfile(this.userId, travelerId);
   }
 
   async getAllPatients() {
