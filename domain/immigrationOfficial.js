@@ -25,4 +25,4 @@ class ImmigrationOfficial {
   }
 }
 
-module.exports = ImmigrationOfficial;
+module.exports.ImmigrationOfficial = ImmigrationOfficial;

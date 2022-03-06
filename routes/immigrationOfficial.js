@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {UserId} = require('../domain/user');
-const ImmigrationOfficial = require('../domain/immigrationOfficial');
+const {ImmigrationOfficial} = require('../domain/immigrationOfficial');
 const ImmigrationOfficialRepository = require('../repository/ImmigrationOfficialRepository');
 
 router.post('/:immigrationOfficialId/raise-flag', async (req, res) => {

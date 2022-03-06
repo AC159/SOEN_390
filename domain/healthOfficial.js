@@ -29,4 +29,4 @@ class HealthOfficial {
   }
 }
 
-module.exports = HealthOfficial;
+module.exports.HealthOfficial = HealthOfficial;
