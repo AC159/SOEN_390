@@ -18,7 +18,17 @@ function PatientList(props) {
 
   const fetchListOfPatients = async () => {
     try {
-        const response = await axios.get(`admin/${currentUser.user.uid}/patients`);
+        var routeType;
+        switch(localStorage.getItem("userType"))
+        {
+          case "administrator": routeType="admin"; break;
+          case "immigrationOfficial": routeType="immigration-official"; break;
+          case "healthOfficial": routeType="health-official"; break;
+
+          default: routeType="administrator";
+
+        }
+        const response = await axios.get(`${routeType}/${currentUser.user.uid}/patients`);
         setPatientList(response.data.data);
     } catch (error) {
         console.log(error);

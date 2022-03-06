@@ -90,8 +90,8 @@ function PatientBox(props) {
   function isValidUserForPatientInfo(currentUserType){
     switch(currentUserType){
       case "administrator": return true;
-      case "health-official": return true;
-      case "immigration-officer": return true;
+      case "healthOfficial": return true;
+      case "immigrationOfficial": return true;
       case "doctor": return true;
       default: return false;
     }
@@ -223,11 +223,7 @@ function PatientBox(props) {
                     {renderPatientInfo()} 
                 </Accordion> : null}
               </Tab>
-              <Tab eventKey="home" title="Home">
-
-              </Tab>
               <Tab eventKey="ask-questions" title="Create Patient Q/A Form">
-
               </Tab>
             </Tabs>
           
