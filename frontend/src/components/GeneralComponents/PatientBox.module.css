@@ -1,0 +1,37 @@
+.card-container {
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.doctor-side {
+  float: right;
+  text-align: center;
+}
+
+.patient-box{
+  margin-bottom: 10px;
+}
+
+.patient-info-modal{
+  background-color: #005871;
+  margin: 5%;
+}
+
+.patient-info-outer-container {
+  display:flex;
+  height: 100%;
+}
+
+.patient-general-info-card {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.patient-info-tabs-container{
+  margin-left: 3%;
+  margin-right: 3%;
+}
