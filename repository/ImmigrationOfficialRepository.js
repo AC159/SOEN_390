@@ -62,6 +62,17 @@ class ImmigrationOfficialRepository {
       throw e;
     }
   }
+
+  async viewAllPatients(immigrationOfficialId) {
+    // await this.verifyImmigrationOfficial(immigrationOfficialId);
+    return this.mongo
+      .db('test')
+      .collection('user')
+      .find({
+        userType: 'patient'
+      })
+      .toArray();
+  }
 }
 
 module.exports = ImmigrationOfficialRepository;

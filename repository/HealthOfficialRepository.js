@@ -63,6 +63,17 @@ class HealthOfficialRepository {
       throw e;
     }
   }
+
+  async viewAllPatients(healthOfficialId) {
+    // await this.verifyHealthOfficial(healthOfficialId);
+    return this.mongo
+      .db('test')
+      .collection('user')
+      .find({
+        userType: 'patient'
+      })
+      .toArray();
+  }
 }
 
 module.exports = HealthOfficialRepository;

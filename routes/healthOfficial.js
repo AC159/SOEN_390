@@ -3,6 +3,8 @@ const router = express.Router();
 const {UserId} = require('../domain/user');
 const HealthOfficial = require('../domain/healthOfficial');
 const HealthOfficialRepository = require('../repository/HealthOfficialRepository');
+const AdminRepository = require("../repository/AdminRepository");
+const Administrator = require("../domain/administrator");
 
 router.post('/:healthOfficialId/raise-flag', async (req, res) => {
   try {
@@ -72,6 +74,18 @@ router.get('/:healthOfficialId/report-contact-list', async (req, res) => {
     res.status(200).json({contacts});
   } catch (e) {
     res.status(400).json({error: e.message});
+  }
+});
+
+router.get('/:healthOfficialId/patients', async (req, res) => {
+  try {
+    const healthOfficialId = new UserId(req.params.healthOfficialId);
+    const healthOfficialRepository = new HealthOfficialRepository(req.app.locals.mongodb);
+    const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
+    const response = await healthOfficial.getAllPatients();
+    res.status(200).json({data: response});
+  } catch (error) {
+    res.status(400).json({error: error.message});
   }
 });
 
