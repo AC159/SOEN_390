@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  Container, Row, Col, Badge
-} from 'react-bootstrap';
 
 import { useAuth } from '../../components/Authentication/FirebaseAuth/FirebaseAuth';
 import {DoctorList} from '../List/List';
