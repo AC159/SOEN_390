@@ -12,8 +12,8 @@ function PatientBox(props) {
   const [doctorList, setDoctorList] = useState([]);
   const [assignedDoctor, setAssignedDoctor] = useState(props.patient.patientInfo.doctor);
   const [doctorInfo, setDoctorInfo] = useState({
-    id: '',
-    name: ''
+    id: props.patient.patientInfo.doctorId ? props.patient.patientInfo.doctorId : '',
+    name: props.patient.patientInfo.doctor
   });
 
   const handleClose = () => setShow(false);
