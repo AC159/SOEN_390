@@ -17,18 +17,11 @@ const AdminDoctorList = () => {
       <>
       <div className={styles.container}>
         <h4 className={styles.name}>Dr. {doctor.name}</h4>
-        <div className={styles.countContainer}>
+        <div>
           <span>patients: </span>
           <span className={styles.count}>{doctor.patientCount}</span>
         </div>
       </div>
-      {/* <Container fluid>
-        <Row>
-          <Col></Col>
-          <Col xs={6}/>
-          <Col xs={2}>patients: <Badge bg="info">{doctor.patientCount}</Badge></Col>
-        </Row>
-      </Container> */}
       </>
     }
   />
