@@ -173,6 +173,9 @@ function PatientBox(props) {
   }
 }
 
+const [flagButtonText, setFlagButtonText] = useState("Flag Patient");
+const changeFlagButtonText = (text) => setFlagButtonText(text);
+
   return (
     <div className={styles["card-container"]}>
 
@@ -217,18 +220,19 @@ function PatientBox(props) {
         </Modal.Header>
         <Modal.Body>
           <div className={styles["patient-info-outer-container"]}>
-            <div className={styles["patient-general-info-card"]}>
-            <Card style={{ width: '18rem', height: '100%'}}>
+            <Card style={{ width: '18rem', height: '100%'}} className={styles["patient-general-info-card"]}>
+              &nbsp;
               <Card.Img variant="top" src={patientIcon} />
               <Card.Body>
-                <Card.Title>Card Title</Card.Title>
+                &nbsp;
+                <Card.Title>Patient Info</Card.Title>
                 <Card.Text>
                   {props.patient.name + "'s information"}
                 </Card.Text>
-                <Button variant="danger" onClick={flagPatient}>Flag Patient</Button>
+                {isValidAdmin(props.userType) ? <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button> : <div></div>}
+                <div contentClassName={styles["flag-button"]}><Button variant="danger" onClick={() => {flagPatient(); changeFlagButtonText("Patient Flagged!");}}>{flagButtonText}</Button></div>
               </Card.Body>
             </Card>
-            </div>
             <div className={styles["patient-info-tabs-container"]}>
             <Tabs className="tabStyle" defaultActiveKey="home" unmountOnExit={true} mountOnEnter={true}>
               <Tab eventKey="submitted-forms" title="Submitted Forms">

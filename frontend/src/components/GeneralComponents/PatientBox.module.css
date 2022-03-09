@@ -29,9 +29,21 @@
 .patient-general-info-card {
   margin-left: 1%;
   margin-right: 1%;
+  display: flex;
+}
+
+.flag-button {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 
 .patient-info-tabs-container{
   margin-left: 3%;
   margin-right: 3%;
+}
+
+.patient-general-info-card card {
+  background-color: #005871;
 }
