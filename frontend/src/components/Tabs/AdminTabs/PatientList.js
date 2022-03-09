@@ -9,7 +9,6 @@ function PatientList(props) {
   let {currentUser} = useAuth();
 
   return <PList 
-    title="Patient List"
     listUrl={`admin/${currentUser.user.uid}/patients`}
     render={(patient, index) => 
       <PatientBox

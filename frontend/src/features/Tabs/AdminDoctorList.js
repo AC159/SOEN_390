@@ -8,7 +8,6 @@ const AdminDoctorList = () => {
   const {currentUser} = useAuth();
 
   return <DoctorList 
-    title="Doctor List"
     listUrl={`admin/${currentUser.user.uid}/doctors`}
     render={(doctor, index) => 
       <div key={index} className={styles.container}>

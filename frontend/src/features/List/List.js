@@ -14,12 +14,16 @@ const List = (Component, {title, listUrl, render}) => {
         const response = await axios.get(listUrl);
         console.log(response.data)
         setList(response.data.data);
+        console.log(list)
       } catch (e) {
         console.log(e);
       }
     }
 
     fetchList();
+    return () => {
+      setList([])
+    }
   }, [listUrl]);
 
   return (
@@ -38,5 +42,5 @@ export default List;
 
 const Div = ({ children }) => <Stack gap={2}>{children}</Stack>
 
-export const PatientList = (props) => List(Accordion, props);
-export const DoctorList = (props) => List(Div, props);
+export const PatientList = (props) => List(Accordion, {title: 'Patient List', ...props});
+export const DoctorList = (props) => List(Div, {title: 'Doctor List', ...props});
