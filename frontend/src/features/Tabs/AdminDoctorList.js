@@ -14,15 +14,13 @@ const AdminDoctorList = () => {
     title="Doctor List"
     listUrl={`admin/${currentUser.user.uid}/doctors`}
     render={(doctor, index) => 
-      <>
-      <div className={styles.container}>
+      <div key={index} className={styles.container}>
         <h4 className={styles.name}>Dr. {doctor.name}</h4>
         <div>
           <span>patients: </span>
           <span className={styles.count}>{doctor.patientCount}</span>
         </div>
       </div>
-      </>
     }
   />
 }
