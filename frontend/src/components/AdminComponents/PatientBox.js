@@ -53,17 +53,15 @@ function PatientBox(props) {
     handleClose();
   }
 
-  const renderDoctorList = () => {
-    return <ListGroup>
-      {doctorList.map((doctor) => 
-        <DoctorListItem 
-          doctor={doctor}
-          setDoctorInfo={setDoctorInfo}
-          selected={doctorInfo.id === doctor.uid}
-        />
-        )}
-    </ListGroup>;
-  } 
+  const renderDoctorList = () => <ListGroup>
+    {doctorList.map((doctor) => 
+      <DoctorListItem 
+        doctor={doctor}
+        setDoctorInfo={setDoctorInfo}
+        selected={doctorInfo.id === doctor.uid}
+      />
+      )}
+  </ListGroup>;
 
   return (
     <div className={styles["card-container"]}>
