@@ -1,7 +1,7 @@
 import styles from "./Notification.module.css";
 import React, {useState} from 'react';
 
-import {Button} from "react-bootstrap";
+import {Button, Card, Col, Container, Dropdown, DropdownButton, Row} from "react-bootstrap";
 import {Alert} from "react-bootstrap";
 import {Modal} from "react-bootstrap";
 
@@ -41,29 +41,28 @@ function Notification(props) {
         );
     }
 
+    let color;
+    if (props.alertType === 'warning') color = 'warning-color';
+    else if (props.alertType === 'primary') color = 'info-color';
+    if (props.alertType === 'urgent') color = 'urgent-color';
+
     return (
         <div className={styles["notification-box"]}>
-            <Alert show={show} variant={props.alertType}>
-                <Alert.Heading>
-                    {props.alertHeading}
-                </Alert.Heading>
-                <p>
-                    {props.alertMainText}
-                </p>
-                <div className="d-flex">
-                    <div class="mr-auto p-2">
-                        {showTimeStamp()}
+            <Card className={styles[color]}>
+                <Card.Header>{props.alertHeading}</Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        {props.alertMainText.substring(0, 50)}
+                    </Card.Text>
+                    <div className="p-1">
+                        <DropdownButton id="dropdown-basic-button" title="More">
+                            <Dropdown.Item onClick={handleModalShow} variant="primary">View</Dropdown.Item>
+                            <Dropdown.Item onClick={() => deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
+                        </DropdownButton>
                     </div>
-                    <div class="p-1">
-                        <Button onClick={handleModalShow} variant="outline-success">
-                            View
-                        </Button>
-                        <Button onClick={() => deleteNotification(id)} variant="outline-success">
-                            Delete
-                        </Button>
-                    </div>
-                </div>
-            </Alert>
+                </Card.Body>
+                <Card.Footer>{showTimeStamp()}</Card.Footer>
+            </Card>
 
             <div>
                 <Modal show={showing} onHide={handleModalClose}>
