@@ -3,12 +3,13 @@ class ImmigrationOfficialRepository {
     this.mongo = mongo;
   }
 
-  verifyImmigrationOfficial(userId) {
-    const immigrationOfficialData = this.mongo.db('test').collection('user').findOne(
-      {userId: userId},
-      {userType: 1, userStatus: 1});
+  async verifyImmigrationOfficial(userId) {
+    const immigrationOfficialData = await this.mongo.db('test').collection('user').findOne({uid: userId}, {
+      userType: 1,
+      userStatus: 1
+    });
     if (immigrationOfficialData.userType !== 'immigrationOfficial' ||
-      immigrationOfficialData.userStatus !== 'approved') {
+      immigrationOfficialData.userStatus !== 'APPROVED') {
       throw new Error('Not a valid immigration official');
     }
   }
@@ -34,7 +35,7 @@ class ImmigrationOfficialRepository {
   }
 
   async viewAllPatients(immigrationOfficialId) {
-    await this.verifyImmigrationOfficial(immigrationOfficialId);
+    await this.verifyImmigrationOfficial(immigrationOfficialId.getId());
     return this.mongo.db('test').collection('user').find({userType: 'patient'}).toArray();
   }
 }

@@ -4,10 +4,12 @@ class HealthOfficialRepository {
   }
 
   async verifyHealthOfficial(userId) {
-    const healthOfficialData = this.mongo.db('test').collection('user')
-      .findOne({userId: userId}, {userType: 1, userStatus: 1});
-    if (healthOfficialData.userType !== 'healthOfficer' ||
-      healthOfficialData.userStatus !== 'approved') {
+    const healthOfficialData = await this.mongo.db('test').collection('user').findOne({uid: userId}, {
+      userType: 1,
+      userStatus: 1
+    });
+    if (healthOfficialData.userType !== 'healthOfficial' ||
+      healthOfficialData.userStatus !== 'APPROVED') {
       throw new Error('Not a valid health official');
     }
   }
@@ -35,7 +37,7 @@ class HealthOfficialRepository {
   }
 
   async viewAllPatients(healthOfficialId) {
-    // await this.verifyHealthOfficial(healthOfficialId);
+    await this.verifyHealthOfficial(healthOfficialId.getId());
     return this.mongo.db('test').collection('user').find({userType: 'patient'}).toArray();
   }
 }
