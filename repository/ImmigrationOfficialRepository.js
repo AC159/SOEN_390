@@ -6,7 +6,7 @@ class ImmigrationOfficialRepository {
   async verifyImmigrationOfficial(userId) {
     const immigrationOfficialData = await this.mongo.db('test').collection('user').findOne({uid: userId}, {
       userType: 1,
-      userStatus: 1
+      userStatus: 1,
     });
     if (immigrationOfficialData.userType !== 'immigrationOfficial' ||
       immigrationOfficialData.userStatus !== 'APPROVED') {
@@ -16,14 +16,14 @@ class ImmigrationOfficialRepository {
 
   async raiseFlag(immigrationOfficialId, userId, newFlagValue) {
     await this.verifyImmigrationOfficial(immigrationOfficialId);
-    var newId;
-    if(newFlagValue === true) newId = immigrationOfficialId
-    else newId = "";
+    let newId;
+    if (newFlagValue === true) newId = immigrationOfficialId;
+    else newId = '';
     return this.mongo
-      .db('test')
-      .collection('user')
-      .updateOne({uid: userId}, 
-        {$set: {immigrationOfficerFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
+        .db('test')
+        .collection('user')
+        .updateOne({uid: userId},
+            {$set: {immigrationOfficerFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
   }
 
   async viewUserCovidInformation(healthOfficialId, userId) {

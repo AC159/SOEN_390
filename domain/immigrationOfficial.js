@@ -9,11 +9,11 @@ class ImmigrationOfficial {
   }
 
   async getUserCovidInfo(userId) {
-    return await this.immigrationOfficialRepository.viewUserCovidInformation(this.userId, userId);
+    return await this.immigrationOfficialRepository.viewUserCovidInformation(this.userId.getId(), userId);
   }
 
   async getTravelerInfo(travelerId) {
-    return await this.immigrationOfficialRepository.viewTravelerProfile(this.userId, travelerId);
+    return await this.immigrationOfficialRepository.viewTravelerProfile(this.userId.getId(), travelerId);
   }
 
   async getAllPatients() {
@@ -21,7 +21,7 @@ class ImmigrationOfficial {
   }
 
   getId() {
-    return this.userId;
+    return this.userId.getId();
   }
 }
 
