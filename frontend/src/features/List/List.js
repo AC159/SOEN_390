@@ -4,7 +4,7 @@ import {Accordion, Stack} from 'react-bootstrap';
 
 import styles from './List.module.css';
 
-const List = (Component, {title, listUrl, render}) => {
+const List = (Component, {title, listUrl, searchMessage, render}) => {
 
   const [list, setList] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -13,9 +13,7 @@ const List = (Component, {title, listUrl, render}) => {
     const fetchList = async () => {
       try {
         const response = await axios.get(listUrl);
-        console.log(response.data)
         setList(response.data.data);
-        console.log(list)
       } catch (e) {
         console.log(e);
       }
@@ -32,7 +30,7 @@ const List = (Component, {title, listUrl, render}) => {
       <div className={styles['todays-new-title']}>{title}</div>
       <hr/>
       <input
-        type="text" placeholder="Search by name..."
+        type="text" placeholder={searchMessage}
         onChange={(event) => {
           setSearchTerm(event.target.value);
         }}
@@ -58,5 +56,11 @@ export default List;
 
 const Div = ({children}) => <Stack gap={2}>{children}</Stack>
 
-export const PatientList = (props) => List(Accordion, {title: 'Patient List', ...props});
-export const DoctorList = (props) => List(Div, {title: 'Doctor List', ...props});
+export const PatientList = (props) => List(Accordion, {
+  title: 'Patient List',
+  searchMessage: 'Search patient by name...',
+  ...props});
+export const DoctorList = (props) => List(Div, {
+  title: 'Doctor List',
+  searchMessage: 'Search doctor by name...',
+  ...props});
