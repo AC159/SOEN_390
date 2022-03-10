@@ -34,8 +34,8 @@ class PatientRepository {
     return this.mongo.db('test').collection('patientForms').find({patientUid: userId}).toArray();
   }
 
-  raiseFlag(userId, flagType, flagValue) {
-    return this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {flagType: flagValue}});
+  raiseFlag(userId, flagType, flagValue, flaggingUser) {
+    return this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: flagValue, flaggingUser: flaggingUser}}});
   }
 
   fetchPatientsCovidInfo() {

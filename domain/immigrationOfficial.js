@@ -4,8 +4,8 @@ class ImmigrationOfficial {
     this.immigrationOfficialRepository = immigrationOfficialRepository;
   }
 
-  async raiseFlag(userId) {
-    return await this.immigrationOfficialRepository.raiseFlag(this.userId, userId);
+  async raiseFlag(userId, newFlagValue) {
+    return await this.immigrationOfficialRepository.raiseFlag(this.userId.getId(), userId, newFlagValue);
   }
 
   async getUserCovidInfo(userId) {
@@ -17,7 +17,7 @@ class ImmigrationOfficial {
   }
 
   async getAllPatients() {
-    return await this.immigrationOfficialRepository.viewAllPatients(this.userId);
+    return await this.immigrationOfficialRepository.viewAllPatients(this.userId.getId());
   }
 
   getId() {

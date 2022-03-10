@@ -4,8 +4,13 @@ class HealthOfficial {
     this.healthOfficialRepository = healthOfficialRepository;
   }
 
-  async raiseFlag(userId) {
-    return await this.healthOfficialRepository.raiseFlag(this.userId, userId);
+  async verifyHealthOfficial(healthOfficerId) {
+    await this.healthOfficialRepository.verifyHealthOfficial(healthOfficerId);
+  }
+
+  async raiseFlag(patientId, newFlagValue) {
+    await this.verifyHealthOfficial(this.userId.getId());
+    return await this.healthOfficialRepository.raiseFlag(this.userId.getId(), patientId, newFlagValue);
   }
 
   async getUserCovidInfo(userId) {

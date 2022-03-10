@@ -14,12 +14,16 @@ class ImmigrationOfficialRepository {
     }
   }
 
-  async raiseFlag(immigrationOfficialId, userId) {
+  async raiseFlag(immigrationOfficialId, userId, newFlagValue) {
     await this.verifyImmigrationOfficial(immigrationOfficialId);
+    var newId;
+    if(newFlagValue === true) newId = immigrationOfficialId
+    else newId = "";
     return this.mongo
       .db('test')
       .collection('user')
-      .findOneAndUpdate({userId: userId}, {$set: {isFlagged: true}});
+      .updateOne({uid: userId}, 
+        {$set: {immigrationOfficerFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
   }
 
   async viewUserCovidInformation(healthOfficialId, userId) {

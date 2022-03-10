@@ -4,6 +4,7 @@ class Doctor {
     this.doctorRepository = doctorRepository;
   }
 
+
   async getPatients() {
     const patients = await this.doctorRepository.getPatients(this.id.getId());
     return await Promise.all(patients.map(async (patient) => {
@@ -13,6 +14,10 @@ class Doctor {
         status: status.covidStatus,
       };
     }));
+  }
+
+  async raiseFlag(userId, newFlagValue) {
+    return await this.doctorRepository.raiseFlag(this.id.getId(), userId, newFlagValue);
   }
 
   getPatientFile(patient) {

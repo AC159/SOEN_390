@@ -17,5 +17,22 @@ router.get('/:doctorId/patientArray', async function(req, res) {
   }
 });
 
+router.post('/:doctorId/raise-flag', async (req, res) => {
+  try {
+    const userId = req.body.patientId;
+    const doctorId = new UserId(req.params.doctorId);
+    const newFlagValue = req.body.flagValue;
+    const doctorRepository = new DoctorRepository(req.app.locals.mongodb);
+
+    const doctor = new Doctor(doctorId, doctorRepository);
+    const response = await doctor.raiseFlag(userId, newFlagValue);
+    res.status(201).json({data: response});
+    console.log(response.message);
+  } catch (e) {
+    res.status(400).json({error: e.message});
+    console.log(e.message);
+  }
+});
+
 
 module.exports = router;

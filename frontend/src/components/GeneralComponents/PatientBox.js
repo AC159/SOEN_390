@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./PatientBox.module.css";
 import React, { useState, useEffect } from "react";
 
-import { Accordion, Navbar } from "react-bootstrap";
+import { Accordion} from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
 import { Modal } from "react-bootstrap";
@@ -27,12 +27,36 @@ function PatientBox(props) {
 
   const [showPatientInfo, setShowPatientInfo] = useState(false)
 
+  const [isFlagged, setIsFlagged] = useState(false);
+
 
   const handleDoctorListClose = () => setShowDoctorList(false);
   const handleDoctorListShow = () => setShowDoctorList(true);
 
   const handlePatientInfoClose = () => {
     setShowPatientInfo(false);
+  }
+  
+  useEffect(() => {
+    checkIsFlagged();
+  }, [])
+
+  useEffect(() => {
+    changeFlagButtonText();
+  }, [isFlagged])
+
+  const checkIsFlagged = () => {
+    var newFlagValue;
+    switch(localStorage.getItem("userType"))
+    {
+      case "doctor": (props.patient.doctorFlagInfo.isFlagged ? newFlagValue=true : newFlagValue=false); break;
+      case "immigrationOfficial": (props.patient.immigrationOfficerFlagInfo.isFlagged ? newFlagValue=true : newFlagValue=false); break;
+      case "healthOfficial": (props.patient.healthOfficialFlagInfo.isFlagged ? newFlagValue=true : newFlagValue=false); break;
+
+      default: newFlagValue=false;
+    }
+
+    setIsFlagged(newFlagValue);
   }
   
   const handlePatientInfoShow = () => {
@@ -71,12 +95,11 @@ function PatientBox(props) {
       doctorName: selectedDoctorName
     }
     try {
-      const response = axios.post(`admin/${props.currentUser.user.uid}/patient`, pair);
-      console.log(response);
+      axios.post(`admin/${props.currentUser.user.uid}/patient`, pair);
     } catch (error) {
       console.log(error);
     }
-    setAssignedDoctor(selectedDoctorName);
+    setAssignedDoctor(selectedDoctorName); 
     handleDoctorListClose();
   }
 
@@ -99,10 +122,8 @@ function PatientBox(props) {
 
   async function fetchPatientInfo(patientUid) {
     try {
-            const response = await axios.get(`/patient/get-status-forms/${patientUid}`);
-            console.log(response);
-            console.log(currentUser);
-            setPatientData(response.data);
+          const response = await axios.get(`/patient/get-status-forms/${patientUid}`);
+          setPatientData(response.data);
         } catch (error) {
             console.log('Unable to fetch patient status forms: ', error);
         }
@@ -156,25 +177,47 @@ function PatientBox(props) {
   }
 
   const flagPatient = () => {
-    console.log("Patient Flagged!");
-    const userFlagType =`${currentUser.dbData.userType}` + 'Flag';
-    console.log(userFlagType);
-    console.log(props.patient.uid);
+    
+    var routeType;
+    switch(localStorage.getItem("userType"))
+    {
+      case "doctor": routeType="doctor"; break;
+      case "immigrationOfficial": routeType="immigration-official"; break;
+      case "healthOfficial": routeType="health-official"; break;
 
+      default: routeType="doctor";
+
+    }
+    
+    var newFlagValue;
+    if(isFlagged)
+    {
+      newFlagValue = false;
+      setIsFlagged(false);
+    }
+    else
+    {
+      newFlagValue = true;
+      setIsFlagged(true);
+    }
+    
     const info = {
-    flagType:userFlagType,
-    flagValue:true
+    flagValue: newFlagValue,
+    patientId: props.patient.uid,
   }
   try{
-    const response = axios.post(`patient/raise-flag/${props.patient.uid}`, info);
-    console.log(response);
+    const response = axios.post(`${routeType}/${currentUser.user.uid}/raise-flag`, info); 
   } catch (error){
-    console.log(error.response);
   }
 }
 
-const [flagButtonText, setFlagButtonText] = useState("Flag Patient");
-const changeFlagButtonText = (text) => setFlagButtonText(text);
+const [flagButtonText, setFlagButtonText] = useState("");
+const changeFlagButtonText = () => {
+  
+  if(isFlagged) setFlagButtonText("Unflag Patient");
+  else setFlagButtonText("Flag Patient");
+  
+};
 
   return (
     <div className={styles["card-container"]}>
@@ -230,7 +273,7 @@ const changeFlagButtonText = (text) => setFlagButtonText(text);
                   {props.patient.name + "'s information"}
                 </Card.Text>
                 {isValidAdmin(props.userType) ? <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button> : <div></div>}
-                <div contentClassName={styles["flag-button"]}><Button variant="danger" onClick={() => {flagPatient(); changeFlagButtonText("Patient Flagged!");}}>{flagButtonText}</Button></div>
+                <div contentClassName={styles["flag-button"]}><Button variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button></div>
               </Card.Body>
             </Card>
             <div className={styles["patient-info-tabs-container"]}>

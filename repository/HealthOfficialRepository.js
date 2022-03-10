@@ -31,9 +31,15 @@ class HealthOfficialRepository {
     // todo: fetch list of users in the report?
   }
 
-  async raiseFlag(healthOfficialId, userId) {
-    await this.verifyHealthOfficial(healthOfficialId);
-    return this.mongo.db('test').collection('user').findOneAndUpdate({userId: userId}, {$set: {isFlagged: true}});
+  async raiseFlag(healthOfficialId, patientId, newFlagValue) {
+    var newId;
+    if(newFlagValue === true) newId = healthOfficialId
+    else newId = "";
+
+    return await this.mongo.db('test')
+    .collection('user')
+    .updateOne({uid: patientId}, 
+      {$set: {healthOfficialFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
   }
 
   async viewAllPatients(healthOfficialId) {
