@@ -51,10 +51,10 @@ function Notification(props) {
                     {props.alertMainText}
                 </p>
                 <div className="d-flex">
-                    <div class="mr-auto p-2">
+                    <div className="mr-auto p-2">
                         {showTimeStamp()}
                     </div>
-                    <div class="p-1">
+                    <div className="p-1">
                         <Button onClick={handleModalShow} variant="outline-success">
                             View
                         </Button>
