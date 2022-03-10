@@ -1,4 +1,4 @@
-const HealthOfficial = require('./healthOfficial');
+const {HealthOfficial} = require('./healthOfficial');
 const {ObjectId} = require("mongodb");
 const HealthOfficialRepository = require("../repository/HealthOfficialRepository");
 

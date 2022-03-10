@@ -1,4 +1,4 @@
-const ImmigrationOfficial = require('./immigrationOfficial');
+const {ImmigrationOfficial} = require('./immigrationOfficial');
 const {ObjectId} = require("mongodb");
 const ImmigrationOfficialRepository = require("../repository/ImmigrationOfficialRepository");
 
