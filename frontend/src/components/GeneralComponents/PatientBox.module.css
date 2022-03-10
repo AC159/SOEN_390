@@ -42,8 +42,87 @@
 .patient-info-tabs-container{
   margin-left: 3%;
   margin-right: 3%;
+  
 }
 
-.patient-general-info-card card {
-  background-color: #005871;
+.patient-info-tab-page{
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  background-color: #028FB4;
+  border-radius: 5px;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+  border-bottom: solid 2px black;
+  border-top: solid 2px black;
+
+  
+}
+
+.patient-general-info-card {
+  background-color: #028FB4;
+  border: solid 2px black;
+  
+}
+
+.patient-info-tabs-container{
+  width: 100%;
+}
+
+.patient-info-card {
+  text-align: center;
+}
+
+.patient-info-card-text{
+  display: inline-block;
+  background-color: aliceblue;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight:bold;
+}
+
+.patient-info-card-userType{
+  display: inline-block;
+  background-color: aliceblue;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 7px;
+  font-weight:bold;
+}
+
+.patient-info-card-covidStatusP{
+  display: inline-block;
+  background-color: rgb(255, 67, 67);
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight:bold;
+}
+
+.patient-info-card-covidStatusN{
+  display: inline-block;
+  background-color: rgb(60, 255, 0);
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight:bold;
+}
+
+.patient-info-card-flagStatusY{
+  display: inline-block;
+  background-color: rgb(255, 67, 67);
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight:bold;
+}
+
+.patient-info-card-flagStatusN{
+  display: none;
+}
+
+.flag-button{
+  color: black;
+  font-weight: bold;
 }
