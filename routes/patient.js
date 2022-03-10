@@ -39,6 +39,22 @@ router.get('/get-status-form/:userId', async (req, res) => {
   } catch (error) {
     res.status(400).json({error: error.message});
   }
+
+ 
 });
 
+
+router.post('/:userID/requestDoctor' ,async (req,res)=> {
+
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.userID);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.requestDoctor();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+
+});
 module.exports = router;

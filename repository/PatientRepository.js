@@ -19,6 +19,11 @@ class PatientRepository {
   fetchPatientForm(userId) {
     return this.mongo.db('test').collection('patientForms').findOne({patientUid: userId});
   }
+
+
+  async setWantToAssignDoctor(userId) {
+    return await this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {wantToBeAssignedToDoctor: true}});
+  }
 }
 
 module.exports = PatientRepository;

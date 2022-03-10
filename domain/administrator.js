@@ -36,7 +36,7 @@ class Administrator {
     const user = await this.adminRepository.approveUser(userId);
     switch (user.value.userType) {
       case 'patient':
-        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''}});
+        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''} ,wantToBeAssignedToDoctor: false});
         break;
       case 'doctor':
         this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});
