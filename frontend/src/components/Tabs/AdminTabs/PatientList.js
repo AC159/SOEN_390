@@ -2,11 +2,7 @@ import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PatientBox from "../../GeneralComponents/PatientBox";
 
-<<<<<<< HEAD
-import PatientBox from "../../GeneralComponents/PatientBox";
 import { PatientList as PList } from '../../../features/List/List'
-=======
->>>>>>> b8bd6e47437227c51e44a5c3a49da60d77128e09
 import styles from "./PatientList.module.css";
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 
