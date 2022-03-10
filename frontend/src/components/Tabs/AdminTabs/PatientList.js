@@ -1,6 +1,6 @@
 import React from "react";
 
-import PatientBox from "../../AdminComponents/PatientBox";
+import PatientBox from "../../GeneralComponents/PatientBox";
 import { PatientList as PList } from '../../../features/List/List'
 import styles from "./PatientList.module.css";
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
