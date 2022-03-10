@@ -263,26 +263,33 @@ const changeFlagButtonText = () => {
         </Modal.Header>
         <Modal.Body>
           <div className={styles["patient-info-outer-container"]}>
+            <div className={styles["patient-info-card"]}>
             <Card style={{ width: '18rem', height: '100%'}} className={styles["patient-general-info-card"]}>
               &nbsp;
               <Card.Img variant="top" src={patientIcon} />
               <Card.Body>
                 &nbsp;
-                <Card.Title>Patient Info</Card.Title>
+                <Card.Title className={styles["patient-info-card-text"]}>{props.patient.name}</Card.Title>
                 <Card.Text>
-                  {props.patient.name + "'s information"}
+                  <p className={styles["patient-info-card-userType"]}>{"Patient"}</p>
+                  <p className={(props.patient.covidStatus === "Negative") ? styles["patient-info-card-covidStatusN"] : styles["patient-info-card-covidStatusP"]}>{"COVID Status: "+props.patient.covidStatus}</p>
+                  <p className={(isFlagged) ? styles["patient-info-card-flagStatusY"] : styles["patient-info-card-flagStatusN"]}>{(isFlagged) ? "Patient has been flagged!" : ""}</p>
                 </Card.Text>
                 {isValidAdmin(props.userType) ? <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button> : <div></div>}
-                <div contentClassName={styles["flag-button"]}><Button variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button></div>
+                <Button bsClass={styles["flag-button"]} variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button>
               </Card.Body>
             </Card>
+            </div>
             <div className={styles["patient-info-tabs-container"]}>
             <Tabs className="tabStyle" defaultActiveKey="home" unmountOnExit={true} mountOnEnter={true}>
               <Tab eventKey="submitted-forms" title="Submitted Forms">
+                <div className={styles["patient-info-tab-page"]}>
                 {patientData ? 
                 <Accordion defaultActiveKey="0">
                     {renderPatientInfo()} 
                 </Accordion> : null}
+                </div>
+                
               </Tab>
               <Tab eventKey="ask-questions" title="Create Patient Q/A Form">
               </Tab>
