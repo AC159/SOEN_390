@@ -4,7 +4,6 @@ import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
 import RoleRequest from '../../components/Tabs/AdminTabs/RoleRequest';
 import PatientList from '../../components/Tabs/AdminTabs/PatientList';
-import AdminDoctorList from '../../features/Tabs/AdminDoctorList';
 
 const tabs = [
   {
@@ -21,11 +20,6 @@ const tabs = [
     eventKey: 'patient-list',
     title: 'Patient List',
     element: <PatientList />
-  },
-  {
-    eventKey: 'doctor-list',
-    title: 'Doctor List',
-    element: <AdminDoctorList />
   },
   {
     eventKey: 'contact',
