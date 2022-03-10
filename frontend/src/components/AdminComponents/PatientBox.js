@@ -1,23 +1,20 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "./PatientBox.module.css";
-import { useState, useEffect } from "react";
-
-import { Accordion } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import AccordionBody from "react-bootstrap/esm/AccordionBody";
-import { Modal } from "react-bootstrap";
-import { ListGroup } from "react-bootstrap";
-
+import React, { useState } from 'react';
 import axios from "axios";
+import { Accordion, Button, Modal, ListGroup } from "react-bootstrap";
+import AccordionBody from "react-bootstrap/esm/AccordionBody";
 
-let selectedDoctorID = "";
-let selectedDoctorName = "";
+import DoctorListItem from './DoctorListItem';
+import styles from "./PatientBox.module.css";
 
 function PatientBox(props) {
   
   const [show, setShow] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [assignedDoctor, setAssignedDoctor] = useState(props.patient.patientInfo.doctor);
+  const [doctorInfo, setDoctorInfo] = useState({
+    id: props.patient.patientInfo.doctorId ? props.patient.patientInfo.doctorId : '',
+    name: props.patient.patientInfo.doctor
+  });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -25,11 +22,6 @@ function PatientBox(props) {
   const openDoctorList = () => {
     handleShow();
     fetchDoctorList();
-  }
-
-  const selectDoctor = (id, name) => {
-    selectedDoctorID=id;
-    selectedDoctorName=name;
   }
 
   const fetchDoctorList = async () => {
@@ -45,9 +37,9 @@ function PatientBox(props) {
 
     const pair = {
       patient:props.patient.uid, 
-      doctor:selectedDoctorID,
+      doctor:doctorInfo.id,
       adminID:props.currentUser.uid,
-      doctorName: selectedDoctorName
+      doctorName: doctorInfo.name
     }
 
     try {
@@ -57,28 +49,19 @@ function PatientBox(props) {
       console.log(error);
     }
 
-    setAssignedDoctor(selectedDoctorName);
+    setAssignedDoctor(doctorInfo.name);
     handleClose();
   }
 
-  const renderDoctorList = () => {
-    return <ListGroup>
-      {doctorList.map((doctor) => 
-        <ListGroup.Item>
-          {doctor.name}
-          <div className={styles["doctor-side"]}>
-          <div className={styles["doctor-patient-count"]}>{"Patients Assigned: " + doctor.patientCount}</div>
-          <Button 
-          variant="outline-primary" 
-          onClick={() => selectDoctor(doctor.uid, doctor.name)} 
-          className={styles["doctor-select-button"]}>
-          Select
-          </Button>
-          </div>
-          
-        </ListGroup.Item> )}
-    </ListGroup>;
-  } 
+  const renderDoctorList = () => <ListGroup>
+    {doctorList.map((doctor) => 
+      <DoctorListItem 
+        doctor={doctor}
+        setDoctorInfo={setDoctorInfo}
+        selected={doctorInfo.id === doctor.uid}
+      />
+      )}
+  </ListGroup>;
 
   return (
     <div className={styles["card-container"]}>
