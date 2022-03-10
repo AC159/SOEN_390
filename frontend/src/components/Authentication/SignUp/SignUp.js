@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import styles from "./SignUp.module.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";
@@ -162,7 +162,7 @@ function SignUp(props) {
             onChange={(event) => dispatch({type: EMAIL_CHANGE, payload: {email: event.target.value}})}
           />
           {state.emailInvalid ? (
-            <div className={styles["container-error"]}>Invalid email</div>
+            <div className={styles["container-error_SingUp"]}>Invalid email</div>
           ) : null}
 
           <input
@@ -181,7 +181,7 @@ function SignUp(props) {
             onChange={(event) => dispatch({type: PASSWORD_CONF, payload: {passwordConf: event.target.value}})}
           />
           {state.passwordError ? (
-            <div className={styles["container-error"]}>
+            <div className={styles["container-error_SingUp"]}>
               The password must contain:
               <ul>
                 <li>at least eight characters</li>
@@ -192,7 +192,7 @@ function SignUp(props) {
             </div>
           ) : null}
           {state.passwordConfError ? (
-            <div className={styles["container-error"]}>
+            <div className={styles["container-error_SingUp"]}>
               Passwords do not match!
             </div>
           ) : null}
