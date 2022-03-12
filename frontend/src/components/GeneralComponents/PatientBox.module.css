@@ -132,3 +132,22 @@
   height: 100%;
   
 }
+
+.qa-form{
+  display: flex;
+  align-items: baseline;
+}
+
+.qa-delete-button{
+  margin: 10px;
+}
+.outer-qa-form-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.qa-add-button{
+}
+.qa-submit-button{
+  background-color: yellow;
+  font-weight: bold;
+}

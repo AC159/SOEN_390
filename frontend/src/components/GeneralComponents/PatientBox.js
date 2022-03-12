@@ -194,6 +194,27 @@ function PatientBox(props) {
     else setFlagButtonText("Flag Patient");
   };
 
+  const [inputList, setInputList] = useState([
+    { questionInput: "" },
+  ]);
+
+  const handleQuestionInputChange = (event, index) => {
+    const {name, value} = event.target;
+    const list = [...inputList];
+    list[index][name] = value; //updates list based on the index
+    setInputList(list);
+  }
+
+  const handleAddQuestionInput = () => {
+    setInputList([...inputList, { questionInput: "" }]); //pushing new input field to list each time this is called
+  }
+
+  const handleDeleteInput = index => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  }
+
   return (
     <div className={styles["card-container"]}>
 
@@ -267,6 +288,41 @@ function PatientBox(props) {
                   <div className={styles["patient-info-tab-page"]}>
                     <h4 className={styles["patient-info-tab-title"]}>{"Create Q&A Form"}</h4>
                     <hr />
+                    <h2>Create Question List</h2>
+
+                    {inputList.map((item, index) => {
+                      return (
+                        <div key ={index} className={styles["qa-form"]}>
+                        <input 
+                          type = "text"
+                          name = "questionInput"
+                          placeholder = "Enter Question Here"
+                          value = {item.questionInput}
+                          onChange = {event => handleQuestionInputChange(event, index)}
+                          className={styles["question-input-field"]}
+                        />
+                        {inputList.length !== 1 && <input
+                          type = "button"
+                          value = "X"
+                          className = {styles["qa-delete-button"]}
+                          onClick = {() => handleDeleteInput(index)} //passing index here as we want to delete a specific question
+                        />}
+                      </div>
+                      )
+                    })}
+                    <div className = {styles["outer-qa-form-buttons"]}>
+                      <input 
+                        type = "button"
+                        value = "Add Question"
+                        className = {styles["qa-add-button"]}
+                        onClick = {handleAddQuestionInput}
+                      />
+                      <input //TODO: post form
+                        type = "button"
+                        value = "SUBMIT"
+                        className = {styles["qa-submit-button"]}
+                      />
+                    </div>
                   </div>
                 </Tab> :
                 null}
