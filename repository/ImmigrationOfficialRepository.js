@@ -39,7 +39,7 @@ class ImmigrationOfficialRepository {
   }
 
   async viewAllPatients(immigrationOfficialId) {
-    await this.verifyImmigrationOfficial(immigrationOfficialId.getId());
+    await this.verifyImmigrationOfficial(immigrationOfficialId);
     return this.mongo.db('test').collection('user').find({userType: 'patient'}).toArray();
   }
 }

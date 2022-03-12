@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import moment from 'moment';
-import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card } from 'react-bootstrap';
+import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card, TabContainer } from 'react-bootstrap';
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
 
 import patientIcon from "../../assets/patientIcon.png";
 import DoctorListItem from "./DoctorListItem";
 import {useAuth} from "../Authentication/FirebaseAuth/FirebaseAuth";
 import styles from "./PatientBox.module.css";
+
 
 function PatientBox(props) {
   const initialDoctorInfo = {
@@ -95,6 +96,10 @@ function PatientBox(props) {
     return currentUserType === 'administrator';
   }
 
+  function isValidDoctor(){
+    return localStorage.getItem("userType") === 'doctor';
+  }
+
   function isValidUserForPatientInfo(currentUserType){
     switch(currentUserType){
       case "administrator":
@@ -109,6 +114,7 @@ function PatientBox(props) {
     try {
       const response = await axios.get(`/patient/get-status-forms/${patientUid}`);
       setPatientData(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log('Unable to fetch patient status forms: ', error);
     }
@@ -239,22 +245,31 @@ function PatientBox(props) {
                     <p className={(isFlagged) ? styles["patient-info-card-flagStatusY"] : styles["patient-info-card-flagStatusN"]}>{(isFlagged) ? "Patient has been flagged!" : ""}</p>
                   </Card.Text>
                   {isValidAdmin(props.userType) && <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button>}
-                  <Button bsClass={styles["flag-button"]} variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button>
+                  {isValidAdmin(localStorage.getItem("userType")) ? null : <Button bsClass={styles["flag-button"]} variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button>}
                 </Card.Body>
               </Card>
             </div>
             <div className={styles["patient-info-tabs-container"]}>
-              <Tabs className="tabStyle" defaultActiveKey="home" unmountOnExit={true} mountOnEnter={true}>
+              <Tabs defaultActiveKey="submitted-forms" unmountOnExit={true} mountOnEnter={true}>
                 <Tab eventKey="submitted-forms" title="Submitted Forms">
                   <div className={styles["patient-info-tab-page"]}>
                     {patientData && (
                       <Accordion defaultActiveKey="0">
+                        <h4 className={styles["patient-info-tab-title"]}>{props.patient.name+"'s submitted forms"}</h4>
+                        <hr />
                         <RenderPatientInfo /> 
                       </Accordion>)}
                   </div>
                 </Tab>
-                <Tab eventKey="ask-questions" title="Create Patient Q/A Form">
-                </Tab>
+              
+               {isValidDoctor() ?  
+               <Tab eventKey="ask-questions" title="Create Patient Q/A Form">
+                  <div className={styles["patient-info-tab-page"]}>
+                    <h4 className={styles["patient-info-tab-title"]}>{"Create Q&A Form"}</h4>
+                    <hr />
+                  </div>
+                </Tab> :
+                null}
               </Tabs>
             </div>
           </div>
