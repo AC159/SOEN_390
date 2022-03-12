@@ -36,6 +36,14 @@ class DoctorRepository {
         .insertOne(appointment);
   }
 
+  findAppointments(doctorId) {
+    return this.mongo.db('test')
+        .collection('appointment')
+        .find({doctorId: doctorId})
+        .project({_id: 0})
+        .toArray();
+  }
+
   insertNotification(notification) {
     return this.mongo.db('test')
         .collection('notification')

@@ -36,7 +36,7 @@ class Doctor {
   }
 
   async createAppointment(patientId, appointmentInfo) {
-    // const doctor = verifyAndFetch();
+    this.verifyDoctor();
     const appointment = {
       ...appointmentInfo,
       patientId,
@@ -56,6 +56,11 @@ class Doctor {
       userId: patientId,
     };
     await this.doctorRepository.insertNotification(notification);
+  }
+
+  async getAppointments() {
+    this.verifyDoctor();
+    return await this.doctorRepository.findAppointments(this.id.getId());
   }
 
   createForm() {

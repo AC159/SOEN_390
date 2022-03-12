@@ -31,5 +31,17 @@ router.post('/:doctorId/appointment', async (req, res) => {
   }
 });
 
+router.get('/:doctorId/appointments', async (req, res) => {
+  try {
+    const doctorId = new UserId(req.params.doctorId);
+    const doctor = new Doctor(doctorId, new DoctorRepository(req.app.locals.mongodb));
+    const response = await doctor.getAppointments();
+
+    res.status(200).json({data: response});
+  } catch (e) {
+    res.status(400).json({error: e.message});
+  }
+});
+
 
 module.exports = router;
