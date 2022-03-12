@@ -1,8 +1,7 @@
 const express = require('express');
-const {UserId, User} = require('../domain/user');
+const {UserId} = require('../domain/user');
 const Patient = require('../domain/patient');
 const PatientRepository = require('../repository/PatientRepository');
-const UserRepository = require("../repository/UserRepository");
 const router = express.Router();
 
 router.post('/submit-status-form', async (req, res) => {

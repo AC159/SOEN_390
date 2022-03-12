@@ -5,7 +5,9 @@ class Notification {
   }
 
   async createNotification(notificationData) {
-    return await this.notificationRepository.addNewNotification(notificationData);
+    const response = await this.notificationRepository.addNewNotification(notificationData);
+    await this.sendNewNotificationEmail();
+    return response;
   }
 
   async createManyNotifications(notificationData) {
@@ -18,6 +20,10 @@ class Notification {
 
   async viewNotification() {
     return await this.notificationRepository.getNotification(this.notificationId);
+  }
+
+  async sendNewNotificationEmail() {
+
   }
 
   getNotificationId() {
