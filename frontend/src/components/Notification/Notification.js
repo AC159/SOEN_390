@@ -1,14 +1,9 @@
 import styles from "./Notification.module.css";
 import React, {useState} from 'react';
-
-import {Button, Card, Col, Container, Dropdown, DropdownButton, Row} from "react-bootstrap";
-import {Alert} from "react-bootstrap";
+import {Button, Card, Dropdown, DropdownButton} from "react-bootstrap";
 import {Modal} from "react-bootstrap";
 
-import axios from 'axios';
-
 function Notification(props) {
-    const [show, setShow] = useState(true);
     const [showing, setShowing] = useState(false);
 
     const handleModalClose = () => setShowing(false);
@@ -16,17 +11,6 @@ function Notification(props) {
 
     const id = props.notificationId;
     const timeStamp = props.timeStamp;
-
-    const deleteNotification = (id) => {
-        axios.post(`/notification/${id}/delete`)
-            .then(() => {
-                console.log('Notification deleted!');
-                setShow(false);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
 
     function showTimeStamp() {
         return (
@@ -52,12 +36,12 @@ function Notification(props) {
                 <Card.Header>{props.alertHeading}</Card.Header>
                 <Card.Body>
                     <Card.Text>
-                        {props.alertMainText.substring(0, 50)}
+                        {props.alertMainText}
                     </Card.Text>
                     <div className="p-1">
                         <DropdownButton id="dropdown-basic-button" title="More">
                             <Dropdown.Item onClick={handleModalShow} variant="primary">View</Dropdown.Item>
-                            <Dropdown.Item onClick={() => deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
+                            <Dropdown.Item onClick={() => props.deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
                         </DropdownButton>
                     </div>
                 </Card.Body>
