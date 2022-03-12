@@ -9,7 +9,7 @@ class Notification {
   async createNotification(notificationData, email) {
     const response = await this.notificationRepository.addNewNotification(notificationData);
     const emailResponse = await this.sendNewNotificationEmail(email);
-    return [response, emailResponse];
+    return {response, emailResponse};
   }
 
   async createManyNotifications(notificationData) {

@@ -58,9 +58,9 @@ router.post('/addNewNotification', async (req, res) => {
       timeStamp: Date.now(),
       userId: req.body.patientUid
     };
-    const responses = await notification.createNotification(notificationData, userEmail);
+    const response = await notification.createNotification(notificationData, userEmail);
 
-    res.status(201).json({data: responses[0], emailResponse: responses[1]});
+    res.status(201).json(response);
   } catch (error) {
     res.status(400).json(error);
   }
