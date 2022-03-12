@@ -81,7 +81,7 @@ router.post('/submit-contact-tracing', async (req, res) => {
 router.post('/update-contact-tracing/:userId', async (req, res) => {
   try {
 
-    res.status(200).json(data);
+    res.status(200).json();
   } catch (error) {
     res.status(400).json({error: error.message});
   }
