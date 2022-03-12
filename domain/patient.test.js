@@ -23,25 +23,32 @@ describe('test Patient status forms creation, update and retrieval', () => {
     expect(patientRepository.fetchPatientStatusForms).toHaveBeenCalledTimes(1);
   });
 
-  test('POST /update-status-form/patientABC', async () => {
+  test('POST /patient/update-status-form/patientABC', async () => {
     const patientRepository = new PatientRepository();
     const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
     await patient.updateStatusForm();
     expect(patientRepository.updateStatusForm).toHaveBeenCalledTimes(1);
   });
 
-  test('POST /submit-status-form', async () => {
+  test('POST /patient/submit-status-form', async () => {
     const patientRepository = new PatientRepository();
     const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
     await patient.postStatusForm();
     expect(patientRepository.addStatusForm).toHaveBeenCalledTimes(1);
   });
 
-  test('POST /submit-contact-tracing', async () => {
+  test('POST /patient/submit-contact-tracing', async () => {
     const patientRepository = new PatientRepository();
     const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
     await patient.postContactTracingReport();
     expect(patientRepository.addContactTracingReport).toHaveBeenCalledTimes(1);
+  })
+
+  test('GET /patient/get-contact-tracing', async () => {
+    const patientRepository = new PatientRepository();
+    const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
+    await patient.getContactTracingReports();
+    expect(patientRepository.fetchContactTracingReports).toHaveBeenCalledTimes(1);
   })
 });
 

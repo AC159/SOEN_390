@@ -4,12 +4,13 @@ const fetchPatientsCovidInfo = jest.fn(() => [{name: 'John Doe', patientUid: 'ab
 const updateStatusForm = jest.fn();
 const addStatusForm = jest.fn();
 const addContactTracingReport = jest.fn();
+const fetchContactTracingReports = jest.fn();
 const raiseFlag = jest.fn();
 
 const verifyOfficial = jest.fn(() => true);
 
 const mockPatientRepository = jest.fn().mockImplementation(() => {
-  return {fetchPatientStatusForms, updateStatusForm, addStatusForm, raiseFlag, fetchPatientsCovidInfo, verifyOfficial, addContactTracingReport};
+  return {fetchPatientStatusForms, updateStatusForm, addStatusForm, raiseFlag, fetchPatientsCovidInfo, verifyOfficial, addContactTracingReport, fetchContactTracingReports};
 });
 
 module.exports = mockPatientRepository;

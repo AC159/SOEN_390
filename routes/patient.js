@@ -87,9 +87,12 @@ router.post('/update-contact-tracing/:userId', async (req, res) => {
   }
 })
 
-router.get('/get-contact-tracing/:userId', async (req, res) => {
+router.get('/get-contact-tracing/:patientUid', async (req, res) => {
   try {
-
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.body.patientUid);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.getContactTracingReports();
     res.status(200).json(data);
   } catch (error) {
     res.status(400).json({error: error.message});

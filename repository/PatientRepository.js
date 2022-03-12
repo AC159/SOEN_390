@@ -46,6 +46,9 @@ class PatientRepository {
     return this.mongo.db('test').collection('contactTracing').insertOne({...ctrData});
   }
 
+  fetchContactTracingReports(userId) {
+    return this.mongo.db('test').collection('contactTracing').find({patientUid: userId}).toArray();
+  }
 }
 
 module.exports = PatientRepository;
