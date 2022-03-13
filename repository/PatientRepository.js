@@ -21,7 +21,7 @@ class PatientRepository {
   }
 
 
-  async setWantToAssignDoctor(userId) {
+  async setWantToBeAssignedToDoctor(userId) {
     return await this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {wantToBeAssignedToDoctor: true}});
   }
 }
