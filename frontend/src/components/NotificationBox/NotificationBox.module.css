@@ -8,7 +8,6 @@
   display: flex;
   overflow-y: scroll;
   flex-flow: column;
-
   background-color: #005871;
   border-radius: 5px;
   margin-right: 10px;
@@ -20,6 +19,7 @@
 
 .outer-container {
   padding-bottom: 10px;
+  width: 30rem;
 }
 
 .notification-title {
