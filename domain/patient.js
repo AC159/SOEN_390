@@ -40,8 +40,8 @@ class Patient extends User {
     return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue, flaggingUser);
   }
 
-  async requestDoctor(){
-    return await this.patientRepository.setWantToAssignDoctor(this.getid) ;
+  async requestDoctor() {
+    return await this.patientRepository.setWantToBeAssignedToDoctor(this.id.getId());
   }
 
   async getPatientsCovidInfo(officialUid) {
