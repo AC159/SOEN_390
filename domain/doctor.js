@@ -4,7 +4,6 @@ class Doctor {
     this.doctorRepository = doctorRepository;
   }
 
-
   async getPatients() {
     const patients = await this.doctorRepository.getPatients(this.id.getId());
     return await Promise.all(patients.map(async (patient) => {
@@ -18,6 +17,10 @@ class Doctor {
 
   async raiseFlag(userId, newFlagValue) {
     return await this.doctorRepository.raiseFlag(this.id.getId(), userId, newFlagValue);
+  }
+
+  async postQuestions(formData) {
+    return await this.doctorRepository.storeQuestions(formData);
   }
 
   getPatientFile(patient) {

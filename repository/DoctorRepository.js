@@ -1,3 +1,5 @@
+const {ObjectId} = require("mongodb");
+
 class DoctorRepository {
   constructor(mongo) {
     this.mongo = mongo;
@@ -31,15 +33,20 @@ class DoctorRepository {
 
   async raiseFlag(doctorId, userId, newFlagValue) {
     await this.verifyDoctor(doctorId);
-
-    var newId;
+    let newId;
     if(newFlagValue === true) newId = doctorId
     else newId = "";
     return await this.mongo.db('test')
     .collection('user')
     .updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
-    
   }
+
+  storeQuestions(formData) {
+    const patientFormId = ObjectId(formData.formId);
+    delete formData.formId;
+    return this.mongo.db('test').collection('patientForms').updateOne({_id: patientFormId}, {$addToSet: {doctorQuestions: {$each: formData.doctorQuestions}}});
+  }
+
 }
 
 module.exports = DoctorRepository;

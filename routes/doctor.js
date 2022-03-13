@@ -23,7 +23,6 @@ router.post('/:doctorId/raise-flag', async (req, res) => {
     const doctorId = new UserId(req.params.doctorId);
     const newFlagValue = req.body.flagValue;
     const doctorRepository = new DoctorRepository(req.app.locals.mongodb);
-
     const doctor = new Doctor(doctorId, doctorRepository);
     const response = await doctor.raiseFlag(userId, newFlagValue);
     res.status(201).json({data: response});
@@ -34,5 +33,17 @@ router.post('/:doctorId/raise-flag', async (req, res) => {
   }
 });
 
+router.post('/question-answer', async (req, res) => {
+  try {
+    const doctorId = new UserId(req.body.doctorUid);
+    const doctorRepository = new DoctorRepository(req.app.locals.mongodb);
+    const doctor = new Doctor(doctorId, doctorRepository);
+    const response = await doctor.postQuestions(req.body);
+    res.status(201).json({data: response});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+    console.log(error.message);
+  }
+});
 
 module.exports = router;

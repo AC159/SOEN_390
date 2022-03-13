@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import moment from 'moment';
 import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card} from 'react-bootstrap';
-import { Dropdown } from "react-bootstrap";
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
 
 import patientIcon from "../../assets/patientIcon.png";
@@ -44,14 +43,13 @@ function PatientBox(props) {
   }, [isFlagged])
 
   const checkIsFlagged = () => {
-    var newFlagValue;
+    let newFlagValue;
     switch(localStorage.getItem("userType")) {
       case "doctor": newFlagValue = props.patient.doctorFlagInfo.isFlagged; break;
       case "immigrationOfficial": newFlagValue = props.patient.immigrationOfficerFlagInfo.isFlagged; break;
       case "healthOfficial": newFlagValue = props.patient.healthOfficialFlagInfo.isFlagged; break;
       default: newFlagValue=false;
     }
-
     setIsFlagged(newFlagValue);
   }
   
@@ -147,11 +145,16 @@ function PatientBox(props) {
           {Object.entries(element).map(([key, value], index) => {
             if(currentUser.dbData.userType === 'doctor'){
               if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
+              if (Array.isArray(value) && typeof value[0] === 'object') {
+                return <div key={index}>
+                        <strong>Doctor questions</strong>:
+                        <ul>{value.map((element, i) => <div key={i}><li>{element.question}</li><p>{element.answer}</p></div>)}</ul>
+                      </div>;
+              }
               if (Array.isArray(value)) {
                   return <div key={index}>
                     <strong>{key}</strong>: 
-                      <ul>{value.map((element, i) => <li key={i}>{element}</li>)}
-                      </ul>
+                      <ul>{value.map((element, i) => <li key={i}>{element}</li>)}</ul>
                     </div>;
               } else return <div key={index}><strong>{key}</strong>: {value}</div>;
             } else if (currentUser.dbData.userType === "administrator" || currentUser.dbData.userType === "immigrationOfficial") {
@@ -214,9 +217,7 @@ function PatientBox(props) {
     else setFlagButtonText("Flag Patient");
   };
 
-  const [inputList, setInputList] = useState([
-    { questionInput: "" },
-  ]);
+  const [inputList, setInputList] = useState([{question: "", answer: ""}]);
 
   const handleQuestionInputChange = (event, index) => {
     const {name, value} = event.target;
@@ -226,13 +227,23 @@ function PatientBox(props) {
   }
 
   const handleAddQuestionInput = () => {
-    setInputList([...inputList, { questionInput: "" }]); //pushing new input field to list each time this is called
+    setInputList([...inputList, {question: "", answer: ""}]); //pushing new input field to list each time this is called
   }
 
   const handleDeleteInput = index => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
+  }
+
+  const submitDoctorQuestions = async (selectedFormId) => {
+    try {
+      const requestBody = {formId: selectedFormId, doctorUid: props.currentUser.user.uid, doctorQuestions: inputList};
+      await axios.post('/doctor/question-answer', requestBody);
+      setInputList([]);
+    } catch (error) {
+      console.log("Error sending doctor questions: ", error);
+    }
   }
 
   return (
@@ -250,7 +261,7 @@ function PatientBox(props) {
       </Accordion.Item>
 
       <Modal className={styles["doctor-list-modal"]} data-testid="doctor-list-modal" show={showDoctorList} onHide={handleDoctorListClose} animation={true} centered>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Doctors</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -268,7 +279,7 @@ function PatientBox(props) {
 
       {/*This is the modal for the doctor */}
       <Modal fullscreen={true} contentClassName={styles["patient-info-modal"]} data-testid="patient-info-modal" show={showPatientInfo} onHide={handlePatientInfoClose} animation={true} centered>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>{props.patient.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -318,9 +329,9 @@ function PatientBox(props) {
                         <div key ={index} className={styles["qa-form"]}>
                         <input 
                           type = "text"
-                          name = "questionInput"
+                          name = "question"
                           placeholder = "Enter Question Here"
-                          value = {item.questionInput}
+                          value = {item.question}
                           onChange = {event => handleQuestionInputChange(event, index)}
                           className={styles["question-input-field"]}
                         />
@@ -343,7 +354,7 @@ function PatientBox(props) {
                       <input //TODO: post form
                         type = "button"
                         value = "SUBMIT"
-                        onClick = {() => {console.log(selectedFormId)}}
+                        onClick = {() => submitDoctorQuestions(selectedFormId)}
                         className = {styles["qa-submit-button"]}
                       />
                     </div>
