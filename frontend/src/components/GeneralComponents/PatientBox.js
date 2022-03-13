@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import moment from 'moment';
-import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card, TabContainer } from 'react-bootstrap';
+import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card} from 'react-bootstrap';
+import { Dropdown } from "react-bootstrap";
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
 
 import patientIcon from "../../assets/patientIcon.png";
@@ -22,6 +23,7 @@ function PatientBox(props) {
   const [showPatientInfo, setShowPatientInfo] = useState(false)
   const [isFlagged, setIsFlagged] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState(initialDoctorInfo);
+  const [selectedFormId, setSelectedFormId] = useState("");
 
 
   const handleDoctorListClose = useCallback(() => {
@@ -131,7 +133,11 @@ function PatientBox(props) {
     </ListGroup>;
   }
 
-  const RenderPatientInfo = () => {
+  const FormSelect = (formId) => {
+    setSelectedFormId(formId);
+  }
+
+  const RenderPatientInfo = (selectForm) => {
   return patientData.map((element, index) => {
     let date = new Date(element.timestamp * 1000);
     return (
@@ -142,7 +148,11 @@ function PatientBox(props) {
             if(currentUser.dbData.userType === 'doctor'){
               if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
               if (Array.isArray(value)) {
-                  return <div key={index}><strong>{key}</strong>: <ul>{value.map((element, i) => <li key={i}>{element}</li>)}</ul></div>;
+                  return <div key={index}>
+                    <strong>{key}</strong>: 
+                      <ul>{value.map((element, i) => <li key={i}>{element}</li>)}
+                      </ul>
+                    </div>;
               } else return <div key={index}><strong>{key}</strong>: {value}</div>;
             } else if (currentUser.dbData.userType === "administrator" || currentUser.dbData.userType === "immigrationOfficial") {
               if(key === 'covidStatus') return <div><strong>Covid Status</strong>: {value}</div>
@@ -155,6 +165,16 @@ function PatientBox(props) {
               } else return <div key={index}><strong>{key}</strong>: {value}</div>;
             }
           })}
+          {(currentUser.dbData.userType === 'doctor') ? 
+            ((selectForm["selectForm"] === true) ?  
+            <Button className={styles["form-select-button"]} 
+            onClick={(e)=>{FormSelect(element._id);}} 
+            variant={(selectedFormId === element._id) ? "primary" : "outline-primary"}>
+              {(selectedFormId === element._id) ? "Selected" : "Select this form"}
+            </Button>
+            : null )
+          : null}
+          
         </Accordion.Body>
       </Accordion.Item>
       );
@@ -271,24 +291,27 @@ function PatientBox(props) {
               </Card>
             </div>
             <div className={styles["patient-info-tabs-container"]}>
-              <Tabs defaultActiveKey="submitted-forms" unmountOnExit={true} mountOnEnter={true}>
+              <Tabs className={styles["patient-info-tabs"]} defaultActiveKey="submitted-forms" unmountOnExit={true} mountOnEnter={true}>
                 <Tab eventKey="submitted-forms" title="Submitted Forms">
                   <div className={styles["patient-info-tab-page"]}>
                     {patientData && (
                       <Accordion defaultActiveKey="0">
-                        <h4 className={styles["patient-info-tab-title"]}>{props.patient.name+"'s submitted forms"}</h4>
+                        <h2 className={styles["patient-info-tab-title"]}>{props.patient.name+"'s submitted forms"}</h2>
                         <hr />
-                        <RenderPatientInfo /> 
+                        <RenderPatientInfo selectForm={false} /> 
                       </Accordion>)}
                   </div>
                 </Tab>
               
                {isValidDoctor() ?  
-               <Tab eventKey="ask-questions" title="Create Patient Q/A Form">
+               <Tab className={styles["tab-outer"]} eventKey="ask-questions" title="Create Patient Q/A Form">
                   <div className={styles["patient-info-tab-page"]}>
-                    <h4 className={styles["patient-info-tab-title"]}>{"Create Q&A Form"}</h4>
+                    <h2 className={styles["patient-info-tab-title"]}>{"Create Q&A Form"}</h2>
                     <hr />
-                    <h2>Create Question List</h2>
+                    <h4 className={styles["patient-info-tab-subtitle"]}>Choose form to respond to</h4>
+                    {<RenderPatientInfo selectForm={true}/>} 
+                    <hr />
+                    <h4 className={styles["patient-info-tab-subtitle"]}>Create Question List</h4>
 
                     {inputList.map((item, index) => {
                       return (
@@ -320,6 +343,7 @@ function PatientBox(props) {
                       <input //TODO: post form
                         type = "button"
                         value = "SUBMIT"
+                        onClick = {() => {console.log(selectedFormId)}}
                         className = {styles["qa-submit-button"]}
                       />
                     </div>
