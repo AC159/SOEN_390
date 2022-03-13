@@ -28,6 +28,10 @@ class Patient extends User {
     return await this.patientRepository.updateStatusForm(formData);
   }
 
+  async requestDoctor(){
+   
+    return await this.patientRepository.setWantToAssignDoctor(this.getid) ;
+  }
   async getPatientStatusForm() {
     return await this.patientRepository.fetchPatientForm(this.id.getId());
   }
