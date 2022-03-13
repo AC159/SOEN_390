@@ -238,7 +238,9 @@ function PatientBox(props) {
 
   const submitDoctorQuestions = async (selectedFormId) => {
     try {
-      const requestBody = {formId: selectedFormId, doctorUid: props.currentUser.user.uid, doctorQuestions: inputList};
+      // delete empty questions
+      const list = inputList.filter(question => question.question !== '');
+      const requestBody = {formId: selectedFormId, doctorUid: props.currentUser.user.uid, doctorQuestions: list};
       await axios.post('/doctor/question-answer', requestBody);
       setInputList([]);
     } catch (error) {
@@ -351,7 +353,7 @@ function PatientBox(props) {
                         className = {styles["qa-add-button"]}
                         onClick = {handleAddQuestionInput}
                       />
-                      <input //TODO: post form
+                      <input
                         type = "button"
                         value = "SUBMIT"
                         onClick = {() => submitDoctorQuestions(selectedFormId)}

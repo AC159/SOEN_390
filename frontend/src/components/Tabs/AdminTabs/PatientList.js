@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PatientBox from "../../GeneralComponents/PatientBox";
-
-import { PatientList as PList } from '../../../features/List/List'
 import styles from "./PatientList.module.css";
 import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
-
 import axios from "axios";
 import { Accordion } from "react-bootstrap";
 
@@ -19,14 +16,14 @@ function PatientList(props) {
 
   const fetchListOfPatients = async () => {
     try {
-        var routeType;
+        let routeType;
         switch(localStorage.getItem("userType"))
         {
           case "administrator": routeType="admin"; break;
           case "immigrationOfficial": routeType="immigration-official"; break;
           case "healthOfficial": routeType="health-official"; break;
 
-          default: routeType="administrator";
+          default: routeType="admin";
 
         }
         const response = await axios.get(`${routeType}/${currentUser.user.uid}/patients`);
@@ -37,8 +34,7 @@ function PatientList(props) {
     }
   }
 
-  function renderPatientList()
-  {
+  function renderPatientList() {
     return <Accordion>
       {patientList.map((patient, index) => 
       <PatientBox
