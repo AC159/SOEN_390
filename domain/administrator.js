@@ -39,7 +39,7 @@ class Administrator {
         this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''}, 
         doctorFlagInfo: {isFlagged: false, flaggingUser: ""},
         immigrationOfficerFlagInfo: {isFlagged: false, flaggingUser: ""},
-        healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ""}});
+        healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ""}, wantToBeAssignedToDoctor: false});
         break;
       case 'doctor':
         this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});
