@@ -3,6 +3,7 @@ import React from 'react';
 import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
 import CovidFile from '../../components/Tabs/PatientSymptoms/CovidFile';
+import RequestDoctorPage from '../../components/Tabs/PatientSymptoms/RequestDoctorPage';
 
 const tabs = [
   {
@@ -14,6 +15,11 @@ const tabs = [
     eventKey: 'updateCovidStatus',
     title: 'Update COVID Symptoms',
     element: <CovidFile />
+  },
+  {
+    eventKey: 'RequestDoctor',
+    title: 'Request Doctor',
+    element: <RequestDoctorPage />
   },
   {
     eventKey: 'contact',

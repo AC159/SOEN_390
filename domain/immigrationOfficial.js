@@ -4,45 +4,25 @@ class ImmigrationOfficial {
     this.immigrationOfficialRepository = immigrationOfficialRepository;
   }
 
-  async raiseFlag(userId) {
-    try {
-      return await this.immigrationOfficialRepository.raiseFlag(
-          this.userId,
-          userId,
-      );
-    } catch (e) {
-      console.log('Can not raise flag on this user');
-      throw e;
-    }
+  async raiseFlag(userId, newFlagValue) {
+    return await this.immigrationOfficialRepository.raiseFlag(this.userId.getId(), userId, newFlagValue);
   }
 
   async getUserCovidInfo(userId) {
-    try {
-      return await this.immigrationOfficialRepository.viewUserCovidInformation(
-          this.userId,
-          userId,
-      );
-    } catch (e) {
-      console.log('Can not get COVID information on this user');
-      throw e;
-    }
+    return await this.immigrationOfficialRepository.viewUserCovidInformation(this.userId.getId(), userId);
   }
 
   async getTravelerInfo(travelerId) {
-    try {
-      return await this.immigrationOfficialRepository.viewTravelerProfile(
-          this.userId,
-          travelerId,
-      );
-    } catch (e) {
-      console.log('Can not get travel information on this user');
-      throw e;
-    }
+    return await this.immigrationOfficialRepository.viewTravelerProfile(this.userId.getId(), travelerId);
+  }
+
+  async getAllPatients() {
+    return await this.immigrationOfficialRepository.viewAllPatients(this.userId.getId());
   }
 
   getId() {
-    return this.userId;
+    return this.userId.getId();
   }
 }
 
-module.exports = ImmigrationOfficial;
+module.exports.ImmigrationOfficial = ImmigrationOfficial;
