@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import styles from "./SignUp.module.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../FirebaseAuth/FirebaseAuth";

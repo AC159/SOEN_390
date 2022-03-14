@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import moment from "moment";
-import Modal from "react-bootstrap/Modal";
 import styles from "./RequestDoctorPage.module.css";
 import {Button} from "react-bootstrap";
 

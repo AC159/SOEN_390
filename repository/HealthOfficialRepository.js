@@ -6,7 +6,7 @@ class HealthOfficialRepository {
   async verifyHealthOfficial(userId) {
     const healthOfficialData = await this.mongo.db('test').collection('user').findOne({uid: userId}, {
       userType: 1,
-      userStatus: 1
+      userStatus: 1,
     });
     if (healthOfficialData.userType !== 'healthOfficial' ||
       healthOfficialData.userStatus !== 'APPROVED') {
@@ -32,14 +32,14 @@ class HealthOfficialRepository {
   }
 
   async raiseFlag(healthOfficialId, patientId, newFlagValue) {
-    var newId;
-    if(newFlagValue === true) newId = healthOfficialId
-    else newId = "";
+    let newId;
+    if (newFlagValue === true) newId = healthOfficialId;
+    else newId = '';
 
     return await this.mongo.db('test')
-    .collection('user')
-    .updateOne({uid: patientId}, 
-      {$set: {healthOfficialFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
+        .collection('user')
+        .updateOne({uid: patientId},
+            {$set: {healthOfficialFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
   }
 
   async viewAllPatients(healthOfficialId) {

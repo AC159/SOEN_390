@@ -21,4 +21,4 @@ describe('integration test healthOfficialRoutes - connection to domain', () => {
       expect(res.status).toEqual(200);
     });
   });
-})
+});

@@ -36,10 +36,10 @@ class Administrator {
     const user = await this.adminRepository.approveUser(userId);
     switch (user.value.userType) {
       case 'patient':
-        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''}, 
-        doctorFlagInfo: {isFlagged: false, flaggingUser: ""},
-        immigrationOfficerFlagInfo: {isFlagged: false, flaggingUser: ""},
-        healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ""}, wantToBeAssignedToDoctor: false});
+        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''},
+          doctorFlagInfo: {isFlagged: false, flaggingUser: ''},
+          immigrationOfficerFlagInfo: {isFlagged: false, flaggingUser: ''},
+          healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ''}, wantToBeAssignedToDoctor: false});
         break;
       case 'doctor':
         this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});

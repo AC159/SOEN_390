@@ -17,7 +17,7 @@ router.post('/:healthOfficialId/raise-flag', async (req, res) => {
     console.log(response);
   } catch (e) {
     res.status(400).json({error: e.message});
-    console.log("Error:"+e.message);
+    console.log('Error:'+e.message);
   }
 });
 

@@ -1,6 +1,6 @@
 const {HealthOfficial} = require('./healthOfficial');
-const {ObjectId} = require("mongodb");
-const HealthOfficialRepository = require("../repository/HealthOfficialRepository");
+const {ObjectId} = require('mongodb');
+const HealthOfficialRepository = require('../repository/HealthOfficialRepository');
 
 jest.mock('../repository/HealthOfficialRepository');
 

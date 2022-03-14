@@ -24,9 +24,9 @@ class AdminRepository {
 
   async approveUser(userId) {
     return await this.mongo.db('test')
-    .collection('user')
-    .findOneAndUpdate({uid: userId}, 
-      {$set: {userStatus: 'APPROVED'}});
+        .collection('user')
+        .findOneAndUpdate({uid: userId},
+            {$set: {userStatus: 'APPROVED'}});
   }
 
   async setUserDefaultInformation(userId, additionalInfo={}) {

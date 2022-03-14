@@ -42,7 +42,6 @@ router.get('/get-status-forms/:userId', async (req, res) => {
 });
 
 
-
 router.post('/raise-flag/:userId', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
@@ -68,7 +67,7 @@ router.get('/get-patients-covid-info/:officialId', async (req, res) => {
   }
 });
 
-router.post('/:userID/requestDoctor' ,async (req,res)=> {
+router.post('/:userID/requestDoctor', async (req, res)=> {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userID);

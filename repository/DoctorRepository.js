@@ -1,4 +1,4 @@
-const {ObjectId} = require("mongodb");
+const {ObjectId} = require('mongodb');
 
 class DoctorRepository {
   constructor(mongo) {
@@ -6,10 +6,10 @@ class DoctorRepository {
   }
 
   async verifyDoctor(userId) {
-    console.log("userId:"+userId);
+    console.log('userId:'+userId);
     const doctorData = await this.mongo.db('test').collection('user')
-      .findOne({uid: userId}, {userType: 1, userStatus: 1});
-    
+        .findOne({uid: userId}, {userType: 1, userStatus: 1});
+
     if (doctorData === null || doctorData === undefined) {
       throw new Error('Not a valid doctor');
     }
@@ -34,11 +34,11 @@ class DoctorRepository {
   async raiseFlag(doctorId, userId, newFlagValue) {
     await this.verifyDoctor(doctorId);
     let newId;
-    if(newFlagValue === true) newId = doctorId
-    else newId = "";
+    if (newFlagValue === true) newId = doctorId;
+    else newId = '';
     return await this.mongo.db('test')
-    .collection('user')
-    .updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
+        .collection('user')
+        .updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
   }
 
   storeQuestions(formData) {
@@ -46,7 +46,6 @@ class DoctorRepository {
     delete formData.formId;
     return this.mongo.db('test').collection('patientForms').updateOne({_id: patientFormId}, {$addToSet: {doctorQuestions: {$each: formData.doctorQuestions}}});
   }
-
 }
 
 module.exports = DoctorRepository;

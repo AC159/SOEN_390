@@ -36,7 +36,7 @@ router.post('/addNewUser', async (req, res) => {
     userType: request.userType,
     verification: request.verification,
     email: request.email,
-    covidStatus: false
+    covidStatus: false,
   };
   try {
     const insertedData = await newUser.createProfile(data);
