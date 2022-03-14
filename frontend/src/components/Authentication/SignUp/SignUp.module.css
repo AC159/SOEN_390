@@ -47,14 +47,13 @@
 
 .container-title_SingUp {
   width: 100%;
-  diplay: flex;
+  display: flex;
   flex-direction: column;
 }
 
 .h2_SingUp {
   font-size: 30px;
-  /*font-family: "Poppins";*/
-  line-weight: 600;
+  font-weight: 600;
   line-height: 1.2;
   color: white;
   position: relative;
@@ -206,18 +205,6 @@ textarea {
   outline: none;
   border-bottom-color: #61dafb;
 }
-
-/*.left_coloum_SignUp{*/
-/*    width: 48%;*/
-/*    display: inline-block;*/
-/*    margin-right: 2%;*/
-/*}*/
-
-/*.right_coloum_SignUp{*/
-/*    width: 48%;*/
-/*    display: inline-block;*/
-/*    margin-left: 2%;*/
-/*}*/
 
 @media (max-width: 30rem) {
   .container {

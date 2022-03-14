@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useAuth} from "../Authentication/FirebaseAuth/FirebaseAuth";
-
 import styles from "./NotificationBox.module.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Tabs/CommonPageStyling.css";
-
 import Notification from "../Notification/Notification";
 import axios from 'axios';
 
@@ -13,6 +11,18 @@ function NotificationBox() {
 
     const [notifications, setNotifications] = useState([]);
     const [emptyMessage, setEmptyMessage] = useState(false);
+
+    const deleteNotification = (id) => {
+        axios.post(`/notification/${id}/delete`)
+            .then(() => {
+                console.log('Notification deleted!');
+                setNotifications(notifications.filter(element => element._id !== id));
+                setEmptyMessage(true);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     useEffect(() => {
       async function fetchData() {
@@ -35,7 +45,7 @@ function NotificationBox() {
 
     const EmptyMessage = () => (
         <div className={styles["empty-message"]}>
-            No notification
+            No new notifications!
         </div>
     );
 
@@ -49,14 +59,13 @@ function NotificationBox() {
                         <Notification
                             notificationId={notification._id}
                             timeStamp={notification.timeStamp}
-
                             alertType={notification.type}
                             alertHeading={notification.heading}
                             alertMainText={notification.mainText}
-
                             modalHeading={notification.heading}
                             modalMainText={notification.mainText}
                             modalSubText={notification.subText}
+                            deleteNotification={deleteNotification}
                         />
                     </div>
                 ))}
