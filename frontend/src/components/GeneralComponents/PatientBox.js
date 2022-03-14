@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import moment from 'moment';
-import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card} from 'react-bootstrap';
+import { Accordion, Button, Modal, ListGroup, Tabs, Tab, Card, Badge} from 'react-bootstrap';
 import AccordionBody from "react-bootstrap/esm/AccordionBody";
 
 import patientIcon from "../../assets/patientIcon.png";
@@ -252,7 +252,16 @@ function PatientBox(props) {
     <div className={styles["card-container"]}>
 
       <Accordion.Item eventKey={props.eventKey} className={styles["patient-box"]}>
-        <Accordion.Header data-testid="patient-name" closeButton><h5>{props.patient.name}</h5></Accordion.Header>
+        <Accordion.Header data-testid="patient-name" closeButton>
+          <h5>{props.patient.name}</h5>
+          <div className={styles["patient-box-header-badge"]}>
+            <Badge pill
+            bg="warning" 
+            text="dark">
+              {(props.patient.wantToBeAssignedToDoctor) ? "Wants to be assigned a doctor" : null}
+            </Badge>
+          </div>
+        </Accordion.Header>
         <AccordionBody>
           <h6 data-testid="patient-dob">Date of Birth: {props.patient.dob}</h6>
           <h6>Assigned Doctor: {(assignedDoctor === "" ? "No Doctor Assigned" : assignedDoctor)}</h6>

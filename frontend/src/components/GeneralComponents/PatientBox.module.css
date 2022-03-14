@@ -16,6 +16,11 @@
   margin-bottom: 10px;
 }
 
+.patient-box-header-badge {
+  margin-left: 1%;
+  margin-bottom: 0.25%;
+}
+
 .patient-info-modal{
   background-color: #005871;
   margin: 5%;

@@ -42,7 +42,7 @@ class AdminRepository {
         .find({
           userType: 'patient',
           userStatus: 'APPROVED'})
-        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1, patientInfo: 1})
+        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1, patientInfo: 1, wantToBeAssignedToDoctor: 1})
         .toArray();
   }
 

@@ -42,8 +42,8 @@ class PatientRepository {
     return this.mongo.db('test').collection('user').find({userType: 'patient', userStatus: 'APPROVED'}, {_id: 0, uid: 1, covidStatus: 1, name: 1}).toArray();
   }
 
-  setWantToBeAssignedToDoctor(userId) {
-    return this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {wantToBeAssignedToDoctor: true}});
+  setWantToBeAssignedToDoctor(userId, requestValue) {
+    return this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {wantToBeAssignedToDoctor: requestValue}});
   }
 
 }

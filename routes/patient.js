@@ -41,6 +41,8 @@ router.get('/get-status-forms/:userId', async (req, res) => {
   }
 });
 
+
+
 router.post('/raise-flag/:userId', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
@@ -70,8 +72,9 @@ router.post('/:userID/requestDoctor' ,async (req,res)=> {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userID);
+    const requestValue = req.body.requestSent;
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
-    const data = await patient.requestDoctor();
+    const data = await patient.requestDoctor(requestValue);
     res.status(200).json(data);
   } catch (error) {
     res.status(400).json({error: error.message});
