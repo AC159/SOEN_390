@@ -24,6 +24,8 @@ function PatientBox(props) {
   const [doctorInfo, setDoctorInfo] = useState(initialDoctorInfo);
   const [selectedFormId, setSelectedFormId] = useState("");
 
+  let [displayRequestBadge, setDisplayRequestBadge] = useState(props.patient.wantToBeAssignedToDoctor);
+
 
   const handleDoctorListClose = useCallback(() => {
     setDoctorInfo(initialDoctorInfo);
@@ -258,7 +260,7 @@ function PatientBox(props) {
             <Badge pill
             bg="warning" 
             text="dark">
-              {(props.patient.wantToBeAssignedToDoctor) ? "Wants to be assigned a doctor" : null}
+              {(displayRequestBadge && assignedDoctor === "") ? "Wants to be assigned a doctor" : null}
             </Badge>
           </div>
         </Accordion.Header>
