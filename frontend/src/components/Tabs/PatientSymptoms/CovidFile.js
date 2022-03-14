@@ -382,7 +382,7 @@ function CovidFile(props) {
                                   onChange={(e) => setHealth(e.target.value)}/>
 
                         <h6>Questions from your doctor:</h6>
-                        <div>{selectedFormIndex >= 0 ? patientData[selectedFormIndex].doctorQuestions.map((question, index) => {
+                        <div>{selectedFormIndex >= 0 ? patientAnswers.map((question, index) => {
                             return <div key={index}>
                                 <h6>{question.question}</h6>
                                 <textarea rows="4" cols="50" defaultValue={question.answer}
