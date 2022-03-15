@@ -36,6 +36,7 @@ router.post('/addNewUser', async (req, res) => {
     userType: request.userType,
     verification: request.verification,
     email: request.email,
+    covidStatus: false,
   };
   try {
     const insertedData = await newUser.createProfile(data);
@@ -52,6 +53,18 @@ router.post('/update-profile/:userId', async (req, res) => {
     const userId = new UserId(req.params.userId);
     const user = new User(userId, null, new UserRepository(mongo));
     const data = await user.updateProfile(req.body.userAttributes);
+    res.status(201).json(data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get('/:userId/getTypeAndStatus', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.userId);
+    const user = new User(userId, null, new UserRepository(mongo));
+    const data = await user.getTypeAndStatus();
     res.status(201).json(data);
   } catch (error) {
     res.status(500).json(error);

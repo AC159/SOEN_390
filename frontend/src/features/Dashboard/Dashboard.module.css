@@ -1,0 +1,48 @@
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  margin: 0 auto;
+}
+
+html {
+  margin: 0 auto;
+}
+
+.admin-main-container {
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+}
+
+.tabs-box {
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  max-width: 1500px;
+  height: 100%;
+  width: 100%;
+}
+
+.notification-outer-box {
+  float: right;
+  max-height: 650px;
+  flex-grow: 1;
+}
+
+.tab-page {
+  height: auto;
+  max-height: 650px;
+  padding: 10px;
+  background-color: #388699;
+  border-radius: 5px;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+  border-bottom: solid 2px black;
+  border-top: solid 2px black;
+
+  overflow-y: scroll;
+}

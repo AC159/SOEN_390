@@ -2,20 +2,24 @@ import { Link, useNavigate } from "react-router-dom";
 import MainLogo from "../../assets/MainLogo.png";
 import UserIcon from "../../assets/user.png";
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
-
 import styles from "./Navbar.module.css";
+
 
 function Navbar(props) {
   let navigate = useNavigate();
   let { currentUser, logout } = useAuth();
   console.log("Navbar user: ", currentUser);
-  var isPending = true;
+  let isPending = true;
   console.log(isPending);
 
-  const handleLogout = () => {
-    logout().then(() => {
+  const handleLogout = async () => {
+    try {
+      const response = await logout();
+      console.log(response);
       navigate("/", { replace: true });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

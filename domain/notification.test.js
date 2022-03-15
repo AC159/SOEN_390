@@ -7,9 +7,9 @@ jest.mock('../repository/NotificationRepository');
 describe('test Notification object', () => {
   describe('test Notification constructor', () => {
     test('should return notification id', () => {
-      const n_id = new ObjectId();
-      const notification = new Notification(n_id, null);
-      expect(notification.getNotificationId()).toEqual(n_id._id);
+      const nId = new ObjectId();
+      const notification = new Notification(nId, null);
+      expect(notification.getNotificationId()).toEqual(nId._id);
     });
   });
 

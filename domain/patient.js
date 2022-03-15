@@ -9,6 +9,7 @@ class Patient extends User {
       dob,
       userStatus = PatientStatus.Unconfirmed,
       isFlagged = false,
+      patientRepository,
   ) {
     super(userId, name);
     this.userStatus = userStatus;
@@ -16,6 +17,36 @@ class Patient extends User {
     this.phoneNumber = phoneNumber;
     this.dob = dob;
     this.address = address;
+    this.patientRepository = patientRepository;
+  }
+
+  async verifyOfficial(officialUid) {
+    await this.patientRepository.verifyOfficial(officialUid);
+  }
+
+  async postStatusForm(formData) {
+    return await this.patientRepository.addStatusForm(formData);
+  }
+
+  async updateStatusForm(formData) {
+    return await this.patientRepository.updateStatusForm(formData);
+  }
+
+  async getPatientStatusForms() {
+    return await this.patientRepository.fetchPatientStatusForms(this.id.getId());
+  }
+
+  async raiseFlag(flagType, flagValue, flaggingUser) {
+    return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue, flaggingUser);
+  }
+
+  async requestDoctor(requestValue) {
+    return await this.patientRepository.setWantToBeAssignedToDoctor(this.id.getId(), requestValue);
+  }
+
+  async getPatientsCovidInfo(officialUid) {
+    await this.verifyOfficial(officialUid);
+    return await this.patientRepository.fetchPatientsCovidInfo();
   }
 
   updateProfile() {

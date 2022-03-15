@@ -1,14 +1,9 @@
 import styles from "./Notification.module.css";
 import React, {useState} from 'react';
-
-import {Button} from "react-bootstrap";
-import {Alert} from "react-bootstrap";
+import {Button, Card, Dropdown, DropdownButton} from "react-bootstrap";
 import {Modal} from "react-bootstrap";
 
-import axios from 'axios';
-
 function Notification(props) {
-    const [show, setShow] = useState(true);
     const [showing, setShowing] = useState(false);
 
     const handleModalClose = () => setShowing(false);
@@ -16,17 +11,6 @@ function Notification(props) {
 
     const id = props.notificationId;
     const timeStamp = props.timeStamp;
-
-    const deleteNotification = (id) => {
-        axios.post(`/notification/${id}/delete`)
-            .then(() => {
-                console.log('Notification deleted!');
-                setShow(false);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
 
     function showTimeStamp() {
         return (
@@ -41,29 +25,28 @@ function Notification(props) {
         );
     }
 
+    let color;
+    if (props.alertType === 'warning') color = 'warning-color';
+    else if (props.alertType === 'primary') color = 'info-color';
+    if (props.alertType === 'urgent') color = 'urgent-color';
+
     return (
-        <div data-testid="notification-1" className={styles["notification-box"]}>
-            <Alert show={show} variant={props.alertType}>
-                <Alert.Heading>
-                    {props.alertHeading}
-                </Alert.Heading>
-                <p>
-                    {props.alertMainText}
-                </p>
-                <div className="d-flex justify-content-end">
-                    <div className="me-auto">
-                        {showTimeStamp()}
+      <div className={styles["notification-box"]}>
+            <Card className={styles[color]}>
+                <Card.Header>{props.alertHeading}</Card.Header>
+                <Card.Body>
+                    <Card.Text>
+                        {props.alertMainText}
+                    </Card.Text>
+                    <div className="p-1">
+                        <DropdownButton id="dropdown-basic-button" title="More">
+                            <Dropdown.Item onClick={handleModalShow} variant="primary">View</Dropdown.Item>
+                            <Dropdown.Item onClick={() => props.deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
+                        </DropdownButton>
                     </div>
-                    <div>
-                        <Button data-testid="viewNotificationButton" onClick={handleModalShow} variant="outline-success">
-                            View
-                        </Button>
-                        <Button data-testid="deleteNotificationButton" onClick={() => deleteNotification(id)} variant="outline-success">
-                            Delete
-                        </Button>
-                    </div>
-                </div>
-            </Alert>
+                </Card.Body>
+                <Card.Footer>{showTimeStamp()}</Card.Footer>
+            </Card>
 
             <div>
                 <Modal show={showing} onHide={handleModalClose}>

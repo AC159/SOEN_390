@@ -7,21 +7,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./DoctorDashboard.module.css";
 import "../DashboardCommonStyles.css";
 import NotificationBox from "../../NotificationBox/NotificationBox";
+import MonitorPatients from "../../Tabs/MonitorPatients";
 
 function DoctorDashboard(props) {
-
   return (
     <div>
       <Navbar />
       <div className={styles["main-container"]}>
         <div className={styles["tabs-box"]}>
-          <Tabs className="tabStyle" defaultActiveKey="home">
+          <Tabs className="tabStyle" defaultActiveKey="home" unmountOnExit={true} mountOnEnter={true}>
             <Tab eventKey="home" title="Home">
               <div className={styles["tab-page"]}>
                 <Home />
               </div>
             </Tab>
-            <Tab eventKey="monitor-patient" title="Monitor Patients"></Tab>
+            <Tab eventKey="monitor-patient" title="Monitor Patients" >
+            <div className={styles["tab-page"]}>
+              <MonitorPatients />
+            </div>
+            </Tab>
             <Tab eventKey="contact" title="Contact"></Tab>
           </Tabs>
         </div>

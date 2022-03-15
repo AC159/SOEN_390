@@ -4,15 +4,12 @@ class UserRepository {
   }
 
   add(user) {
-    return this.mongo.db('test')
-        .collection('user')
-        .insertOne(user);
+    return this.mongo.db('test').collection('user').insertOne(user);
   }
 
   fetch(userId) {
-    return this.mongo.db('test')
-        .collection('user')
-        .findOne({
+    return this.mongo.db('test').collection('user').findOne(
+        {
           uid: userId,
         }, {
           _id: 0,
@@ -23,9 +20,8 @@ class UserRepository {
   }
 
   update(userId, values) {
-    return this.mongo.db('test')
-        .collection('user')
-        .updateOne({
+    return this.mongo.db('test').collection('user').updateOne(
+        {
           uid: userId,
         }, {
           $set: values,
@@ -33,17 +29,11 @@ class UserRepository {
   }
 
   fetchAll() {
-    return this.mongo.db('test')
-        .collection('user')
-        .find({});
+    return this.mongo.db('test').collection('user').find({});
   }
 
   delete(userId) {
-    return this.mongo.db('test')
-        .collection('user')
-        .deleteOne({
-          uid: userId,
-        });
+    return this.mongo.db('test').collection('user').deleteOne({uid: userId});
   }
 
   fetchAllNotifications(userId) {
@@ -54,8 +44,7 @@ class UserRepository {
 
   getProfile = async (userId) => {
     try {
-      const profile = await this.mongo
-          .db('test')
+      const profile = await this.mongo.db('test')
           .collection('patient')
           .findOne({
             uid: userId,
@@ -72,6 +61,16 @@ class UserRepository {
       console.log(e);
       throw new Error('Could not fetch user profile');
     }
+  };
+
+  fetchTypeAndStatus = async (userId) => {
+    const profile = await this.mongo.db('test').collection('user').findOne({
+      uid: userId,
+    });
+    return {
+      userStatus: profile.userStatus,
+      userType: profile.userType,
+    };
   };
 }
 

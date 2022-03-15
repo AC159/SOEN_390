@@ -1,6 +1,26 @@
 class Doctor {
-  constructor(userId) {
+  constructor(userId, doctorRepository) {
     this.id = userId;
+    this.doctorRepository = doctorRepository;
+  }
+
+  async getPatients() {
+    const patients = await this.doctorRepository.getPatients(this.id.getId());
+    return await Promise.all(patients.map(async (patient) => {
+      const status = await this.doctorRepository.getPatientStatus(patient.uid);
+      return await {
+        ...patient,
+        status: status.covidStatus,
+      };
+    }));
+  }
+
+  async raiseFlag(userId, newFlagValue) {
+    return await this.doctorRepository.raiseFlag(this.id.getId(), userId, newFlagValue);
+  }
+
+  async postQuestions(formData) {
+    return await this.doctorRepository.storeQuestions(formData);
   }
 
   getPatientFile(patient) {
