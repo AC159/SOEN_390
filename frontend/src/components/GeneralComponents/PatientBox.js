@@ -203,10 +203,18 @@ function PatientBox(props) {
               {element.emailList.map((email, index) => {
                 return <div className={styles["contact-tracing-person-list-box"]}>
                   {"Email: "+email}
-                  <Button className={styles["notify-button"]} variant="warning" onClick={() => {sendContactTraceNotification(email);}}>Notify This User</Button>
+                  {(currentUser.dbData.userType === "healthOfficial") && 
+                  <Button 
+                  className={styles["notify-button"]} 
+                  variant="warning" onClick={() => {sendContactTraceNotification(email);}}>
+                    Notify This User
+                  </Button>}
                 </div>
               })}
             </div>
+
+            <hr/>
+            
             <h6>Description of Contact Location: {element.locationDescription}</h6>
           </Accordion.Body>
         </Accordion.Item>
