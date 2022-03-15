@@ -71,16 +71,19 @@ router.get('/:userId/getTypeAndStatus', async (req, res) => {
   }
 });
 
-router.get('/sendInviteEmail', async (req, res) => {
+router.post('/sendInviteEmail', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const user = new User(null, null, new UserRepository(mongo));
     const userEmail = req.body.userEmail;
+    console.log(userEmail);
     const inviteMessage = req.body.inviteMessage;
+    console.log(inviteMessage);
     const response = await user.sendNonUserEmail(userEmail, inviteMessage);
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error);
+    console.log(error.message);
   }
 })
 

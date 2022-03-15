@@ -26,7 +26,7 @@ router.get('/:healthOfficialId/user-covid-info', async (req, res) => {
     const userId = req.body.userId;
     const healthOfficialId = new UserId(req.params.healthOfficialId);
     const healthOfficialRepository = new HealthOfficialRepository(
-        req.body.mongo,
+      req.app.locals.mongodb,
     );
 
     const healthOfficial = new HealthOfficial(
@@ -37,6 +37,7 @@ router.get('/:healthOfficialId/user-covid-info', async (req, res) => {
     res.status(200).json({profile});
   } catch (e) {
     res.status(400).json({error: e.message});
+    console.log(e.message);
   }
 });
 
@@ -45,7 +46,7 @@ router.get('/:healthOfficialId/user-report', async (req, res) => {
     const userId = req.body.userId;
     const healthOfficialId = new UserId(req.params.healthOfficialId);
     const healthOfficialRepository = new HealthOfficialRepository(
-        req.body.mongo,
+      req.app.locals.mongodb,
     );
 
     const healthOfficial = new HealthOfficial(
@@ -56,6 +57,7 @@ router.get('/:healthOfficialId/user-report', async (req, res) => {
     res.status(200).json({reports});
   } catch (e) {
     res.status(400).json({error: e.message});
+    console.log(e.message);
   }
 });
 

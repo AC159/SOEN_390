@@ -51,7 +51,7 @@ class PatientRepository {
   }
 
   fetchContactTracingReports(userId) {
-    return this.mongo.db('test').collection('contactTracing').find({patientUid: userId}).toArray();
+    return this.mongo.db('test').collection('contactTracing').find({patientUid: userId}).sort({date: -1}).toArray();
   }
 
   updateContactTracingReport(userId, timeStamp, values) {
