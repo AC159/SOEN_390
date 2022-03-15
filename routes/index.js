@@ -65,10 +65,23 @@ router.get('/:userId/getTypeAndStatus', async (req, res) => {
     const userId = new UserId(req.params.userId);
     const user = new User(userId, null, new UserRepository(mongo));
     const data = await user.getTypeAndStatus();
-    res.status(201).json(data);
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json(error);
   }
 });
+
+router.get('/sendInviteEmail', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const user = new User(null, null, new UserRepository(mongo));
+    const userEmail = req.body.userEmail;
+    const inviteMessage = req.body.inviteMessage;
+    const response = await user.sendNonUserEmail(userEmail, inviteMessage);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
 
 module.exports = router;

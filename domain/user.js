@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 class User {
   constructor(userId, name, userRepository) {
     this.id = userId;
@@ -24,6 +26,30 @@ class User {
 
   async viewNotifications() {
     return await this.userRepository.fetchAllNotifications(this.id.getId());
+  }
+
+  async sendNonUserEmail(userEmail, inviteMessage) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.COVICARE_EMAIL, // generated ethereal user
+        pass: process.env.COVICARE_EMAIL_PASSWORD, // generated ethereal password
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.COVICARE_EMAIL,
+      to: userEmail,
+      subject: 'CoviCare New User CTR',
+      text: 'Hi ' + userEmail + '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
+        'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.'
+    });
+
+    console.log('Message sent: ', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    return info;
   }
 }
 

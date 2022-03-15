@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 class UserRepository {
   constructor(mongo) {
     this.mongo = mongo;
@@ -8,8 +10,7 @@ class UserRepository {
   }
 
   fetch(userId) {
-    return this.mongo.db('test').collection('user').findOne(
-        {
+    return this.mongo.db('test').collection('user').findOne({
           uid: userId,
         }, {
           _id: 0,
@@ -42,35 +43,14 @@ class UserRepository {
         .find({userId: userId}, {_id: 1}).toArray();
   }
 
-  getProfile = async (userId) => {
-    try {
-      const profile = await this.mongo.db('test')
-          .collection('patient')
-          .findOne({
-            uid: userId,
-          });
-
-      return {
-        uid: profile.uid,
-        name: profile.name,
-        phoneNumber: profile.phoneNumber,
-        dob: profile.dob,
-        address: profile.address,
-      };
-    } catch (e) {
-      console.log(e);
-      throw new Error('Could not fetch user profile');
-    }
-  };
-
-  fetchTypeAndStatus = async (userId) => {
-    const profile = await this.mongo.db('test').collection('user').findOne({
+  fetchTypeAndStatus(userId) {
+    return this.mongo.db('test').collection('user').findOne({
       uid: userId,
+    }, {
+      userStatus: 1,
+      userType: 1,
+      uid: 0
     });
-    return {
-      userStatus: profile.userStatus,
-      userType: profile.userType,
-    };
   };
 }
 

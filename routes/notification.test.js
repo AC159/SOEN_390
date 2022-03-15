@@ -41,4 +41,14 @@ describe('integration test notificationRoutes - connection to notification domai
       expect(res.status).toEqual(201);
     });
   });
+
+  describe('test POST /notification/addNewNotification', () => {
+    jest.spyOn(Notification.prototype, 'createNotification').mockImplementation(() => {});
+    jest.spyOn(MongoClient.prototype, 'connect').mockImplementation(() => {});
+
+    it('should be able to add a new notification', async () => {
+      const res = await request(app).post('/notification/addNewNotification');
+      expect(res.status).toEqual(201);
+    })
+  });
 });
