@@ -33,32 +33,25 @@ function ContactTrace(props) {
         setEmailList([...emailList, {email: ""}]); //pushing new input field to list each time this is called
     }
 
-      const handleDeleteInput =  index => {
-
-        console.log(index);
-        console.log(emailList);
-        const list = [...emailList];
-        const list2 = list.splice(index, 1);
-        console.log(list);
-        setEmailList(list);
-        // console.log(list2);
-        // console.log(list);
-        console.log(emailList)
-      }
-      const handleQuestionInputChange = (event, index) => {
-        const {name, value} = event.target;
-        const list = [...emailList];
-        list[index][name] = value; //updates list based on the index
-        setEmailList(list);
-      }
+    const handleDeleteInput = index => {
+      const list = [...emailList];
+      list.splice(index, 1);
+      setEmailList(list);
+    }
+    const handleQuestionInputChange = (event, index) => {
+      const {name, value} = event.target;
+      const list = [...emailList];
+      list[index][name] = value; //updates list based on the index
+      setEmailList(list);
+    }
 
     const closeModal = () => setShowModal(false);
     const openModal = () => setShowModal(true);
 
     return (
         <div>
-            <Button variant="info" onClick={openModal}>New Contact Tracing from</Button>
-        <Modal show={showModal} onHide={closeModal}>
+          <Button variant="info" onClick={openModal}>New Contact Tracing from</Button>
+            <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title> Contact Tracing from</Modal.Title>
                 </Modal.Header>
@@ -78,6 +71,7 @@ function ContactTrace(props) {
                           type = "email"
                           name = "email"
                           placeholder = "email"
+                          value={value.email}
                           onChange = {event => handleQuestionInputChange(event, index)}
                         />
                         {emailList.length !== 1 && <input
