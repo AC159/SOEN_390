@@ -46,18 +46,6 @@ class PatientRepository {
     return this.mongo.db('test').collection('user').updateOne({uid: userId}, {$set: {wantToBeAssignedToDoctor: requestValue}});
   }
 
-  addContactTracingReport(ctrData) {
-    return this.mongo.db('test').collection('contactTracing').insertOne({...ctrData});
-  }
-
-  fetchContactTracingReports(userId) {
-    return this.mongo.db('test').collection('contactTracing').find({patientUid: userId}).toArray();
-  }
-
-  updateContactTracingReport(userId, timeStamp, values) {
-    return this.mongo.db('test').collection('contactTracing').updateOne({patientUid: userId, timeStamp: timeStamp}, {$set: values});
-  }
-
 }
 
 module.exports = PatientRepository;
