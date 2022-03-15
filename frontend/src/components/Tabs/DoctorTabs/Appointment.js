@@ -61,12 +61,12 @@ function Appointment(props) {
     //Dropdown including all patients assigned to a doctor.
     const renderPatientList = () => {
         let optionPatient = patientList.map((patient, index) =>
-                <option data-testid="patient-name" key={index}>{patient.name}</option> 
+                <option data-testid="select-patient-name" key={index}>{patient.name}</option> 
             );
 
         return (
             <div>
-                <select onChange={(event) => {setPatientId(id(event.target.value)); setPatientName(event.target.value);}}>
+                <select data-testid="select-patient" onChange={(event) => {setPatientId(id(event.target.value)); setPatientName(event.target.value);}}>
                     {optionPatient}
                 </select>
             </div>
@@ -159,26 +159,26 @@ function Appointment(props) {
 
     //Show list of existing appointments.
     const renderAppointments = () => {
-        return <div className={styles["noAppointmentsMessage"]}>
+        return <div data-testid="appointment-list" className={styles["noAppointmentsMessage"]}>
         {appointments.length === 0 ? <div>You have no appointments at this time.</div> : 
         
         appointments.map((appointments, index) =>
             <div key = {index} className={styles["appointmentList"]}>
                 <div>
                     <h6>Patient:</h6>
-                    <p data-testid="appointment-name">{appointments.patientName}</p>
+                    <p>{appointments.patientName}</p>
                 </div>
                 <div>
                     <h6>Title:</h6>
-                    <p data-testid="appointment-title">{appointments.title}</p>
+                    <p>{appointments.title}</p>
                 </div>
                 <div>
                     <h6>Info:</h6>
-                    <p data-testid="appointment-info">{appointments.information}</p>
+                    <p>{appointments.information}</p>
                 </div>
                 <div>
                     <h6>Date and Time:</h6>
-                    <p data-testid="appointment-dateTime">{showTimeStamp(appointments.dateAndTime)}</p>
+                    <p>{showTimeStamp(appointments.dateAndTime)}</p>
                 </div>
             </div>
             )}
@@ -186,7 +186,7 @@ function Appointment(props) {
     }
 
     return (
-        <div>
+        <div data-testid="appointment-1">
             <h4 className={styles["scheduleAppointment"]}>Scheduled Appointments</h4>
             {renderAppointments()}
             <br></br>
@@ -232,7 +232,7 @@ function Appointment(props) {
                         <br></br>
 
                         <div class="col-md-12 text-center">
-                            <Button class="btn btn-outline-dark justify-content-center" variant="secondary" onClick={event => { submitAppointment(); }}>
+                            <Button data-testid="viewBookAppointmentBtn" class="btn btn-outline-dark justify-content-center" variant="secondary" onClick={event => { submitAppointment(); }}>
                                 Book Appointment
                             </Button>
                         </div>
