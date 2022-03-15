@@ -3,3 +3,21 @@
   height: 100%;
   margin-bottom: 10px;
 }
+
+.urgent-color {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+
+.warning-color {
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: #ffecb5;
+}
+
+.info-color {
+  color: #055160;
+  background-color: #cff4fc;
+  border-color: #b6effb;
+}

@@ -7,7 +7,6 @@ const UserRepository = require('../repository/UserRepository');
 const NotificationRepository = require('../repository/NotificationRepository');
 const {ObjectId} = require('mongodb');
 
-
 router.get('/:userId/notifications', async (req, res) => {
   try {
     const userId = new UserId(req.params.userId);

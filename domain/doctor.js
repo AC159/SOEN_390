@@ -15,6 +15,14 @@ class Doctor {
     }));
   }
 
+  async raiseFlag(userId, newFlagValue) {
+    return await this.doctorRepository.raiseFlag(this.id.getId(), userId, newFlagValue);
+  }
+
+  async postQuestions(formData) {
+    return await this.doctorRepository.storeQuestions(formData);
+  }
+
   getPatientFile(patient) {
     throw new Error(`${this.getPatientFile.name} is not implemented.`);
   }

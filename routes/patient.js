@@ -34,12 +34,12 @@ router.get('/get-status-forms/:userId', async (req, res) => {
     const userId = new UserId(req.params.userId);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.getPatientStatusForms();
-    console.log('get-status-forms: ', data);
     res.status(200).json(data);
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 });
+
 
 router.post('/raise-flag/:userId', async (req, res) => {
   try {
@@ -47,7 +47,7 @@ router.post('/raise-flag/:userId', async (req, res) => {
     const userId = new UserId(req.params.userId);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     // flagType can be either doctorFlag, immigrationOfficerFlag or healthOfficerFlag and flagValue can be either true or false
-    const response = await patient.raiseFlag(req.body.flagType, req.body.flagValue);
+    const response = await patient.raiseFlag(req.body.flagType, req.body.flagValue, req.body.flaggingUser);
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({error: error.message});
@@ -66,6 +66,20 @@ router.get('/get-patients-covid-info/:officialId', async (req, res) => {
   }
 });
 
+
+router.post('/:userID/requestDoctor', async (req, res)=> {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.userID);
+    const requestValue = req.body.requestSent;
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.requestDoctor(requestValue);
+    res.status(200).json(data);
+    } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
 router.post('/submit-contact-tracing', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
@@ -80,6 +94,7 @@ router.post('/submit-contact-tracing', async (req, res) => {
     }
     const response = await patient.postContactTracingReport(contactTracingReport);
     res.status(200).json(response);
+
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -98,7 +113,7 @@ router.post('/update-contact-tracing/:userId?timeStamp=:timeStamp', async (req, 
   } catch (error) {
     res.status(400).json({error: error.message});
   }
-})
+});
 
 router.get('/get-contact-tracing/:patientUid', async (req, res) => {
   try {
@@ -110,6 +125,7 @@ router.get('/get-contact-tracing/:patientUid', async (req, res) => {
   } catch (error) {
     res.status(400).json({error: error.message});
   }
-})
+});
+
 
 module.exports = router;

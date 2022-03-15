@@ -23,7 +23,10 @@ class AdminRepository {
   }
 
   async approveUser(userId) {
-    return await this.mongo.db('test').collection('user').findOneAndUpdate({uid: userId}, {$set: {userStatus: 'APPROVED'}});
+    return await this.mongo.db('test')
+        .collection('user')
+        .findOneAndUpdate({uid: userId},
+            {$set: {userStatus: 'APPROVED'}});
   }
 
   async setUserDefaultInformation(userId, additionalInfo={}) {
@@ -39,7 +42,7 @@ class AdminRepository {
         .find({
           userType: 'patient',
           userStatus: 'APPROVED'})
-        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1, patientInfo: 1})
+        .project({_id: 0, uid: 1, name: 1, dob: 1, address: 1, patientInfo: 1, wantToBeAssignedToDoctor: 1})
         .toArray();
   }
 

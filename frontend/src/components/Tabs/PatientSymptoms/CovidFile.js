@@ -21,6 +21,7 @@ function CovidFile(props) {
     let [patientData, setPatientData] = useState();
     let [showModal, setShowModal] = useState(false);
     let [selectedFormIndex, setSelectedFormIndex] = useState(-1);
+    let [patientAnswers, setPatientAnswers] = useState([]);
 
     const submitPatientForm = async () => {
         try {
@@ -49,9 +50,10 @@ function CovidFile(props) {
             temperature: temp,
             otherSymptoms: whatOtherSymptoms,
             symptomDetails: symptomDetails,
-            health: health
+            health: health,
+            doctorQuestions: patientAnswers
         };
-        console.log(userSymptoms);
+        console.log(userAttributes);
         axios.post(`/patient/update-status-form/${currentUser.user.uid}`, userAttributes)
             .then(function (response) {
                 console.log(response);
@@ -76,6 +78,11 @@ function CovidFile(props) {
     }, []);
 
 
+    const updatePatientAnswer = (value, index) => {
+        patientAnswers[index].answer = value;
+        setPatientAnswers(patientAnswers);
+    }
+
     const closeModal = () => setShowModal(false);
     const openModal = () => setShowModal(true);
 
@@ -89,6 +96,7 @@ function CovidFile(props) {
         setWhatOtherSymptoms(patientData[formIndex].otherSymptoms);
         setSymptomDetails(patientData[formIndex].symptomDetails);
         setHealth(patientData[formIndex].health);
+        setPatientAnswers(JSON.parse(JSON.stringify(patientData[formIndex].doctorQuestions)));
         setSelectedFormIndex(formIndex);
         openModal();
     }
@@ -112,6 +120,12 @@ function CovidFile(props) {
                         <Accordion.Body>
                             {Object.entries(element).map(([key, value], index) => {
                                 if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
+                                if (Array.isArray(value) && typeof value[0] === 'object') {
+                                    return <div key={index}>
+                                        <strong>Doctor questions</strong>:
+                                        <ul>{value.map((element, i) => <div key={i}><li>{element.question}</li><p>{element.answer}</p></div>)}</ul>
+                                    </div>;
+                                }
                                 if (Array.isArray(value)) {
                                     return <div key={index}><strong>{key}</strong>: <ul>{value.map((element, i) => <li key={i}>{element}</li>)}</ul></div>;
                                 } else return <div key={index}><strong>{key}</strong>: {value}</div>;
@@ -366,6 +380,16 @@ function CovidFile(props) {
                         <textarea rows="4" cols="50"
                                   defaultValue={selectedFormIndex >= 0 ? patientData[selectedFormIndex].health : null}
                                   onChange={(e) => setHealth(e.target.value)}/>
+
+                        <h6>Questions from your doctor:</h6>
+                        <div>{selectedFormIndex >= 0 ? patientAnswers.map((question, index) => {
+                            return <div key={index}>
+                                <h6>{question.question}</h6>
+                                <textarea rows="4" cols="50" defaultValue={question.answer}
+                                          onChange={(e) => updatePatientAnswer(e.target.value, index)}/>
+                            </div>
+                        }) : null}</div>
+
                     </form>
 
                 </Modal.Body>

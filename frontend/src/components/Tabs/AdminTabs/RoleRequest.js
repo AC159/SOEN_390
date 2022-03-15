@@ -54,63 +54,6 @@ function RoleRequest(props) {
       })
   }, []);
 
-  // function renderPendingPatientList() {
-  //   if (patientList === null) return;
-  //   return <div>
-  //     {patientList.map((patient, index) => <RoleRequestBox
-  //       key={index}
-  //       RequesterUsername={patient.name}
-  //       RequestType={patient.userType}
-  //       uID={patient.uid}
-  //       adminID={currentUser.user.uid}
-  //       userEmail={patient.email}
-  //     />)}
-  //   </div>;
-  // }
-  //
-  // function renderPendingDoctorList() {
-  //   if (doctorList !== null) {
-  //     return <div>
-  //       {doctorList.map((doctor, index) => <RoleRequestBox
-  //         key={index}
-  //         RequesterUsername={doctor.name}
-  //         RequestType={doctor.userType}
-  //         uID={doctor.uid}
-  //         adminID={currentUser.user.uid}
-  //         userEmail={doctor.email}
-  //       />)}
-  //     </div>;
-  //   }
-  // }
-  //
-  // function renderPendingHOList() {
-  //   if (healthOfficialList === null) return;
-  //   return <div>
-  //     {healthOfficialList.map((officer, index) => <RoleRequestBox
-  //       key={index}
-  //       RequesterUsername={officer.name}
-  //       RequestType={officer.userType}
-  //       uID={officer.uid}
-  //       adminID={currentUser.user.uid}
-  //       userEmail={officer.email}
-  //     />)}
-  //   </div>;
-  // }
-  //
-  // function renderPendingIOList() {
-  //   if (immigrationOfficialList === null) return;
-  //   return <div>
-  //     {immigrationOfficialList.map((officer, index) => <RoleRequestBox
-  //       key={index}
-  //       RequesterUsername={officer.name}
-  //       RequestType={officer.userType}
-  //       uID={officer.uid}
-  //       adminID={currentUser.user.uid}
-  //       userEmail={officer.email}
-  //     />)}
-  //   </div>;
-  // }
-
   function renderPendingUserList(userList) {
     if (userList === null) return;
     return <div>

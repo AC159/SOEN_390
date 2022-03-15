@@ -22,6 +22,7 @@ function Login(props) {
                 console.log('Got type and status');
                 console.log(res.data);
                 userType = res.data.userType;
+                localStorage.setItem("userType", userType);
                 userStatus = res.data.userStatus;
             })
             .catch((err) => {

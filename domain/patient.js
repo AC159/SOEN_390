@@ -36,8 +36,12 @@ class Patient extends User {
     return await this.patientRepository.fetchPatientStatusForms(this.id.getId());
   }
 
-  async raiseFlag(flagType, flagValue) {
-    return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue);
+  async raiseFlag(flagType, flagValue, flaggingUser) {
+    return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue, flaggingUser);
+  }
+
+  async requestDoctor(requestValue) {
+    return await this.patientRepository.setWantToBeAssignedToDoctor(this.id.getId(), requestValue);
   }
 
   async getPatientsCovidInfo(officialUid) {
