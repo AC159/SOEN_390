@@ -156,7 +156,7 @@ function PatientBox(props) {
           heading: "Alert!",
           mainText: "COVID Contact Alert!",
           subText: `You may have been in contact in with someone who is COVID Positive. Please continue using CoviCare to monitor your symptoms`,
-          uid: email
+          patientUid: user.uid,
         }
         response = await axios.post(`notification/addNewNotification`, payload)
         console.log(response);
