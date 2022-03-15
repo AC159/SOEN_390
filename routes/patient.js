@@ -89,7 +89,7 @@ router.post('/submit-contact-tracing', async (req, res) => {
       timeStamp: Date.now(),
       patientUid: userId.getId(),
       emailList: req.body.emailList,
-      dateList: req.body.dateList,
+      date: req.body.date,
       locationDescription: req.body.locationDescription
     }
     const response = await patient.postContactTracingReport(contactTracingReport);
@@ -100,11 +100,11 @@ router.post('/submit-contact-tracing', async (req, res) => {
   }
 });
 
-router.post('/update-contact-tracing/:userId?timeStamp=:timeStamp', async (req, res) => {
+router.post('/update-contact-tracing/:userId&timeStamp=:timeStamp', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userId);
-    const timeStamp = req.params.timeStamp;
+    const timeStamp = parseFloat(req.params.timeStamp);
     const updatedValues = req.body.updatedValues;
 
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
