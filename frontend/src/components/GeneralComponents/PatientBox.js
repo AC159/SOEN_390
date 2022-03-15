@@ -260,7 +260,7 @@ function PatientBox(props) {
             <Badge pill
             bg="warning" 
             text="dark">
-              {(displayRequestBadge && assignedDoctor === "") ? "Wants to be assigned a doctor" : null}
+              {(currentUser.dbData.userType === "administrator" && displayRequestBadge && assignedDoctor === "") ? "Wants to be assigned a doctor" : null}
             </Badge>
           </div>
         </Accordion.Header>

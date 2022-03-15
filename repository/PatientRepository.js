@@ -58,6 +58,6 @@ class PatientRepository {
   updateContactTracingReport(userId, timeStamp, values) {
     return this.mongo.db('test').collection('contactTracing').updateOne({patientUid: userId, timeStamp: timeStamp}, {$set: values});
   }
-
+}
 
 module.exports = PatientRepository;

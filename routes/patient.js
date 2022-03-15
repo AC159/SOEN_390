@@ -118,7 +118,7 @@ router.post('/update-contact-tracing/:userId?timeStamp=:timeStamp', async (req, 
 router.get('/get-contact-tracing/:patientUid', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
-    const userId = new UserId(req.body.patientUid);
+    const userId = new UserId(req.params.patientUid);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.getContactTracingReports();
     res.status(200).json(data);
