@@ -6,7 +6,7 @@ import Appointment from './Appointment';
 
 
 describe('visual test of the component', () => {
-    it('should render appointments without crashing', () => {
+    it('should render book appointment tab without crashing', () => {
         render(<BrowserRouter>
             <AuthContext.Provider value={{
               currentUser: {
@@ -23,7 +23,7 @@ describe('visual test of the component', () => {
     });
 
     it('renders book appointment button correctly', () => {
-        const {getByTestId} = render(<BrowserRouter>
+        render(<BrowserRouter>
             <AuthContext.Provider value={{
               currentUser: {
                 user: 'doctor1_covicare@gmail.com',
@@ -34,10 +34,11 @@ describe('visual test of the component', () => {
               <Appointment/>
             </AuthContext.Provider>
           </BrowserRouter>)
-        expect(getByTestId('viewBookAppointmentBtn')).toHaveTextContent("Book Appointment")
+        const appointmentBtnElement = screen.getByTestId('viewBookAppointmentBtn');
+        expect(appointmentBtnElement).toHaveTextContent("Book Appointment");
     })
     
-    it('should render appointments without crashing', () => {
+    it('should render list of appointments already booked without crashing', () => {
         render(<BrowserRouter>
             <AuthContext.Provider value={{
               currentUser: {
