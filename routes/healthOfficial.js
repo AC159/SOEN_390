@@ -10,11 +10,11 @@ router.post('/:healthOfficialId/raise-flag', async (req, res) => {
     const healthOfficialId = new UserId(req.params.healthOfficialId);
     const newFlagValue = req.body.flagValue;
     const healthOfficialRepository = new HealthOfficialRepository(req.app.locals.mongodb);
-
+    console.log(patientId, newFlagValue);
     const healthOfficial = new HealthOfficial(healthOfficialId, healthOfficialRepository);
     const response = await healthOfficial.raiseFlag(patientId, newFlagValue);
-    res.status(201).json({data: response});
     console.log(response);
+    res.status(201).json({data: response});
   } catch (e) {
     res.status(400).json({error: e.message});
     console.log('Error:'+e.message);
@@ -25,9 +25,7 @@ router.get('/:healthOfficialId/user-covid-info', async (req, res) => {
   try {
     const userId = req.body.userId;
     const healthOfficialId = new UserId(req.params.healthOfficialId);
-    const healthOfficialRepository = new HealthOfficialRepository(
-      req.app.locals.mongodb,
-    );
+    const healthOfficialRepository = new HealthOfficialRepository(req.app.locals.mongodb);
 
     const healthOfficial = new HealthOfficial(
         healthOfficialId,
@@ -46,7 +44,7 @@ router.get('/:healthOfficialId/user-report', async (req, res) => {
     const userId = req.body.userId;
     const healthOfficialId = new UserId(req.params.healthOfficialId);
     const healthOfficialRepository = new HealthOfficialRepository(
-      req.app.locals.mongodb,
+        req.app.locals.mongodb,
     );
 
     const healthOfficial = new HealthOfficial(
