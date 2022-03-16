@@ -2,6 +2,7 @@ import React from 'react';
 
 import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
+import PatientList from '../../components/Tabs/AdminTabs/PatientList';
 
 const tabs = [
   {
@@ -12,7 +13,7 @@ const tabs = [
   {
     eventKey: 'monitor-patient',
     title: 'Monitor Patients',
-    element: () => (<div>Monitor Patients</div>)
+    element: <PatientList />
   },
   {
     eventKey: 'contact',

@@ -4,45 +4,29 @@ class HealthOfficial {
     this.healthOfficialRepository = healthOfficialRepository;
   }
 
-  async raiseFlag(userId) {
-    try {
-      return await this.healthOfficialRepository.raiseFlag(this.userId, userId);
-    } catch (e) {
-      throw new Error('Can not raise flag on this user');
-    }
+  async verifyHealthOfficial(healthOfficerId) {
+    await this.healthOfficialRepository.verifyHealthOfficial(healthOfficerId);
+  }
+
+  async raiseFlag(patientId, newFlagValue) {
+    await this.verifyHealthOfficial(this.userId.getId());
+    return await this.healthOfficialRepository.raiseFlag(this.userId.getId(), patientId, newFlagValue);
   }
 
   async getUserCovidInfo(userId) {
-    try {
-      return await this.healthOfficialRepository.viewUserCovidInformation(
-          this.userId,
-          userId,
-      );
-    } catch (e) {
-      throw new Error('Can not get COVID information on this user');
-    }
+    return await this.healthOfficialRepository.viewUserCovidInformation(this.userId, userId);
   }
 
   async getReportsFromUser(userId) {
-    try {
-      return await this.healthOfficialRepository.fetchReport(
-          this.userId,
-          userId,
-      );
-    } catch (e) {
-      throw new Error('Can not get reports from this user');
-    }
+    return await this.healthOfficialRepository.fetchReport(this.userId, userId);
   }
 
   async getContactListFromReport(reportId) {
-    try {
-      return await this.healthOfficialRepository.viewReportContacts(
-          this.userId,
-          reportId,
-      );
-    } catch (e) {
-      throw new Error('Can not get contact list from this report');
-    }
+    return await this.healthOfficialRepository.viewReportContacts(this.userId, reportId);
+  }
+
+  async getAllPatients() {
+    return await this.healthOfficialRepository.viewAllPatients(this.userId);
   }
 
   getId() {
@@ -50,4 +34,4 @@ class HealthOfficial {
   }
 }
 
-module.exports = HealthOfficial;
+module.exports.HealthOfficial = HealthOfficial;

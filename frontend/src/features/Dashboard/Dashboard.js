@@ -21,8 +21,8 @@ const Dashboard = ({defaultActiveKey, tabsList}) => {
             unmountOnExit={true} 
             mountOnEnter={true}
           >
-            {tabsList.map(tab => (
-              <Tab eventKey={tab.eventKey} title={tab.title}>
+            {tabsList.map((tab, index) => (
+              <Tab key={index} eventKey={tab.eventKey} title={tab.title}>
                 <div className={styles["tab-page"]}>
                   {tab.element}
                 </div>

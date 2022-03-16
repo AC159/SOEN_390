@@ -1,8 +1,8 @@
-import { useState, useEffect, useReducer } from "react";
-import styles from "./SignUp.module.css";
+import { useReducer } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../FirebaseAuth/FirebaseAuth";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../FirebaseAuth/FirebaseAuth";
+import styles from "./SignUp.module.css";
 
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -144,9 +144,7 @@ function SignUp(props) {
     <div className={styles["container_SingUp"]}>
       <div className={styles["container-top_SingUp"]}>
         <h2 className={styles["h2_SingUp"]}>Create your CoviCare Account</h2>
-        <div className={styles["backDrop_SingUp"]}>
-          <div className={styles["container-title_SingUp"]}></div>
-        </div>
+        <div className={styles["backDrop_SingUp"]} />
       </div>
       <form className={styles["container-item_SingUp"]}>
         <fieldset className={styles["fieldset_SingUp"]}>
@@ -162,7 +160,7 @@ function SignUp(props) {
             onChange={(event) => dispatch({type: EMAIL_CHANGE, payload: {email: event.target.value}})}
           />
           {state.emailInvalid ? (
-            <div className={styles["container-error"]}>Invalid email</div>
+            <div className={styles["container-error_SingUp"]}>Invalid email</div>
           ) : null}
 
           <input
@@ -181,7 +179,7 @@ function SignUp(props) {
             onChange={(event) => dispatch({type: PASSWORD_CONF, payload: {passwordConf: event.target.value}})}
           />
           {state.passwordError ? (
-            <div className={styles["container-error"]}>
+            <div className={styles["container-error_SingUp"]}>
               The password must contain:
               <ul>
                 <li>at least eight characters</li>
@@ -192,7 +190,7 @@ function SignUp(props) {
             </div>
           ) : null}
           {state.passwordConfError ? (
-            <div className={styles["container-error"]}>
+            <div className={styles["container-error_SingUp"]}>
               Passwords do not match!
             </div>
           ) : null}

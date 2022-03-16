@@ -1,3 +1,5 @@
+const {ObjectId} = require('mongodb');
+
 class DoctorRepository {
   constructor(mongo) {
     this.mongo = mongo;
@@ -12,7 +14,7 @@ class DoctorRepository {
   getPatients(doctorId) {
     return this.mongo.db('test').collection('user')
         .find({'userType': 'patient', 'patientInfo.doctorId': doctorId})
-        .project({_id: 0, name: 1, dob: 1, phoneNumber: 1, email: 1, uid: 1})
+        .project({_id: 0, name: 1, dob: 1, phoneNumber: 1, email: 1, uid: 1, patientInfo: 1, doctorFlagInfo: 1})
         .toArray();
   }
 
@@ -48,6 +50,22 @@ class DoctorRepository {
     return this.mongo.db('test')
         .collection('notification')
         .insertOne(notification);
+  }
+
+  async raiseFlag(doctorId, userId, newFlagValue) {
+    await this.verifyDoctor(doctorId);
+    let newId;
+    if (newFlagValue === true) newId = doctorId;
+    else newId = '';
+    return await this.mongo.db('test')
+        .collection('user')
+        .updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
+  }
+
+  storeQuestions(formData) {
+    const patientFormId = ObjectId(formData.formId);
+    delete formData.formId;
+    return this.mongo.db('test').collection('patientForms').updateOne({_id: patientFormId}, {$addToSet: {doctorQuestions: {$each: formData.doctorQuestions}}});
   }
 }
 

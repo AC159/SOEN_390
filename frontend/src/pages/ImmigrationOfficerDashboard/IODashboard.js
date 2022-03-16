@@ -2,7 +2,7 @@ import React from 'react';
 
 import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
-import CovidFile from '../../components/Tabs/PatientSymptoms/CovidFile';
+import PatientList from '../../components/Tabs/AdminTabs/PatientList';
 
 const tabs = [
   {
@@ -13,7 +13,7 @@ const tabs = [
   {
     eventKey: 'monitor-patient',
     title: 'Monitor Patients',
-    element: <CovidFile />
+    element: <PatientList />
   },
   {
     eventKey: 'contact',

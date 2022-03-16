@@ -23,12 +23,12 @@ class Administrator {
 
   async viewHealthOfficers() {
     await this.verifyAdmin();
-    return await this.adminRepository.fetchPendingUsers('healthOfficer');
+    return await this.adminRepository.fetchPendingUsers('healthOfficial');
   }
 
   async viewImmigrationOfficers() {
     await this.verifyAdmin();
-    return await this.adminRepository.fetchPendingUsers('immigrationOfficer');
+    return await this.adminRepository.fetchPendingUsers('immigrationOfficial');
   }
 
   async approvePendingUser(userId) {
@@ -36,7 +36,10 @@ class Administrator {
     const user = await this.adminRepository.approveUser(userId);
     switch (user.value.userType) {
       case 'patient':
-        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''}});
+        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''},
+          doctorFlagInfo: {isFlagged: false, flaggingUser: ''},
+          immigrationOfficerFlagInfo: {isFlagged: false, flaggingUser: ''},
+          healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ''}, wantToBeAssignedToDoctor: false});
         break;
       case 'doctor':
         this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});
