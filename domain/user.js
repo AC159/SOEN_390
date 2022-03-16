@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 class User {
   constructor(userId, name, userRepository) {
@@ -44,7 +44,7 @@ class User {
       to: userEmail,
       subject: 'CoviCare New User CTR',
       text: 'Hi ' + userEmail + '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
-        'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.'
+        'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.',
     });
 
     console.log('Message sent: ', info.messageId);

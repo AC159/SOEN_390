@@ -42,7 +42,7 @@ router.post('/addNewUser', async (req, res) => {
     const insertedData = await newUser.createProfile(data);
     res.status(201).json(insertedData);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(400).json({error: error.message});
   }
 });
 
@@ -85,6 +85,6 @@ router.post('/sendInviteEmail', async (req, res) => {
     res.status(500).json(error);
     console.log(error.message);
   }
-})
+});
 
 module.exports = router;
