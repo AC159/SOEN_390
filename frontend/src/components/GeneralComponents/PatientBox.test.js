@@ -23,6 +23,9 @@ describe('visual test of the component', () => {
       <AuthContext.Provider value={{
         currentUser: {
           user: 'john@email.com',
+          dbData: {
+            userType: 'administrator'
+          }
         },
         logout: () => {},
       }}>
@@ -56,6 +59,9 @@ describe('visual test of the component', () => {
       <AuthContext.Provider value={{
         currentUser: {
           user: 'john@email.com',
+          dbData: {
+            userType: 'administrator'
+          }
         },
         logout: () => {},
       }}>
@@ -90,6 +96,9 @@ describe('visual test of the component', () => {
       <AuthContext.Provider value={{
         currentUser: {
           user: 'john@email.com',
+          dbData: {
+            userType: 'administrator'
+          }
         },
         logout: () => {},
       }}>
