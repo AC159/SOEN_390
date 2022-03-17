@@ -4,6 +4,10 @@ class Doctor {
     this.doctorRepository = doctorRepository;
   }
 
+  async verifyDoctor() {
+    await this.doctorRepository.verifyDoctor(this.id.getId());
+  }
+
   async getPatients() {
     const patients = await this.doctorRepository.getPatients(this.id.getId());
     return await Promise.all(patients.map(async (patient) => {
@@ -35,8 +39,32 @@ class Doctor {
     throw new Error(`${this.flagPatient.name} is not implemented.`);
   }
 
-  createAppointment(patient, date) {
-    throw new Error(`${this.createAppointment.name} is not implemented.`);
+  async createAppointment(patientId, appointmentInfo) {
+    this.verifyDoctor();
+    const appointment = {
+      ...appointmentInfo,
+      patientId,
+      doctorId: this.id.getId(),
+    };
+    const response = await this.doctorRepository.insertAppointment(appointment);
+    if (!response.acknowledged) {
+      throw new Error('The appointment was not saved.');
+    }
+
+    const notification = {
+      type: 'primary',
+      heading: appointmentInfo.title,
+      mainText: appointmentInfo.information,
+      subText: 'https//zoom.us/123456789',
+      timestamp: Date.now(),
+      userId: patientId,
+    };
+    await this.doctorRepository.insertNotification(notification);
+  }
+
+  async getAppointments() {
+    this.verifyDoctor();
+    return await this.doctorRepository.findAppointments(this.id.getId());
   }
 
   createForm() {
