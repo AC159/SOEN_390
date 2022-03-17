@@ -11,7 +11,6 @@ function ContactTrace(props) {
     let {currentUser} = useAuth();
     let [locationDescription, setLocationDescription] = useState('');
     let [emailList, setEmailList] = useState([{email: ''}]);
-    // let [emailListDB, setEmailListDB] = useState([{email: ''}]);
     let [date, setDate] = useState('');
     let [showModal, setShowModal] = useState(false);
     let [patientTracing, setTracing] = useState();
@@ -131,10 +130,6 @@ function ContactTrace(props) {
                                         key={i}>{element}</li>)}</ul></div>;
                                 } else return <div key={index}><strong>{key}</strong>: {value}</div>;
                             })}
-                            {/*<Button variant="info" onClick={() => {*/}
-                            {/*    showModalForTracingFormUpdate(index);*/}
-
-                            {/*}}>Update</Button>*/}
                         </Accordion.Body>
                     </Accordion.Item>;
                 })} </Accordion> : null}
@@ -184,16 +179,10 @@ function ContactTrace(props) {
                             onClick={handleAddEmailInput}>Add email</Button>
 
                         <Button onClick={(event) => {
-                            // setEmailList(emailListDB);
                             submitContactTracingForm();
                             fetchPatientContactTracing();
                             closeModal();
                         }}>Submit</Button>
-                        {/*<Button onClick={(event) => {*/}
-                        {/*    updatePatientForm();*/}
-                        {/*    fetchPatientContactTracing();*/}
-                        {/*    closeModal();*/}
-                        {/*}}>Update</Button>*/}
                     </div>
                 </Modal.Body>
             </Modal>
