@@ -1,6 +1,7 @@
 const request = require('supertest');
 const MongoClient = require('mongodb').MongoClient;
 const {Notification} = require('../domain/notification');
+const {User} = require('../domain/user');
 const app = require('../app');
 const server = require('../app').server;
 
@@ -38,6 +39,17 @@ describe('integration test notificationRoutes - connection to notification domai
 
     it('should be able to add 2 new template notifications', async () => {
       const res = await request(app).post('/notification/12345/createTestNotifications');
+      expect(res.status).toEqual(201);
+    });
+  });
+
+  describe('test POST /notification/addNewNotification', () => {
+    jest.spyOn(Notification.prototype, 'createNotification').mockImplementation(() => {});
+    jest.spyOn(User.prototype, 'sendNewNotificationEmail').mockImplementation(() => {});
+    jest.spyOn(MongoClient.prototype, 'connect').mockImplementation(() => {});
+
+    it('should be able to add a new notification', async () => {
+      const res = await request(app).post('/notification/addNewNotification');
       expect(res.status).toEqual(201);
     });
   });

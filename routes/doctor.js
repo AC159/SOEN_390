@@ -52,7 +52,6 @@ router.post('/:doctorId/raise-flag', async (req, res) => {
     const doctor = new Doctor(doctorId, doctorRepository);
     const response = await doctor.raiseFlag(userId, newFlagValue);
     res.status(201).json({data: response});
-    console.log(response.message);
   } catch (e) {
     res.status(400).json({error: e.message});
     console.log(e.message);

@@ -24,7 +24,8 @@ function PatientBox(props) {
   const [doctorInfo, setDoctorInfo] = useState(initialDoctorInfo);
   const [selectedFormId, setSelectedFormId] = useState("");
 
-  let [displayRequestBadge, setDisplayRequestBadge] = useState(props.patient.wantToBeAssignedToDoctor);
+  let [displayRequestBadge] = useState(props.patient.wantToBeAssignedToDoctor);
+  let [patientCTData, setPatientCTData] = useState([]);
 
 
   const handleDoctorListClose = useCallback(() => {
@@ -37,12 +38,14 @@ function PatientBox(props) {
   }
   
   useEffect(() => {
+    
     checkIsFlagged();
   }, [])
 
   useEffect(() => {
     changeFlagButtonText();
   }, [isFlagged])
+
 
   const checkIsFlagged = () => {
     let newFlagValue;
@@ -58,6 +61,7 @@ function PatientBox(props) {
   const handlePatientInfoShow = () => {
     setShowPatientInfo(true);
     fetchPatientInfo(props.patient.uid);
+    fetchPatientCTData();
   }
 
   let [patientData, setPatientData] = useState();
@@ -135,6 +139,87 @@ function PatientBox(props) {
 
   const FormSelect = (formId) => {
     setSelectedFormId(formId);
+  }
+
+  const sendContactTraceNotification = async (email) => {
+    console.log(email);
+    try{
+      const userCheck = await axios.get(`/user/${email}/profile`);
+      var user = userCheck.data;
+      console.log(user)
+      var response;
+
+      if(user !== null){
+        const payload = {
+          patientEmail: email,
+          type: "warning",
+          heading: "Alert!",
+          mainText: "COVID Contact Alert!",
+          subText: `You may have been in contact in with someone who is COVID Positive. Please continue using CoviCare to monitor your symptoms`,
+          patientUid: user.uid,
+        }
+        response = await axios.post(`notification/addNewNotification`, payload)
+        console.log(response);
+      }
+      else{
+        const payload = {
+          
+          userEmail: email,
+          inviteMessage: "A user of the CoviCare system notified us of your potential contact with someone COVID Positive. You may want to join Covicare to track your health."
+        
+        }
+        response = await axios.post(`/user/sendInviteEmail`, payload)
+        console.log(response);
+      }
+      
+    }
+    catch(error){
+      console.log(error.message);
+    }
+  }
+
+  const fetchPatientCTData = async() =>{
+    try{
+      const response = await axios.get(`patient/get-contact-tracing/${props.patient.uid}`)
+      setPatientCTData(response.data);
+      console.log(response.data);
+    }
+    catch(error) {
+      console.log(error.message);
+    }
+  }
+
+  const RenderPatientCTData = () => {
+    return patientCTData.map((element, index) => {
+      let date = new Date(element.timeStamp * 1000);
+      return (
+        <Accordion.Item eventKey={index} key={index}>
+          <Accordion.Header><h5>{"Contact Tracing Report for "+element.date}</h5></Accordion.Header>
+          <Accordion.Body className={styles["patient-contact-tracing-report-body"]}>
+            <h6>Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</h6>
+            <hr />
+            <h6>List of emails of people who've been in contact with {props.patient.name}:</h6>
+            <div>
+              {element.emailList.map((email, index) => {
+                return <div className={styles["contact-tracing-person-list-box"]}>
+                  {"Email: "+email}
+                  {(currentUser.dbData.userType === "healthOfficial") && 
+                  <Button 
+                  className={styles["notify-button"]} 
+                  variant="warning" onClick={() => {sendContactTraceNotification(email);}}>
+                    Notify This User
+                  </Button>}
+                </div>
+              })}
+            </div>
+
+            <hr/>
+            
+            <h6>Description of Contact Location: {element.locationDescription}</h6>
+          </Accordion.Body>
+        </Accordion.Item>
+        );
+      })
   }
 
   const RenderPatientInfo = (selectForm) => {
@@ -260,7 +345,7 @@ function PatientBox(props) {
             <Badge pill
             bg="warning" 
             text="dark">
-              {(displayRequestBadge && assignedDoctor === "") ? "Wants to be assigned a doctor" : null}
+              {(currentUser.dbData.userType === "administrator" && displayRequestBadge && assignedDoctor === "") ? "Wants to be assigned a doctor" : null}
             </Badge>
           </div>
         </Accordion.Header>
@@ -327,7 +412,7 @@ function PatientBox(props) {
                   </div>
                 </Tab>
               
-               {isValidDoctor() ?  
+               {isValidDoctor() && 
                <Tab className={styles["tab-outer"]} eventKey="ask-questions" title="Create Patient Q/A Form">
                   <div className={styles["patient-info-tab-page"]}>
                     <h2 className={styles["patient-info-tab-title"]}>{"Create Q&A Form"}</h2>
@@ -372,8 +457,19 @@ function PatientBox(props) {
                       />
                     </div>
                   </div>
-                </Tab> :
-                null}
+                </Tab>}
+
+              {!isValidDoctor() &&  
+               <Tab className={styles["tab-outer"]} eventKey="ctr-data" title="Contact Tracing Data">
+                  <div className={styles["patient-info-tab-page"]}>
+                    <h2 className={styles["patient-info-tab-title"]}>{"Contact Tracing Data"}</h2>
+                    <hr />
+                    <Accordion>
+                    {<RenderPatientCTData />}
+                    </Accordion>
+                    
+                  </div>
+                </Tab>}
               </Tabs>
             </div>
           </div>

@@ -70,6 +70,43 @@ describe('integration test of doctor routes', () => {
     });
   });
 
+  describe('post doctor raise flag', () => {
+    let mockPost;
+    beforeEach(() => {
+      DoctorRepository.mockClear();
+      mockPost = jest.spyOn(DoctorRepository.prototype, 'raiseFlag')
+          .mockImplementation(() => true);
+    });
+
+    afterEach(() => {
+      mockPost.mockRestore();
+    });
+
+    it('should return flagged raise with status 200', async () => {
+      const response = await request(app)
+          .post('/doctor/1234/raise-flag')
+          .send({
+            patientId: '12345',
+            flagValue: true,
+          });
+      expect(response.statusCode).toBe(201);
+      expect(response.body.data).toBe(true);
+      expect(mockPost).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return status 400 and error message on error', async () => {
+      mockPost.mockImplementation(() => {
+        throw new Error('The doctor is not valid');
+      });
+
+      const response = await request(app).post('/doctor/1234/raise-flag');
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toBe('The doctor is not valid');
+      expect(mockPost).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('create patient appointment', () => {
     beforeEach(() => {
       DoctorRepository.mockClear();

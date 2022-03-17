@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 class User {
   constructor(userId, name, userRepository) {
     this.id = userId;
@@ -24,6 +26,41 @@ class User {
 
   async viewNotifications() {
     return await this.userRepository.fetchAllNotifications(this.id.getId());
+  }
+
+  async sendNonUserEmail(userEmail) {
+    const subject = 'CoviCare New User CTR';
+    const inviteMessage = 'Hi ' + userEmail + '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
+        'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.';
+    return await this.sendUserEmail(userEmail, subject, inviteMessage);
+  }
+
+  async sendNewNotificationEmail(userEmail) {
+    const subject = 'CoviCare New Notification !';
+    const message = 'Hi. This email is to inform that you just received a new notification. Please log in as soon as possible to see the message.';
+    return await this.sendUserEmail(userEmail, subject, message);
+  }
+
+  async sendUserEmail(userEmail, subject, message) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.COVICARE_EMAIL,
+        pass: process.env.COVICARE_EMAIL_PASSWORD,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.COVICARE_EMAIL,
+      to: userEmail,
+      subject: subject,
+      text: message
+    });
+
+    console.log('Message sent: ', info.messageId);
+    return info;
   }
 }
 

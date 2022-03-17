@@ -39,6 +39,22 @@
   height: 100%;
 }
 
+.patient-contact-tracing-report-body{
+  background-color: rgb(220, 251, 255);
+}
+
+.contact-tracing-person-list-box{
+  background-color: rgb(72, 167, 255);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 2%;
+  margin-bottom: 1%;
+}
+
+.notify-button{
+  float: right;
+}
+
 .flag-button {
   display: flex;
   align-items: center;

@@ -4,6 +4,7 @@ import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
 import CovidFile from '../../components/Tabs/PatientSymptoms/CovidFile';
 import RequestDoctorPage from '../../components/Tabs/PatientSymptoms/RequestDoctorPage';
+import ContactTrace from '../../components/Tabs/PatientSymptoms/ContactTrace';
 
 const tabs = [
   {
@@ -20,6 +21,11 @@ const tabs = [
     eventKey: 'RequestDoctor',
     title: 'Request Doctor',
     element: <RequestDoctorPage />
+  },
+  {
+    eventKey: 'ContactTracing',
+    title: 'Contact Tracing',
+    element: <ContactTrace />
   },
   {
     eventKey: 'contact',

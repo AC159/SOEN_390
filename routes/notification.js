@@ -45,7 +45,28 @@ router.post('/:notificationId/delete', async (req, res) => {
 });
 
 router.post('/addNewNotification', async (req, res) => {
-  // todo: agree on format for adding new notifications
+  try {
+    const userEmail = req.body.patientEmail;
+    const mongo = await req.app.locals.mongodb;
+
+    const notification = new Notification(null, new NotificationRepository(mongo));
+    const notificationData = {
+      type: req.body.type,
+      heading: req.body.heading,
+      mainText: req.body.mainText,
+      subText: req.body.subText,
+      timeStamp: Date.now(),
+      userId: req.body.patientUid
+    };
+    const response = await notification.createNotification(notificationData);
+
+    const user = new User();
+    const emailResponse = await user.sendNewNotificationEmail(userEmail);
+
+    res.status(201).json({response, emailResponse});
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 router.post('/:userId/createTestNotifications', async (req, res) => {

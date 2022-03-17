@@ -4,7 +4,6 @@ const Patient = require('../domain/patient');
 const PatientRepository = require('../repository/PatientRepository');
 const router = express.Router();
 
-
 router.post('/submit-status-form', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
@@ -67,6 +66,7 @@ router.get('/get-patients-covid-info/:officialId', async (req, res) => {
   }
 });
 
+
 router.post('/:userID/requestDoctor', async (req, res)=> {
   try {
     const mongo = req.app.locals.mongodb;
@@ -75,9 +75,58 @@ router.post('/:userID/requestDoctor', async (req, res)=> {
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.requestDoctor(requestValue);
     res.status(200).json(data);
+    } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
+router.post('/submit-contact-tracing', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.body.patientUid);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const contactTracingReport = {
+      timeStamp: Date.now(),
+      patientUid: userId.getId(),
+      emailList: req.body.emailList,
+      date: req.body.date,
+      locationDescription: req.body.locationDescription
+    }
+    const response = await patient.postContactTracingReport(contactTracingReport);
+    res.status(200).json(response);
+
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 });
+
+router.post('/update-contact-tracing/:userId&timeStamp=:timeStamp', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.userId);
+    const timeStamp = parseFloat(req.params.timeStamp);
+    const updatedValues = req.body.updatedValues;
+
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const response = await patient.updateContactTracingReport(timeStamp, updatedValues);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+});
+
+router.get('/get-contact-tracing/:patientUid', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.patientUid);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.getContactTracingReports();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+    console.log(error.message);
+  }
+});
+
 
 module.exports = router;

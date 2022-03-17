@@ -1,10 +1,12 @@
+const {User} = require('../domain/user');
+
 class Notification {
   constructor(notificationId, notificationRepository) {
     this.notificationId = notificationId;
     this.notificationRepository = notificationRepository;
   }
 
-  async createNotification(notificationData) {
+  async createNotification(notificationData, email) {
     return await this.notificationRepository.addNewNotification(notificationData);
   }
 
