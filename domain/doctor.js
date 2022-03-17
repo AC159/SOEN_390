@@ -14,7 +14,7 @@ class Doctor {
       const status = await this.doctorRepository.getPatientStatus(patient.uid);
       return await {
         ...patient,
-        status: status.covidStatus,
+        status: status === null ? 'Not tested' : status.covidStatus,
       };
     }));
   }
