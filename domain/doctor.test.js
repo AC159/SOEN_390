@@ -134,41 +134,31 @@ describe('test Doctor object', () => {
       it('should throw when user is not doctor', async () => {
         mockVerifyDoctor.mockImplementation(() => ({userType: 'patient', userStatus: 'approved'}));
         const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        doctor.verifyDoctor().catch((e) => {
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
           expect(e.message).toBe('Not a valid doctor');
-        });
+        };
       });
 
       it('should throw when user is not approved', async () => {
         mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor', userStatus: 'rejected'}));
         const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        doctor.verifyDoctor().catch((e) => {
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
           expect(e.message).toBe('Not a valid doctor');
-        });
-      });
-
-      it('should throw when userType is not set', async () => {
-        mockVerifyDoctor.mockImplementation(() => ({userStatus: 'rejected'}));
-        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        doctor.verifyDoctor().catch((e) => {
-          expect(e.message).toBe('Not a valid doctor');
-        });
-      });
-
-      it('should throw when userStatus is set', async () => {
-        mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor'}));
-        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        doctor.verifyDoctor().catch((e) => {
-          expect(e.message).toBe('Not a valid doctor');
-        });
+        };
       });
 
       it('should throw when no data is returned', async () => {
         mockVerifyDoctor.mockImplementation(() => {});
         const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        doctor.verifyDoctor().catch((e) => {
+        try {
+          doctor.verifyDoctor();
+        } catch (e) {
           expect(e.message).toBe('Not a valid doctor');
-        });
+        }
       });
     });
   });

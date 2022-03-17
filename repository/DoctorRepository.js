@@ -27,11 +27,6 @@ class DoctorRepository {
         .next();
   }
 
-  // getPatientInfo(patientId) {
-  //   return this.mongo.db('test').collection('user')
-  //       .find({uid: patientId});
-  // }
-
   insertAppointment(appointment) {
     return this.mongo.db('test')
         .collection('appointment')
