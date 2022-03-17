@@ -108,58 +108,5 @@ describe('test Doctor object', () => {
         expect(mockInsertNotification).toHaveBeenCalledTimes(0);
       });
     });
-
-    describe('verify doctor', () => {
-      let mockVerifyDoctor;
-      beforeEach(() => {
-        DoctorRepository.mockClear();
-        mockVerifyDoctor = jest.spyOn(DoctorRepository.prototype, 'verifyDoctor');
-      });
-
-      afterEach(() => {
-        mockVerifyDoctor.mockRestore();
-      });
-
-      it('should pass when user is a doctor', async () => {
-        mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor', userStatus: 'approved'}));
-        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        doctor.verifyDoctor()
-            .then(() => {
-              expect(true).toBe(true);
-            }).catch((e) => {
-              expect(true).toBe(false);
-            });
-      });
-
-      it('should throw when user is not doctor', async () => {
-        mockVerifyDoctor.mockImplementation(() => ({userType: 'patient', userStatus: 'approved'}));
-        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        try {
-          doctor.verifyDoctor();
-        } catch (e) {
-          expect(e.message).toBe('Not a valid doctor');
-        };
-      });
-
-      it('should throw when user is not approved', async () => {
-        mockVerifyDoctor.mockImplementation(() => ({userType: 'doctor', userStatus: 'rejected'}));
-        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        try {
-          doctor.verifyDoctor();
-        } catch (e) {
-          expect(e.message).toBe('Not a valid doctor');
-        };
-      });
-
-      it('should throw when no data is returned', async () => {
-        mockVerifyDoctor.mockImplementation(() => {});
-        const doctor = new Doctor(new UserId('12345'), new DoctorRepository(''));
-        try {
-          doctor.verifyDoctor();
-        } catch (e) {
-          expect(e.message).toBe('Not a valid doctor');
-        }
-      });
-    });
   });
 });

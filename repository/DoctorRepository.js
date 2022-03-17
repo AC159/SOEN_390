@@ -6,9 +6,12 @@ class DoctorRepository {
   }
 
   async verifyDoctor(doctorId) {
-    return await this.mongo.db('test')
-        .collection('user')
-        .findOne({uid: doctorId}, {_id: 0, userType: 1, userStatus: 1});
+    const doctorData = await this.mongo.db('test').collection('user')
+        .findOne({uid: doctorId}, {userType: 1, userStatus: 1});
+
+    if (doctorData === null || doctorData === undefined) {
+      throw new Error('Not a valid doctor');
+    }
   }
 
   getPatients(doctorId) {
