@@ -48,6 +48,7 @@ router.post('/addNewNotification', async (req, res) => {
   try {
     const userEmail = req.body.patientEmail;
     const mongo = await req.app.locals.mongodb;
+
     const notification = new Notification(null, new NotificationRepository(mongo));
     const notificationData = {
       type: req.body.type,
@@ -58,7 +59,9 @@ router.post('/addNewNotification', async (req, res) => {
       userId: req.body.patientUid
     };
     const response = await notification.createNotification(notificationData);
-    const emailResponse = await notification.sendNewNotificationEmail(userEmail);
+
+    const user = new User();
+    const emailResponse = await user.sendNewNotificationEmail(userEmail);
 
     res.status(201).json({response, emailResponse});
   } catch (error) {
