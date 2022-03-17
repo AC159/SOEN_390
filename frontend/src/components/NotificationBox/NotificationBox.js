@@ -16,8 +16,9 @@ function NotificationBox() {
         axios.post(`/notification/${id}/delete`)
             .then(() => {
                 console.log('Notification deleted!');
-                setNotifications(notifications.filter(element => element._id !== id));
-                setEmptyMessage(true);
+                const list = notifications.filter(element => element._id !== id);
+                setNotifications(list);
+                if (list.length === 0) setEmptyMessage(true);
             })
             .catch((err) => {
                 console.log(err);
