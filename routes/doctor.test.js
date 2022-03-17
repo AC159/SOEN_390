@@ -69,4 +69,46 @@ describe('integration test of doctor routes', () => {
       expect(response.body.error).toBe('There was an error.');
     });
   });
+
+  describe('create patient appointment', () => {
+    beforeEach(() => {
+      DoctorRepository.mockClear();
+      jest.spyOn(DoctorRepository.prototype, 'insertAppointment')
+          .mockImplementationOnce(() => ({acknowledged: true}))
+          .mockImplementationOnce(() => ({acknowledged: false}));
+      jest.spyOn(DoctorRepository.prototype, 'insertNotification');
+    });
+
+    it('should acknowledge the insertion of an appointment & notification', async () => {
+      const response = await request(app)
+          .post('/doctor/1234/appointment')
+          .send({
+            patientId: 'patient-1',
+            title: 'title',
+            information: 'additional informaiton',
+          })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/);
+
+      expect(response.statusCode).toBe(200);
+      expect(JSON.stringify(response.body))
+          .toBe(JSON.stringify({message: 'success'}));
+    });
+
+    it('should return status 400 when there is an error', async () => {
+      const response = await request(app)
+          .post('/doctor/1234/appointment')
+          .send({
+            patientId: 'patient-1',
+            title: 'title',
+            information: 'additional informaiton',
+          })
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/);
+
+      expect(response.statusCode).toBe(400);
+      expect(JSON.stringify(response.body))
+          .toBe(JSON.stringify({error: 'The appointment was not saved.'}));
+    });
+  });
 });

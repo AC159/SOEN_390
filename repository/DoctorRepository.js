@@ -5,10 +5,9 @@ class DoctorRepository {
     this.mongo = mongo;
   }
 
-  async verifyDoctor(userId) {
-    console.log('userId:'+userId);
+  async verifyDoctor(doctorId) {
     const doctorData = await this.mongo.db('test').collection('user')
-        .findOne({uid: userId}, {userType: 1, userStatus: 1});
+        .findOne({uid: doctorId}, {userType: 1, userStatus: 1});
 
     if (doctorData === null || doctorData === undefined) {
       throw new Error('Not a valid doctor');
@@ -29,6 +28,26 @@ class DoctorRepository {
         .limit(1)
         .project({_id: 0, covidStatus: 1})
         .next();
+  }
+
+  insertAppointment(appointment) {
+    return this.mongo.db('test')
+        .collection('appointment')
+        .insertOne(appointment);
+  }
+
+  findAppointments(doctorId) {
+    return this.mongo.db('test')
+        .collection('appointment')
+        .find({doctorId: doctorId})
+        .project({_id: 0})
+        .toArray();
+  }
+
+  insertNotification(notification) {
+    return this.mongo.db('test')
+        .collection('notification')
+        .insertOne(notification);
   }
 
   async raiseFlag(doctorId, userId, newFlagValue) {

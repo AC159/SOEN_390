@@ -8,6 +8,7 @@ import styles from "./DoctorDashboard.module.css";
 import "../DashboardCommonStyles.css";
 import NotificationBox from "../../NotificationBox/NotificationBox";
 import MonitorPatients from "../../Tabs/MonitorPatients";
+import Appointment from '../../Tabs/DoctorTabs/Appointment';
 
 function DoctorDashboard(props) {
   return (
@@ -24,6 +25,11 @@ function DoctorDashboard(props) {
             <Tab eventKey="monitor-patient" title="Monitor Patients" >
             <div className={styles["tab-page"]}>
               <MonitorPatients />
+            </div>
+            </Tab>
+            <Tab eventKey="appointment" title="Book Appointment" >
+            <div className={styles["tab-page"]}>
+              <Appointment />
             </div>
             </Tab>
             <Tab eventKey="contact" title="Contact"></Tab>
