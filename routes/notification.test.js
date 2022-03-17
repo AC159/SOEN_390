@@ -49,6 +49,6 @@ describe('integration test notificationRoutes - connection to notification domai
     it('should be able to add a new notification', async () => {
       const res = await request(app).post('/notification/addNewNotification');
       expect(res.status).toEqual(201);
-    })
+    });
   });
 });
