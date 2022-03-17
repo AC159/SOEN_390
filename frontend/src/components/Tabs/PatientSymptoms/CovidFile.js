@@ -96,7 +96,9 @@ function CovidFile(props) {
         setWhatOtherSymptoms(patientData[formIndex].otherSymptoms);
         setSymptomDetails(patientData[formIndex].symptomDetails);
         setHealth(patientData[formIndex].health);
-        setPatientAnswers(JSON.parse(JSON.stringify(patientData[formIndex].doctorQuestions)));
+        if (patientData[formIndex].doctorQuestions) {
+            setPatientAnswers(JSON.parse(JSON.stringify(patientData[formIndex].doctorQuestions)));
+        }
         setSelectedFormIndex(formIndex);
         openModal();
     }
@@ -381,7 +383,7 @@ function CovidFile(props) {
                                   defaultValue={selectedFormIndex >= 0 ? patientData[selectedFormIndex].health : null}
                                   onChange={(e) => setHealth(e.target.value)}/>
 
-                        <h6>Questions from your doctor:</h6>
+                        <h6>{patientAnswers.length > 0 ? 'Questions from your doctor:' : null}</h6>
                         <div>{selectedFormIndex >= 0 ? patientAnswers.map((question, index) => {
                             return <div key={index}>
                                 <h6>{question.question}</h6>
