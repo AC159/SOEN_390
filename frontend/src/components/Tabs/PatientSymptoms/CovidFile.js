@@ -10,7 +10,6 @@ import symptoms from "./text";
 import styles from "./CovidFile.module.css";
 
 const COVID_STATUS = ["None", "Not tested", "Positive", "Negative"];
-const initialState = {};
 
 function CovidFile(props) {
   let { currentUser } = useAuth();
@@ -192,12 +191,12 @@ function CovidFile(props) {
                           </ul>
                         </div>
                       );
-                    } else
-                      return (
-                        <div key={index}>
-                          <strong>{key}</strong>: {value}
-                        </div>
-                      );
+                    }
+                    return (
+                      <div key={index}>
+                        <strong>{key}</strong>: {value}
+                      </div>
+                    );
                   })}
                   <Button
                     variant="info"
@@ -223,11 +222,7 @@ function CovidFile(props) {
           <form>
             <h6>Select your Covid Status:</h6>
             <select
-              defaultValue={
-                selectedFormIndex >= 0
-                  ? patientData[selectedFormIndex].covidStatus
-                  : null
-              }
+              value={covidStat}
               onChange={(event) => {
                 setCovidStat(event.target.value);
                 if (event.target.value === "None") {
@@ -258,7 +253,6 @@ function CovidFile(props) {
               <option value={false}>No</option>
               <option value={true}>Yes</option>
             </select>
-            {haveSymptoms}
             {haveSymptoms && (
               <>
                 <br />
@@ -269,15 +263,7 @@ function CovidFile(props) {
                     id={type}
                     name="symptoms"
                     value={desc}
-                    defaultChecked={
-                      selectedFormIndex >= 0
-                        ? patientData[selectedFormIndex].symptoms[
-                            patientData[selectedFormIndex].symptoms.indexOf(
-                              desc
-                            )
-                          ]
-                        : null
-                    }
+                    defaultChecked={userSymptoms.indexOf(desc) >= 0}
                     onChange={(e) => {
                       if (e.target.checked) {
                         setUserSymptoms([...userSymptoms, e.target.value]);
@@ -355,12 +341,11 @@ function CovidFile(props) {
               onChange={(e) => setHealth(e.target.value)}
             />
 
-            <h6>
-              {patientAnswers.length > 0 ? "Questions from your doctor:" : null}
-            </h6>
-            <div>
-              {selectedFormIndex >= 0
-                ? patientAnswers.map((question, index) => {
+            {patientAnswers.length > 0 && (
+              <>
+                <h6>Questions from your doctor:</h6>
+                <div>
+                  {patientAnswers.map((question, index) => {
                     return (
                       <div key={index}>
                         <h6>{question.question}</h6>
@@ -374,9 +359,10 @@ function CovidFile(props) {
                         />
                       </div>
                     );
-                  })
-                : null}
-            </div>
+                  })}
+                </div>
+              </>
+            )}
           </form>
         </Modal.Body>
         <Modal.Footer>
