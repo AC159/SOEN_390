@@ -8,11 +8,16 @@ function ContactDoctor(props) {
 
     let {currentUser} = useAuth();
     let [chats, setChats] = useState([]);
-    const socket = clientSocket("ws://localhost:3000");
+    let socket;
+
+    useEffect(() => {
+        socket = clientSocket("ws://localhost:3000");
+    })
 
     useEffect(async () => {
         try {
-            const response = await axios.get(`/patient/chats/${currentUser.user.uid}`);
+            const response = await axios.get(`/patient/chats/${currentUser.user.uid}/${currentUser.dbData.patientInfo.doctorId}`);
+            console.log('Received patient chats: ', response.data);
             setChats([...response.data]);
         } catch (error) {
             console.log('Error fetching chat messages: ', error);
@@ -30,7 +35,7 @@ function ContactDoctor(props) {
 
     return (
         <div>
-            <div>{chats.length > 0 ? chats.map(msg => <div>{msg.message}</div>) : 'No chats'}</div>
+            <div>{chats.length > 0 ? chats.map(msg => <div key={msg.timestamp}>{msg.message}</div>) : 'No chats'}</div>
             <Button onClick={sendMessage}>Send</Button>
         </div>
     );

@@ -61,8 +61,8 @@ class Patient extends User {
     return await this.patientRepository.updateContactTracingReport(this.id.getId(), timeStamp, values);
   }
 
-  async getChats() {
-    return await this.patientRepository.getPatientChats(this.id.getId());
+  async getChats(chatId) {
+    return await this.patientRepository.getPatientChats(chatId);
   }
 
   updateProfile() {

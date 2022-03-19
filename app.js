@@ -45,6 +45,10 @@ io.on("connection", (socket) => {
   });
 });
 
+io.on('disconnect', (socket) => {
+  console.log(`Websocket disconnected with id ${socket.id}`.blue);
+});
+
 process.on('exit', () => {
   server.close();
 });
