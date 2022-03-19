@@ -2,17 +2,27 @@ import React, {useEffect, useState} from 'react';
 import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import axios from 'axios';
 import {Button} from 'react-bootstrap';
-import clientSocket from 'socket.io-client';
+import {io} from 'socket.io-client';
 
 function ContactDoctor(props) {
 
     let {currentUser} = useAuth();
     let [chats, setChats] = useState([]);
-    let socket;
+    let [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        socket = clientSocket("ws://localhost:3000");
-    })
+        let socket = io("ws://localhost:3000");
+        socket.on("connect", () => {
+            console.log('Connected client socket: ', socket.connected);
+        });
+        setSocket(socket);
+
+        // close previous socket before creating another one
+        return () => {
+            socket.close();
+            console.log('Disconnected client socket');
+        };
+    }, [])
 
     useEffect(async () => {
         try {
@@ -35,7 +45,7 @@ function ContactDoctor(props) {
 
     return (
         <div>
-            <div>{chats.length > 0 ? chats.map(msg => <div key={msg.timestamp}>{msg.message}</div>) : 'No chats'}</div>
+            <div>{chats.length > 0 ? chats.map((msg, index) => <div key={index}>{msg.message}</div>) : 'No chats'}</div>
             <Button onClick={sendMessage}>Send</Button>
         </div>
     );

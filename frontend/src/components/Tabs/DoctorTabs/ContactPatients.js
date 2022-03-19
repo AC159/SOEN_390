@@ -25,7 +25,7 @@ function ContactPatients(props) {
             socket.close();
             console.log('Disconnected client socket');
         };
-    }, [setSocket])
+    }, [])
 
     useEffect(async () => {
         try {
