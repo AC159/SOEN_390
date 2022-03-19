@@ -6,6 +6,7 @@ import CovidFile from '../../components/Tabs/PatientSymptoms/CovidFile';
 import RequestDoctorPage from '../../components/Tabs/PatientSymptoms/RequestDoctorPage';
 import ContactTrace from '../../components/Tabs/PatientSymptoms/ContactTrace';
 import NotificationBox from "../../components/NotificationBox/NotificationBox";
+import ContactDoctor from "../../components/Tabs/PatientSymptoms/ContactDoctor";
 
 const tabs = [
   {
@@ -36,7 +37,7 @@ const tabs = [
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: () => (<div>Contact</div>)
+    element: <ContactDoctor/>
   },
 ]
 

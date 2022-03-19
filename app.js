@@ -37,10 +37,10 @@ const io = socketio(server);
 
 io.on("connection", (socket) => {
   console.log(`New websocket connection with socket id ${socket.id}`.magenta);
-  socket.on('private-message', (otherSocketId, msg) => {
+  socket.on('private-message', async (otherSocketId, msg) => {
     // save the message in the database
     msg.timestamp = Math.floor(Date.now() / 1000);
-    app.locals.mongodb.db('test').collection('chats').insertOne(msg);
+    await app.locals.mongodb.db('test').collection('chats').insertOne(msg);
     socket.to(otherSocketId).emit('private-message', socket.id, msg);
   });
 });
