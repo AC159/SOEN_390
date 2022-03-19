@@ -8,6 +8,7 @@ function ContactDoctor(props) {
 
     let {currentUser} = useAuth();
     let [chats, setChats] = useState([]);
+    let [messageInput, setMessageInput] = useState('');
     let [socket, setSocket] = useState(null);
 
     useEffect(() => {
@@ -38,15 +39,17 @@ function ContactDoctor(props) {
         const patientId = currentUser.user.uid;
         const doctorId = currentUser.dbData.patientInfo.doctorId;
         const chatId = patientId + '_' + doctorId;
-        const msg = {chatId: chatId, message: "Hello world", patientId: patientId, doctorId: doctorId};
+        const msg = {chatId: chatId, message: messageInput, patientId: patientId, doctorId: doctorId};
         socket.emit('private-message', chatId, msg);
         setChats([...chats, msg]);
+        setMessageInput('');
     }
 
     return (
         <div>
             <div>{chats.length > 0 ? chats.map((msg, index) => <div key={index}>{msg.message}</div>) : 'No chats'}</div>
-            <Button onClick={sendMessage}>Send</Button>
+            <input placeholder={'message'} type='text' value={messageInput} onChange={(event) => setMessageInput(event.target.value)}/>
+            <Button disabled={messageInput === ''} onClick={sendMessage}>Send</Button>
         </div>
     );
 }
