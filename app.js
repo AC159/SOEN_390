@@ -38,6 +38,7 @@ const io = socketio(server);
 io.on("connection", (socket) => {
   console.log(`New websocket connection with socket id ${socket.id}`.magenta);
   socket.on('private-message', async (otherSocketId, msg) => {
+    console.log('Received message from client: ', msg);
     // save the message in the database
     msg.timestamp = Math.floor(Date.now() / 1000);
     await app.locals.mongodb.db('test').collection('chats').insertOne(msg);

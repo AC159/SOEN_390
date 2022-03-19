@@ -5,6 +5,7 @@ import Home from '../../components/Tabs/Home';
 import MonitorPatients from '../../components/Tabs/MonitorPatients';
 import Appointment from '../../components/Tabs/DoctorTabs/Appointment';
 import NotificationBox from "../../components/NotificationBox/NotificationBox";
+import ContactPatients from "../../components/Tabs/DoctorTabs/ContactPatients";
 
 const tabs = [
   {
@@ -30,7 +31,7 @@ const tabs = [
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: () => (<div>Contact</div>)
+    element: <ContactPatients/>
   },
 ]
 

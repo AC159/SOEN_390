@@ -1,4 +1,3 @@
-const nodemailer = require("nodemailer");
 
 class UserRepository {
   constructor(mongo) {
@@ -36,7 +35,12 @@ class UserRepository {
   fetchTypeAndStatus(userId) {
     return this.mongo.db('test').collection('user').findOne({uid: userId},
       {userStatus: 1, userType: 1, uid: 0});
-  };
+  }
+
+  getUserChats(chatId) {
+    return this.mongo.db('test').collection('chats').find({chatId: chatId}).sort({timestamp: 1}).toArray();
+  }
+
 }
 
 module.exports = UserRepository;

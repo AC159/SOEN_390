@@ -9,16 +9,16 @@ class Doctor {
   }
 
   async getPatients() {
+    return this.doctorRepository.getPatients(this.id.getId());
     const patients = await this.doctorRepository.getPatients(this.id.getId());
-    return await Promise.all(
-      patients.map(async (patient) => {
-        const status = await this.doctorRepository.getPatientStatus(patient.uid);
-        return await {
-          ...patient,
-          status: status === null ? 'Not tested' : status.covidStatus,
-        };
-      }),
-    );
+    console.log('Patients 1: ', patients);
+    return await Promise.all(patients.map(async (patient) => {
+      const status = await this.doctorRepository.getPatientStatus(patient.uid);
+      return await {
+        ...patient,
+        status: status === null ? 'Not tested' : status.covidStatus,
+      };
+    }));
   }
 
   async raiseFlag(userId, newFlagValue) {
