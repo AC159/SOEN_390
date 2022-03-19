@@ -14,24 +14,34 @@ function ContactPatients(props) {
     let [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        let socket = io("ws://localhost:3000");
-        socket.on("connect", () => {
-            console.log('Connected client socket: ', socket.connected);
-        });
+        if (selectedChatIndex !== -1) {
+            let socket = io("ws://localhost:3000");
 
-        socket.on('private-message', (otherSocketId, msg) => {
-            console.log(`Received new message from doctor on socket ${otherSocketId}: `, msg);
+            socket.on("connect", () => {
+                console.log('Connected client socket: ', socket.connected);
+            });
+
+            const patientId = patients[selectedChatIndex].uid;
+            const doctorId = currentUser.user.uid;
+            const chatId = patientId + '_' + doctorId;
+            socket.emit('join-chat-room', chatId);
+
+            setSocket(socket);
+
+            // close previous socket before creating another one
+            return () => {
+                socket.close();
+                console.log('client socket has disconnected');
+            };
+        }
+    }, [selectedChatIndex])
+
+    if (socket) {
+        socket.on('private-message', (msg) => {
+            console.log('Received new message from patient: ', msg);
             setChats([...chats, msg]);
         });
-
-        setSocket(socket);
-
-        // close previous socket before creating another one
-        return () => {
-            socket.close();
-            console.log('Disconnected client socket');
-        };
-    }, [])
+    }
 
     useEffect(async () => {
         try {
@@ -54,13 +64,13 @@ function ContactPatients(props) {
         }
     }
 
-    const sendMessage = async () => {
+    const sendMessage = () => {
         const patientId = patients[selectedChatIndex].uid;
         const doctorId = currentUser.user.uid;
         const chatId = patientId + '_' + doctorId;
         const msg = {chatId: chatId, message: messageInput, patientId: patientId, doctorId: doctorId};
         console.log('Is socket connected: ', socket.connected);
-        socket.emit('private-message', chatId, msg);
+        socket.emit('private-message', msg);
         setChats([...chats, msg]);
         setMessageInput('');
     }

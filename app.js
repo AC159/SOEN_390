@@ -37,17 +37,22 @@ const io = socketio(server);
 
 io.on("connection", (socket) => {
   console.log(`New websocket connection with socket id ${socket.id}`.magenta);
-  socket.on('private-message', async (otherSocketId, msg) => {
+
+  socket.on('join-chat-room', (chatId) => {
+    socket.join(chatId);
+  })
+
+  socket.on('private-message', async (msg) => {
     console.log('Received message from client: ', msg);
     // save the message in the database
     msg.timestamp = Math.floor(Date.now() / 1000);
     await app.locals.mongodb.db('test').collection('chats').insertOne(msg);
-    socket.to(otherSocketId).emit('private-message', socket.id, msg);
+    socket.to(msg.chatId).emit('private-message', msg);
   });
-});
 
-io.on('disconnect', (socket) => {
-  console.log(`Websocket disconnected with id ${socket.id}`.blue);
+  socket.on('disconnect', () => {
+    console.log(`Websocket disconnected`.blue);
+  });
 });
 
 process.on('exit', () => {
