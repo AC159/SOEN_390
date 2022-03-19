@@ -16,7 +16,7 @@ function ContactDoctor(props) {
 
     useEffect(async () => {
         try {
-            const response = await axios.get(`/patient/chats/${currentUser.user.uid}/${currentUser.dbData.patientInfo.doctorId}`);
+            const response = await axios.get(`/user/chats/${currentUser.user.uid}/${currentUser.dbData.patientInfo.doctorId}`);
             console.log('Received patient chats: ', response.data);
             setChats([...response.data]);
         } catch (error) {
