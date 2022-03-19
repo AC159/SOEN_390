@@ -18,6 +18,12 @@ function ContactPatients(props) {
         socket.on("connect", () => {
             console.log('Connected client socket: ', socket.connected);
         });
+
+        socket.on('private-message', (otherSocketId, msg) => {
+            console.log(`Received new message from doctor on socket ${otherSocketId}: `, msg);
+            setChats([...chats, msg]);
+        });
+
         setSocket(socket);
 
         // close previous socket before creating another one
