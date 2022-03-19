@@ -58,6 +58,10 @@ class PatientRepository {
     return this.mongo.db('test').collection('contactTracing').updateOne({patientUid: userId, timeStamp: timeStamp}, {$set: values});
   }
 
+  getPatientChats(userId, doctorId) {
+    return this.mongo.db('test').collection('chats').find({patientUid: userId, doctorUid: doctorId}).toArray();
+  }
+
 }
 
 module.exports = PatientRepository;
