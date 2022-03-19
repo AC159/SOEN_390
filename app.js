@@ -45,5 +45,9 @@ io.on("connection", (socket) => {
   });
 });
 
+io.on('disconnect', (socket) => {
+  console.log(`Websocket disconnected with id ${socket.id}`.blue);
+});
+
 module.exports = app;
 module.exports.server = server;

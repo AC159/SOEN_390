@@ -58,8 +58,8 @@ class PatientRepository {
     return this.mongo.db('test').collection('contactTracing').updateOne({patientUid: userId, timeStamp: timeStamp}, {$set: values});
   }
 
-  getPatientChats(userId) {
-    return this.mongo.db('test').collection('chats').find({patientUid: userId}).sort({timestamp: 1}).toArray();
+  getPatientChats(chatId) {
+    return this.mongo.db('test').collection('chats').find({chatId: chatId}).sort({timestamp: 1}).toArray();
   }
 
 }
