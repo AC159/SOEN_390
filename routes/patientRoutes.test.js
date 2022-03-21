@@ -3,7 +3,7 @@ const app = require('../app');
 const server = require('../app').server;
 const MongoClient = require('mongodb').MongoClient;
 const PatientRepository = require('../repository/PatientRepository');
-patientRepository = new PatientRepository();
+let patientRepository = new PatientRepository();
 
 jest.mock('../repository/PatientRepository');
 jest.mock('mongodb');
