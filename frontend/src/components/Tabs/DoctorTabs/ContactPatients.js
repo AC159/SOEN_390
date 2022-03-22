@@ -4,8 +4,6 @@ import axios from 'axios';
 import {Button, ListGroup, Spinner} from 'react-bootstrap';
 import {io} from "socket.io-client";
 
-const socket = io("ws://localhost:3000");
-
 function ContactPatients(props) {
 
     let {currentUser} = useAuth();
@@ -13,10 +11,12 @@ function ContactPatients(props) {
     let [patients, setPatients] = useState([]);
     let [messageInput, setMessageInput] = useState('');
     let [selectedChatIndex, setSelectedChatIndex] = useState(-1);
+    let [socket, setSocket] = useState(null);
 
     useEffect(() => {
         if (selectedChatIndex !== -1) {
 
+            let socket = io("ws://localhost:3000");
             socket.on("connect", () => {
                 console.log('Connected client socket: ', socket.connected);
             });
@@ -25,6 +25,7 @@ function ContactPatients(props) {
             const doctorId = currentUser.user.uid;
             const chatId = patientId + '_' + doctorId;
             socket.emit('join-chat-room', chatId);
+            setSocket(socket);
 
             // close previous socket before creating another one
             return () => {
@@ -35,10 +36,12 @@ function ContactPatients(props) {
     }, [selectedChatIndex])
 
     useEffect(() => {
-        socket.on('private-message', (msg) => {
-            console.log('Received new message from patient: ', msg);
-            setChats([...chats, msg]);
-        });
+        if (socket !== null) {
+            socket.on('private-message', (msg) => {
+                console.log('Received new message from patient: ', msg);
+                setChats([...chats, msg]);
+            });
+        }
     })
 
     useEffect(async () => {

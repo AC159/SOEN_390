@@ -4,13 +4,12 @@ import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import {io} from 'socket.io-client';
 
-const socket = io("ws://localhost:3000");
-
 function ContactDoctor(props) {
 
     let {currentUser} = useAuth();
     let [chats, setChats] = useState([]);
     let [messageInput, setMessageInput] = useState('');
+    let [socket, setSocket] = useState(null);
 
     useEffect(async () => {
         try {
@@ -21,6 +20,7 @@ function ContactDoctor(props) {
             console.log('Error fetching chat messages: ', error);
         }
 
+        let socket = io("ws://localhost:3000");
         socket.on("connect", () => {
             console.log('Connected client socket: ', socket.connected);
         });
@@ -29,6 +29,7 @@ function ContactDoctor(props) {
         const doctorId = currentUser.dbData.patientInfo.doctorId;
         const chatId = patientId + '_' + doctorId;
         socket.emit('join-chat-room', chatId);
+        setSocket(socket);
 
         // close previous socket before creating another one
         return () => {
@@ -38,10 +39,12 @@ function ContactDoctor(props) {
     }, [])
 
     useEffect(() => {
-        socket.on('private-message', (msg) => {
-            console.log('Received new message from patient: ', msg);
-            setChats([...chats, msg]);
-        });
+        if (socket !== null) {
+            socket.on('private-message', (msg) => {
+                console.log('Received new message from patient: ', msg);
+                setChats([...chats, msg]);
+            });
+        }
     })
 
     const sendMessage = () => {

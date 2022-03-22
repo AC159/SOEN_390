@@ -2,6 +2,9 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 require('colors');
 
+const DB = "test";
+const COLLECTION = "socket.io-adapter-events";
+
 async function connectToCluster(uri) {
   let mongoClient;
   try {
@@ -16,4 +19,6 @@ async function connectToCluster(uri) {
   }
 }
 
-module.exports = connectToCluster;
+module.exports.connectToCluster = connectToCluster;
+module.exports.DB = DB;
+module.exports.COLLECTION = COLLECTION;
