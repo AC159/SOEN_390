@@ -4,11 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Appointment.module.css";
 import "../CommonPageStyling.css";
 import axios from "axios";
+import {addDays, setHours, setMinutes} from "date-fns";
 import {Button, Container, Row, Col} from "react-bootstrap";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
 import moment from "moment";
 
 
@@ -23,6 +22,7 @@ function Appointment(props) {
     let [dateAndTime, setDateAndTime] = useState(new Date);
     let [title, setTitle] = useState('')
     let [information, setInformation] = useState('');
+    let [meetingLink, setMeetingLink] = useState('');
     let dateArr = [];
     let arrExcludedTimes = [];
     
@@ -82,7 +82,8 @@ function Appointment(props) {
                 patientName: patientName,
                 dateAndTime: dateAndTime.getTime(),
                 title: title,
-                information: information
+                information: information,
+                meetingLink: meetingLink
             };
             axios.post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
                 .then(function (response) {
@@ -211,8 +212,9 @@ function Appointment(props) {
                                             inline
                                             showTimeSelect
                                             timeIntervals={30}
-                                            minTime={setHours(setMinutes(new Date(), 0), 7)}
-                                            maxTime={setHours(setMinutes(new Date(), 0), 20)}
+                                            minDate={addDays(new Date(), 1)}
+                                            minTime={setHours(setMinutes(new Date(), 0), 9)}
+                                            maxTime={setHours(setMinutes(new Date(), 0), 19)}
                                             timeCaption="Time"
                                             dateFormat="h:mm aa"
                                             popperPlacement="top-end"
@@ -229,7 +231,10 @@ function Appointment(props) {
                                 </Col>
                             </Row>
                         </Container>
-                        <br></br>
+                        <div className={styles["selectPatient"]}>
+                            <p>Meeting Link:</p>
+                            <textarea onChange={(event) => setMeetingLink(event.target.value)}>https//zoom.us/123456789</textarea>
+                        </div>
 
                         <div class="col-md-12 text-center">
                             <Button data-testid="viewBookAppointmentBtn" class="btn btn-outline-dark justify-content-center" variant="secondary" onClick={event => { submitAppointment(); }}>

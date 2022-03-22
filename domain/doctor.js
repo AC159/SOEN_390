@@ -55,7 +55,7 @@ class Doctor {
       type: 'primary',
       heading: appointmentInfo.title,
       mainText: appointmentInfo.information,
-      subText: 'https//zoom.us/123456789',
+      subText: appointmentInfo.meetingLink,
       timestamp: Date.now(),
       userId: patientId,
     };
