@@ -2,11 +2,9 @@ import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {Accordion, Button} from 'react-bootstrap';
 
-import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
 import styles from './PatientBox.module.css';
 
 const PatientInfoItem = ({type, element, index, render, doctorButton = (id) => {}}) => {
-  const {currentUser} = useAuth();
   const [id, setId] = useState('');
   const [date, setDate] = useState('');
   const [info, setInfo] = useState([]);
@@ -26,7 +24,7 @@ const PatientInfoItem = ({type, element, index, render, doctorButton = (id) => {
     const data = Object.fromEntries(Object.entries(element).filter(([key, value], _) => predicate(value, key)));
 
     setInfo(data);
-  }, [currentUser, type, element]);
+  }, [type, element]);
 
   return (
     <Accordion.Item eventKey={index}>
