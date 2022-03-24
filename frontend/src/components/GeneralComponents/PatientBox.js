@@ -115,10 +115,6 @@ function PatientBox(props) {
     }
   }
 
-  const FormSelect = (formId) => {
-    setSelectedFormId(formId);
-  };
-
   const sendContactTraceNotification = async (email) => {
     try {
       const userCheck = await axios.get(`/user/${email}/profile`);
