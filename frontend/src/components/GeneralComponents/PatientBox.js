@@ -17,8 +17,14 @@ import patientIcon from "../../assets/patientIcon.png";
 import DoctorListItem from "./DoctorListItem";
 import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import styles from "./PatientBox.module.css";
+import useInputField from "../../hook/useInputField";
+
+const initialFieldState = [{ question: "", answer: "" }];
+const newField = { question: "", answer: "" };
 
 function PatientBox(props) {
+  // TODO: Create fetch data hook
+
   const initialDoctorInfo = {
     id: props.patient.patientInfo.doctorId
       ? props.patient.patientInfo.doctorId
@@ -26,6 +32,7 @@ function PatientBox(props) {
     name: props.patient.patientInfo.doctor,
   };
 
+  // TODO: Create a single state object
   const [showDoctorList, setShowDoctorList] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [assignedDoctor, setAssignedDoctor] = useState(props.doctorName);
@@ -33,6 +40,13 @@ function PatientBox(props) {
   const [isFlagged, setIsFlagged] = useState(false);
   const [doctorInfo, setDoctorInfo] = useState(initialDoctorInfo);
   const [selectedFormId, setSelectedFormId] = useState("");
+  const [
+    fields,
+    setFields,
+    handleFieldChange,
+    handleAddField,
+    handleDeleteField,
+  ] = useInputField(initialFieldState, newField);
 
   let [displayRequestBadge] = useState(props.patient.wantToBeAssignedToDoctor);
   let [patientCTData, setPatientCTData] = useState([]);
@@ -55,6 +69,7 @@ function PatientBox(props) {
   }, [isFlagged]);
 
   const checkIsFlagged = () => {
+    // TODO: Change switch to object
     let newFlagValue;
     switch (localStorage.getItem("userType")) {
       case "doctor":
@@ -86,6 +101,7 @@ function PatientBox(props) {
     fetchDoctorList();
   };
 
+  // ? CAN THIS BE EXTRACTED TO HOOK
   const fetchDoctorList = async () => {
     try {
       const response = await axios.get(
@@ -198,6 +214,8 @@ function PatientBox(props) {
     }
   };
 
+  // ? CAN THIS BE EXTRACTED TO ITS OWN HOOK
+  // TODO: Extract to custom hook since already use at line 95
   const fetchPatientCTData = async () => {
     try {
       const response = await axios.get(
@@ -209,6 +227,7 @@ function PatientBox(props) {
     }
   };
 
+  // TODO: Extract Patient CT DATA
   const RenderPatientCTData = () => {
     return patientCTData.map((element, index) => {
       console.log(index);
@@ -261,6 +280,7 @@ function PatientBox(props) {
     });
   };
 
+  // TODO: Extract Patient Info
   const RenderPatientInfo = (selectForm) => {
     return patientData.map((element, index) => {
       let date = new Date(element.timestamp * 1000);
@@ -354,6 +374,7 @@ function PatientBox(props) {
                   );
               }
             })}
+            {/* // TODO: SIMPLIFY THIS CRAP */}
             {currentUser.dbData.userType === "doctor" ? (
               selectForm["selectForm"] === true ? (
                 <Button
@@ -408,42 +429,24 @@ function PatientBox(props) {
     } catch (error) {}
   };
 
+  // TODO: Extract Flag Button to it's component
   const [flagButtonText, setFlagButtonText] = useState("");
   const changeFlagButtonText = () => {
     if (isFlagged) setFlagButtonText("Unflag Patient");
     else setFlagButtonText("Flag Patient");
   };
 
-  const [inputList, setInputList] = useState([{ question: "", answer: "" }]);
-
-  const handleQuestionInputChange = (event, index) => {
-    const { name, value } = event.target;
-    const list = [...inputList];
-    list[index][name] = value; //updates list based on the index
-    setInputList(list);
-  };
-
-  const handleAddQuestionInput = () => {
-    setInputList([...inputList, { question: "", answer: "" }]); //pushing new input field to list each time this is called
-  };
-
-  const handleDeleteInput = (index) => {
-    const list = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
-  };
-
   const submitDoctorQuestions = async (selectedFormId) => {
     try {
       // delete empty questions
-      const list = inputList.filter((question) => question.question !== "");
+      const list = fields.filter((question) => question.question !== "");
       const requestBody = {
         formId: selectedFormId,
         doctorUid: props.currentUser.user.uid,
         doctorQuestions: list,
       };
       await axios.post("/doctor/question-answer", requestBody);
-      setInputList([]);
+      setFields([]);
     } catch (error) {
       console.log("Error sending doctor questions: ", error);
     }
@@ -617,8 +620,7 @@ function PatientBox(props) {
                       <h4 className={styles["patient-info-tab-subtitle"]}>
                         Create Question List
                       </h4>
-
-                      {inputList.map((item, index) => {
+                      {fields.map((item, index) => {
                         return (
                           <div key={index} className={styles["qa-form"]}>
                             <input
@@ -627,16 +629,16 @@ function PatientBox(props) {
                               placeholder="Enter Question Here"
                               value={item.question}
                               onChange={(event) =>
-                                handleQuestionInputChange(event, index)
+                                handleFieldChange(event, index)
                               }
                               className={styles["question-input-field"]}
                             />
-                            {inputList.length !== 1 && (
+                            {fields.length !== 1 && (
                               <input
                                 type="button"
                                 value="X"
                                 className={styles["qa-delete-button"]}
-                                onClick={() => handleDeleteInput(index)} //passing index here as we want to delete a specific question
+                                onClick={() => handleDeleteField(index)} //passing index here as we want to delete a specific question
                               />
                             )}
                           </div>
@@ -647,7 +649,7 @@ function PatientBox(props) {
                           type="button"
                           value="Add Question"
                           className={styles["qa-add-button"]}
-                          onClick={handleAddQuestionInput}
+                          onClick={handleAddField}
                         />
                         <input
                           type="button"
