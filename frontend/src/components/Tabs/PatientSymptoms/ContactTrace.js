@@ -17,7 +17,6 @@ function ContactTrace(props) {
   let [locationDescription, setLocationDescription] = useState('');
   let [date, setDate] = useState('');
   let [showModal, setShowModal] = useState(false);
-  let [timeStamp, setTimeStamp] = useState('');
   let [update, setUpdate] = useState(false);
   const [emails, setEmails, handleEmailFieldChange, handleAddEmailField, handleDeleteEmailField] = useInputField(initialEmailsState, newEmail);
   const [patientTracing, fetchPatientContactTracing] = useFetch([], `/patient/get-contact-tracing/${currentUser.user.uid}`);
@@ -39,47 +38,12 @@ function ContactTrace(props) {
     }
   };
 
-  const updatePatientForm = async () => {
-    const list1 = emails.filter((email) => email.email !== null);
-    const list = list1.map((email) => email.email);
-    const userAttributes = {
-      emailList: list,
-      date: date,
-      locationDescription: locationDescription,
-    };
-    console.log(userAttributes);
-    axios
-      .post(`/patient/update-contact-tracing/${currentUser.user.uid}&timeStamp=${timeStamp}`, userAttributes)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     fetchPatientContactTracing();
   }, []);
 
   const closeModal = () => setShowModal(false);
   const openModal = () => setShowModal(true);
-
-  const showModalForTracingFormUpdate = (formIndex) => {
-    setUpdate(true);
-    if (patientTracing[formIndex].emailList !== null) {
-      setEmails(patientTracing[formIndex].emailList);
-    }
-    if (patientTracing[formIndex].date) {
-      setDate(patientTracing[formIndex].date);
-      setTimeStamp(patientTracing[formIndex].timeStamp);
-    }
-    if (patientTracing[formIndex].locationDescription) {
-      setLocationDescription(patientTracing[formIndex].locationDescription);
-    }
-
-    openModal();
-  };
 
   return (
     <div>
