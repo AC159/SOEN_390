@@ -19,16 +19,14 @@ import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
 import styles from "./PatientBox.module.css";
 import useInputField from "../../hook/useInputField";
 
-const initialFieldState = [{ question: "", answer: "" }];
-const newField = { question: "", answer: "" };
+const initialQuestionsState = [{ question: "", answer: "" }];
+const newQuestion = { question: "", answer: "" };
 
 function PatientBox(props) {
   // TODO: Create fetch data hook
 
   const initialDoctorInfo = {
-    id: props.patient.patientInfo.doctorId
-      ? props.patient.patientInfo.doctorId
-      : "",
+    id: props.patient.patientInfo.doctorId || "",
     name: props.patient.patientInfo.doctor,
   };
 
@@ -41,12 +39,12 @@ function PatientBox(props) {
   const [doctorInfo, setDoctorInfo] = useState(initialDoctorInfo);
   const [selectedFormId, setSelectedFormId] = useState("");
   const [
-    fields,
-    setFields,
-    handleFieldChange,
-    handleAddField,
-    handleDeleteField,
-  ] = useInputField(initialFieldState, newField);
+    questions,
+    setQuestions,
+    handleQuestionFieldChange,
+    handleAddQuestionField,
+    handleDeleteQuestionField,
+  ] = useInputField(initialQuestionsState, newQuestion);
 
   let [displayRequestBadge] = useState(props.patient.wantToBeAssignedToDoctor);
   let [patientCTData, setPatientCTData] = useState([]);
@@ -439,14 +437,14 @@ function PatientBox(props) {
   const submitDoctorQuestions = async (selectedFormId) => {
     try {
       // delete empty questions
-      const list = fields.filter((question) => question.question !== "");
+      const list = questions.filter((question) => question.question !== "");
       const requestBody = {
         formId: selectedFormId,
         doctorUid: props.currentUser.user.uid,
         doctorQuestions: list,
       };
       await axios.post("/doctor/question-answer", requestBody);
-      setFields([]);
+      setQuestions([]);
     } catch (error) {
       console.log("Error sending doctor questions: ", error);
     }
@@ -620,7 +618,7 @@ function PatientBox(props) {
                       <h4 className={styles["patient-info-tab-subtitle"]}>
                         Create Question List
                       </h4>
-                      {fields.map((item, index) => {
+                      {questions.map((item, index) => {
                         return (
                           <div key={index} className={styles["qa-form"]}>
                             <input
@@ -629,16 +627,16 @@ function PatientBox(props) {
                               placeholder="Enter Question Here"
                               value={item.question}
                               onChange={(event) =>
-                                handleFieldChange(event, index)
+                                handleQuestionFieldChange(event, index)
                               }
                               className={styles["question-input-field"]}
                             />
-                            {fields.length !== 1 && (
+                            {questions.length !== 1 && (
                               <input
                                 type="button"
                                 value="X"
                                 className={styles["qa-delete-button"]}
-                                onClick={() => handleDeleteField(index)} //passing index here as we want to delete a specific question
+                                onClick={() => handleDeleteQuestionField(index)} //passing index here as we want to delete a specific question
                               />
                             )}
                           </div>
@@ -649,7 +647,7 @@ function PatientBox(props) {
                           type="button"
                           value="Add Question"
                           className={styles["qa-add-button"]}
-                          onClick={handleAddField}
+                          onClick={handleAddQuestionField}
                         />
                         <input
                           type="button"

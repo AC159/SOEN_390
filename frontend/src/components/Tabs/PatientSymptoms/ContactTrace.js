@@ -8,8 +8,8 @@ import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import useInputField from "../../../hook/useInputField";
 import styles from "./ContactTrace.module.css";
 
-const initialFieldState = [{ email: "" }];
-const newField = { email: "" };
+const initialEmailsState = [{ email: "" }];
+const newEmail = { email: "" };
 
 function ContactTrace(props) {
   let { currentUser } = useAuth();
@@ -20,16 +20,16 @@ function ContactTrace(props) {
   let [timeStamp, setTimeStamp] = useState("");
   let [update, setUpdate] = useState(false);
   const [
-    fields,
-    setFields,
-    handleFieldChange,
-    handleAddField,
-    handleDeleteField,
-  ] = useInputField(initialFieldState, newField);
+    emails,
+    setEmails,
+    handleEmailFieldChange,
+    handleAddEmailField,
+    handleDeleteEmailField,
+  ] = useInputField(initialEmailsState, newEmail);
 
   const submitContactTracingForm = async () => {
     try {
-      const list1 = fields.filter((email) => email.email !== null);
+      const list1 = emails.filter((email) => email.email !== null);
       const list = list1.map((email) => email.email);
       const userAttributes = {
         patientUid: currentUser.user.uid,
@@ -48,7 +48,7 @@ function ContactTrace(props) {
   };
 
   const updatePatientForm = async () => {
-    const list1 = fields.filter((email) => email.email !== null);
+    const list1 = emails.filter((email) => email.email !== null);
     const list = list1.map((email) => email.email);
     const userAttributes = {
       emailList: list,
@@ -91,7 +91,7 @@ function ContactTrace(props) {
   const showModalForTracingFormUpdate = (formIndex) => {
     setUpdate(true);
     if (patientTracing[formIndex].emailList !== null) {
-      setFields(patientTracing[formIndex].emailList);
+      setEmails(patientTracing[formIndex].emailList);
     }
     if (patientTracing[formIndex].date) {
       setDate(patientTracing[formIndex].date);
@@ -112,7 +112,7 @@ function ContactTrace(props) {
         onClick={() => {
           openModal();
           setUpdate(false);
-          setFields(initialFieldState);
+          setEmails(initialEmailsState);
         }}
       >
         New Contact Tracing from
@@ -184,7 +184,7 @@ function ContactTrace(props) {
             onChange={(event) => setLocationDescription(event.target.value)}
           />
           <label>Enter all the people's email</label>
-          {fields.map((value, index) => {
+          {emails.map((value, index) => {
             return (
               <div key={index}>
                 <input
@@ -192,15 +192,15 @@ function ContactTrace(props) {
                   name="email"
                   placeholder="email"
                   value={value.email}
-                  className={styles[fields.length !== 1 && "email-input-trace"]}
-                  onChange={(event) => handleFieldChange(event, index)}
+                  className={styles[emails.length !== 1 && "email-input-trace"]}
+                  onChange={(event) => handleEmailFieldChange(event, index)}
                 />
-                {fields.length !== 1 && (
+                {emails.length !== 1 && (
                   <input
                     type="button"
                     value="X"
                     className={styles["delete-button-trace"]}
-                    onClick={() => handleDeleteField(index)}
+                    onClick={() => handleDeleteEmailField(index)}
                   />
                 )}
               </div>
@@ -208,7 +208,7 @@ function ContactTrace(props) {
           })}
 
           <div>
-            <Button value="Add email" onClick={handleAddField}>
+            <Button value="Add email" onClick={handleAddEmailField}>
               Add email
             </Button>
 
