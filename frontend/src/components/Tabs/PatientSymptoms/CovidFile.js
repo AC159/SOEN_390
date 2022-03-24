@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import moment from "moment";
-import { Accordion, Button } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import {Accordion, Button} from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 
-import { useAuth } from "../../Authentication/FirebaseAuth/FirebaseAuth";
-import Checkbox from "./Checkbox";
-import symptoms from "./text";
-import styles from "./CovidFile.module.css";
+import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
+import Checkbox from './Checkbox';
+import symptoms from './text';
+import styles from './CovidFile.module.css';
+import useFetch from '../../../hook/useFetch';
 
-const COVID_STATUS = ["None", "Not tested", "Positive", "Negative"];
+const COVID_STATUS = ['None', 'Not tested', 'Positive', 'Negative'];
 
 function CovidFile(props) {
-  let { currentUser } = useAuth();
-  let [covidStat, setCovidStat] = useState("");
+  let {currentUser} = useAuth();
+  let [covidStat, setCovidStat] = useState('');
   let [haveSymptoms, setHaveSymptoms] = useState(false);
   let [userSymptoms, setUserSymptoms] = useState([]);
   let [haveFever, setHaveFever] = useState(false);
-  let [temp, setTemp] = useState("");
+  let [temp, setTemp] = useState('');
   let [other, setOther] = useState(false);
-  let [whatOtherSymptoms, setWhatOtherSymptoms] = useState("");
-  let [symptomDetails, setSymptomDetails] = useState("");
-  let [health, setHealth] = useState("");
-  let [patientData, setPatientData] = useState();
+  let [whatOtherSymptoms, setWhatOtherSymptoms] = useState('');
+  let [symptomDetails, setSymptomDetails] = useState('');
+  let [health, setHealth] = useState('');
   let [showModal, setShowModal] = useState(false);
   let [selectedFormIndex, setSelectedFormIndex] = useState(-1);
   let [patientAnswers, setPatientAnswers] = useState([]);
+
+  const [patientData, fetchPatientForm] = useFetch([], `/patient/get-status-forms/${currentUser.user.uid}`);
 
   const submitPatientForm = async () => {
     try {
@@ -38,13 +40,10 @@ function CovidFile(props) {
         symptomDetails: symptomDetails,
         health: health,
       };
-      const response = await axios.post(
-        `/patient/submit-status-form`,
-        userAttributes
-      );
+      const response = await axios.post(`/patient/submit-status-form`, userAttributes);
       console.log(response);
     } catch (error) {
-      console.log("Submit error: ", error);
+      console.log('Submit error: ', error);
     }
   };
 
@@ -62,10 +61,7 @@ function CovidFile(props) {
     };
     console.log(userAttributes);
     axios
-      .post(
-        `/patient/update-status-form/${currentUser.user.uid}`,
-        userAttributes
-      )
+      .post(`/patient/update-status-form/${currentUser.user.uid}`, userAttributes)
       .then(function (response) {
         console.log(response);
       })
@@ -73,18 +69,6 @@ function CovidFile(props) {
         console.log(error);
       });
     setSelectedFormIndex(-1);
-  };
-
-  const fetchPatientForm = async () => {
-    try {
-      const response = await axios.get(
-        `/patient/get-status-forms/${currentUser.user.uid}`
-      );
-      console.log(response);
-      setPatientData(response.data);
-    } catch (error) {
-      console.log("Unable to fetch patient status forms: ", error);
-    }
   };
 
   useEffect(() => {
@@ -110,24 +94,22 @@ function CovidFile(props) {
     setSymptomDetails(patientData[formIndex].symptomDetails);
     setHealth(patientData[formIndex].health);
     if (patientData[formIndex].doctorQuestions) {
-      setPatientAnswers(
-        JSON.parse(JSON.stringify(patientData[formIndex].doctorQuestions))
-      );
+      setPatientAnswers(JSON.parse(JSON.stringify(patientData[formIndex].doctorQuestions)));
     }
     setSelectedFormIndex(formIndex);
     openModal();
   };
 
   const showCovidFormModalNew = () => {
-    setCovidStat("");
+    setCovidStat('');
     setHaveSymptoms(false);
     setUserSymptoms([]);
     setHaveFever(false);
-    setTemp("");
+    setTemp('');
     setOther(false);
-    setWhatOtherSymptoms("");
-    setSymptomDetails("");
-    setHealth("");
+    setWhatOtherSymptoms('');
+    setSymptomDetails('');
+    setHealth('');
     setPatientAnswers([]);
     setSelectedFormIndex(-1);
     openModal();
@@ -142,30 +124,20 @@ function CovidFile(props) {
 
   return (
     <div>
-      <Button variant="info" onClick={showCovidFormModalNew}>
+      <Button variant='info' onClick={showCovidFormModalNew}>
         New form
       </Button>
       {patientData && (
-        <Accordion defaultActiveKey="0">
+        <Accordion defaultActiveKey='0'>
           {patientData.map((element, index) => {
             let date = new Date(element.timestamp * 1000);
             return (
               <Accordion.Item eventKey={index} key={index}>
-                <Accordion.Header>
-                  Created on{" "}
-                  {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}
-                </Accordion.Header>
+                <Accordion.Header>Created on {moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Accordion.Header>
                 <Accordion.Body>
                   {Object.entries(element).map(([key, value], index) => {
-                    if (
-                      !value ||
-                      key === "_id" ||
-                      key === "patientUid" ||
-                      key === "timestamp" ||
-                      value.length === 0
-                    )
-                      return null;
-                    if (Array.isArray(value) && typeof value[0] === "object") {
+                    if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
+                    if (Array.isArray(value) && typeof value[0] === 'object') {
                       return (
                         <div key={index}>
                           <strong>Doctor questions</strong>:
@@ -183,7 +155,7 @@ function CovidFile(props) {
                     if (Array.isArray(value)) {
                       return (
                         <div key={index}>
-                          <strong>{key}</strong>:{" "}
+                          <strong>{key}</strong>:{' '}
                           <ul>
                             {value.map((element, i) => (
                               <li key={i}>{element}</li>
@@ -198,25 +170,19 @@ function CovidFile(props) {
                       </div>
                     );
                   })}
-                  <Button
-                    variant="info"
-                    onClick={() => showModalForCovidFormUpdate(index)}
-                  >
+                  <Button variant='info' onClick={() => showModalForCovidFormUpdate(index)}>
                     Update
                   </Button>
                 </Accordion.Body>
               </Accordion.Item>
             );
-          })}{" "}
+          })}{' '}
         </Accordion>
       )}
 
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            {selectedFormIndex >= 0 ? "Update a " : "Create a new "} covid
-            status form
-          </Modal.Title>
+          <Modal.Title>{selectedFormIndex >= 0 ? 'Update a ' : 'Create a new '} covid status form</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -225,11 +191,11 @@ function CovidFile(props) {
               value={covidStat}
               onChange={(event) => {
                 setCovidStat(event.target.value);
-                if (event.target.value === "None") {
+                if (event.target.value === 'None') {
                   setUserSymptoms([]);
-                  setTemp("");
-                  setWhatOtherSymptoms("");
-                  setSymptomDetails("");
+                  setTemp('');
+                  setWhatOtherSymptoms('');
+                  setSymptomDetails('');
                 }
               }}
             >
@@ -243,7 +209,7 @@ function CovidFile(props) {
             <select
               value={haveSymptoms}
               onChange={(event) => {
-                const value = event.target.value === "true";
+                const value = event.target.value === 'true';
                 setHaveSymptoms(value);
                 if (!value) {
                   setUserSymptoms([]);
@@ -261,16 +227,16 @@ function CovidFile(props) {
                   <Checkbox
                     key={type}
                     id={type}
-                    name="symptoms"
+                    name='symptoms'
                     value={desc}
                     defaultChecked={userSymptoms.indexOf(desc) >= 0}
                     onChange={(e) => {
                       if (e.target.checked) {
                         setUserSymptoms([...userSymptoms, e.target.value]);
-                        if (type === "fever") setHaveFever(true);
+                        if (type === 'fever') setHaveFever(true);
                       } else {
                         removeUnchecked(e.target.value);
-                        if (type === "fever") setHaveFever(false);
+                        if (type === 'fever') setHaveFever(false);
                       }
                     }}
                   />
@@ -281,17 +247,7 @@ function CovidFile(props) {
               <>
                 <br />
                 <h6>What is your temperature?</h6>
-                <input
-                  type="number"
-                  defaultValue={
-                    selectedFormIndex >= 0
-                      ? patientData[selectedFormIndex].temperature
-                      : null
-                  }
-                  min={0}
-                  step=".01"
-                  onChange={(e) => setTemp(e.target.value)}
-                />
+                <input type='number' defaultValue={selectedFormIndex >= 0 ? patientData[selectedFormIndex].temperature : null} min={0} step='.01' onChange={(e) => setTemp(e.target.value)} />
               </>
             )}
 
@@ -299,47 +255,20 @@ function CovidFile(props) {
               <>
                 <br />
                 <h6>What are the other symptoms?</h6>
-                <textarea
-                  rows="4"
-                  cols="50"
-                  defaultValue={
-                    selectedFormIndex >= 0
-                      ? patientData[selectedFormIndex].otherSymptoms
-                      : null
-                  }
-                  onChange={(e) => setWhatOtherSymptoms(e.target.value)}
-                />
+                <textarea rows='4' cols='50' defaultValue={selectedFormIndex >= 0 ? patientData[selectedFormIndex].otherSymptoms : null} onChange={(e) => setWhatOtherSymptoms(e.target.value)} />
               </>
             )}
             {haveSymptoms && (
               <>
                 <br />
                 <h6>Anything to add about your symptoms?</h6>
-                <textarea
-                  rows="4"
-                  cols="50"
-                  defaultValue={
-                    selectedFormIndex >= 0
-                      ? patientData[selectedFormIndex].symptomDetails
-                      : null
-                  }
-                  onChange={(e) => setSymptomDetails(e.target.value)}
-                />
+                <textarea rows='4' cols='50' defaultValue={selectedFormIndex >= 0 ? patientData[selectedFormIndex].symptomDetails : null} onChange={(e) => setSymptomDetails(e.target.value)} />
               </>
             )}
 
             <br />
             <h6>Anything to add about your health?</h6>
-            <textarea
-              rows="4"
-              cols="50"
-              defaultValue={
-                selectedFormIndex >= 0
-                  ? patientData[selectedFormIndex].health
-                  : null
-              }
-              onChange={(e) => setHealth(e.target.value)}
-            />
+            <textarea rows='4' cols='50' defaultValue={selectedFormIndex >= 0 ? patientData[selectedFormIndex].health : null} onChange={(e) => setHealth(e.target.value)} />
 
             {patientAnswers.length > 0 && (
               <>
@@ -349,14 +278,7 @@ function CovidFile(props) {
                     return (
                       <div key={index}>
                         <h6>{question.question}</h6>
-                        <textarea
-                          rows="4"
-                          cols="50"
-                          defaultValue={question.answer}
-                          onChange={(e) =>
-                            updatePatientAnswer(e.target.value, index)
-                          }
-                        />
+                        <textarea rows='4' cols='50' defaultValue={question.answer} onChange={(e) => updatePatientAnswer(e.target.value, index)} />
                       </div>
                     );
                   })}
@@ -367,16 +289,14 @@ function CovidFile(props) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            className={styles["visible_CovidFile"]}
+            className={styles['visible_CovidFile']}
             onClick={async (event) => {
-              selectedFormIndex >= 0
-                ? await updatePatientForm()
-                : await submitPatientForm();
+              selectedFormIndex >= 0 ? await updatePatientForm() : await submitPatientForm();
               await fetchPatientForm();
               closeModal();
             }}
           >
-            {selectedFormIndex >= 0 ? "update" : "submit"}
+            {selectedFormIndex >= 0 ? 'update' : 'submit'}
           </button>
         </Modal.Footer>
       </Modal>

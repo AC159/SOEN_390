@@ -21,6 +21,7 @@ function PatientBox(props) {
   };
 
   // TODO: Create a single state object
+  const {currentUser} = useAuth();
   const [showDoctorList, setShowDoctorList] = useState(false);
   const [assignedDoctor, setAssignedDoctor] = useState(props.doctorName);
   const [showPatientInfo, setShowPatientInfo] = useState(false);
@@ -32,6 +33,7 @@ function PatientBox(props) {
   const [questions, setQuestions, handleQuestionFieldChange, handleAddQuestionField, handleDeleteQuestionField] = useInputField(initialQuestionsState, newQuestion);
   const [doctorList, fetchDoctorList] = useFetch([], `admin/${props.currentUser.user.uid}/doctors`);
   const [patientCTData, fetchPatientCTData] = useFetch([], `patient/get-contact-tracing/${props.patient.uid}`);
+  const [patientData, fetchPatientInfo] = useFetch([], `/patient/get-status-forms/${props.patient.uid}`);
 
   const handleDoctorListClose = useCallback(() => {
     setDoctorInfo(initialDoctorInfo);
@@ -75,9 +77,6 @@ function PatientBox(props) {
     fetchPatientCTData();
   };
 
-  let [patientData, setPatientData] = useState();
-  let {currentUser} = useAuth();
-
   const openDoctorList = () => {
     setShowDoctorList(true);
     fetchDoctorList();
@@ -116,15 +115,6 @@ function PatientBox(props) {
         return true;
       default:
         return false;
-    }
-  }
-
-  async function fetchPatientInfo(patientUid) {
-    try {
-      const response = await axios.get(`/patient/get-status-forms/${patientUid}`);
-      setPatientData(response.data);
-    } catch (error) {
-      console.log('Unable to fetch patient status forms: ', error);
     }
   }
 

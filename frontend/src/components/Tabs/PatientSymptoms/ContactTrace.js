@@ -7,6 +7,7 @@ import {Accordion, Button} from 'react-bootstrap';
 import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
 import useInputField from '../../../hook/useInputField';
 import styles from './ContactTrace.module.css';
+import useFetch from '../../../hook/useFetch';
 
 const initialEmailsState = [{email: ''}];
 const newEmail = {email: ''};
@@ -16,10 +17,10 @@ function ContactTrace(props) {
   let [locationDescription, setLocationDescription] = useState('');
   let [date, setDate] = useState('');
   let [showModal, setShowModal] = useState(false);
-  let [patientTracing, setTracing] = useState();
   let [timeStamp, setTimeStamp] = useState('');
   let [update, setUpdate] = useState(false);
   const [emails, setEmails, handleEmailFieldChange, handleAddEmailField, handleDeleteEmailField] = useInputField(initialEmailsState, newEmail);
+  const [patientTracing, fetchPatientContactTracing] = useFetch([], `/patient/get-contact-tracing/${currentUser.user.uid}`);
 
   const submitContactTracingForm = async () => {
     try {
@@ -55,16 +56,6 @@ function ContactTrace(props) {
       .catch(function (error) {
         console.log(error);
       });
-  };
-
-  const fetchPatientContactTracing = async () => {
-    try {
-      const response = await axios.get(`/patient/get-contact-tracing/${currentUser.user.uid}`);
-      console.log(response);
-      setTracing(response.data);
-    } catch (error) {
-      console.log('Unable to fetch patient status forms: ', error);
-    }
   };
 
   useEffect(() => {
@@ -141,7 +132,6 @@ function ContactTrace(props) {
           })}{' '}
         </Accordion>
       ) : null}
-
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title> Contact Tracing form</Modal.Title>
