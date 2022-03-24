@@ -6,7 +6,6 @@ const MongoClient = require('mongodb').MongoClient;
 jest.mock('../repository/PatientRepository');
 jest.mock('mongodb');
 
-
 describe('test Patient routes', () => {
   beforeAll(() => {
     jest.spyOn(MongoClient, 'connect').mockImplementation(() => jest.fn());
