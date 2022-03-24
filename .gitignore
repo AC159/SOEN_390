@@ -24,3 +24,6 @@ frontend/.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# formatting
+prettier.config.js
