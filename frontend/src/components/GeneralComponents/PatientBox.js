@@ -7,9 +7,10 @@ import AccordionBody from 'react-bootstrap/esm/AccordionBody';
 import patientIcon from '../../assets/patientIcon.png';
 import DoctorListItem from './DoctorListItem';
 import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
-import styles from './PatientBox.module.css';
+import {DoctorPatientInfoList, HOPatientInfoList, AdnminPatientInfoList} from './PatientInfoItem';
 import useInputField from '../../hook/useInputField';
 import useFetch from '../../hook/useFetch';
+import styles from './PatientBox.module.css';
 
 const initialQuestionsState = [{question: '', answer: ''}];
 const newQuestion = {question: '', answer: ''};
@@ -47,10 +48,6 @@ function PatientBox(props) {
   useEffect(() => {
     checkIsFlagged();
   }, []);
-
-  useEffect(() => {
-    changeFlagButtonText();
-  }, [isFlagged]);
 
   const checkIsFlagged = () => {
     // TODO: Change switch to object
@@ -117,14 +114,6 @@ function PatientBox(props) {
         return false;
     }
   }
-
-  const RenderDoctorList = () => (
-    <ListGroup>
-      {doctorList.map((doctor) => (
-        <DoctorListItem doctor={doctor} setDoctorInfo={setDoctorInfo} selected={doctorInfo.id === doctor.uid} />
-      ))}
-    </ListGroup>
-  );
 
   const FormSelect = (formId) => {
     setSelectedFormId(formId);
@@ -204,105 +193,13 @@ function PatientBox(props) {
     });
   };
 
-  // TODO: Extract Patient Info
-  const RenderPatientInfo = (selectForm) => {
+  const RenderPatientInfo = ({isFormSelected}) => {
     return patientData.map((element, index) => {
-      let date = new Date(element.timestamp * 1000);
-      return (
-        <Accordion.Item eventKey={index} key={index}>
-          <Accordion.Header>Created on {moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Accordion.Header>
-          <Accordion.Body>
-            {Object.entries(element).map(([key, value], index) => {
-              if (currentUser.dbData.userType === 'doctor') {
-                if (!value || key === '_id' || key === 'patientUid' || key === 'timestamp' || value.length === 0) return null;
-                if (Array.isArray(value) && typeof value[0] === 'object') {
-                  return (
-                    <div key={index}>
-                      <strong>Doctor questions</strong>:
-                      <ul>
-                        {value.map((element, i) => (
-                          <div key={i}>
-                            <li>{element.question}</li>
-                            <p>{element.answer}</p>
-                          </div>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                }
-                if (Array.isArray(value)) {
-                  return (
-                    <div key={index}>
-                      <strong>{key}</strong>:
-                      <ul>
-                        {value.map((element, i) => (
-                          <li key={i}>{element}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                } else
-                  return (
-                    <div key={index}>
-                      <strong>{key}</strong>: {value}
-                    </div>
-                  );
-              } else if (currentUser.dbData.userType === 'administrator' || currentUser.dbData.userType === 'immigrationOfficial') {
-                if (key === 'covidStatus')
-                  return (
-                    <div>
-                      <strong>Covid Status</strong>: {value}
-                    </div>
-                  );
-              } else if (currentUser.dbData.userType === 'healthOfficial') {
-                if (
-                  !value ||
-                  key === '_id' ||
-                  key === 'patientUid' ||
-                  key === 'timestamp' ||
-                  key === 'temperature' ||
-                  key === 'otherSymptoms' ||
-                  key === 'symptomDetails' ||
-                  key === 'health' ||
-                  value.length === 0
-                )
-                  return null;
-                if (Array.isArray(value)) {
-                  return (
-                    <div key={index}>
-                      <strong>{key}</strong>:{' '}
-                      <ul>
-                        {value.map((element, i) => (
-                          <li key={i}>{element}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  );
-                } else
-                  return (
-                    <div key={index}>
-                      <strong>{key}</strong>: {value}
-                    </div>
-                  );
-              }
-            })}
-            {/* // TODO: SIMPLIFY THIS CRAP */}
-            {currentUser.dbData.userType === 'doctor' ? (
-              selectForm['selectForm'] === true ? (
-                <Button
-                  className={styles['form-select-button']}
-                  onClick={(e) => {
-                    FormSelect(element._id);
-                  }}
-                  variant={selectedFormId === element._id ? 'primary' : 'outline-primary'}
-                >
-                  {selectedFormId === element._id ? 'Selected' : 'Select this form'}
-                </Button>
-              ) : null
-            ) : null}
-          </Accordion.Body>
-        </Accordion.Item>
-      );
+      if (currentUser.dbData.userType === 'doctor')
+        return <DoctorPatientInfoList element={element} index={index} isFormSelected={isFormSelected} setSelectedFormId={setSelectedFormId} selectedFormId={selectedFormId} />;
+      if (currentUser.dbData.userType === 'administrator' || currentUser.dbData.userType === 'immigrationOfficial') return <AdnminPatientInfoList element={element} index={index} />;
+      if (currentUser.dbData.userType === 'healthOfficial') return <HOPatientInfoList element={element} index={index} />;
+      return <></>;
     });
   };
 
@@ -333,13 +230,6 @@ function PatientBox(props) {
     try {
       axios.post(`${routeType}/${currentUser.user.uid}/raise-flag`, info);
     } catch (error) {}
-  };
-
-  // TODO: Extract Flag Button to it's component
-  const [flagButtonText, setFlagButtonText] = useState('');
-  const changeFlagButtonText = () => {
-    if (isFlagged) setFlagButtonText('Unflag Patient');
-    else setFlagButtonText('Flag Patient');
   };
 
   const submitDoctorQuestions = async (selectedFormId) => {
@@ -393,7 +283,11 @@ function PatientBox(props) {
           <Modal.Title>Doctors</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <RenderDoctorList />
+          <ListGroup>
+            {doctorList.map((doctor) => (
+              <DoctorListItem doctor={doctor} setDoctorInfo={setDoctorInfo} selected={doctorInfo.id === doctor.uid} />
+            ))}
+          </ListGroup>
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleDoctorListClose}>
@@ -440,7 +334,7 @@ function PatientBox(props) {
                         flagPatient();
                       }}
                     >
-                      {flagButtonText}
+                      {isFlagged ? 'Unflag' : 'Flag'} Patient
                     </Button>
                   )}
                 </Card.Body>
