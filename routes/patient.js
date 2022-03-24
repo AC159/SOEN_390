@@ -34,7 +34,7 @@ router.get('/get-status-forms/:userId', async (req, res) => {
     const userId = new UserId(req.params.userId);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.getPatientStatusForms();
-    res.status(200).json(data);
+    res.status(200).json({data: data});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
