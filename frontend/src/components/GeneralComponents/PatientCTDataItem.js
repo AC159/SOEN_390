@@ -16,14 +16,14 @@ const PatientCTDataItem = ({element, index, patientName, sendContactTraceNotific
   return (
     <Accordion.Item eventKey={index} key={index}>
       <Accordion.Header>
-        <h5>{'Contact Tracing Report for ' + element.date}</h5>
+        <h5>Contact Tracing Report for {element.date}</h5>
       </Accordion.Header>
       <Accordion.Body className={styles['patient-contact-tracing-report-body']}>
         <h6>Created on {date}</h6>
         <hr />
         <h6>List of emails of people who've been in contact with {patientName}:</h6>
         <div>
-          {element.emailList.map((email, index) => {
+          {element.emailList.map((email, _) => {
             return (
               <div className={styles['contact-tracing-person-list-box']}>
                 {'Email: ' + email}
@@ -42,9 +42,7 @@ const PatientCTDataItem = ({element, index, patientName, sendContactTraceNotific
             );
           })}
         </div>
-
         <hr />
-
         <h6>Description of Contact Location: {element.locationDescription}</h6>
       </Accordion.Body>
     </Accordion.Item>
