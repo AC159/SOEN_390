@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
-import moment from 'moment';
 import {Accordion, Button, Modal, ListGroup, Tabs, Tab, Card, Badge} from 'react-bootstrap';
 import AccordionBody from 'react-bootstrap/esm/AccordionBody';
 
@@ -8,6 +7,7 @@ import patientIcon from '../../assets/patientIcon.png';
 import DoctorListItem from './DoctorListItem';
 import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
 import {DoctorPatientInfoList, HOPatientInfoList, AdnminPatientInfoList} from './PatientInfoItem';
+import PatientCTDataItem from './PatientCTDataItem';
 import useInputField from '../../hook/useInputField';
 import useFetch from '../../hook/useFetch';
 import styles from './PatientBox.module.css';
@@ -50,22 +50,12 @@ function PatientBox(props) {
   }, []);
 
   const checkIsFlagged = () => {
-    // TODO: Change switch to object
-    let newFlagValue;
-    switch (localStorage.getItem('userType')) {
-      case 'doctor':
-        newFlagValue = props.patient.doctorFlagInfo.isFlagged;
-        break;
-      case 'immigrationOfficial':
-        newFlagValue = props.patient.immigrationOfficerFlagInfo.isFlagged;
-        break;
-      case 'healthOfficial':
-        newFlagValue = props.patient.healthOfficialFlagInfo.isFlagged;
-        break;
-      default:
-        newFlagValue = false;
-    }
-    setIsFlagged(newFlagValue);
+    const flagValue = {
+      doctor: props?.patient?.doctorFlagInfo?.isFlagged || false,
+      immigrationOfficial: props?.patient?.immigrationOfficerFlagInfo?.isFlagged || false,
+      healthOfficial: props?.patient?.healthOfficialFlagInfo?.isFlagged || false,
+    };
+    setIsFlagged(flagValue[localStorage.getItem('userType')] || false);
   };
 
   const handlePatientInfoShow = () => {
@@ -143,50 +133,6 @@ function PatientBox(props) {
     } catch (error) {
       console.log(error.message);
     }
-  };
-
-  // TODO: Extract Patient CT DATA
-  const RenderPatientCTData = () => {
-    return patientCTData.map((element, index) => {
-      console.log(index);
-      let date = new Date(element.timeStamp * 1000);
-      return (
-        <Accordion.Item eventKey={index} key={index}>
-          <Accordion.Header>
-            <h5>{'Contact Tracing Report for ' + element.date}</h5>
-          </Accordion.Header>
-          <Accordion.Body className={styles['patient-contact-tracing-report-body']}>
-            <h6>Created on {moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')}</h6>
-            <hr />
-            <h6>List of emails of people who've been in contact with {props.patient.name}:</h6>
-            <div>
-              {element.emailList.map((email, index) => {
-                return (
-                  <div className={styles['contact-tracing-person-list-box']}>
-                    {'Email: ' + email}
-                    {currentUser.dbData.userType === 'healthOfficial' && (
-                      <Button
-                        className={styles['notify-button']}
-                        variant='warning'
-                        onClick={() => {
-                          sendContactTraceNotification(email);
-                        }}
-                      >
-                        Notify This User
-                      </Button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            <hr />
-
-            <h6>Description of Contact Location: {element.locationDescription}</h6>
-          </Accordion.Body>
-        </Accordion.Item>
-      );
-    });
   };
 
   const RenderPatientInfo = ({isFormSelected}) => {
@@ -394,7 +340,11 @@ function PatientBox(props) {
                     <div className={styles['patient-info-tab-page']}>
                       <h2 className={styles['patient-info-tab-title']}>{'Contact Tracing Data'}</h2>
                       <hr />
-                      <Accordion>{<RenderPatientCTData />}</Accordion>
+                      <Accordion>
+                        {patientCTData.map((element, index) => (
+                          <PatientCTDataItem element={element} index={index} patientName={props.patient.name} sendContactTraceNotification={sendContactTraceNotification} />
+                        ))}
+                      </Accordion>
                     </div>
                   </Tab>
                 )}
