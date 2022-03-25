@@ -32,10 +32,15 @@ function Navbar(props) {
 
 
           <div className={styles["user-navbar-display"]}>
-            <p>
-              Welcome{" "}
-              {currentUser.user !== undefined ? currentUser.user.email : null}
-            </p>
+            <div>
+              <p>
+                Welcome{" "}
+                {currentUser.user !== undefined ? currentUser.dbData.name : null}
+              </p>
+              <button className={styles["button-navbar"]} onClick={handleLogout}>
+                Log out
+              </button>
+            </div>
             <Link to="/user-profile">
               <img
                 className={styles["user-icon"]}
@@ -45,9 +50,7 @@ function Navbar(props) {
               />
             </Link>
 
-            <button className={styles["button"]} onClick={handleLogout}>
-              Log out
-            </button>
+
           </div>
         </div>
       </div>

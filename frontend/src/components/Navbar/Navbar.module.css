@@ -3,10 +3,9 @@
   margin-bottom: 40px;
 }
 
-.button {
+.button-navbar {
   width: auto;
   font-size: 70%;
-  margin: 20px;
 }
 
 .HeaderLogo {
@@ -43,17 +42,15 @@
   padding: 10px;
 }
 
-.user-navbar-display p {
-  padding: 10px;
-}
-
 .user-icon {
   float: right;
+  margin-left: 16px
 }
 
 @media (max-width: 1000px) {
-  .Header {
-    text-align: center;
+  .user-navbar-display {
+    float: none;
+    justify-content: start;
   }
 
   .link {
