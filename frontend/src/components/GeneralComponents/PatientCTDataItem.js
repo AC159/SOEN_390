@@ -23,24 +23,22 @@ const PatientCTDataItem = ({element, index, patientName, sendContactTraceNotific
         <hr />
         <h6>List of emails of people who've been in contact with {patientName}:</h6>
         <div>
-          {element.emailList.map((email, _) => {
-            return (
-              <div className={styles['contact-tracing-person-list-box']}>
-                {'Email: ' + email}
-                {currentUser.dbData.userType === 'healthOfficial' && (
-                  <Button
-                    className={styles['notify-button']}
-                    variant='warning'
-                    onClick={() => {
-                      sendContactTraceNotification(email);
-                    }}
-                  >
-                    Notify This User
-                  </Button>
-                )}
-              </div>
-            );
-          })}
+          {element.emailList.map((email, index) => (
+            <div key={index} className={styles['contact-tracing-person-list-box']}>
+              {'Email: ' + email}
+              {currentUser.dbData.userType === 'healthOfficial' && (
+                <Button
+                  className={styles['notify-button']}
+                  variant='warning'
+                  onClick={() => {
+                    sendContactTraceNotification(email);
+                  }}
+                >
+                  Notify This User
+                </Button>
+              )}
+            </div>
+          ))}
         </div>
         <hr />
         <h6>Description of Contact Location: {element.locationDescription}</h6>
