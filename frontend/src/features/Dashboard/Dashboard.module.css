@@ -3,7 +3,7 @@ body {
   width: 100%;
   height: 100%;
   display: block;
-
+  background-color: #388699;
   margin: 0 auto;
 }
 
@@ -13,15 +13,13 @@ html {
 
 .admin-main-container {
   height: 100%;
-  display: flex;
-  flex-flow: row;
 }
 
 .tabs-box {
-  float: left;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-radius: 5px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 1500px;
   height: 100%;
   width: 100%;
@@ -34,15 +32,14 @@ html {
 }
 
 .tab-page {
-  height: auto;
-  max-height: 650px;
-  padding: 10px;
-  background-color: #388699;
-  border-radius: 5px;
-  border-left: solid 2px black;
-  border-right: solid 2px black;
-  border-bottom: solid 2px black;
-  border-top: solid 2px black;
+  padding: 16px;
+  background-color: white;
+}
 
-  overflow-y: scroll;
+.footer-dashboard{
+  padding: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1500px;
+  color: white;
 }
