@@ -26,7 +26,10 @@ function Navbar(props) {
     <nav>
       <div className={styles["Header"]}>
         <div className={styles["HeaderInnerContainer"]}>
-          <img src={MainLogo} width="300" alt="CoviCare logo" />
+          <Link to="/health-official-dashboard">
+            <img src={MainLogo} className={styles["logo-navbar"]} alt="CoviCare logo" />
+          </Link>
+
 
           <div className={styles["user-navbar-display"]}>
             <p>
