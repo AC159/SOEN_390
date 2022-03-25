@@ -16,7 +16,6 @@ const PatientInfoItem = ({type, element, index, render, doctorButton = (id) => {
     const predicates = {
       doctor: (value, key) => value && !['_id', 'patientUid', 'timestamp'].includes(key) && value.length !== 0,
       administrator: (_, key) => key === 'covidStatus',
-      immigrationOfficial: (_, key) => key === 'covidStatus',
       healthOfficial: (value, key) => value && !['_id', 'patientUid', 'timestamp', 'temperature', 'otherSymptoms', 'symptomDetails', 'health'].includes(key) && value.length > 0,
     };
 
@@ -82,16 +81,18 @@ export const DoctorPatientInfoList = ({element, index, isFormSelected, setSelect
         })
       }
       doctorButton={(id) => {
-        isFormSelected && (
-          <Button
-            className={styles['form-select-button']}
-            onClick={(e) => {
-              setSelectedFormId(id);
-            }}
-            variant={selectedFormId === id ? 'primary' : 'outline-primary'}
-          >
-            {selectedFormId === id ? 'Selected' : 'Select this form'}
-          </Button>
+        return (
+          isFormSelected && (
+            <Button
+              className={styles['form-select-button']}
+              onClick={(e) => {
+                setSelectedFormId(id);
+              }}
+              variant={selectedFormId === id ? 'primary' : 'outline-primary'}
+            >
+              {selectedFormId === id ? 'Selected' : 'Select this form'}
+            </Button>
+          )
         );
       }}
     />
