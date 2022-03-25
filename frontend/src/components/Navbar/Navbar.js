@@ -35,7 +35,7 @@ function Navbar(props) {
             <div>
               <p>
                 Welcome{" "}
-                {currentUser.user !== undefined ? currentUser.dbData.name : null}
+                {currentUser.user !== undefined ? currentUser.user.email : null}
               </p>
               <button className={styles["button-navbar"]} onClick={handleLogout}>
                 Log out
