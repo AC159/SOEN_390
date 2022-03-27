@@ -4,6 +4,8 @@ import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import {io} from 'socket.io-client';
 
+import styles from "./ContactDoctor.module.css";
+
 function ContactDoctor(props) {
 
     let {currentUser} = useAuth();
@@ -51,7 +53,7 @@ function ContactDoctor(props) {
         const patientId = currentUser.user.uid;
         const doctorId = currentUser.dbData.patientInfo.doctorId;
         const chatId = patientId + '_' + doctorId;
-        const msg = {chatId: chatId, message: messageInput, patientId: patientId, doctorId: doctorId};
+        const msg = {chatId: chatId, message: messageInput, senderId: patientId, receiverId: doctorId};
         socket.emit('private-message', msg);
         setChats([...chats, msg]);
         setMessageInput('');
@@ -59,9 +61,19 @@ function ContactDoctor(props) {
 
     return (
         <div>
-            <div>{chats.length > 0 ? chats.map((msg, index) => <div key={index}>{msg.message}</div>) : 'No chats'}</div>
-            <input placeholder={'message'} type='text' value={messageInput} onChange={(event) => setMessageInput(event.target.value)}/>
-            <Button disabled={messageInput === ''} onClick={sendMessage}>Send</Button>
+            <div className={styles["chats-container"]}>
+                {chats.length > 0 ? chats.map((msg, index) => 
+                <div className={(msg.senderId === currentUser.user.uid) ? styles["my-message"] : styles["their-message"]} key={index}>
+                    {msg.message}
+                </div>) 
+                : 'No chats'}
+            </div>
+
+            <span className={styles["message-bar"]}>
+                <input className={styles["send-input-box"]} placeholder={'message'} type='text' value={messageInput} onChange={(event) => setMessageInput(event.target.value)}/>
+                <Button disabled={messageInput === ''} onClick={sendMessage}>Send</Button>
+            </span>
+            
         </div>
     );
 }

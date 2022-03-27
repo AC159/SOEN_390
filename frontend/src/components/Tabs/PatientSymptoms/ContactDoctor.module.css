@@ -1,0 +1,30 @@
+.message-bar{
+    
+}
+
+.send-input-box{
+    display: inline;
+}
+
+.chats-container{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.my-message{
+    border: 1px solid black;
+    background-color: #89FFF1;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 2px;
+    align-self: flex-end;
+}
+
+.their-message{
+    border: 1px solid black;
+    background-color: #DFFFFB;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 2px;
+}

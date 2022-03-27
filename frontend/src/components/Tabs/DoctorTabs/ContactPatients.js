@@ -4,6 +4,8 @@ import axios from 'axios';
 import {Button, ListGroup, Spinner} from 'react-bootstrap';
 import {io} from "socket.io-client";
 
+import styles from "./ContactPatients.module.css";
+
 function ContactPatients(props) {
 
     let {currentUser} = useAuth();
@@ -69,7 +71,7 @@ function ContactPatients(props) {
         const patientId = patients[selectedChatIndex].uid;
         const doctorId = currentUser.user.uid;
         const chatId = patientId + '_' + doctorId;
-        const msg = {chatId: chatId, message: messageInput, patientId: patientId, doctorId: doctorId};
+        const msg = {chatId: chatId, message: messageInput, senderId: doctorId, receiverId: patientId};
         console.log('Is socket connected: ', socket.connected);
         socket.emit('private-message', msg);
         setChats([...chats, msg]);
@@ -90,12 +92,20 @@ function ContactPatients(props) {
                 <div>
                     <div>
                         <div>Chat Box</div>
+                        <div className={styles["chats-container"]}>
                         {chats.length > 0 ? chats.map((chat, index) => {
-                            return <div key={index}>{chat.message}</div>
+                            return <div className={(chat.senderId === currentUser.user.uid) ? styles["my-message"] : styles["their-message"]} key={index}>
+                                    {chat.message}
+                                   </div>
                         }) : 'No messages!'}
+                        </div>
+                        
                     </div>
+                    <div>
                     <input placeholder={'message'} type='text' value={messageInput} onChange={(event) => setMessageInput(event.target.value)}/>
                     <Button disabled={selectedChatIndex === -1 || messageInput === ''} onClick={sendMessage}>Send</Button>
+                    </div>
+                    
                 </div>}
         </div>
     );
