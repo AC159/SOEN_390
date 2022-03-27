@@ -10,7 +10,8 @@ function PatientList(props) {
 
   let {currentUser} = useAuth();
   const [patientList, setPatientList] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('');
+  const [flagCheck, setFlagCheck] = useState(false);
 
   useEffect(() => {
     fetchListOfPatients();
@@ -43,25 +44,41 @@ function PatientList(props) {
     }
   }
 
+  function handleFlagCheckChange() {
+    setFlagCheck(!flagCheck);
+  }
+
   function renderPatientList() {
     return <Accordion>
       {patientList
         .filter((item) => {
-            if (searchTerm === "")
-              return item;
-            if (item.name.toLowerCase().includes(searchTerm.toLowerCase()))
-              return item;
-          })
+          if (searchTerm === "")
+            return item;
+          if (item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            return item;
+        })
+        .filter((item) => {
+          if (!flagCheck)
+            return item;
+          else switch (localStorage.getItem("userType")) {
+            case "doctor":
+              return item.doctorFlagInfo.isFlagged && item;
+            case "immigrationOfficial":
+              return item.immigrationOfficerFlagInfo.isFlagged && item;
+            case "healthOfficial":
+              return item.healthOfficialFlagInfo.isFlagged && item;
+          }
+        })
         .map((patient, index) =>
-        <PatientBox
-          key={index}
-          eventKey={index}
-          patient={patient}
-          doctorName={patient.patientInfo.doctor}
-          currentUser={currentUser}
-          userType={localStorage.getItem("userType")}
-          className={styles["patient-box"]}
-        />)}
+          <PatientBox
+            key={index}
+            eventKey={index}
+            patient={patient}
+            doctorName={patient.patientInfo.doctor}
+            currentUser={currentUser}
+            userType={localStorage.getItem("userType")}
+            className={styles["patient-box"]}
+          />)}
     </Accordion>;
   }
 
@@ -75,6 +92,7 @@ function PatientList(props) {
           setSearchTerm(event.target.value);
         }}
       />
+      <input type="checkbox" id="flagCheckBox" checked={flagCheck} onChange={handleFlagCheckChange}/> flagged
       <div>
         {renderPatientList()}
       </div>
