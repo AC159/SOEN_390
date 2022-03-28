@@ -1,3 +1,4 @@
+
 .hidden_SingUp {
   display: none;
 }
@@ -8,10 +9,8 @@
 
 .container_SingUp {
   width: 61rem;
-
-  border-radius: 19px;
   background-color: white;
-  box-shadow: 2px 2px 5px #f6f2f2;
+  box-shadow: 3px 12px 20px black !important;
   border: solid 2px black;
   position: relative;
   overflow: hidden;
@@ -111,8 +110,7 @@
   padding: 0.5rem 2rem;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid #61dafb;
+  border: 0px solid #61dafb;
   width: 100%;
   background: rgb(0, 120, 215);
   background: linear-gradient(
