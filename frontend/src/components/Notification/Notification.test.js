@@ -1,19 +1,72 @@
 import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import '@testing-library/jest-dom/extend-expect';
 
 import Notification from './Notification';
 
+const deleteNotification = (id) => {};
+
+const notificationData = {
+    notificationId:"123",
+    timeStamp:1214153236,
+    alertType:"warning",
+    alertHeading:"Alert Heading",
+    alertMainText:"Alert Text",
+    modalHeading:"Alert Modal Heading",
+    modalMainText:"Alert Modal Main Text",
+    modalSubText:"Alert Modal Sub Text",
+    deleteNotification:deleteNotification,
+}
+
 test('should render notification without crashing', () => {
-    render(<Notification/>);
+    render(<Notification 
+                notificationId={"123"}
+                timeStamp={1214153236}
+                alertType={"warning"}
+                alertHeading={"Alert Heading"}
+                alertMainText={"Alert Text"}
+                modalHeading={"Alert Modal Heading"}
+                modalMainText={"Alert Modal Main Text"}
+                modalSubText={"Alert Modal Sub Text"}
+                deleteNotification={deleteNotification(1213131)}
+        />);
     const notificationElement = screen.getByTestId('notification-1');
     expect(notificationElement).toBeInTheDocument();
   });
 
-it('renders view button correctly', () => {
-    const {getByTestId} = render(<Notification/>)
-    expect(getByTestId('viewNotificationButton')).toHaveTextContent("View")
+it('renders view and delete button correctly', () => {
+    const {getByTestId} = render(<Notification
+        notificationId={"123"}
+        timeStamp={1214153236}
+        alertType={"warning"}
+        alertHeading={"Alert Heading"}
+        alertMainText={"Alert Text"}
+        modalHeading={"Alert Modal Heading"}
+        modalMainText={"Alert Modal Main Text"}
+        modalSubText={"Alert Modal Sub Text"}
+        deleteNotification={deleteNotification()}
+    />)
+
+    userEvent.click(screen.getByText("More"));
+
+    expect(getByTestId('viewNotificationButton')).toBeInTheDocument()
+    expect(getByTestId('deleteNotificationButton')).toBeInTheDocument()
+    
+
+    
 })
 
-it('renders delete button correctly', () => {
-    const {getByTestId} = render(<Notification/>)
-    expect(getByTestId('deleteNotificationButton')).toHaveTextContent("Delete")
-})
+/*it('renders delete button correctly', () => {
+    const {getByTestId} = render(<Notification
+        notificationId={"123"}
+        timeStamp={1214153236}
+        alertType={"warning"}
+        alertHeading={"Alert Heading"}
+        alertMainText={"Alert Text"}
+        modalHeading={"Alert Modal Heading"}
+        modalMainText={"Alert Modal Main Text"}
+        modalSubText={"Alert Modal Sub Text"}
+        deleteNotification={deleteNotification()}
+    />)
+    
+})*/

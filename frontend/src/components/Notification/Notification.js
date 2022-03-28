@@ -32,16 +32,16 @@ function Notification(props) {
 
     return (
         <div className={styles["notification-box"]}>
-            <Card className={styles[color]}>
+            <Card data-testid="notification-1" className={styles[color]}>
                 <Card.Header>{props.alertHeading}</Card.Header>
                 <Card.Body>
                     <Card.Text>
                         {props.alertMainText}
                     </Card.Text>
                     <div className="p-1">
-                        <DropdownButton id="dropdown-basic-button" title="More">
-                            <Dropdown.Item onClick={handleModalShow} variant="primary">View</Dropdown.Item>
-                            <Dropdown.Item onClick={() => props.deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
+                        <DropdownButton  id="dropdown-basic-button" title="More">
+                            <Dropdown.Item data-testid="viewNotificationButton" onClick={handleModalShow} variant="primary">View</Dropdown.Item>
+                            <Dropdown.Item data-testid="deleteNotificationButton" onClick={() => props.deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
                         </DropdownButton>
                     </div>
                 </Card.Body>
