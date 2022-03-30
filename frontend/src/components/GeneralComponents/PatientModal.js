@@ -12,7 +12,7 @@ import styles from './PatientBox.module.css';
 const initialQuestionsState = [{question: '', answer: ''}];
 const newQuestion = {question: '', answer: ''};
 
-const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoClose}) => {
+const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoClose, openDoctorList}) => {
   const [isFlagged, setIsFlagged] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState('');
   const [patientCTData, fetchPatientCTData] = useFetch([], `patient/get-contact-tracing/${patient.uid}`);
@@ -21,11 +21,20 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
 
   useEffect(() => {
     fetchPatientCTData();
-  }, [fetchPatientCTData]);
+  }, []);
 
   useEffect(() => {
     fetchPatientInfo(patient.uid);
-  }, [patient.uid, fetchPatientInfo]);
+  }, []);
+
+  useEffect(() => {
+    const flagValue = {
+      doctor: patient?.doctorFlagInfo?.isFlagged || false,
+      immigrationOfficial: patient?.immigrationOfficerFlagInfo?.isFlagged || false,
+      healthOfficial: patient?.healthOfficialFlagInfo?.isFlagged || false,
+    };
+    setIsFlagged(flagValue[localStorage.getItem('userType')] || false);
+  }, [patient]);
 
   const submitDoctorQuestions = async (selectedFormId) => {
     try {
@@ -75,9 +84,9 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
   const RenderPatientInfo = ({isFormSelected}) => {
     return patientData.map((element, index) => {
       if (currentUser.dbData.userType === 'doctor')
-        return <DoctorPatientInfoList element={element} index={index} isFormSelected={isFormSelected} setSelectedFormId={setSelectedFormId} selectedFormId={selectedFormId} />;
-      if (currentUser.dbData.userType === 'administrator' || currentUser.dbData.userType === 'immigrationOfficial') return <AdnminPatientInfoList element={element} index={index} />;
-      if (currentUser.dbData.userType === 'healthOfficial') return <HOPatientInfoList element={element} index={index} />;
+        return <DoctorPatientInfoList key={index} element={element} index={index} isFormSelected={isFormSelected} setSelectedFormId={setSelectedFormId} selectedFormId={selectedFormId} />;
+      if (currentUser.dbData.userType === 'administrator' || currentUser.dbData.userType === 'immigrationOfficial') return <AdnminPatientInfoList key={index} element={element} index={index} />;
+      if (currentUser.dbData.userType === 'healthOfficial') return <HOPatientInfoList key={index} element={element} index={index} />;
       return <></>;
     });
   };
@@ -112,6 +121,7 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
     }
   };
 
+  console.log({patient});
   return (
     <Modal fullscreen={true} contentClassName={styles['patient-info-modal']} data-testid='patient-info-modal' show={showPatientInfo} onHide={handlePatientInfoClose} animation={true} centered>
       <Modal.Header>
@@ -129,7 +139,7 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
                 <Card.Text>
                   <p className={styles['patient-info-card-userType']}>Patient</p>
 
-                  <p className={patient.covidStatus === 'Negative' ? styles['patient-info-card-covidStatusN'] : styles['patient-info-card-covidStatusP']}>{'COVID Status: ' + patient.covidStatus}</p>
+                  <p className={patient.status === 'Negative' ? styles['patient-info-card-covidStatusN'] : styles['patient-info-card-covidStatusP']}>{'COVID Status: ' + patient.status}</p>
                   {isFlagged && <p className={styles['patient-info-card-flagStatusY']}>Patient has been flagged!</p>}
                 </Card.Text>
                 {currentUser.dbData.userType === 'administrator' ? (
@@ -208,7 +218,7 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
                     <hr />
                     <Accordion>
                       {patientCTData.map((element, index) => (
-                        <PatientCTDataItem element={element} index={index} patientName={patient.name} sendContactTraceNotification={sendContactTraceNotification} />
+                        <PatientCTDataItem key={index} element={element} index={index} patientName={patient.name} sendContactTraceNotification={sendContactTraceNotification} />
                       ))}
                     </Accordion>
                   </div>
