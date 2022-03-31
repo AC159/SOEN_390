@@ -19,18 +19,14 @@
 
 .container_Login {
   width: 30rem;
-  height: 80%;
   min-height: 550px;
-  box-shadow:3px 12px 20px black !important;
+  box-shadow:3px 12px 20px rgba(0,0,0,0.1) !important;
 
   background-color: white !important;
-  box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   position: relative;
   overflow: hidden;
 
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 200px;
+  margin: 150px auto;
 }
 
 .backDrop_login {

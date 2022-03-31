@@ -10,16 +10,14 @@
 .container_SingUp {
   width: 61rem;
   background-color: white;
-  box-shadow: 3px 12px 20px black !important;
-  border: solid 2px black;
+  box-shadow: 3px 12px 20px  rgba(0,0,0,0.1) !important;
   position: relative;
   overflow: hidden;
 
-  margin: auto;
+  margin:50px auto;
 }
 
 .backDrop_SingUp {
-  border: solid 1px black;
   width: 260%;
   height: 550px;
   position: absolute;
