@@ -14,9 +14,11 @@
   position: relative;
   overflow: hidden;
 
-  margin:50px auto;
+  margin: auto;
 }
-
+.wrapper_Signup{
+  padding-top: 50px;
+}
 .backDrop_SingUp {
   width: 260%;
   height: 550px;

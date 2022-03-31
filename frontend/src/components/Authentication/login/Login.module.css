@@ -16,6 +16,9 @@
   margin-left: -8px;
   font-size: 0.8rem;
 }
+.wrapper_Login{
+  padding-top: 50px;
+}
 
 .container_Login {
   width: 30rem;
@@ -26,7 +29,7 @@
   position: relative;
   overflow: hidden;
 
-  margin: 150px auto;
+  margin:auto;
 }
 
 .backDrop_login {

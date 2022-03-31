@@ -34,6 +34,7 @@ html {
 .tab-page {
   padding: 16px;
   background-color: white;
+  min-height: 300px;
 }
 
 .footer-dashboard{
@@ -42,4 +43,12 @@ html {
   margin-right: auto;
   max-width: 1500px;
   color: white;
+  position: sticky;
+  top: 100vh;
+  text-align: center;
+
+}
+
+.App{
+  height: 100%;
 }

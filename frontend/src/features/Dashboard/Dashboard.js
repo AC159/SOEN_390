@@ -30,7 +30,7 @@ const Dashboard = ({defaultActiveKey, tabsList}) => {
           </Tabs>
         </div>
       </div>
-        <footer className={styles["footer-dashboard"]}>Made by: Jananee Aruboribaran 40129224 ....<b>need to add more</b></footer>
+
     </div>
   );
 }

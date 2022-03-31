@@ -141,7 +141,8 @@ function SignUp(props) {
   };
 
   return (
-      <div className={styles["body_SignUp"]}>
+      <div className={styles["wrapper_Signup"]}>
+        <div className={styles["body_SignUp"]}>
         <div className={styles["container_SingUp"]}>
       <div className={styles["container-top_SingUp"]}>
         <h2 className={styles["h2_SingUp"]}>Create your CoviCare Account</h2>
@@ -299,6 +300,8 @@ function SignUp(props) {
       </div>
     </div>
       </div>
+      </div>
+      
 
   );
 }
