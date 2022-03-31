@@ -48,7 +48,7 @@ const PatientModal = ({
       immigrationOfficial: patient?.immigrationOfficerFlagInfo?.isFlagged || false,
       healthOfficial: patient?.healthOfficialFlagInfo?.isFlagged || false,
     };
-    setIsFlagged(flagValue[localStorage.getItem('userType')] || false);
+    setIsFlagged(flagValue[currentUser.dbData.userType] || false);
   }, [patient]);
 
   const submitDoctorQuestions = async (selectedFormId) => {
@@ -69,7 +69,7 @@ const PatientModal = ({
 
   const flagPatient = () => {
     const selectRouteType = () => {
-      switch (localStorage.getItem('userType')) {
+      switch (currentUser.dbData.userType) {
         case 'immigrationOfficial':
           return 'immigration-official';
         case 'healthOfficial':
@@ -113,37 +113,6 @@ const PatientModal = ({
         return <HOPatientInfoList key={index} element={element} index={index} />;
       return <></>;
     });
-  };
-
-  const sendContactTraceNotification = async (email) => {
-    try {
-      const userCheck = await axios.get(`/user/${email}/profile`);
-      var user = userCheck.data;
-      var response;
-
-      if (user !== null) {
-        const payload = {
-          patientEmail: email,
-          type: 'warning',
-          heading: 'Alert!',
-          mainText: 'COVID Contact Alert!',
-          subText: `You may have been in contact in with someone who is COVID Positive. Please continue using CoviCare to monitor your symptoms`,
-          patientUid: user.uid,
-        };
-        response = await axios.post(`notification/addNewNotification`, payload);
-        console.log(response);
-      } else {
-        const payload = {
-          userEmail: email,
-          inviteMessage:
-            'A user of the CoviCare system notified us of your potential contact with someone COVID Positive. You may want to join Covicare to track your health.',
-        };
-        response = await axios.post(`/user/sendInviteEmail`, payload);
-        console.log(response);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
   };
 
   return (
@@ -225,8 +194,7 @@ const PatientModal = ({
                   )}
                 </div>
               </Tab>
-
-              {localStorage.getItem('userType') === 'doctor' ? (
+              {currentUser.dbData.userType === 'doctor' ? (
                 <Tab
                   className={styles['tab-outer']}
                   eventKey='ask-questions'
@@ -241,28 +209,26 @@ const PatientModal = ({
                     {<RenderPatientInfo selectForm={true} />}
                     <hr />
                     <h4 className={styles['patient-info-tab-subtitle']}>Create Question List</h4>
-                    {questions.map((item, index) => {
-                      return (
-                        <div key={index} className={styles['qa-form']}>
+                    {questions.map((item, index) => (
+                      <div key={index} className={styles['qa-form']}>
+                        <input
+                          type='text'
+                          name='question'
+                          placeholder='Enter Question Here'
+                          value={item.question}
+                          onChange={(event) => handleQuestionFieldChange(event, index)}
+                          className={styles['question-input-field']}
+                        />
+                        {questions.length !== 1 && (
                           <input
-                            type='text'
-                            name='question'
-                            placeholder='Enter Question Here'
-                            value={item.question}
-                            onChange={(event) => handleQuestionFieldChange(event, index)}
-                            className={styles['question-input-field']}
+                            type='button'
+                            value='X'
+                            className={styles['qa-delete-button']}
+                            onClick={() => handleDeleteQuestionField(index)} //passing index here as we want to delete a specific question
                           />
-                          {questions.length !== 1 && (
-                            <input
-                              type='button'
-                              value='X'
-                              className={styles['qa-delete-button']}
-                              onClick={() => handleDeleteQuestionField(index)} //passing index here as we want to delete a specific question
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
+                        )}
+                      </div>
+                    ))}
                     <div className={styles['outer-qa-form-buttons']}>
                       <input
                         type='button'
@@ -275,6 +241,7 @@ const PatientModal = ({
                         value='SUBMIT'
                         onClick={() => submitDoctorQuestions(selectedFormId)}
                         className={styles['qa-submit-button']}
+                        data-testid='doctor-question-button'
                       />
                     </div>
                   </div>
@@ -286,7 +253,7 @@ const PatientModal = ({
                   title='Contact Tracing Data'
                 >
                   <div className={styles['patient-info-tab-page']}>
-                    <h2 className={styles['patient-info-tab-title']}>{'Contact Tracing Data'}</h2>
+                    <h2 className={styles['patient-info-tab-title']}>Contact Tracing Data</h2>
                     <hr />
                     <Accordion>
                       {patientCTData.map((element, index) => (
@@ -295,7 +262,6 @@ const PatientModal = ({
                           element={element}
                           index={index}
                           patientName={patient.name}
-                          sendContactTraceNotification={sendContactTraceNotification}
                         />
                       ))}
                     </Accordion>
