@@ -93,7 +93,11 @@
 .patient-general-info-card {
   background-color: #028FB4;
   border: solid 2px black;
-  
+  padding: 1em 0;
+}
+
+p > span {
+  margin: .25em 0;
 }
 
 .patient-info-card {

@@ -12,12 +12,27 @@ import styles from './PatientBox.module.css';
 const initialQuestionsState = [{question: '', answer: ''}];
 const newQuestion = {question: '', answer: ''};
 
-const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoClose, openDoctorList}) => {
+const PatientModal = ({
+  patient,
+  currentUser,
+  showPatientInfo,
+  handlePatientInfoClose,
+  openDoctorList,
+}) => {
   const [isFlagged, setIsFlagged] = useState(false);
   const [selectedFormId, setSelectedFormId] = useState('');
-  const [patientCTData, fetchPatientCTData] = useFetch([], `patient/get-contact-tracing/${patient.uid}`);
+  const [patientCTData, fetchPatientCTData] = useFetch(
+    [],
+    `patient/get-contact-tracing/${patient.uid}`,
+  );
   const [patientData, fetchPatientInfo] = useFetch([], `/patient/get-status-forms/${patient.uid}`);
-  const [questions, setQuestions, handleQuestionFieldChange, handleAddQuestionField, handleDeleteQuestionField] = useInputField(initialQuestionsState, newQuestion);
+  const [
+    questions,
+    setQuestions,
+    handleQuestionFieldChange,
+    handleAddQuestionField,
+    handleDeleteQuestionField,
+  ] = useInputField(initialQuestionsState, newQuestion);
 
   useEffect(() => {
     fetchPatientCTData();
@@ -84,9 +99,23 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
   const RenderPatientInfo = ({isFormSelected}) => {
     return patientData.map((element, index) => {
       if (currentUser.dbData.userType === 'doctor')
-        return <DoctorPatientInfoList key={index} element={element} index={index} isFormSelected={isFormSelected} setSelectedFormId={setSelectedFormId} selectedFormId={selectedFormId} />;
-      if (currentUser.dbData.userType === 'administrator' || currentUser.dbData.userType === 'immigrationOfficial') return <AdnminPatientInfoList key={index} element={element} index={index} />;
-      if (currentUser.dbData.userType === 'healthOfficial') return <HOPatientInfoList key={index} element={element} index={index} />;
+        return (
+          <DoctorPatientInfoList
+            key={index}
+            element={element}
+            index={index}
+            isFormSelected={isFormSelected}
+            setSelectedFormId={setSelectedFormId}
+            selectedFormId={selectedFormId}
+          />
+        );
+      if (
+        currentUser.dbData.userType === 'administrator' ||
+        currentUser.dbData.userType === 'immigrationOfficial'
+      )
+        return <AdnminPatientInfoList key={index} element={element} index={index} />;
+      if (currentUser.dbData.userType === 'healthOfficial')
+        return <HOPatientInfoList key={index} element={element} index={index} />;
       return <></>;
     });
   };
@@ -111,7 +140,8 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
       } else {
         const payload = {
           userEmail: email,
-          inviteMessage: 'A user of the CoviCare system notified us of your potential contact with someone COVID Positive. You may want to join Covicare to track your health.',
+          inviteMessage:
+            'A user of the CoviCare system notified us of your potential contact with someone COVID Positive. You may want to join Covicare to track your health.',
         };
         response = await axios.post(`/user/sendInviteEmail`, payload);
         console.log(response);
@@ -121,26 +151,46 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
     }
   };
 
-  console.log({patient});
   return (
-    <Modal fullscreen={true} contentClassName={styles['patient-info-modal']} data-testid='patient-info-modal' show={showPatientInfo} onHide={handlePatientInfoClose} animation={true} centered>
+    <Modal
+      fullscreen={true}
+      contentClassName={styles['patient-info-modal']}
+      data-testid='patient-info-modal'
+      show={showPatientInfo}
+      onHide={handlePatientInfoClose}
+      animation={true}
+      centered
+    >
       <Modal.Header>
         <Modal.Title>{patient.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className={styles['patient-info-outer-container']}>
           <div className={styles['patient-info-card']}>
-            <Card style={{width: '18rem', height: '100%'}} className={styles['patient-general-info-card']}>
-              &nbsp;
+            <Card
+              style={{width: '18rem', height: '100%'}}
+              className={styles['patient-general-info-card']}
+            >
               <Card.Img variant='top' src={patientIcon} />
               <Card.Body>
-                &nbsp;
                 <Card.Title className={styles['patient-info-card-text']}>{patient.name}</Card.Title>
                 <Card.Text>
-                  <p className={styles['patient-info-card-userType']}>Patient</p>
+                  <span className={styles['patient-info-card-userType']}>Patient</span>
 
-                  <p className={patient.status === 'Negative' ? styles['patient-info-card-covidStatusN'] : styles['patient-info-card-covidStatusP']}>{'COVID Status: ' + patient.status}</p>
-                  {isFlagged && <p className={styles['patient-info-card-flagStatusY']}>Patient has been flagged!</p>}
+                  <span
+                    className={
+                      patient.status === 'Negative'
+                        ? styles['patient-info-card-covidStatusN']
+                        : styles['patient-info-card-covidStatusP']
+                    }
+                  >
+                    {'COVID Status: ' + patient.status}
+                  </span>
+                  {isFlagged && (
+                    <span className={styles['patient-info-card-flagStatusY']}>
+                      Patient has been flagged!
+                    </span>
+                  )}
                 </Card.Text>
                 {currentUser.dbData.userType === 'administrator' ? (
                   <Button variant='primary' onClick={openDoctorList}>
@@ -148,7 +198,7 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
                   </Button>
                 ) : (
                   <Button
-                    bsClass={styles['flag-button']}
+                    bsPrefix={styles['flag-button']}
                     variant='danger'
                     onClick={() => {
                       flagPatient();
@@ -161,12 +211,19 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
             </Card>
           </div>
           <div className={styles['patient-info-tabs-container']}>
-            <Tabs className={styles['patient-info-tabs']} defaultActiveKey='submitted-forms' unmountOnExit={true} mountOnEnter={true}>
+            <Tabs
+              className={styles['patient-info-tabs']}
+              defaultActiveKey='submitted-forms'
+              unmountOnExit={true}
+              mountOnEnter={true}
+            >
               <Tab eventKey='submitted-forms' title='Submitted Forms'>
                 <div className={styles['patient-info-tab-page']}>
                   {patientData && (
                     <Accordion defaultActiveKey='0'>
-                      <h2 className={styles['patient-info-tab-title']}>{patient.name + "'s submitted forms"}</h2>
+                      <h2 className={styles['patient-info-tab-title']}>
+                        {patient.name + "'s submitted forms"}
+                      </h2>
                       <hr />
                       <RenderPatientInfo selectForm={false} />
                     </Accordion>
@@ -175,11 +232,17 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
               </Tab>
 
               {localStorage.getItem('userType') === 'doctor' ? (
-                <Tab className={styles['tab-outer']} eventKey='ask-questions' title='Create Patient Q/A Form'>
+                <Tab
+                  className={styles['tab-outer']}
+                  eventKey='ask-questions'
+                  title='Create Patient Q/A Form'
+                >
                   <div className={styles['patient-info-tab-page']}>
                     <h2 className={styles['patient-info-tab-title']}>{'Create Q&A Form'}</h2>
                     <hr />
-                    <h4 className={styles['patient-info-tab-subtitle']}>Choose form to respond to</h4>
+                    <h4 className={styles['patient-info-tab-subtitle']}>
+                      Choose form to respond to
+                    </h4>
                     {<RenderPatientInfo selectForm={true} />}
                     <hr />
                     <h4 className={styles['patient-info-tab-subtitle']}>Create Question List</h4>
@@ -206,19 +269,39 @@ const PatientModal = ({patient, currentUser, showPatientInfo, handlePatientInfoC
                       );
                     })}
                     <div className={styles['outer-qa-form-buttons']}>
-                      <input type='button' value='Add Question' className={styles['qa-add-button']} onClick={handleAddQuestionField} />
-                      <input type='button' value='SUBMIT' onClick={() => submitDoctorQuestions(selectedFormId)} className={styles['qa-submit-button']} />
+                      <input
+                        type='button'
+                        value='Add Question'
+                        className={styles['qa-add-button']}
+                        onClick={handleAddQuestionField}
+                      />
+                      <input
+                        type='button'
+                        value='SUBMIT'
+                        onClick={() => submitDoctorQuestions(selectedFormId)}
+                        className={styles['qa-submit-button']}
+                      />
                     </div>
                   </div>
                 </Tab>
               ) : (
-                <Tab className={styles['tab-outer']} eventKey='ctr-data' title='Contact Tracing Data'>
+                <Tab
+                  className={styles['tab-outer']}
+                  eventKey='ctr-data'
+                  title='Contact Tracing Data'
+                >
                   <div className={styles['patient-info-tab-page']}>
                     <h2 className={styles['patient-info-tab-title']}>{'Contact Tracing Data'}</h2>
                     <hr />
                     <Accordion>
                       {patientCTData.map((element, index) => (
-                        <PatientCTDataItem key={index} element={element} index={index} patientName={patient.name} sendContactTraceNotification={sendContactTraceNotification} />
+                        <PatientCTDataItem
+                          key={index}
+                          element={element}
+                          index={index}
+                          patientName={patient.name}
+                          sendContactTraceNotification={sendContactTraceNotification}
+                        />
                       ))}
                     </Accordion>
                   </div>
