@@ -4,6 +4,13 @@ import userEvent from '@testing-library/user-event';
 
 import {AuthContext} from '../Authentication/FirebaseAuth/FirebaseAuth';
 import PatientCTDataItem from './PatientCTDataItem';
+import axios from 'axios';
+
+jest.mock('axios');
+
+beforeEach(() => {
+  axios.mockRestore();
+});
 
 test('load and display Accordion item', () => {
   render(
@@ -29,12 +36,18 @@ test('load and display Accordion item', () => {
     </AuthContext.Provider>,
   );
 
-  expect(screen.getByText(/^List of emails/)).toHaveTextContent("List of emails of people who've been in contact with John Doe");
+  expect(screen.getByText(/^List of emails/)).toHaveTextContent(
+    "List of emails of people who've been in contact with John Doe",
+  );
   expect(screen.getByText(/Notify This User/)).toBeDefined();
 });
 
 test('it should trigger function on health official click', () => {
-  const onClick = jest.fn();
+  const mockGet = axios.get.mockResolvedValue({
+    data: {
+      uid: '1234',
+    },
+  });
   render(
     <AuthContext.Provider
       value={{
@@ -53,17 +66,15 @@ test('it should trigger function on health official click', () => {
         }}
         index={0}
         patientName='John Doe'
-        sendContactTraceNotification={onClick}
       />
     </AuthContext.Provider>,
   );
 
   userEvent.click(screen.getByText(/Notify /));
-  expect(onClick).toHaveBeenCalledTimes(1);
+  expect(mockGet).toHaveBeenCalledTimes(1);
 });
 
 test('it should not show button if not health official', () => {
-  const onClick = jest.fn();
   render(
     <AuthContext.Provider
       value={{
@@ -82,7 +93,6 @@ test('it should not show button if not health official', () => {
         }}
         index={0}
         patientName='John Doe'
-        sendContactTraceNotification={onClick}
       />
     </AuthContext.Provider>,
   );
@@ -91,7 +101,6 @@ test('it should not show button if not health official', () => {
 });
 
 test('it should not show button if no email for health official', () => {
-  const onClick = jest.fn();
   render(
     <AuthContext.Provider
       value={{
@@ -110,7 +119,6 @@ test('it should not show button if no email for health official', () => {
         }}
         index={0}
         patientName='John Doe'
-        sendContactTraceNotification={onClick}
       />
     </AuthContext.Provider>,
   );

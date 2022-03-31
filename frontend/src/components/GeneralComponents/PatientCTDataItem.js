@@ -1,17 +1,49 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import moment from 'moment';
 import {Accordion, Button} from 'react-bootstrap';
 
 import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
 import styles from './PatientBox.module.css';
 
-const PatientCTDataItem = ({element, index, patientName, sendContactTraceNotification}) => {
+const PatientCTDataItem = ({element, index, patientName}) => {
   const {currentUser} = useAuth();
   const [date, setDate] = useState('');
 
   useEffect(() => {
     setDate(moment(new Date(element.timeStamp)).format('dddd, MMMM Do YYYY, h:mm:ss a'));
   }, [element]);
+
+  const sendContactTraceNotification = async (email) => {
+    try {
+      const userCheck = await axios.get(`/user/${email}/profile`);
+      var user = userCheck.data;
+      var response;
+
+      if (user !== null) {
+        const payload = {
+          patientEmail: email,
+          type: 'warning',
+          heading: 'Alert!',
+          mainText: 'COVID Contact Alert!',
+          subText: `You may have been in contact in with someone who is COVID Positive. Please continue using CoviCare to monitor your symptoms`,
+          patientUid: user.uid,
+        };
+        response = await axios.post(`notification/addNewNotification`, payload);
+        console.log(response);
+      } else {
+        const payload = {
+          userEmail: email,
+          inviteMessage:
+            'A user of the CoviCare system notified us of your potential contact with someone COVID Positive. You may want to join Covicare to track your health.',
+        };
+        response = await axios.post(`/user/sendInviteEmail`, payload);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <Accordion.Item eventKey={index} key={index}>
