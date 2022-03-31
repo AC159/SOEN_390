@@ -78,12 +78,7 @@ const PatientModal = ({
           return 'doctor';
       }
     };
-
-    if (isFlagged) {
-      setIsFlagged(false);
-    } else {
-      setIsFlagged(true);
-    }
+    setIsFlagged(!isFlagged);
 
     const routeType = selectRouteType();
     const newFlagValue = !isFlagged;
@@ -198,7 +193,7 @@ const PatientModal = ({
                   </Button>
                 ) : (
                   <Button
-                    bsPrefix={styles['flag-button']}
+                    bsClass={styles['flag-button']}
                     variant='danger'
                     onClick={() => {
                       flagPatient();

@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 import {Accordion, Button, Modal, ListGroup, Badge} from 'react-bootstrap';
 import AccordionBody from 'react-bootstrap/esm/AccordionBody';
@@ -16,6 +16,7 @@ function PatientBox(props) {
   };
 
   const {currentUser} = useAuth();
+  const [isFlagged, setIsFlagged] = useState(false);
   const [showDoctorList, setShowDoctorList] = useState(false);
   const [assignedDoctor, setAssignedDoctor] = useState(props.doctorName);
   const [showPatientInfo, setShowPatientInfo] = useState(false);
@@ -42,6 +43,15 @@ function PatientBox(props) {
     fetchDoctorList();
   };
 
+  useEffect(() => {
+    const flagValue = {
+      doctor: props.patient?.doctorFlagInfo?.isFlagged || false,
+      immigrationOfficial: props.patient?.immigrationOfficerFlagInfo?.isFlagged || false,
+      healthOfficial: props.patient?.healthOfficialFlagInfo?.isFlagged || false,
+    };
+    setIsFlagged(flagValue[localStorage.getItem('userType')] || false);
+  }, [props.patient]);
+
   const assignDoctorToPatient = useCallback(() => {
     const pair = {
       patient: props.patient.uid,
@@ -56,7 +66,14 @@ function PatientBox(props) {
     }
     setAssignedDoctor(doctorInfo.name);
     handleDoctorListClose();
-  }, [doctorInfo.id, doctorInfo.name, handleDoctorListClose, props.currentUser.uid, props.currentUser.user.uid, props.patient.uid]);
+  }, [
+    doctorInfo.id,
+    doctorInfo.name,
+    handleDoctorListClose,
+    props.currentUser.uid,
+    props.currentUser.user.uid,
+    props.patient.uid,
+  ]);
 
   function isValidAdmin(currentUserType) {
     return currentUserType === 'administrator';
@@ -80,9 +97,18 @@ function PatientBox(props) {
         <Accordion.Header data-testid='patient-name' closeButton>
           <h5>{props.patient.name}</h5>
           <div className={styles['patient-box-header-badge']}>
-            {currentUser.dbData.userType === 'administrator' && displayRequestBadge && assignedDoctor === '' && (
-              <Badge pill bg='warning' text='dark'>
-                Wants to be assigned a doctor
+            {currentUser.dbData.userType === 'administrator' &&
+              displayRequestBadge &&
+              assignedDoctor === '' && (
+                <Badge pill bg='warning' text='dark'>
+                  Wants to be assigned a doctor
+                </Badge>
+              )}
+          </div>
+          <div className={styles['patient-box-header-badge']}>
+            {isFlagged && (
+              <Badge bg='danger' text='light'>
+                flagged
               </Badge>
             )}
           </div>
@@ -104,14 +130,25 @@ function PatientBox(props) {
         </AccordionBody>
       </Accordion.Item>
 
-      <Modal className={styles['doctor-list-modal']} data-testid='doctor-list-modal' show={showDoctorList} onHide={handleDoctorListClose} animation={true} centered>
+      <Modal
+        className={styles['doctor-list-modal']}
+        data-testid='doctor-list-modal'
+        show={showDoctorList}
+        onHide={handleDoctorListClose}
+        animation={true}
+        centered
+      >
         <Modal.Header>
           <Modal.Title>Doctors</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ListGroup>
             {doctorList.map((doctor) => (
-              <DoctorListItem doctor={doctor} setDoctorInfo={setDoctorInfo} selected={doctorInfo.id === doctor.uid} />
+              <DoctorListItem
+                doctor={doctor}
+                setDoctorInfo={setDoctorInfo}
+                selected={doctorInfo.id === doctor.uid}
+              />
             ))}
           </ListGroup>
         </Modal.Body>
@@ -126,7 +163,13 @@ function PatientBox(props) {
       </Modal>
 
       {/*This is the modal for the doctor */}
-      <PatientModal patient={props.patient} currentUser={props.currentUser} showPatientInfo={showPatientInfo} handlePatientInfoClose={handlePatientInfoClose} openDoctorList={openDoctorList} />
+      <PatientModal
+        patient={props.patient}
+        currentUser={props.currentUser}
+        showPatientInfo={showPatientInfo}
+        handlePatientInfoClose={handlePatientInfoClose}
+        openDoctorList={openDoctorList}
+      />
     </div>
   );
 }

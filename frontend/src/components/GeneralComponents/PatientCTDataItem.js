@@ -10,7 +10,7 @@ const PatientCTDataItem = ({element, index, patientName, sendContactTraceNotific
   const [date, setDate] = useState('');
 
   useEffect(() => {
-    setDate(moment(new Date(element.timeStamp * 1000)).format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    setDate(moment(new Date(element.timeStamp)).format('dddd, MMMM Do YYYY, h:mm:ss a'));
   }, [element]);
 
   return (
