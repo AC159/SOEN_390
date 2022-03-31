@@ -39,7 +39,7 @@ function Notification(props) {
                         {props.alertMainText}
                     </Card.Text>
                     <div className="p-1">
-                        <DropdownButton  id="dropdown-basic-button" title="More">
+                        <DropdownButton className={styles["dropdown-noti"]} id="dropdown-basic-button" align="end" variant="secondary" title="More">
                             <Dropdown.Item data-testid="viewNotificationButton" onClick={handleModalShow} variant="primary">View</Dropdown.Item>
                             <Dropdown.Item data-testid="deleteNotificationButton" onClick={() => props.deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
                         </DropdownButton>
