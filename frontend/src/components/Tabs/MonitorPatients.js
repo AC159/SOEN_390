@@ -8,6 +8,7 @@ import axios from "axios";
 import PatientBox from "../GeneralComponents/PatientBox";
 
 import { Accordion } from "react-bootstrap";
+import CovidData from "../GeneralComponents/CovidData";
 
 function MonitorPatients(props) {
 
@@ -46,6 +47,7 @@ function MonitorPatients(props) {
 
   return (
     <div>
+        <CovidData/>
         <div className={styles["page-top-text"]}>
             <h3>Your Patients</h3>
             <hr/>
