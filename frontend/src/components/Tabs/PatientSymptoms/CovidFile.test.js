@@ -164,6 +164,7 @@ describe('visual test of the component', () => {
   it('should update patient form on update click', async () => {
     const mockFetchPatient = jest.fn();
     useFetch.mockReturnValue([patientData, mockFetchPatient]);
+    axios.post.mockResolvedValueOnce({success: true});
 
     render(
       <BrowserRouter>

@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import Notification from './Notification';
 
 describe('visual test of Notification', () => {
-  it('should load and display without error', () => {
+  it('should load and display without error', async () => {
     render(
       <Notification
         notificationId='1234'
@@ -25,16 +25,16 @@ describe('visual test of Notification', () => {
 
     userEvent.click(screen.getByText(/^More/));
     userEvent.click(screen.getByText(/^View/));
-    expect(screen.getByText(/^Modal Heading/)).toBeInTheDocument();
-    expect(screen.getByText(/^Modal Main Text/)).toBeInTheDocument();
-    expect(screen.getByText(/^Modal Sub Text/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Modal Heading/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Modal Main Text/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Modal Sub Text/)).toBeInTheDocument();
 
     expect(screen.getByTestId('card-color-id').className.split(' ')).toEqual(
       expect.arrayContaining(['warning-color']),
     );
   });
 
-  it('should be able to delete a notification', () => {
+  it('should be able to delete a notification', async () => {
     const mockOnClick = jest.fn();
     render(
       <Notification
@@ -53,7 +53,7 @@ describe('visual test of Notification', () => {
     userEvent.click(screen.getByText(/^More/));
     userEvent.click(screen.getByText(/^Delete/));
     expect(mockOnClick).toHaveBeenCalledTimes(1);
-    expect(screen.getByTestId('card-color-id').className.split(' ')).toEqual(
+    expect((await screen.findByTestId('card-color-id')).className.split(' ')).toEqual(
       expect.arrayContaining(['info-color']),
     );
   });

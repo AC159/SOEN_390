@@ -115,14 +115,15 @@ describe('visual test of the component', () => {
 
   it('should be able to submit an appointment', () => {
     useFetch.mockReturnValue([[], jest.fn()]);
+    axios.post.mockResolvedValueOnce({success: true});
     render(
       <BrowserRouter>
         <AuthContext.Provider
           value={{
             currentUser: {
-              user: 'doctor1_covicare@gmail.com',
-              uid: 'zXX7Yt2lNSa6BhaLFnbosq4IdS22',
-              userType: 'doctor',
+              user: {
+                uid: 'zXX7Yt2lNSa6BhaLFnbosq4IdS22',
+              },
             },
           }}
         >
@@ -133,5 +134,8 @@ describe('visual test of the component', () => {
 
     userEvent.click(screen.getByText(/Book Appointment/));
     expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(axios.post.mock.calls[0]).toEqual(
+      expect.arrayContaining(['doctor/zXX7Yt2lNSa6BhaLFnbosq4IdS22/appointment']),
+    );
   });
 });
