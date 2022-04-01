@@ -20,19 +20,28 @@ describe('visual test of RequestDoctorPage component', () => {
       },
     },
   };
-  it('should load and display without error', () => {
+  beforeEach(() => {
+    axios.get.mockReturnValue({
+      data: {
+        wantToBeAssignedToDoctor: false,
+      },
+    });
+  });
+
+  it('should load and display without error', async () => {
     render(
       <AuthContext.Provider value={auth}>
         <RequestDoctorPage />
       </AuthContext.Provider>,
     );
 
-    expect(screen.getByTestId('request-doctor-button')).toBeInTheDocument();
+    expect(await screen.findByTestId('request-doctor-button')).toBeInTheDocument();
   });
 
-  it('should load and display without error when doctor is assigned', () => {
+  it('should load and display without error when doctor is assigned', async () => {
     const value = {
       currentUser: {
+        ...auth.currentUser,
         dbData: {
           patientInfo: {
             doctor: 'John Doe',
@@ -46,7 +55,7 @@ describe('visual test of RequestDoctorPage component', () => {
       </AuthContext.Provider>,
     );
 
-    expect(screen.getByText(/Your doctor: John Doe/)).toBeInTheDocument();
+    expect(await screen.findByText(/Your doctor: John Doe/)).toBeInTheDocument();
   });
 
   it('should fetch patient on load', async () => {

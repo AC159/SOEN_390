@@ -49,6 +49,7 @@ describe('visual test of UserProfile component', () => {
   });
 
   it('should submit phone form on phone form save change click', () => {
+    axios.post.mockResolvedValueOnce({success: true});
     render(
       <BrowserRouter>
         <AuthContext.Provider value={auth}>
@@ -77,6 +78,7 @@ describe('visual test of UserProfile component', () => {
   });
 
   it('should submit address form on address form save change click', () => {
+    axios.post.mockResolvedValueOnce({success: true});
     render(
       <BrowserRouter>
         <AuthContext.Provider value={auth}>

@@ -13,6 +13,9 @@ describe('visual test of Dashboard component', () => {
         <AuthContext.Provider
           value={{
             currentUser: {
+              user: {
+                uid: '1234',
+              },
               dbData: {
                 userType: 'healthOfficial',
               },
