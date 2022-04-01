@@ -53,7 +53,6 @@ function NotificationBox() {
     <div className={styles['outer-container']}>
       <div className={styles['notification-title']}>Notifications</div>
       <div data-testid='notif-container' className={styles['notification-container']}>
-        {`${emptyMessage}`}
         {emptyMessage ? <EmptyMessage /> : null}
         {notifications.map((notification) => (
           <div className={styles['notification-box']} key={notification._id}>
