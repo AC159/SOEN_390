@@ -35,7 +35,14 @@ const List = (Component, {title, listUrl, searchMessage, render}) => {
           setSearchTerm(event.target.value);
         }}
       />
-      <Component>{list.filter((item) => searchTerm === '' || item.name.toLowerCase().includes(searchTerm.toLowerCase())).map((item, index) => render(item, index))}</Component>
+      <Component>
+        {list
+          .filter(
+            (item) =>
+              searchTerm === '' || item.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          )
+          .map((item, index) => render(item, index))}
+      </Component>
       <div className={styles['request-container']} />
     </div>
   );
