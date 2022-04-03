@@ -89,18 +89,16 @@ function PatientList(props) {
             setSearchTerm(event.target.value);
           }}
         />
-        {
-          !checkIfAdmin() &&
-          <label className={styles['check-box']}>
-            <input
-              type='checkbox'
-              id='flagCheckBox'
-              checked={flagCheck}
-              onChange={handleFlagCheckChange}/>
-            <span>  flagged  </span>
-          </label>
+        {!checkIfAdmin() &&
+        <label className={styles['check-box']}>
+          <input
+            type='checkbox'
+            id='flagCheckBox'
+            checked={flagCheck}
+            onChange={handleFlagCheckChange}/>
+          <span>  flagged  </span>
+        </label>
         }
-
       </div>
       <div>{renderPatientList()}</div>
     </div>
