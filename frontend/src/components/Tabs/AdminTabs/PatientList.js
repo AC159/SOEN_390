@@ -76,17 +76,25 @@ function PatientList(props) {
   return (
     <div className={styles['role-outer-container']}>
       <div className={styles['todays-new-title']}>Patient List</div>
-      <hr />
-      <input
-        type='text'
-        placeholder='Search patient by name...'
-        onChange={(event) => {
-          setSearchTerm(event.target.value);
-        }}
-      />
-      <input type='checkbox' id='flagCheckBox' checked={flagCheck} onChange={handleFlagCheckChange} /> flagged
+      <hr/>
+      <div className={styles['side-by-side']}>
+        <input
+          type='text'
+          placeholder='Search patient by name...'
+          onChange={(event) => {
+            setSearchTerm(event.target.value);
+          }}
+        />
+        <label className={styles['check-box']}>
+          <input
+            type='checkbox'
+            id='flagCheckBox'
+            checked={flagCheck}
+            onChange={handleFlagCheckChange}/>
+          <span>  flagged  </span>
+        </label>
+      </div>
       <div>{renderPatientList()}</div>
-      <div className={styles['request-container']}></div>
     </div>
   );
 }
