@@ -107,7 +107,7 @@ function CovidData(props) {
     }
 
     return (
-    <div className={styles["covidData"]}>
+    <div data-testid="covid-data" className={styles["covidData"]}>
 
         {patientList.map((patient, index) => (
             <div key={index}>
