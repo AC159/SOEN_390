@@ -55,10 +55,23 @@ function CovidData(props) {
     //Creates array of data with the current number patients that have tested positive, negative, or were not tested.
     function makePatientStatusArr(pos, neg, noTest){
 
+        var totalPatients = numPosPatients + numNegPatients + numNoTestPatients;
+        var percentPos = (numPosPatients/totalPatients) * 100;
+        var percentNeg = (numNegPatients/totalPatients) * 100;
+        var percentNoTest = (numNoTestPatients/totalPatients) * 100;
+
+        let pp = percentPos.toFixed(2);
+        let pn = percentNeg.toFixed(2);
+        let pnt = percentNoTest.toFixed(2);
+
+        let posName =  pp + "% Positive";
+        let negName = pn + "% Negative";
+        let noTestName = pnt + "% Not Tested";
+
         data1 = [
-            {name: "Positive", value: pos},
-            {name: "Negative", value: neg},
-            {name: "Not Tested", value: noTest},
+            {name: posName, value: pos},
+            {name: negName, value: neg},
+            {name: noTestName, value: noTest},
         ]
 
     }
@@ -113,7 +126,7 @@ function CovidData(props) {
                 <Col>
                     <div className={styles["chart"]}>
                         <h3 className={styles["chartTitle"]}>Current Patients Status</h3>
-                        <PieChart width={500} height={400}>
+                        <PieChart width={600} height={400}>
                             <Pie
                                 dataKey="value"
                                 isAnimationActive={false}
