@@ -72,25 +72,6 @@ function NotificationBox() {
                 ))}
             </Row>
 
-            {/*<div className={styles["notification-container"]}>*/}
-            {/*    {emptyMessage ? <EmptyMessage/> : null}*/}
-            {/*    {notifications.map((notification) => (*/}
-            {/*        <div className={styles["notification-box"]} key={notification._id}>*/}
-            {/*            <Notification*/}
-            {/*                notificationId={notification._id}*/}
-            {/*                timeStamp={notification.timeStamp}*/}
-            {/*                alertType={notification.type}*/}
-            {/*                alertHeading={notification.heading}*/}
-            {/*                alertMainText={notification.mainText}*/}
-            {/*                modalHeading={notification.heading}*/}
-            {/*                modalMainText={notification.mainText}*/}
-            {/*                modalSubText={notification.subText}*/}
-            {/*                deleteNotification={deleteNotification}*/}
-            {/*            />*/}
-            {/*        </div>*/}
-            {/*    ))}*/}
-            {/*</div>*/}
-
         </div>
     );
 }
