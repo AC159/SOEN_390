@@ -87,7 +87,8 @@ function Appointment(props) {
             axios.post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
                 .then(function (response) {
                     console.log(response);
-                })
+                });
+            alert("You have successfully booked an appointment with " + patientName + " on " + showTimeStamp(dateAndTime.getTime()) + ".");
         } catch (error) {
             console.log('Submit error: ', error);
         }
