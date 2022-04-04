@@ -46,9 +46,10 @@ html {
   position: sticky;
   top: 100vh;
   text-align: center;
-
+  padding-top: 45px;
 }
 
 .App{
   height: 100%;
 }
+
