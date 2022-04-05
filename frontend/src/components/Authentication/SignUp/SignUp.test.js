@@ -1,10 +1,10 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
+import {BrowserRouter} from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 import {AuthContext} from '../FirebaseAuth/FirebaseAuth';
 import SignUp from './SignUp';
-import {BrowserRouter} from 'react-router-dom';
 
 describe('visual test of SignUp component', () => {
   const mockRegister = jest.fn();
