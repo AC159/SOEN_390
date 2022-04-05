@@ -113,11 +113,13 @@ function ContactPatients(props) {
                 {selectedChatIndex === -1 ? 'Select a patient chat' : 
                 <div className={styles["right-side-container"]}>
                     <div className={styles["chat-box-title"]}>
-                        <h3><strong>{patients[selectedChatIndex].name}</strong></h3>
-                        <p>{"PatientID: "+patients[selectedChatIndex].uid}</p>
-                        {patients[selectedChatIndex].doctorFlagInfo.isFlagged == true 
-                        ? <Badge bg={"danger"} >FLAGGED</Badge> 
+                        <div>
+                            <h3><strong>{patients[selectedChatIndex].name}</strong></h3>
+                            {patients[selectedChatIndex].doctorFlagInfo.isFlagged == true 
+                        ? <Badge className={styles["patient-name-display"]} bg={"danger"} >FLAGGED</Badge> 
                         : null}
+                        </div>
+                        <p>{"PatientID: "+patients[selectedChatIndex].uid}</p>
                     </div>
                     <div className={styles["chat-container"]}>
                         <div>

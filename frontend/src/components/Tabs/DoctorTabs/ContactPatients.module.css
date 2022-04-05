@@ -52,6 +52,10 @@
     border-top-right-radius: 10px;
 }
 
+.patient-name-display{
+    float: right;
+}
+
 .chat-text-box{
     display: flex;
     flex-direction: row;
