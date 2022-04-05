@@ -1,7 +1,6 @@
 import React from "react";
 import {Tab, Tabs} from "react-bootstrap";
 
-import NotificationBox from '../../components/NotificationBox/NotificationBox';
 import Navbar from "../../components/Navbar/Navbar";
 import styles from './Dashboard.module.css';
 import './common.css'
@@ -28,10 +27,8 @@ const Dashboard = ({defaultActiveKey, tabsList}) => {
             ))}
           </Tabs>
         </div>
-        <div className={styles["notification-outer-box"]}>
-          <NotificationBox/>
-        </div>
       </div>
+
     </div>
   );
 }

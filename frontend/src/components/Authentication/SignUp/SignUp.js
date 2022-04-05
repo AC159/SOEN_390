@@ -141,7 +141,9 @@ function SignUp(props) {
   };
 
   return (
-    <div className={styles["container_SingUp"]}>
+      <div className={styles["wrapper_Signup"]}>
+        <div className={styles["body_SignUp"]}>
+        <div className={styles["container_SingUp"]}>
       <div className={styles["container-top_SingUp"]}>
         <h2 className={styles["h2_SingUp"]}>Create your CoviCare Account</h2>
         <div className={styles["backDrop_SingUp"]} />
@@ -297,6 +299,10 @@ function SignUp(props) {
         Already have an account? <Link to={"/"}>Login!</Link>
       </div>
     </div>
+      </div>
+      </div>
+      
+
   );
 }
 
