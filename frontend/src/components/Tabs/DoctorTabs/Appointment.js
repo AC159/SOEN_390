@@ -3,8 +3,7 @@ import moment from 'moment';
 import axios from 'axios';
 import {Button, Container, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
+import {addDays, setHours, setMinutes} from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
@@ -19,9 +18,10 @@ function Appointment(props) {
 
   let [patientId, setPatientId] = useState('');
   let [patientName, setPatientName] = useState('');
-  let [dateAndTime, setDateAndTime] = useState(new Date());
+  let [dateAndTime, setDateAndTime] = useState('');
   let [title, setTitle] = useState('');
   let [information, setInformation] = useState('');
+  let [meetingLink, setMeetingLink] = useState('');
   let dateArr = [];
   let arrExcludedTimes = [];
 
@@ -43,11 +43,11 @@ function Appointment(props) {
   function id(pName) {
     let patientArr = [];
     let uName = pName;
-    for (var i of patientList) {
+    for (const i of patientList) {
       patientArr.push(i);
     }
 
-    var index = patientArr.findIndex((item) => item.name === uName);
+    const index = patientArr.findIndex((item) => item.name === uName);
     let patient = patientArr[index];
     let pId = patient['uid'];
 
@@ -61,16 +61,19 @@ function Appointment(props) {
         {patient.name}
       </option>
     ));
-
     return (
       <div>
         <select
+          defaultValue={'Select'}
           data-testid='select-patient'
           onChange={(event) => {
             setPatientId(id(event.target.value));
             setPatientName(event.target.value);
           }}
         >
+          <option value='Select' disabled>
+            Select
+          </option>
           {optionPatient}
         </select>
       </div>
@@ -79,6 +82,26 @@ function Appointment(props) {
 
   //Submit appointment information into database.
   const submitAppointment = async () => {
+    if (patientName === '') {
+      alert('Patient is required');
+      return;
+    }
+    if (title === '') {
+      alert('Meeting Title is required');
+      return;
+    }
+    if (information === '') {
+      alert('Meeting Details is required');
+      return;
+    }
+    if (dateAndTime === '') {
+      alert('Date & Time is required');
+      return;
+    }
+    if (meetingLink === '') {
+      alert('Meeting Link is required');
+      return;
+    }
     try {
       const userAttributes = {
         doctorId: currentUser.user.uid,
@@ -87,12 +110,19 @@ function Appointment(props) {
         dateAndTime: dateAndTime.getTime(),
         title: title,
         information: information,
+        meetingLink: meetingLink,
       };
       axios
         .post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
         .then(function (response) {
           console.log(response);
+          setDateAndTime('');
+          setTitle('');
+          setInformation('');
+          setMeetingLink('');
+          getAppointments();
         });
+      alert('Created');
     } catch (error) {
       console.log('Submit error: ', error);
     }
@@ -190,10 +220,6 @@ function Appointment(props) {
 
   return (
     <div data-testid='appointment-1'>
-      <h4 className={styles['scheduleAppointment']}>Scheduled Appointments</h4>
-      {renderAppointments()}
-      <br></br>
-
       <div className={styles['addAppointment']}>
         <h4>Add Appointment</h4>
         <div className={styles['form-group']}>
@@ -252,6 +278,8 @@ function Appointment(props) {
           </form>
         </div>
       </div>
+      <h4 className={styles['scheduleAppointment']}>Scheduled Appointments</h4>
+      {renderAppointments()}
     </div>
   );
 }

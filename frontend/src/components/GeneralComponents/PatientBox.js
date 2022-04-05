@@ -191,7 +191,7 @@ function PatientBox(props) {
 
   const RenderPatientCTData = () => {
     return patientCTData.map((element, index) => {
-      let date = new Date(element.timeStamp * 1000);
+      let date = new Date(element.timeStamp);
       return (
         <Accordion.Item eventKey={index} key={index}>
           <Accordion.Header><h5>{"Contact Tracing Report for "+element.date}</h5></Accordion.Header>
@@ -346,6 +346,11 @@ function PatientBox(props) {
             bg="warning" 
             text="dark">
               {(currentUser.dbData.userType === "administrator" && displayRequestBadge && assignedDoctor === "") ? "Wants to be assigned a doctor" : null}
+            </Badge>
+          </div>
+          <div className={styles["patient-box-header-badge"]}>
+            <Badge bg="danger" text="light">
+              {(isFlagged && "flagged")}
             </Badge>
           </div>
         </Accordion.Header>

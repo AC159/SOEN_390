@@ -28,7 +28,7 @@ function App() {
         </Routes>
       </main>
         <footer className={styles["footer-dashboard"]}>Made by: Anastassy Cap 40128337, Anas Peerzada 40040127, Anita Rao 40002701, Jamil Hirsh 21236962, Jananee Aruboribaran 401229224,
-            Juhi Rao 40004588, Philippe Carrier 40153985, Thanh Ta 40085781</footer>
+            Juhi Rao 40004588, Philippe Carrier 40153985, Thanh Ta 40085781, Zain Khan 40110693</footer>
     </div>
   );
 }
