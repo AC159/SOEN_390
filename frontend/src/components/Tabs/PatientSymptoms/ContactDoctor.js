@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
-import {io} from 'socket.io-client';
+import {Button, Spinner} from 'react-bootstrap';
+import {io} from "socket.io-client";
+import {Form} from "react-bootstrap";
 
 import styles from "./ContactDoctor.module.css";
 
@@ -12,6 +13,14 @@ function ContactDoctor(props) {
     let [chats, setChats] = useState([]);
     let [messageInput, setMessageInput] = useState('');
     let [socket, setSocket] = useState(null);
+    let [isPriority, setIsPriority] = useState(false);
+
+    const togglePriority = () => {
+        if(isPriority)
+        setIsPriority(false);
+        else setIsPriority(true);
+
+    }
 
     useEffect(async () => {
         try {
@@ -53,7 +62,7 @@ function ContactDoctor(props) {
         const patientId = currentUser.user.uid;
         const doctorId = currentUser.dbData.patientInfo.doctorId;
         const chatId = patientId + '_' + doctorId;
-        const msg = {chatId: chatId, message: messageInput, senderId: patientId, receiverId: doctorId};
+        const msg = {chatId: chatId, message: messageInput, senderId: patientId, receiverId: doctorId, priority: isPriority};
         socket.emit('private-message', msg);
         setChats([...chats, msg]);
         setMessageInput('');
@@ -61,18 +70,52 @@ function ContactDoctor(props) {
 
     return (
         <div>
-            <div className={styles["chats-container"]}>
-                {chats.length > 0 ? chats.map((msg, index) => 
-                <div className={(msg.senderId === currentUser.user.uid) ? styles["my-message"] : styles["their-message"]} key={index}>
-                    {msg.message}
-                </div>) 
-                : 'No chats'}
+            <div className={styles["right-side-container"]}>
+                <div className={styles["chat-box-title"]}>
+                    <div>
+                        <p>Chat with your Doctor</p>
+                        <h3>Dr. Roman Roy</h3>
+                    </div>
+                </div>
+                <div className={styles["chat-container"]}>
+                    <div>
+                        <div className={styles["chats-container"]}>
+                        {socket !== null 
+                        ? chats.length > 0 ? chats.map((chat, index) => {
+                            return <div className={(chat.senderId === currentUser.user.uid) 
+                            ? chat.priority ? styles["my-message-priority"] : styles["my-message"] 
+                            : chat.priority ? styles["their-message-priority"] : styles["their-message"]} 
+                            key={index}>
+                                    {chat.message}
+                                </div>
+                        }) : <p className={styles["empty-message"]}>
+                            You don't have any messages to and from your Doctor. 
+                            </p> 
+                        : 
+                        <div>
+                            <h4>Loading messages.....</h4>
+                            <Spinner animation="grow" variant="primary"/>
+                        </div>
+                        }
+                            
+                        </div>
+                    </div> 
+                </div>
             </div>
 
-            <span className={styles["message-bar"]}>
-                <input className={styles["send-input-box"]} placeholder={'message'} type='text' value={messageInput} onChange={(event) => setMessageInput(event.target.value)}/>
-                <Button disabled={messageInput === ''} onClick={sendMessage}>Send</Button>
-            </span>
+            <div className={styles["chat-text-box"]}>
+                <Form.Control bsPrefix={styles["input-message"]} placeholder={'message'} type='text' value={messageInput} onChange={(event) => setMessageInput(event.target.value)}/>
+                <Button 
+                disabled={messageInput === ''} 
+                onClick={sendMessage} 
+                className={styles["button"]} 
+                variant={isPriority ? "danger" : "success"}>
+                    Send
+                </Button>
+            </div>
+            <div className={styles["priority-box"]}>
+                <Form.Check type="switch" id="custom-switch" label="Priority Message?" onClick={togglePriority}/>
+            </div>
             
         </div>
     );
