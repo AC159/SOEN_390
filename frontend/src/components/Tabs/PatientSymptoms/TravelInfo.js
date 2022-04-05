@@ -16,6 +16,7 @@ function TravelInfo(props){
     let {currentUser} = useAuth();
     let [showModal, setShowModal] = useState(false);
     let [vacationLocation, setVacationLocation] = useState('');
+    let [travelPurpose, setTravelPurpose] = useState('');
     let [date, setDate] = useState([
         {
           startDate: new Date(),
@@ -33,6 +34,7 @@ function TravelInfo(props){
           console.log(date.at(0).endDate);
           console.log(date);
           console.log(vacationLocation);
+          console.log(travelPurpose);
           const startDate = date.at(0).startDate.toDateString();
           const endDate = date.at(0).endDate.toDateString();
           const testStartDate = date.at(0).startDate.toLocaleDateString();
@@ -69,15 +71,20 @@ function TravelInfo(props){
                             editableDateInputs={true}
                             onChange={item => setDate([item.selection])}
                             moveRangeOnFirstSelection={false}
-                            maxDate={addDays(new Date(), 0)} //user cannot pick a date in the future from the current date
                             ranges={date}
                         />
                     </div>  
-                    <label>Enter the destination you traveled to</label>
+                    <label>Enter the destination you traveled/are traveling to</label>
                     <input 
                         type = "text"
                         placeholder = "country, province, city"
                         onChange = {(event) => setVacationLocation(event.target.value)}
+                    />
+                    <label>Enter the reason for your stay</label>
+                    <input 
+                        type = "text"
+                        placeholder = "Reason for stay"
+                        onChange = {(event) => setTravelPurpose(event.target.value)}
                     />
                     <Button onClick={(event) => {
                         submitTravelForm();
