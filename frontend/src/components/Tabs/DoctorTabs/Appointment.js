@@ -19,7 +19,7 @@ function Appointment() {
 
   let [patientId, setPatientId] = useState('');
   let [patientName, setPatientName] = useState('');
-  let [dateAndTime, setDateAndTime] = useState(new Date);
+  let [dateAndTime, setDateAndTime] = useState('');
   let [title, setTitle] = useState('')
   let [information, setInformation] = useState('');
   let [meetingLink, setMeetingLink] = useState('');
@@ -85,9 +85,8 @@ function Appointment() {
       alert("Meeting Details is required");
       return;
     }
-    const today = new Date();
-    if (dateAndTime.getDate() === today.getDate() && dateAndTime.getMonth() === today.getMonth()) {
-      alert("Date & Time cannot be today");
+    if (dateAndTime === '') {
+      alert("Date & Time is required");
       return;
     }
     try {
@@ -103,6 +102,7 @@ function Appointment() {
       axios.post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
         .then(function (response) {
           console.log(response);
+          window.location.reload();
         })
     } catch (error) {
       console.log('Submit error: ', error);
