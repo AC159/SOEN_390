@@ -25,10 +25,8 @@ const Pagination = ({data, emptyMessage, render, itemPerPage = 10}) => {
   }, [currentPage]);
 
   return (
-    <div>
-      <div>
-        {data.length <= 0 ? <span>{emptyMessage}</span> : items.map((props) => render(props))}
-      </div>
+    <>
+      {data.length <= 0 ? <span>{emptyMessage}</span> : items.map((props) => render(props))}
       <div>
         <PaginationComponent>
           {pageController.map((num) => (
@@ -42,7 +40,7 @@ const Pagination = ({data, emptyMessage, render, itemPerPage = 10}) => {
           ))}
         </PaginationComponent>
       </div>
-    </div>
+    </>
   );
 };
 
