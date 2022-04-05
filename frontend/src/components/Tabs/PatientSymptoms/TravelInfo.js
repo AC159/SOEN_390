@@ -13,6 +13,7 @@ import { DateRange } from 'react-date-range';
 import { addDays } from "date-fns";
 
 function TravelInfo(props){
+    let {currentUser} = useAuth();
     let [showModal, setShowModal] = useState(false);
     let [vacationLocation, setVacationLocation] = useState('');
     let [date, setDate] = useState([
@@ -32,6 +33,23 @@ function TravelInfo(props){
           console.log(date.at(0).endDate);
           console.log(date);
           console.log(vacationLocation);
+          const startDate = date.at(0).startDate.toDateString();
+          const endDate = date.at(0).endDate.toDateString();
+          const testStartDate = date.at(0).startDate.toLocaleDateString();
+          console.log(startDate);
+          console.log(endDate);
+          console.log(testStartDate);
+          try {
+            const userTravelData = {
+                patientUid: currentUser.user.uid,
+                date: date,
+                locationDescription: vacationLocation
+            };
+            const response = await axios.post(`/patient/submit-traveler-form`, userTravelData);
+            console.log(response);
+          } catch (error){
+              console.log('Submit error: ', error)
+          }
       }
 
     return(
@@ -63,6 +81,7 @@ function TravelInfo(props){
                     />
                     <Button onClick={(event) => {
                         submitTravelForm();
+                        closeModal();
                     }}>
                         Submit
                     </Button>
