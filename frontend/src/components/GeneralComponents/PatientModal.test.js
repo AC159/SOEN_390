@@ -85,7 +85,7 @@ describe('visual test of Patient Modal component', () => {
     expect(mockFetchCTData).toHaveBeenCalledTimes(1);
   });
 
-  it('should fire submit doctor questions', () => {
+  it('should fire submit doctor questions', async () => {
     let mockQuestion = ['', '', ''];
     const mockSetQuestion = jest
       .fn()
@@ -114,10 +114,9 @@ describe('visual test of Patient Modal component', () => {
     );
 
     userEvent.click(screen.getByText(/Create Patient/));
-    userEvent.click(screen.getByTestId('doctor-question-button'));
+    userEvent.click(await screen.findByTestId('doctor-question-button'));
 
-    // expect(mockQuestion.length).toBe(0);
-    // expect(mockSetQuestion).toHaveBeenCalledTimes(1);
+    expect(await mockSetQuestion).toHaveBeenCalledTimes(1);
   });
 
   it('should be able to flag patient and see patient info has a doctor', () => {
