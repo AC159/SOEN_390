@@ -71,7 +71,6 @@ function ContactPatients(props) {
             console.log('Received patient chats: ', response.data);
             setChats([...response.data]);
             setSelectedChatIndex(patientIndex);
-            setIsPriority(false);
         } catch (error) {
             console.log('Error fetching chat messages: ', error);
         }
