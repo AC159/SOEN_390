@@ -29,7 +29,7 @@
 .patient-info-outer-container {
   display:flex;
   height: 100%;
-  
+
 }
 
 .patient-general-info-card {
@@ -85,19 +85,14 @@
   border-right: solid 2px black;
   border-bottom: solid 2px black;
   border-top: solid 2px black;
-  
+
   overflow-y: scroll;
-  
+
 }
 
 .patient-general-info-card {
   background-color: #028FB4;
   border: solid 2px black;
-  padding: 1em 0;
-}
-
-p > span {
-  margin: .25em 0;
 }
 
 .patient-info-card {
@@ -129,6 +124,7 @@ p > span {
   border-radius: 5px;
   padding: 5px;
   font-weight:bold;
+  color: white;
 }
 
 .patient-info-card-covidStatusN{
@@ -147,6 +143,7 @@ p > span {
   border-radius: 5px;
   padding: 5px;
   font-weight:bold;
+  color: white;
 }
 
 .patient-info-card-flagStatusN{
@@ -170,7 +167,7 @@ p > span {
 
 .tabStyle{
   height: 100%;
-  
+
 }
 .form-select-button{
   margin-top: 2%;

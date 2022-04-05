@@ -5,6 +5,7 @@ import Home from '../../components/Tabs/Home';
 import RoleRequest from '../../components/Tabs/AdminTabs/RoleRequest';
 import PatientList from '../../components/Tabs/AdminTabs/PatientList';
 import AdminDoctorList from '../../features/Tabs/AdminDoctorList';
+import NotificationBox from "../../components/NotificationBox/NotificationBox";
 
 const tabs = [
   {
@@ -26,6 +27,11 @@ const tabs = [
     eventKey: 'doctor-list',
     title: 'Doctor List',
     element: <AdminDoctorList />
+  },
+  {
+    eventKey: 'notification',
+    title: 'Notification',
+    element: <NotificationBox />
   },
   {
     eventKey: 'contact',

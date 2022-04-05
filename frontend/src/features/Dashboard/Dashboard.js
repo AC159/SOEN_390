@@ -2,7 +2,6 @@ import React from "react";
 import {Tabs} from "react-bootstrap";
 import {Tab} from "react-bootstrap";
 
-import NotificationBox from '../../components/NotificationBox/NotificationBox';
 import Navbar from "../../components/Navbar/Navbar";
 import styles from './Dashboard.module.css';
 import './common.css'
@@ -15,10 +14,10 @@ const Dashboard = ({defaultActiveKey, tabsList}) => {
       <Navbar />
       <div className={styles["admin-main-container"]}>
         <div className={styles["tabs-box"]}>
-          <Tabs 
-            className="tabStyle" 
+          <Tabs
+            className="tabStyle"
             defaultActiveKey={defaultActiveKey}
-            unmountOnExit={true} 
+            unmountOnExit={true}
             mountOnEnter={true}
           >
             {tabsList.map((tab, index) => (
@@ -30,10 +29,8 @@ const Dashboard = ({defaultActiveKey, tabsList}) => {
             ))}
           </Tabs>
         </div>
-        <div className={styles["notification-outer-box"]}>
-          <NotificationBox />
-        </div>
       </div>
+
     </div>
   );
 }

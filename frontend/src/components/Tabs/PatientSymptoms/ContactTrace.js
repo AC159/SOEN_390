@@ -18,8 +18,12 @@ function ContactTrace(props) {
   let [date, setDate] = useState('');
   let [showModal, setShowModal] = useState(false);
   let [update, setUpdate] = useState(false);
-  const [emails, setEmails, handleEmailFieldChange, handleAddEmailField, handleDeleteEmailField] = useInputField(initialEmailsState, newEmail);
-  const [patientTracing, fetchPatientContactTracing] = useFetch([], `/patient/get-contact-tracing/${currentUser.user.uid}`);
+  const [emails, setEmails, handleEmailFieldChange, handleAddEmailField, handleDeleteEmailField] =
+    useInputField(initialEmailsState, newEmail);
+  const [patientTracing, fetchPatientContactTracing] = useFetch(
+    [],
+    `/patient/get-contact-tracing/${currentUser.user.uid}`,
+  );
 
   const submitContactTracingForm = async () => {
     try {
@@ -64,13 +68,22 @@ function ContactTrace(props) {
             let date = new Date(element.timeStamp);
             return (
               <Accordion.Item eventKey={index} key={index}>
-                <Accordion.Header>Created on {moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')}</Accordion.Header>
+                <Accordion.Header>
+                  Created on {moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')}
+                </Accordion.Header>
                 <Accordion.Body>
                   {Object.entries(element).map(([key, value], index) => {
                     if (key === 'timeStamp') {
                       // setTimeStamp({value})
                     }
-                    if (!value || key === '_id' || key === 'patientUid' || key === 'timeStamp' || value.length === 0) return null;
+                    if (
+                      !value ||
+                      key === '_id' ||
+                      key === 'patientUid' ||
+                      key === 'timeStamp' ||
+                      value.length === 0
+                    )
+                      return null;
 
                     if (Array.isArray(value)) {
                       return (
@@ -102,9 +115,17 @@ function ContactTrace(props) {
         </Modal.Header>
         <Modal.Body>
           <label>The date you came in contact with them</label>
-          <input type='date' defaultValue={update ? date : null} onChange={(event) => setDate(event.target.value)} />
+          <input
+            type='date'
+            defaultValue={update ? date : null}
+            onChange={(event) => setDate(event.target.value)}
+          />
           <label>Enter the location info</label>
-          <input type='text' defaultValue={update ? locationDescription : null} onChange={(event) => setLocationDescription(event.target.value)} />
+          <input
+            type='text'
+            defaultValue={update ? locationDescription : null}
+            onChange={(event) => setLocationDescription(event.target.value)}
+          />
           <label>Enter all the people's email</label>
           {emails.map((value, index) => {
             return (
@@ -117,7 +138,14 @@ function ContactTrace(props) {
                   className={styles[emails.length !== 1 && 'email-input-trace']}
                   onChange={(event) => handleEmailFieldChange(event, index)}
                 />
-                {emails.length !== 1 && <input type='button' value='X' className={styles['delete-button-trace']} onClick={() => handleDeleteEmailField(index)} />}
+                {emails.length !== 1 && (
+                  <input
+                    type='button'
+                    value='X'
+                    className={styles['delete-button-trace']}
+                    onClick={() => handleDeleteEmailField(index)}
+                  />
+                )}
               </div>
             );
           })}
