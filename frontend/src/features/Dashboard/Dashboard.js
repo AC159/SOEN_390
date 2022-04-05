@@ -1,17 +1,15 @@
 import React from "react";
-import {Tabs} from "react-bootstrap";
-import {Tab} from "react-bootstrap";
+import {Tab, Tabs} from "react-bootstrap";
 
 import Navbar from "../../components/Navbar/Navbar";
 import styles from './Dashboard.module.css';
 import './common.css'
 
-
 const Dashboard = ({defaultActiveKey, tabsList}) => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className={styles["admin-main-container"]}>
         <div className={styles["tabs-box"]}>
           <Tabs
@@ -22,9 +20,9 @@ const Dashboard = ({defaultActiveKey, tabsList}) => {
           >
             {tabsList.map((tab, index) => (
               <Tab key={index} eventKey={tab.eventKey} title={tab.title}>
-                <div className={styles["tab-page"]}>
-                  {tab.element}
-                </div>
+                  <div className={styles["tab-page"]}>
+                    {tab.element}
+                  </div>
               </Tab>
             ))}
           </Tabs>

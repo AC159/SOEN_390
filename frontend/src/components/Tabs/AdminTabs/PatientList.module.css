@@ -1,15 +1,24 @@
 .role-outer.container {
     padding: 10px;
     background-color: #376975;
-  }
-  
-  .todays-new-title {
+}
+
+.todays-new-title {
     font-size: x-large;
-    padding-bottom: 0px;
+    padding-bottom: 0;
     font-weight: 700;
-  }
-  
-  .request-container {
+}
+
+.request-container {
     padding-bottom: 10px;
-  }
-  
+}
+
+.side-by-side {
+    display: flex;
+    flex-direction: row;
+}
+
+.check-box {
+    margin: 20px;
+    width: 200%;
+}
