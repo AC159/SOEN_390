@@ -11,6 +11,7 @@ const healthOfficialRoutes = require('./routes/healthOfficial');
 const notificationRoutes = require('./routes/notification');
 const bodyParser = require('body-parser');
 const port = 3001;
+const socketio = require('socket.io');
 require('colors');
 
 app.use(bodyParser.json());
@@ -29,10 +30,29 @@ connectToCluster(process.env.MONGO_CLUSTER_URL).then((client) => {
 });
 
 const server = app.listen(port, () => {
-  // export const mongoClient = connectToCluster(process.env.MONGO_CLUSTER_URL).then(() => {
-  //     console.log("success...".america);
-  // });
   console.log(`Server listening on port ${port}...`.brightBlue);
+});
+
+const io = socketio(server);
+
+io.on("connection", (socket) => {
+  console.log(`New websocket connection with socket id ${socket.id}`.magenta);
+
+  socket.on('join-chat-room', (chatId) => {
+    socket.join(chatId);
+  })
+
+  socket.on('private-message', async (msg) => {
+    console.log('Received message from client: ', msg);
+    // save the message in the database
+    msg.timestamp = Math.floor(Date.now() / 1000);
+    await app.locals.mongodb.db('test').collection('chats').insertOne(msg);
+    socket.to(msg.chatId).emit('private-message', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`Websocket disconnected`.blue);
+  });
 });
 
 module.exports = app;

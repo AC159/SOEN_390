@@ -339,7 +339,7 @@ function PatientBox(props) {
     <div className={styles["card-container"]}>
 
       <Accordion.Item eventKey={props.eventKey} className={styles["patient-box"]}>
-        <Accordion.Header data-testid="patient-name" closeButton>
+        <Accordion.Header data-testid="patient-name">
           <h5>{props.patient.name}</h5>
           <div className={styles["patient-box-header-badge"]}>
             <Badge pill
@@ -395,7 +395,7 @@ function PatientBox(props) {
                     <p className={(isFlagged) ? styles["patient-info-card-flagStatusY"] : styles["patient-info-card-flagStatusN"]}>{(isFlagged) ? "Patient has been flagged!" : ""}</p>
                   </Card.Text>
                   {isValidAdmin(props.userType) && <Button variant="primary" onClick={openDoctorList}>Assign Doctor</Button>}
-                  {isValidAdmin(localStorage.getItem("userType")) ? null : <Button bsClass={styles["flag-button"]} variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button>}
+                  {isValidAdmin(localStorage.getItem("userType")) ? null : <Button variant="danger" onClick={() => {flagPatient()}}>{flagButtonText}</Button>}
                 </Card.Body>
               </Card>
             </div>

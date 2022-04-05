@@ -11,6 +11,7 @@ router.get('/:doctorId/patientArray', async function(req, res) {
     const doctorRepository = new DoctorRepository(mongo);
     const doctor = new Doctor(doctorId, doctorRepository);
     const response = await doctor.getPatients();
+    console.log('Patients: ', response);
     res.status(200).json({data: response});
   } catch (e) {
     res.status(400).json({error: e.message});

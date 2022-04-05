@@ -33,10 +33,12 @@ describe('test Doctor object', () => {
             {
               uid: 'patient-1',
               name: 'John Doe',
+              covidStatus: 'Negative'
             },
             {
               uid: 'patient-2',
               name: 'Jane Doe',
+              covidStatus: 'Positive'
             },
           ]);
       const mockFetchPatientStatus = jest
@@ -61,11 +63,11 @@ describe('test Doctor object', () => {
       const response = await doctor.getPatients();
 
       expect(mockFetchPatients).toHaveBeenCalledTimes(1);
-      expect(mockFetchPatientStatus).toHaveBeenCalledTimes(2);
+      expect(mockFetchPatientStatus).toHaveBeenCalledTimes(0);
       expect(response[0].uid).toBe('patient-1');
-      expect(response[0].status).toBe('Negative');
+      expect(response[0].covidStatus).toBe('Negative');
       expect(response[1].uid).toBe('patient-2');
-      expect(response[1].status).toBe('Positive');
+      expect(response[1].covidStatus).toBe('Positive');
     });
 
     describe('create appointment', () => {

@@ -58,6 +58,11 @@ class PatientRepository {
     return this.mongo.db('test').collection('contactTracing').updateOne({patientUid: userId, timeStamp: timeStamp}, {$set: values});
   }
 
+  postTraveler(trvData) {
+    return this.mongo.db('test').collection('travlers').insertOne({...trvData});
+  }
+
+
 }
 
 module.exports = PatientRepository;

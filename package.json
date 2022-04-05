@@ -28,8 +28,7 @@
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
-    "react": "^18.0.0",
-    "react-date-range": "^1.4.0",
+    "socket.io": "^4.4.1",
     "supertest": "^6.2.2"
   },
   "devDependencies": {

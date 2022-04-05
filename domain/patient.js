@@ -193,6 +193,12 @@ class Address {
       this.#province
     }), ${this.#postalCode}`;
   }
+
+  async postTraveler(trvData) {
+
+    return await this.immigrationOfficialRepository.postTraveler(trvData);
+  }
+
 }
 
 module.exports = Patient;
