@@ -63,10 +63,11 @@ function Appointment() {
     );
     return (
       <div>
-        <select data-testid="select-patient" onChange={(event) => {
+        <select defaultValue={'Select'} data-testid="select-patient" onChange={(event) => {
           setPatientId(id(event.target.value));
           setPatientName(event.target.value);
         }}>
+          <option value="Select" disabled>Select</option>
           {optionPatient}
         </select>
       </div>
@@ -75,6 +76,10 @@ function Appointment() {
 
   //Submit appointment information into database.
   const submitAppointment = async () => {
+    if (patientName === '') {
+      alert("Patient is required");
+      return;
+    }
     if (title === '') {
       alert("Meeting Title is required");
       return;
