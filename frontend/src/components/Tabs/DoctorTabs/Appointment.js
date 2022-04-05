@@ -160,9 +160,6 @@ function Appointment(props) {
   const renderAppointments = () => {
     return (
       <div data-testid='appointment-list' className={styles['noAppointmentsMessage']}>
-        {/* {appointments.length === 0 ? (
-          <div>You have no appointments at this time.</div>
-        ) : ( */}
         <Pagination
           data={appointments}
           emptyMessage='You have no appointments at this time.'
@@ -187,8 +184,6 @@ function Appointment(props) {
             </div>
           )}
         />
-        {/* // appointments.map( // )) */}
-        {/* )} */}
       </div>
     );
   };
