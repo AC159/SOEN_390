@@ -75,7 +75,7 @@ router.get('/get-travlers-form/:patientUid', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.patientUid);
-    const immigrationOfficial = new imm(userId, new immigrationOfficialRepository(mongo));
+    const immigrationOfficial = new imm(userId, new ImmigrationOfficialRepository(mongo));
     const data = await immigrationOfficial.getTraveler();
     res.status(200).json(data);
   } catch (error) {
