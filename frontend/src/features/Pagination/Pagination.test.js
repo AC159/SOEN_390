@@ -4,9 +4,18 @@ import userEvent from '@testing-library/user-event';
 
 import Pagination from './pagination';
 
+window.scrollTo = jest.fn();
+
 describe('visual test of Paginatio component', () => {
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should load and display without error empty list', () => {
-    render(<Pagination data={[]} render={() => {}} />);
+    render(<Pagination emptyMessage='No data' data={[]} render={() => {}} />);
 
     expect(screen.getByText(/No data/)).toBeInTheDocument();
     expect(screen.queryByTestId('pagination-control')).toBeNull();
@@ -51,6 +60,7 @@ describe('visual test of Paginatio component', () => {
 
     expect(await screen.findByText(/Peter/)).toBeInTheDocument();
     expect(screen.queryByText(/John/)).toBeNull();
+    expect(window.scrollTo).toHaveBeenCalledTimes(2);
   });
 
   it('should be able to change page then return to original page', async () => {
@@ -76,5 +86,7 @@ describe('visual test of Paginatio component', () => {
     userEvent.click(screen.getByText(/^1$/));
     expect(await screen.findByText(/John/)).toBeInTheDocument();
     expect(screen.queryByText(/Peter/)).toBeNull();
+
+    expect(window.scrollTo).toHaveBeenCalledTimes(3);
   });
 });

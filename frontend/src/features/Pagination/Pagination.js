@@ -1,19 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Pagination as PaginationComponent} from 'react-bootstrap';
 
-const Pagination = ({data, render, itemPerPage = 10}) => {
+const Pagination = ({data, emptyMessage, render, itemPerPage = 10}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageController, setPageController] = useState([]);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    setPageController([]);
+    const pages = [];
     for (let i = 1; i <= Math.ceil(data.length / itemPerPage); i++) {
-      setPageController((prev) => {
-        prev.push(i);
-        return prev;
-      });
+      pages.push(i);
     }
+    setPageController(pages);
   }, [data, itemPerPage, currentPage]);
 
   useEffect(() => {
@@ -22,9 +20,15 @@ const Pagination = ({data, render, itemPerPage = 10}) => {
     setItems(newData);
   }, [currentPage, itemPerPage, data]);
 
+  useEffect(() => {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  }, [currentPage]);
+
   return (
     <div>
-      <div>{data.length <= 0 ? <span>No data</span> : items.map((props) => render(props))}</div>
+      <div>
+        {data.length <= 0 ? <span>{emptyMessage}</span> : items.map((props) => render(props))}
+      </div>
       <div>
         <PaginationComponent>
           {pageController.map((num) => (
