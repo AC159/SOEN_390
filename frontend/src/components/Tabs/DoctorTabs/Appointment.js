@@ -10,7 +10,6 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
-
 function Appointment() {
 
   let {currentUser} = useAuth();
@@ -37,18 +36,18 @@ function Appointment() {
   }
 
   useEffect(() => {
-    getPatientArray();
+    getPatientArray().then();
   }, []);
 
   //Returns patient ID based on selected patient name.
   function id(pName) {
     let patientArr = [];
     let uName = pName;
-    for (var i of patientList) {
+    for (const i of patientList) {
       patientArr.push(i);
     }
 
-    var index = patientArr.findIndex(item => item.name === uName);
+    const index = patientArr.findIndex(item => item.name === uName);
     let patient = patientArr[index];
     let pId = patient["uid"];
 
@@ -62,7 +61,6 @@ function Appointment() {
     let optionPatient = patientList.map((patient, index) =>
       <option data-testid="select-patient-name" key={index}>{patient.name}</option>
     );
-
     return (
       <div>
         <select data-testid="select-patient" onChange={(event) => {
@@ -89,6 +87,10 @@ function Appointment() {
       alert("Date & Time is required");
       return;
     }
+    if (meetingLink === '') {
+      alert("Meeting Link is required");
+      return;
+    }
     try {
       const userAttributes = {
         doctorId: currentUser.user.uid,
@@ -102,8 +104,13 @@ function Appointment() {
       axios.post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
         .then(function (response) {
           console.log(response);
-          window.location.reload();
-        })
+          setDateAndTime('');
+          setTitle('');
+          setInformation('');
+          setMeetingLink('');
+          getAppointments();
+        });
+      alert("Created");
     } catch (error) {
       console.log('Submit error: ', error);
     }
@@ -243,14 +250,12 @@ function Appointment() {
             </Container>
             <div className={styles["selectPatient"]}>
               <p>Meeting Link:</p>
-              <textarea onChange={(event) => setMeetingLink(event.target.value)}>https//zoom.us/123456789</textarea>
+              <textarea placeholder="https//zoom.us/zoom-link-example" onChange={(event) => setMeetingLink(event.target.value)}/>
             </div>
 
             <div class="col-md-12 text-center">
               <Button data-testid="viewBookAppointmentBtn" class="btn btn-outline-dark justify-content-center"
-                      variant="secondary" onClick={event => {
-                submitAppointment();
-              }}>
+                      variant="secondary" onClick={() => submitAppointment().then()}>
                 Book Appointment
               </Button>
             </div>
