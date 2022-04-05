@@ -43,7 +43,7 @@ function Home(props) {
         </Carousel.Item>
       </Carousel>
       <hr />
-      <div className="todays-new-title">General FAQs</div>
+      <div className={styles["todays-new-title"]}>General FAQs</div>
       <hr />
       <Accordion defaultActiveKey="-1" flush>
         <Accordion.Item eventKey="0">

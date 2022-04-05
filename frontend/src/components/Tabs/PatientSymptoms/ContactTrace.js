@@ -45,7 +45,7 @@ function ContactTrace(props) {
             locationDescription: locationDescription
         };
         console.log(userAttributes);
-        axios.post(`/patient/update-contact-tracing/${currentUser.user.uid}&timeStamp=${timeStamp}`, userAttributes)
+        await axios.post(`/patient/update-contact-tracing/${currentUser.user.uid}&timeStamp=${timeStamp}`, userAttributes)
             .then(function (response) {
                 console.log(response);
             }).catch(function (error) {
@@ -120,9 +120,6 @@ function ContactTrace(props) {
                             on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</Accordion.Header>
                         <Accordion.Body>
                             {Object.entries(element).map(([key, value], index) => {
-                                if (key === 'timeStamp') {
-                                    // setTimeStamp({value})
-                                }
                                 if (!value || key === '_id' || key === 'patientUid' || key === 'timeStamp' || value.length === 0) return null;
 
                                 if (Array.isArray(value)) {
