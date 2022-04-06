@@ -58,52 +58,54 @@ function Login(props) {
   };
 
   return (
-    <div className={styles['container_Login']}>
-      <div className={styles['container-top_Login']}>
-        <h2 className={styles['h2_Login']}>Welcome to CoviCare</h2>
-        <div className={styles['backDrop_login']}>
-          <div className={styles['container-title_Login']}></div>
+    <div className={styles['wrapper_Login']}>
+      <div className={styles['container_Login']}>
+        <div className={styles['container-top_Login']}>
+          <h2 className={styles['h2_Login']}>Welcome to CoviCare</h2>
+          <div className={styles['backDrop_login']}>
+            <div className={styles['container-title_Login']}></div>
+          </div>
         </div>
-      </div>
 
-      <form className={styles['container-item_Login']}>
-        <fieldset className={styles['fieldset_login']}>
-          <legend className={styles['legend_login']}>Sign in</legend>
+        <form className={styles['container-item_Login']}>
+          <fieldset className={styles['fieldset_login']}>
+            <legend className={styles['legend_login']}>Sign in</legend>
 
-          <input
-            className={styles['input_Login']}
-            type='text'
-            data-testid='email-input'
-            placeholder='email'
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          />
+            <input
+              className={styles['input_Login']}
+              type='text'
+              data-testid='email-input'
+              placeholder='email'
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            />
 
-          <input
-            className={styles['input_Login']}
-            type='password'
-            data-testid='password-input'
-            placeholder='password'
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-        </fieldset>
-        {loginError ? <div className={styles['container-error_Login']}>{loginError}</div> : null}
-      </form>
-      <button
-        className={styles['button_Login']}
-        type='submit'
-        onClick={submitForm}
-        disabled={email === '' || password === ''}
-      >
-        Submit
-      </button>
-      <div className={styles['container-footer_Login']}>
-        Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link>
+            <input
+              className={styles['input_Login']}
+              type='password'
+              data-testid='password-input'
+              placeholder='password'
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+            />
+          </fieldset>
+          {loginError ? <div className={styles['container-error_Login']}>{loginError}</div> : null}
+        </form>
+        <button
+          className={styles['button_Login']}
+          type='submit'
+          onClick={submitForm}
+          disabled={email === '' || password === ''}
+        >
+          Submit
+        </button>
+        <div className={styles['container-footer_Login']}>
+          Don't have an account yet? <Link to={'/signup'}>Sign Up!</Link>
+        </div>
       </div>
     </div>
   );

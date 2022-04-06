@@ -9,6 +9,8 @@ import {Accordion} from 'react-bootstrap';
 function PatientList(props) {
   let {currentUser} = useAuth();
   const [patientList, setPatientList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [flagCheck, setFlagCheck] = useState(false);
 
   useEffect(() => {
     fetchListOfPatients();
@@ -40,20 +42,40 @@ function PatientList(props) {
     }
   };
 
+  function handleFlagCheckChange() {
+    setFlagCheck((prevState) => !prevState);
+  }
+
+  function checkIfAdmin() {
+    return localStorage.getItem('userType') === 'administrator';
+  }
+
+  const flagFilter = (item) => ({
+    doctor: item.doctorFlagInfo.isFlagged,
+    immigrationOfficial: item.immigrationOfficerFlagInfo.isFlagged,
+    healthOfficial: item.healthOfficialFlagInfo.isFlagged,
+  });
+
   function renderPatientList() {
     return (
       <Accordion>
-        {patientList.map((patient, index) => (
-          <PatientBox
-            key={index}
-            eventKey={index}
-            patient={patient}
-            doctorName={patient.patientInfo.doctor}
-            currentUser={currentUser}
-            userType={localStorage.getItem('userType')}
-            className={styles['patient-box']}
-          />
-        ))}
+        {patientList
+          .filter(
+            (item) =>
+              searchTerm === '' || item.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          )
+          .filter((item) => !flagCheck || flagFilter(item)[localStorage.getItem('userType')])
+          .map((patient, index) => (
+            <PatientBox
+              key={index}
+              eventKey={index}
+              patient={patient}
+              doctorName={patient.patientInfo.doctor}
+              currentUser={currentUser}
+              userType={localStorage.getItem('userType')}
+              className={styles['patient-box']}
+            />
+          ))}
       </Accordion>
     );
   }
@@ -62,9 +84,27 @@ function PatientList(props) {
     <div className={styles['role-outer-container']}>
       <div className={styles['todays-new-title']}>Patient List</div>
       <hr />
+      <div className={styles['side-by-side']}>
+        <input
+          type='text'
+          placeholder='Search patient by name...'
+          onChange={(event) => {
+            setSearchTerm(event.target.value);
+          }}
+        />
+        {!checkIfAdmin() && (
+          <label className={styles['check-box']}>
+            <input
+              type='checkbox'
+              id='flagCheckBox'
+              checked={flagCheck}
+              onChange={handleFlagCheckChange}
+            />
+            <span> flagged </span>
+          </label>
+        )}
+      </div>
       <div>{renderPatientList()}</div>
-
-      <div className={styles['request-container']}></div>
     </div>
   );
 }

@@ -25,17 +25,20 @@ function Navbar(props) {
     <nav>
       <div className={styles['Header']}>
         <div className={styles['HeaderInnerContainer']}>
-          <img src={MainLogo} width='300' alt='CoviCare logo' />
+          <Link to='/health-official-dashboard'>
+            <img src={MainLogo} className={styles['logo-navbar']} alt='CoviCare logo' />
+          </Link>
 
           <div className={styles['user-navbar-display']}>
-            <p>Welcome {currentUser.user !== undefined ? currentUser.user.email : null}</p>
+            <div>
+              <p>Welcome {currentUser.user !== undefined ? currentUser.user.email : null}</p>
+              <button className={styles['button-navbar']} onClick={handleLogout}>
+                Log out
+              </button>
+            </div>
             <Link to='/user-profile'>
               <img className={styles['user-icon']} src={UserIcon} width='100' alt='User icon' />
             </Link>
-
-            <button className={styles['button']} onClick={handleLogout}>
-              Log out
-            </button>
           </div>
         </div>
       </div>

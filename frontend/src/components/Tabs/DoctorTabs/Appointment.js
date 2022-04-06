@@ -2,8 +2,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {Button, Container, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
+import {addDays, setHours, setMinutes} from 'date-fns';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -28,6 +27,7 @@ function Appointment(props) {
   let [dateAndTime, setDateAndTime] = useState(new Date());
   let [title, setTitle] = useState('');
   let [information, setInformation] = useState('');
+  let [meetingLink, setMeetingLink] = useState('');
   let dateArr = [];
   let arrExcludedTimes = [];
 
@@ -43,7 +43,7 @@ function Appointment(props) {
       patientArr.push(i);
     }
 
-    var index = patientArr.findIndex((item) => item.name === uName);
+    const index = patientArr.findIndex((item) => item.name === uName);
     let patient = patientArr[index];
     let pId = patient['uid'];
 
@@ -75,6 +75,26 @@ function Appointment(props) {
 
   //Submit appointment information into database.
   const submitAppointment = async () => {
+    if (patientName === '') {
+      alert('Patient is required');
+      return;
+    }
+    if (title === '') {
+      alert('Meeting Title is required');
+      return;
+    }
+    if (information === '') {
+      alert('Meeting Details is required');
+      return;
+    }
+    if (dateAndTime === '') {
+      alert('Date & Time is required');
+      return;
+    }
+    if (meetingLink === '') {
+      alert('Meeting Link is required');
+      return;
+    }
     try {
       const userAttributes = {
         doctorId: currentUser.user.uid,
@@ -83,12 +103,19 @@ function Appointment(props) {
         dateAndTime: dateAndTime.getTime(),
         title: title,
         information: information,
+        meetingLink: meetingLink,
       };
       axios
         .post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
         .then(function (response) {
           console.log(response);
+          setDateAndTime('');
+          setTitle('');
+          setInformation('');
+          setMeetingLink('');
+          getAppointments();
         });
+      alert('Created');
     } catch (error) {
       console.log('Submit error: ', error);
     }
@@ -176,10 +203,6 @@ function Appointment(props) {
 
   return (
     <div data-testid='appointment-1'>
-      <h4 className={styles['scheduleAppointment']}>Scheduled Appointments</h4>
-      {renderAppointments()}
-      <br></br>
-
       <div className={styles['addAppointment']}>
         <h4>Add Appointment</h4>
         <div className={styles['form-group']}>
@@ -200,8 +223,9 @@ function Appointment(props) {
                       inline
                       showTimeSelect
                       timeIntervals={30}
-                      minTime={setHours(setMinutes(new Date(), 0), 7)}
-                      maxTime={setHours(setMinutes(new Date(), 0), 20)}
+                      minDate={addDays(new Date(), 1)}
+                      minTime={setHours(setMinutes(new Date(), 0), 9)}
+                      maxTime={setHours(setMinutes(new Date(), 0), 19)}
                       timeCaption='Time'
                       dateFormat='h:mm aa'
                       popperPlacement='top-end'
@@ -212,7 +236,7 @@ function Appointment(props) {
                   <div className={styles['appointmentInfo']}>
                     <p>Meeting Title:</p>
                     <textarea onChange={(event) => setTitle(event.target.value)} />
-                    <p>More Info:</p>
+                    <p>Meeting Details:</p>
                     <textarea
                       className={styles['moreInfo']}
                       onChange={(event) => setInformation(event.target.value)}
@@ -221,16 +245,20 @@ function Appointment(props) {
                 </Col>
               </Row>
             </Container>
-            <br></br>
+            <div className={styles['selectPatient']}>
+              <p>Meeting Link:</p>
+              <textarea
+                placeholder='https//zoom.us/zoom-link-example'
+                onChange={(event) => setMeetingLink(event.target.value)}
+              />
+            </div>
 
             <div class='col-md-12 text-center'>
               <Button
                 data-testid='viewBookAppointmentBtn'
                 class='btn btn-outline-dark justify-content-center'
                 variant='secondary'
-                onClick={(event) => {
-                  submitAppointment();
-                }}
+                onClick={() => submitAppointment().then()}
               >
                 Book Appointment
               </Button>
@@ -238,6 +266,9 @@ function Appointment(props) {
           </form>
         </div>
       </div>
+
+      <h4 className={styles['scheduleAppointment']}>Scheduled Appointments</h4>
+      {renderAppointments()}
     </div>
   );
 }

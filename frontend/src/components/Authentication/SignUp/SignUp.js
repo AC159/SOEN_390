@@ -147,175 +147,179 @@ function SignUp(props) {
   };
 
   return (
-    <div className={styles['container_SingUp']}>
-      <div className={styles['container-top_SingUp']}>
-        <h2 className={styles['h2_SingUp']}>Create your CoviCare Account</h2>
-        <div className={styles['backDrop_SingUp']} />
-      </div>
-      <form className={styles['container-item_SingUp']}>
-        <fieldset className={styles['fieldset_SingUp']}>
-          <legend className={styles['legend_SingUp']}>Account Information</legend>
+    <div className={styles['wrapper_Signup']}>
+      <div className={styles['body_SignUp']}>
+        <div className={styles['container_SingUp']}>
+          <div className={styles['container-top_SingUp']}>
+            <h2 className={styles['h2_SingUp']}>Create your CoviCare Account</h2>
+            <div className={styles['backDrop_SingUp']} />
+          </div>
+          <form className={styles['container-item_SingUp']}>
+            <fieldset className={styles['fieldset_SingUp']}>
+              <legend className={styles['legend_SingUp']}>Account Information</legend>
 
-          <input
-            className={styles['input_SingUp']}
-            type='text'
-            placeholder='email'
-            data-testid='email-input'
-            value={state.email}
-            onChange={(event) =>
-              dispatch({type: EMAIL_CHANGE, payload: {email: event.target.value}})
-            }
-          />
-          {state.emailInvalid ? (
-            <div className={styles['container-error_SingUp']}>Invalid email</div>
-          ) : null}
-
-          <input
-            className={styles['input_SingUp_Left']}
-            type='password'
-            data-testid='password-input'
-            placeholder='password'
-            value={state.password}
-            onChange={(event) =>
-              dispatch({type: PASSWORD_CHANGE, payload: {password: event.target.value}})
-            }
-          />
-
-          <input
-            className={styles['input_SingUp_Right']}
-            type='password'
-            data-testid='password-conf-input'
-            placeholder='confirm password'
-            value={state.passwordConf}
-            onChange={(event) =>
-              dispatch({type: PASSWORD_CONF, payload: {passwordConf: event.target.value}})
-            }
-          />
-          {state.passwordError ? (
-            <div className={styles['container-error_SingUp']}>
-              The password must contain:
-              <ul>
-                <li>at least eight characters</li>
-                <li>at least one number</li>
-                <li>at least one special character</li>
-                <li>lower and upper case letters</li>
-              </ul>
-            </div>
-          ) : null}
-          {state.passwordConfError ? (
-            <div className={styles['container-error_SingUp']}>Passwords do not match!</div>
-          ) : null}
-        </fieldset>
-        <fieldset className={styles['fieldset_SingUp']}>
-          <legend className={styles['legend_SingUp']}>Profile Information</legend>
-
-          <input
-            className={styles['input_SingUp_Left']}
-            type='text'
-            placeholder='First Name'
-            data-testid='first-name-input'
-            value={state.firstName}
-            onChange={(event) =>
-              dispatch({type: BASIC_CHANGE, payload: {firstName: event.target.value}})
-            }
-          />
-
-          <input
-            className={styles['input_SingUp_Right']}
-            type='text'
-            placeholder='Last Name'
-            data-testid='last-name-input'
-            value={state.lastName}
-            onChange={(event) =>
-              dispatch({type: BASIC_CHANGE, payload: {lastName: event.target.value}})
-            }
-          />
-
-          <input
-            className={styles['input_SingUp_Left']}
-            type='date'
-            value={state.dateOfBirth}
-            onChange={(event) =>
-              dispatch({type: BASIC_CHANGE, payload: {dateOfBirth: event.target.value}})
-            }
-          />
-
-          <input
-            className={styles['input_SingUp_Right']}
-            type='text'
-            data-testid='phone-input'
-            placeholder='Phone Number'
-            value={state.phoneNumber}
-            onChange={(event) => {
-              dispatch({type: BASIC_CHANGE, payload: {phoneNumber: event.target.value}});
-            }}
-          />
-
-          <input
-            className={styles['input_SingUp']}
-            type='text'
-            data-testid='address-input'
-            placeholder='Address'
-            value={state.address}
-            onChange={(event) => {
-              dispatch({type: BASIC_CHANGE, payload: {address: event.target.value}});
-            }}
-          />
-        </fieldset>
-        <fieldset className={styles['fieldset_SingUp']}>
-          <legend className={styles['legend_SingUp']}>User Type</legend>
-          <select
-            name='userType'
-            data-testid='user-change-input'
-            defaultValue={state.user}
-            onChange={(event) => {
-              dispatch({type: USER_TYPE_CHANGE, payload: {userType: event.target.value}});
-            }}
-          >
-            <option value='' selected disabled>
-              Please select
-            </option>
-            <option value='patient'>Patient</option>
-            <option value='doctor'>Doctor</option>
-            <option value='healthOfficial'>Health Officer</option>
-            <option value='immigrationOfficial'>Immigration Officer</option>
-            <option value='administrator'>Administrator</option>
-          </select>
-          {state.userType !== '' && (
-            <div className={styles['visible_SingUp']}>
               <input
                 className={styles['input_SingUp']}
                 type='text'
-                data-testid='id-card-input'
-                placeholder={placeholderValue(state.userType)}
-                maxLength={maxLengthValue(state.userType)}
-                value={state.idCard}
+                placeholder='email'
+                data-testid='email-input'
+                value={state.email}
+                onChange={(event) =>
+                  dispatch({type: EMAIL_CHANGE, payload: {email: event.target.value}})
+                }
+              />
+              {state.emailInvalid ? (
+                <div className={styles['container-error_SingUp']}>Invalid email</div>
+              ) : null}
+
+              <input
+                className={styles['input_SingUp_Left']}
+                type='password'
+                data-testid='password-input'
+                placeholder='password'
+                value={state.password}
+                onChange={(event) =>
+                  dispatch({type: PASSWORD_CHANGE, payload: {password: event.target.value}})
+                }
+              />
+
+              <input
+                className={styles['input_SingUp_Right']}
+                type='password'
+                data-testid='password-conf-input'
+                placeholder='confirm password'
+                value={state.passwordConf}
+                onChange={(event) =>
+                  dispatch({type: PASSWORD_CONF, payload: {passwordConf: event.target.value}})
+                }
+              />
+              {state.passwordError ? (
+                <div className={styles['container-error_SingUp']}>
+                  The password must contain:
+                  <ul>
+                    <li>at least eight characters</li>
+                    <li>at least one number</li>
+                    <li>at least one special character</li>
+                    <li>lower and upper case letters</li>
+                  </ul>
+                </div>
+              ) : null}
+              {state.passwordConfError ? (
+                <div className={styles['container-error_SingUp']}>Passwords do not match!</div>
+              ) : null}
+            </fieldset>
+            <fieldset className={styles['fieldset_SingUp']}>
+              <legend className={styles['legend_SingUp']}>Profile Information</legend>
+
+              <input
+                className={styles['input_SingUp_Left']}
+                type='text'
+                placeholder='First Name'
+                data-testid='first-name-input'
+                value={state.firstName}
+                onChange={(event) =>
+                  dispatch({type: BASIC_CHANGE, payload: {firstName: event.target.value}})
+                }
+              />
+
+              <input
+                className={styles['input_SingUp_Right']}
+                type='text'
+                placeholder='Last Name'
+                data-testid='last-name-input'
+                value={state.lastName}
+                onChange={(event) =>
+                  dispatch({type: BASIC_CHANGE, payload: {lastName: event.target.value}})
+                }
+              />
+
+              <input
+                className={styles['input_SingUp_Left']}
+                type='date'
+                value={state.dateOfBirth}
+                onChange={(event) =>
+                  dispatch({type: BASIC_CHANGE, payload: {dateOfBirth: event.target.value}})
+                }
+              />
+
+              <input
+                className={styles['input_SingUp_Right']}
+                type='text'
+                data-testid='phone-input'
+                placeholder='Phone Number'
+                value={state.phoneNumber}
                 onChange={(event) => {
-                  dispatch({type: BASIC_CHANGE, payload: {idCard: event.target.value}});
+                  dispatch({type: BASIC_CHANGE, payload: {phoneNumber: event.target.value}});
                 }}
               />
-            </div>
-          )}
-        </fieldset>
-      </form>
 
-      <button
-        className={styles['button_SingUp']}
-        type='submit'
-        onClick={submitForm}
-        disabled={
-          state.email === '' ||
-          state.password === '' ||
-          state.passwordConf === '' ||
-          state.passwordError ||
-          state.passwordConfError ||
-          state.emailInvalid
-        }
-      >
-        Submit
-      </button>
-      <div className={styles['container-footer_SingUp']}>
-        Already have an account? <Link to={'/'}>Login!</Link>
+              <input
+                className={styles['input_SingUp']}
+                type='text'
+                data-testid='address-input'
+                placeholder='Address'
+                value={state.address}
+                onChange={(event) => {
+                  dispatch({type: BASIC_CHANGE, payload: {address: event.target.value}});
+                }}
+              />
+            </fieldset>
+            <fieldset className={styles['fieldset_SingUp']}>
+              <legend className={styles['legend_SingUp']}>User Type</legend>
+              <select
+                name='userType'
+                data-testid='user-change-input'
+                defaultValue={state.user}
+                onChange={(event) => {
+                  dispatch({type: USER_TYPE_CHANGE, payload: {userType: event.target.value}});
+                }}
+              >
+                <option value='' selected disabled>
+                  Please select
+                </option>
+                <option value='patient'>Patient</option>
+                <option value='doctor'>Doctor</option>
+                <option value='healthOfficial'>Health Officer</option>
+                <option value='immigrationOfficial'>Immigration Officer</option>
+                <option value='administrator'>Administrator</option>
+              </select>
+              {state.userType !== '' && (
+                <div className={styles['visible_SingUp']}>
+                  <input
+                    className={styles['input_SingUp']}
+                    type='text'
+                    data-testid='id-card-input'
+                    placeholder={placeholderValue(state.userType)}
+                    maxLength={maxLengthValue(state.userType)}
+                    value={state.idCard}
+                    onChange={(event) => {
+                      dispatch({type: BASIC_CHANGE, payload: {idCard: event.target.value}});
+                    }}
+                  />
+                </div>
+              )}
+            </fieldset>
+          </form>
+
+          <button
+            className={styles['button_SingUp']}
+            type='submit'
+            onClick={submitForm}
+            disabled={
+              state.email === '' ||
+              state.password === '' ||
+              state.passwordConf === '' ||
+              state.passwordError ||
+              state.passwordConfError ||
+              state.emailInvalid
+            }
+          >
+            Submit
+          </button>
+          <div className={styles['container-footer_SingUp']}>
+            Already have an account? <Link to={'/'}>Login!</Link>
+          </div>
+        </div>
       </div>
     </div>
   );

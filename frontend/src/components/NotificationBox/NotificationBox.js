@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import {Col, Row} from 'react-bootstrap';
 
 import Notification from '../Notification/Notification';
 import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
@@ -48,14 +49,12 @@ function NotificationBox() {
   }, []);
 
   const EmptyMessage = () => <div className={styles['empty-message']}>No new notifications!</div>;
-
   return (
     <div className={styles['outer-container']}>
-      <div className={styles['notification-title']}>Notifications</div>
-      <div data-testid='notif-container' className={styles['notification-container']}>
+      <Row className={styles['notification-container']}>
         {emptyMessage ? <EmptyMessage /> : null}
         {notifications.map((notification) => (
-          <div className={styles['notification-box']} key={notification._id}>
+          <Col xs={12} md={4} className={styles['notification-box']} key={notification._id}>
             <Notification
               notificationId={notification._id}
               timeStamp={notification.timeStamp}
@@ -67,9 +66,9 @@ function NotificationBox() {
               modalSubText={notification.subText}
               deleteNotification={deleteNotification}
             />
-          </div>
+          </Col>
         ))}
-      </div>
+      </Row>
     </div>
   );
 }
