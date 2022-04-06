@@ -25,7 +25,6 @@ describe('visual test of Notification box', () => {
       </AuthContext.Provider>,
     );
 
-    expect(await screen.findByText(/Notifications/)).toBeInTheDocument();
     expect(await screen.findByText(/No new notifications/)).toBeInTheDocument();
   });
 
@@ -86,12 +85,12 @@ describe('visual test of Notification box', () => {
       </AuthContext.Provider>,
     );
 
-    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(await axios.get).toHaveBeenCalledTimes(1);
     expect(await screen.findByText(/^Test$/)).toBeInTheDocument();
     userEvent.click(await screen.findByText(/More/));
     userEvent.click(await screen.findByText(/Delete/));
-    expect(axios.post).toHaveBeenCalledTimes(1);
-    expect(axios.post.mock.calls[0]).toEqual(expect.arrayContaining(['/notification/1234/delete']));
+    expect(await axios.post).toHaveBeenCalledTimes(1);
+    expect(await axios.post).toHaveBeenCalledWith('/notification/1234/delete');
     expect(await screen.findByText(/No new notifications/)).toBeInTheDocument();
   });
 });
