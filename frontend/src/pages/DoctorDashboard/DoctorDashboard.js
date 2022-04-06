@@ -30,7 +30,7 @@ const tabs = [
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: <ContactPatients/>
+    // element: <ContactPatients/>
   },
 ]
 
