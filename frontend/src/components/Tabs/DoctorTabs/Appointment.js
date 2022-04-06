@@ -220,6 +220,7 @@ function Appointment(props) {
                       timeCaption='Time'
                       dateFormat='h:mm aa'
                       popperPlacement='top-end'
+                      data-testid='date-input'
                     />
                   </div>
                 </Col>

@@ -10,6 +10,7 @@ import useFetch from '../../../hook/useFetch';
 jest.mock('axios');
 jest.mock('../../../hook/useFetch');
 window.alert = jest.fn();
+window.scrollTo = jest.fn();
 
 describe('visual test of the component', () => {
   it('should render book appointment tab without crashing', () => {
@@ -147,6 +148,7 @@ describe('visual test of the component', () => {
     expect(await screen.findByTestId('title-input')).toHaveValue('Checkup');
     userEvent.type(await screen.findByTestId('meeting-detail-input'), 'Annual Checkup');
     expect(await screen.findByTestId('meeting-detail-input')).toHaveValue('Annual Checkup');
+    userEvent.click(screen.getByLabelText(/Choose Sunday, April 24th, 2022/));
     userEvent.type(await screen.findByTestId('meeting-link-input'), 'meeting.com/1234');
     expect(await screen.findByTestId('meeting-link-input')).toHaveValue('meeting.com/1234');
 
@@ -206,7 +208,10 @@ describe('visual test of the component', () => {
     expect(await window.alert).toHaveBeenLastCalledWith('Meeting Details is required');
     userEvent.type(await screen.findByTestId('meeting-detail-input'), 'Annual Checkup');
     userEvent.click(await screen.findByText(/Book Appointment/));
+    expect(await window.alert).toHaveBeenLastCalledWith('Date & Time is required');
+    userEvent.click(screen.getByLabelText(/Choose Sunday, April 24th, 2022/));
+    userEvent.click(await screen.findByText(/Book Appointment/));
     expect(await window.alert).toHaveBeenLastCalledWith('Meeting Link is required');
-    expect(await window.alert).toHaveBeenCalledTimes(4);
+    expect(await window.alert).toHaveBeenCalledTimes(5);
   });
 });

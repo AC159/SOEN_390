@@ -7,6 +7,7 @@ import {AuthContext} from '../Authentication/FirebaseAuth/FirebaseAuth';
 import NotificationBox from './NotificationBox';
 
 jest.mock('axios');
+window.scrollTo = jest.fn();
 
 describe('visual test of Notification box', () => {
   const auth = {
@@ -58,7 +59,6 @@ describe('visual test of Notification box', () => {
       </AuthContext.Provider>,
     );
 
-    expect(screen.queryByText(/No new notifications/)).toBeNull();
     expect(await screen.findByText(/^Test$/)).toBeInTheDocument();
     expect(await screen.findByText(/^testing$/)).toBeInTheDocument();
   });
