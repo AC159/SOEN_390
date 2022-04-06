@@ -87,6 +87,10 @@ class Patient extends User {
   async postTraveler(trvData) {
     return await this.patientRepository.postTraveler(trvData);
   }
+
+  async getTravelerForm() {
+    return await this.patientRepository.fetchTravelerForm(this.id.getId());
+  }
 }
 
 class PatientStatus {

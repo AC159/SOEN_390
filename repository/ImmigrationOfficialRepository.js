@@ -47,7 +47,7 @@ class ImmigrationOfficialRepository {
 
 
   fetchTraveler(userId) {
-    return this.mongo.db('test').collection('travlers').find({patientUid: userId}).sort({date: -1}).toArray();
+    return this.mongo.db('test').collection('travelers').find({patientUid: userId}).sort({date: -1}).toArray();
   }
 
 

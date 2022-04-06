@@ -150,4 +150,18 @@ router.post('/submit-traveler-form', async (req, res) => {
   }
 });
 
+router.get('/get-traveler-form/:patientUid', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.patientUid);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.getTravelerForm();
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({error: error.message});
+  }
+});
+
+
 module.exports = router;

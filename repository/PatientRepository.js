@@ -61,7 +61,9 @@ class PatientRepository {
   postTraveler(trvData) {
     return this.mongo.db('test').collection('travelers').insertOne({...trvData});
   }
-
+  fetchTravelerForm(userId) {
+    return this.mongo.db('test').collection('travelers').find({patientUid: userId}).sort({date: -1}).toArray();
+  }
 
 }
 
