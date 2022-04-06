@@ -112,11 +112,6 @@ function PatientBox(props) {
               </Badge>
             )}
           </div>
-          <div className={styles['patient-box-header-badge']}>
-            <Badge bg='danger' text='light'>
-              {isFlagged && 'flagged'}
-            </Badge>
-          </div>
         </Accordion.Header>
         <AccordionBody>
           <h6 data-testid='patient-dob'>Date of Birth: {props.patient.dob}</h6>
