@@ -35,5 +35,13 @@ const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}...`.brightBlue);
 });
 
+process.on('exit', () => {
+  server.close();
+});
+
+process.on('SIGTERM', () => {
+  server.close();
+});
+
 module.exports = app;
 module.exports.server = server;
