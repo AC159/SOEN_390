@@ -35,25 +35,14 @@ function Appointment(props) {
     getPatientArray();
   }, []);
 
-  //Returns patient ID based on selected patient name.
-  function id(pName) {
-    let patientArr = [];
-    let uName = pName;
-    for (var i of patientList) {
-      patientArr.push(i);
-    }
-
-    const index = patientArr.findIndex((item) => item.name === uName);
-    let patient = patientArr[index];
-    let pId = patient['uid'];
-
-    return pId;
-  }
-
   //Dropdown including all patients assigned to a doctor.
   const renderPatientList = () => {
     let optionPatient = patientList.map((patient, index) => (
-      <option data-testid='select-patient-name' key={index}>
+      <option
+        data-testid='select-patient-name'
+        key={index}
+        value={`${patient.uid}|${patient.name}`}
+      >
         {patient.name}
       </option>
     ));
@@ -63,8 +52,9 @@ function Appointment(props) {
         <select
           data-testid='select-patient'
           onChange={(event) => {
-            setPatientId(id(event.target.value));
-            setPatientName(event.target.value);
+            const values = event.target.value.split('|');
+            setPatientId(values[0]);
+            setPatientName(values[1]);
           }}
         >
           {optionPatient}
@@ -235,9 +225,15 @@ function Appointment(props) {
                 <Col sm={8}>
                   <div className={styles['appointmentInfo']}>
                     <p>Meeting Title:</p>
-                    <textarea onChange={(event) => setTitle(event.target.value)} />
+                    <textarea
+                      data-testid='title-input'
+                      value={title}
+                      onChange={(event) => setTitle(event.target.value)}
+                    />
                     <p>Meeting Details:</p>
                     <textarea
+                      value={information}
+                      data-testid='meeting-detail-input'
                       className={styles['moreInfo']}
                       onChange={(event) => setInformation(event.target.value)}
                     />
@@ -248,6 +244,8 @@ function Appointment(props) {
             <div className={styles['selectPatient']}>
               <p>Meeting Link:</p>
               <textarea
+                data-testid='meeting-link-input'
+                value={meetingLink}
                 placeholder='https//zoom.us/zoom-link-example'
                 onChange={(event) => setMeetingLink(event.target.value)}
               />
@@ -258,7 +256,7 @@ function Appointment(props) {
                 data-testid='viewBookAppointmentBtn'
                 class='btn btn-outline-dark justify-content-center'
                 variant='secondary'
-                onClick={() => submitAppointment().then()}
+                onClick={() => submitAppointment()}
               >
                 Book Appointment
               </Button>

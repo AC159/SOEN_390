@@ -9,6 +9,7 @@ import useFetch from '../../../hook/useFetch';
 
 jest.mock('axios');
 jest.mock('../../../hook/useFetch');
+window.alert = jest.fn();
 
 describe('visual test of the component', () => {
   it('should render book appointment tab without crashing', () => {
@@ -113,8 +114,16 @@ describe('visual test of the component', () => {
     expect(await screen.findByText(/Amazing/)).toBeInTheDocument();
   });
 
-  it('should be able to submit an appointment', () => {
-    useFetch.mockReturnValue([[], jest.fn()]);
+  it('should be able to submit an appointment', async () => {
+    useFetch.mockReturnValue([
+      [
+        {
+          name: 'John Doe',
+          uid: '1234',
+        },
+      ],
+      jest.fn(),
+    ]);
     axios.post.mockResolvedValueOnce({success: true});
     render(
       <BrowserRouter>
@@ -132,10 +141,72 @@ describe('visual test of the component', () => {
       </BrowserRouter>,
     );
 
-    userEvent.click(screen.getByText(/Book Appointment/));
-    expect(axios.post).toHaveBeenCalledTimes(1);
-    expect(axios.post.mock.calls[0]).toEqual(
-      expect.arrayContaining(['doctor/zXX7Yt2lNSa6BhaLFnbosq4IdS22/appointment']),
+    userEvent.selectOptions(screen.getByTestId('select-patient'), ['John Doe']);
+    expect(await screen.findByTestId('select-patient')).toHaveValue('1234|John Doe');
+    userEvent.type(await screen.findByTestId('title-input'), 'Checkup');
+    expect(await screen.findByTestId('title-input')).toHaveValue('Checkup');
+    userEvent.type(await screen.findByTestId('meeting-detail-input'), 'Annual Checkup');
+    expect(await screen.findByTestId('meeting-detail-input')).toHaveValue('Annual Checkup');
+    userEvent.type(await screen.findByTestId('meeting-link-input'), 'meeting.com/1234');
+    expect(await screen.findByTestId('meeting-link-input')).toHaveValue('meeting.com/1234');
+
+    await userEvent.click(await screen.findByText(/Book Appointment/));
+    expect(await window.alert).toHaveBeenCalledWith('Created');
+    expect(await axios.post).toHaveBeenCalledTimes(1);
+    expect(await axios.post).toHaveBeenCalledWith(
+      'doctor/zXX7Yt2lNSa6BhaLFnbosq4IdS22/appointment',
+      expect.objectContaining({
+        doctorId: 'zXX7Yt2lNSa6BhaLFnbosq4IdS22',
+        patientId: '1234',
+        patientName: 'John Doe',
+        title: 'Checkup',
+        information: 'Annual Checkup',
+        meetingLink: 'meeting.com/1234',
+      }),
     );
+
+    expect(await screen.findByTestId('title-input')).toHaveValue('');
+    expect(await screen.findByTestId('meeting-detail-input')).toHaveValue('');
+    expect(await screen.findByTestId('meeting-link-input')).toHaveValue('');
+  });
+
+  it('should alert the user when information is missing', async () => {
+    useFetch.mockReturnValue([
+      [
+        {
+          name: 'John Doe',
+          uid: '1234',
+        },
+      ],
+      jest.fn(),
+    ]);
+    render(
+      <BrowserRouter>
+        <AuthContext.Provider
+          value={{
+            currentUser: {
+              user: {
+                uid: 'zXX7Yt2lNSa6BhaLFnbosq4IdS22',
+              },
+            },
+          }}
+        >
+          <Appointment />
+        </AuthContext.Provider>
+      </BrowserRouter>,
+    );
+
+    userEvent.click(await screen.findByText(/Book Appointment/));
+    expect(await window.alert).toHaveBeenLastCalledWith('Patient is required');
+    userEvent.selectOptions(screen.getByTestId('select-patient'), ['John Doe']);
+    userEvent.click(await screen.findByText(/Book Appointment/));
+    expect(await window.alert).toHaveBeenLastCalledWith('Meeting Title is required');
+    userEvent.type(await screen.findByTestId('title-input'), 'Checkup');
+    userEvent.click(await screen.findByText(/Book Appointment/));
+    expect(await window.alert).toHaveBeenLastCalledWith('Meeting Details is required');
+    userEvent.type(await screen.findByTestId('meeting-detail-input'), 'Annual Checkup');
+    userEvent.click(await screen.findByText(/Book Appointment/));
+    expect(await window.alert).toHaveBeenLastCalledWith('Meeting Link is required');
+    expect(await window.alert).toHaveBeenCalledTimes(4);
   });
 });
