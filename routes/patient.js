@@ -137,9 +137,10 @@ router.post('/submit-traveler-form', async (req, res) => {
     const travelerForm = {
       timeStamp: Date.now(),
       patientUid: userId.getId(),
-      emailList: req.body.emailList,
       date: req.body.date,
-      locationDescription: req.body.locationDescription
+      locationDescription: req.body.locationDescription,
+      travelPurpose: req.body.travelPurpose
+      
     }
     const response = await patient.postTraveler(travelerForm);
     res.status(200).json(response);

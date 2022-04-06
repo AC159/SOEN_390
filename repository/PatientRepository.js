@@ -59,7 +59,7 @@ class PatientRepository {
   }
 
   postTraveler(trvData) {
-    return this.mongo.db('test').collection('travlers').insertOne({...trvData});
+    return this.mongo.db('test').collection('travelers').insertOne({...trvData});
   }
 
 

@@ -84,6 +84,9 @@ class Patient extends User {
   get quarantineEndDate() {
     throw new Error(`${this.quarantineEndDate.name} is not implemented.`);
   }
+  async postTraveler(trvData) {
+    return await this.patientRepository.postTraveler(trvData);
+  }
 }
 
 class PatientStatus {
@@ -194,11 +197,7 @@ class Address {
     }), ${this.#postalCode}`;
   }
 
-  async postTraveler(trvData) {
-
-    return await this.immigrationOfficialRepository.postTraveler(trvData);
-  }
-
+ 
 }
 
 module.exports = Patient;
