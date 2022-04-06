@@ -10,13 +10,15 @@ class Doctor {
 
   async getPatients() {
     const patients = await this.doctorRepository.getPatients(this.id.getId());
-    return await Promise.all(patients.map(async (patient) => {
-      const status = await this.doctorRepository.getPatientStatus(patient.uid);
-      return await {
-        ...patient,
-        status: status === null ? 'Not tested' : status.covidStatus,
-      };
-    }));
+    return await Promise.all(
+      patients.map(async (patient) => {
+        const status = await this.doctorRepository.getPatientStatus(patient.uid);
+        return await {
+          ...patient,
+          status: status === null ? 'Not tested' : status.covidStatus,
+        };
+      }),
+    );
   }
 
   async raiseFlag(userId, newFlagValue) {
@@ -56,7 +58,7 @@ class Doctor {
       heading: appointmentInfo.title,
       mainText: appointmentInfo.information,
       subText: appointmentInfo.meetingLink,
-      timestamp: Date.now(),
+      timeStamp: Date.now(),
       userId: patientId,
     };
     await this.doctorRepository.insertNotification(notification);

@@ -1,13 +1,14 @@
 import {useEffect, useState} from 'react';
+import moment from 'moment';
 import axios from 'axios';
 import {Button, Container, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import {addDays, setHours, setMinutes} from 'date-fns';
-import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
 import useFetch from '../../../hook/useFetch';
+import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
+import Pagination from '../../../features/Pagination/Pagination';
 import styles from './Appointment.module.css';
 import '../CommonPageStyling.css';
 
@@ -24,7 +25,7 @@ function Appointment(props) {
 
   let [patientId, setPatientId] = useState('');
   let [patientName, setPatientName] = useState('');
-  let [dateAndTime, setDateAndTime] = useState(new Date());
+  let [dateAndTime, setDateAndTime] = useState('');
   let [title, setTitle] = useState('');
   let [information, setInformation] = useState('');
   let [meetingLink, setMeetingLink] = useState('');
@@ -163,10 +164,10 @@ function Appointment(props) {
   const renderAppointments = () => {
     return (
       <div data-testid='appointment-list' className={styles['noAppointmentsMessage']}>
-        {appointments.length === 0 ? (
-          <div>You have no appointments at this time.</div>
-        ) : (
-          appointments.map((appointments, index) => (
+        <Pagination
+          data={appointments}
+          emptyMessage='You have no appointments at this time.'
+          render={(appointments, index) => (
             <div key={index} className={styles['appointmentList']}>
               <div>
                 <h6>Patient:</h6>
@@ -185,8 +186,8 @@ function Appointment(props) {
                 <p>{showTimeStamp(appointments.dateAndTime)}</p>
               </div>
             </div>
-          ))
-        )}
+          )}
+        />
       </div>
     );
   };
@@ -264,7 +265,6 @@ function Appointment(props) {
           </form>
         </div>
       </div>
-
       <h4 className={styles['scheduleAppointment']}>Scheduled Appointments</h4>
       {renderAppointments()}
     </div>
