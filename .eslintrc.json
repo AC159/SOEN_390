@@ -20,6 +20,7 @@
         "max-len": "off",
         "require-jsdoc": "off",
         "new-cap": "off",
-        "default-case": "off"
+        "default-case": "off",
+        "indent": [2, 2, { "SwitchCase": 1}]
     }
 }

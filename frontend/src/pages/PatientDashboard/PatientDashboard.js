@@ -6,6 +6,7 @@ import CovidFile from '../../components/Tabs/PatientSymptoms/CovidFile';
 import RequestDoctorPage from '../../components/Tabs/PatientSymptoms/RequestDoctorPage';
 import ContactTrace from '../../components/Tabs/PatientSymptoms/ContactTrace';
 import TravelInfo from '../../components/Tabs/PatientSymptoms/TravelInfo';
+import NotificationBox from "../../components/NotificationBox/NotificationBox";
 
 const tabs = [
   {
@@ -32,6 +33,11 @@ const tabs = [
     eventKey: 'traveling',
     title: 'Traveling',
     element: <TravelInfo />
+  },
+  {
+    eventKey: 'notification',
+    title: 'Notification',
+    element: <NotificationBox />
   },
   {
     eventKey: 'contact',
