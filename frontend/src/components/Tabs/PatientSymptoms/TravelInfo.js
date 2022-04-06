@@ -24,6 +24,7 @@ function TravelInfo(props){
           key: 'selection'
         }
       ]);
+    let [travelInfo, setTravelInfo] = useState('');
       
       
       const closeModal = () => setShowModal(false);
@@ -45,7 +46,8 @@ function TravelInfo(props){
             const userTravelData = {
                 patientUid: currentUser.user.uid,
                 date: date,
-                locationDescription: vacationLocation
+                locationDescription: vacationLocation,
+                travelPurpose: travelPurpose
             };
             const response = await axios.post(`/patient/submit-traveler-form`, userTravelData);
             console.log(response);
@@ -54,11 +56,52 @@ function TravelInfo(props){
           }
       }
 
+      const fetchTravelForm = async() => {
+          try{
+            const response = await axios.get(`/patient/get-traveler-form/${currentUser.user.uid}`);
+            console.log(response);
+            setTravelInfo(response.data);
+          } catch (error) {
+              console.log('Unable to fetch patient travel forms: ', error);
+          }
+      }
+
+      useEffect(() => {
+          fetchTravelForm();
+      }, []);
+
     return(
         <div>
             <Button variant="info"  className = {styles["submit-button-trace"]} onClick={() => {
                 openModal();
             }}>New Travel Form</Button>
+            {travelInfo ? <Accordion defaultActiveKey="0">
+                {travelInfo.map((element, index) => {
+                    let date = new Date(element.timeStamp);
+                    return <Accordion.Item eventKey={index} key={index}>
+                        <Accordion.Header>
+                            Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+                        </Accordion.Header>
+                        <Accordion.Body>
+                            {Object.entries(element).map(([key, value], index) => {
+                                if (!value || key === '_id' || key === 'patientUid' || key === 'timeStamp' || value.length === 0) return null;
+                                if (key === 'date') {
+                                    return <div>
+                                        <div><strong>Start date:</strong> {value[0].startDate.slice(0,10)}</div>
+                                        <div><strong>End date:</strong> {value[0].endDate.slice(0,10)}</div>
+                                    </div>
+                                }
+                                if (key === 'locationDescription') {
+                                    return <div> <strong> Location Description: </strong> {value}</div>
+                                }
+                                if (key === 'travelPurpose') {
+                                    return <div><strong>Purpose of Travel: </strong> {value}</div>
+                                }
+                                else return null;
+                            })}
+                        </Accordion.Body>
+                    </Accordion.Item>;
+                })} </Accordion> : null}
 
             <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>
