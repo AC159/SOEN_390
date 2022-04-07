@@ -80,13 +80,14 @@ function TravelInfo(props){
                     let date = new Date(element.timeStamp);
                     return <Accordion.Item eventKey={index} key={index}>
                         <Accordion.Header>
-                            Created on {moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+                            Travel Report for {element.date[0].startDate.slice(0,10)} to {element.date[0].endDate.slice(0,10)}
                         </Accordion.Header>
                         <Accordion.Body>
                             {Object.entries(element).map(([key, value], index) => {
                                 if (!value || key === '_id' || key === 'patientUid' || key === 'timeStamp' || value.length === 0) return null;
                                 if (key === 'date') {
                                     return <div>
+                                        <div><strong>Report created on: </strong>{moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
                                         <div><strong>Start date:</strong> {value[0].startDate.slice(0,10)}</div>
                                         <div><strong>End date:</strong> {value[0].endDate.slice(0,10)}</div>
                                     </div>
