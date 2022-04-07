@@ -40,7 +40,7 @@ describe('visual test of Contact Doctor component', () => {
   });
 
   it('should load and display', () => {
-    var component = render(
+    render(
     <AuthContext.Provider
         value={{
             currentUser: user,
@@ -52,7 +52,7 @@ describe('visual test of Contact Doctor component', () => {
   });
 
   it('should display loading text and animation', async () => {
-    var component = render(
+    render(
     <AuthContext.Provider
         value={{
             currentUser: user,
