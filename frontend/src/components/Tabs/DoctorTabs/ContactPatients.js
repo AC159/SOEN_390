@@ -155,7 +155,7 @@ function ContactPatients(props) {
                 }
                 </Col>
                 </Row> 
-                : <Spinner animation="border" variant="primary" />}
+                : <Spinner data-testid="spinner" animation="border" variant="primary" />}
                 
             </Tab.Container>
             

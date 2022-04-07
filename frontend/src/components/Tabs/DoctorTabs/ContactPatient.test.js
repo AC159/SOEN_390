@@ -2,10 +2,8 @@ import React from 'react';
 import {render, screen, waitForElementToBeRemoved} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {AuthContext} from '../../Authentication/FirebaseAuth/FirebaseAuth';
-import MockedSocket from "socket.io-mock";
-import axios from 'axios';
 
-import ContactDoctor from './ContactDoctor.js';
+import ContactPatients from './ContactPatients.js';
 
 jest.mock('axios');
 
@@ -35,17 +33,13 @@ describe('visual test of Contact Doctor component', () => {
   };
 
 
-  beforeEach(() => {
-    axios.get.mockReturnValue({data: []});
-  });
-
   it('should load and display', () => {
     var component = render(
     <AuthContext.Provider
         value={{
             currentUser: user,
         }}>
-            <ContactDoctor/>
+            <ContactPatients/>
         </AuthContext.Provider>
     );
     expect(component);
@@ -57,10 +51,9 @@ describe('visual test of Contact Doctor component', () => {
         value={{
             currentUser: user,
         }}>
-            <ContactDoctor/>
+            <ContactPatients/>
         </AuthContext.Provider>
     );
-    expect(screen.getByText("Loading messages....."));
     expect(screen.getByTestId("spinner"));
   });
 

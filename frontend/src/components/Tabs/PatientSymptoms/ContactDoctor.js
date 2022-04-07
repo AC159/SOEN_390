@@ -3,6 +3,7 @@ import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
 import axios from 'axios';
 import {Button, Spinner} from 'react-bootstrap';
 import {io} from "socket.io-client";
+
 import {Form} from "react-bootstrap";
 
 import styles from "./ContactDoctor.module.css";
@@ -41,6 +42,8 @@ function ContactDoctor(props) {
         const chatId = patientId + '_' + doctorId;
         socket.emit('join-chat-room', chatId);
         setSocket(socket);
+
+        console.log(socket);
 
         // close previous socket before creating another one
         return () => {
@@ -94,7 +97,7 @@ function ContactDoctor(props) {
                         : 
                         <div>
                             <h4>Loading messages.....</h4>
-                            <Spinner animation="grow" variant="primary"/>
+                            <Spinner data-testid="spinner" animation="grow" variant="primary"/>
                         </div>
                         }
                             
