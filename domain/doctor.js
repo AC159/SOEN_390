@@ -8,9 +8,8 @@ class Doctor {
     await this.doctorRepository.verifyDoctor(this.id.getId());
   }
 
-  async getPatients() {
+  async getPatientArrays() {
     const patients = await this.doctorRepository.getPatients(this.id.getId());
-    console.log(await patients);
     return await Promise.all(
       await patients.map(async (patient) => {
         const status = await this.doctorRepository.getPatientStatus(patient.uid);
@@ -20,6 +19,10 @@ class Doctor {
         };
       }),
     );
+  }
+
+  async getPatients() {
+    return this.doctorRepository.getPatients(this.id.getId());
   }
 
   async raiseFlag(userId, newFlagValue) {
