@@ -28,36 +28,35 @@ describe('test Doctor object', () => {
 
     it('should fetch patient with their status', async () => {
       const mockFetchPatients = jest
-          .spyOn(DoctorRepository.prototype, 'getPatients')
-          .mockImplementation(() => [
-            {
-              uid: 'patient-1',
-              name: 'John Doe',
-              covidStatus: 'Negative'
-            },
-            {
-              uid: 'patient-2',
-              name: 'Jane Doe',
-              covidStatus: 'Positive'
-            },
-          ]);
+        .spyOn(DoctorRepository.prototype, 'getPatients')
+        .mockImplementation(() => [
+          {
+            uid: 'patient-1',
+            name: 'John Doe',
+            covidStatus: 'Negative',
+          },
+          {
+            uid: 'patient-2',
+            name: 'Jane Doe',
+            covidStatus: 'Positive',
+          },
+        ]);
       const mockFetchPatientStatus = jest
-          .spyOn(DoctorRepository.prototype, 'getPatientStatus')
-          .mockImplementation((x) => {
-            if (x === 'patient-1') {
-              return {
-                covidStatus: 'Negative',
-              };
-            } else if (x === 'patient-2') {
-              return {
-                covidStatus: 'Positive',
-              };
-            }
+        .spyOn(DoctorRepository.prototype, 'getPatientStatus')
+        .mockImplementation((x) => {
+          if (x === 'patient-1') {
             return {
-              covidStatus: null,
+              covidStatus: 'Negative',
             };
-          });
-
+          } else if (x === 'patient-2') {
+            return {
+              covidStatus: 'Positive',
+            };
+          }
+          return {
+            covidStatus: null,
+          };
+        });
 
       const doctor = new Doctor(new UserId('123456'), new DoctorRepository(''));
       const response = await doctor.getPatients();

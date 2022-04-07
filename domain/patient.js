@@ -2,14 +2,14 @@ const {User} = require('./user');
 
 class Patient extends User {
   constructor(
-      userId,
-      name,
-      address,
-      phoneNumber,
-      dob,
-      userStatus = PatientStatus.Unconfirmed,
-      isFlagged = false,
-      patientRepository,
+    userId,
+    name,
+    address,
+    phoneNumber,
+    dob,
+    userStatus = PatientStatus.Unconfirmed,
+    isFlagged = false,
+    patientRepository,
   ) {
     super(userId, name);
     this.userStatus = userStatus;
@@ -37,7 +37,12 @@ class Patient extends User {
   }
 
   async raiseFlag(flagType, flagValue, flaggingUser) {
-    return await this.patientRepository.raiseFlag(this.id.getId(), flagType, flagValue, flaggingUser);
+    return await this.patientRepository.raiseFlag(
+      this.id.getId(),
+      flagType,
+      flagValue,
+      flaggingUser,
+    );
   }
 
   async requestDoctor(requestValue) {
@@ -58,7 +63,11 @@ class Patient extends User {
   }
 
   async updateContactTracingReport(timeStamp, values) {
-    return await this.patientRepository.updateContactTracingReport(this.id.getId(), timeStamp, values);
+    return await this.patientRepository.updateContactTracingReport(
+      this.id.getId(),
+      timeStamp,
+      values,
+    );
   }
 
   updateProfile() {
@@ -196,12 +205,10 @@ class Address {
   }
 
   getAddress() {
-    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${
-      this.#province
-    }), ${this.#postalCode}`;
+    return `${this.#civicNumber} ${this.#street}, ${this.#city} (${this.#province}), ${
+      this.#postalCode
+    }`;
   }
-
- 
 }
 
 module.exports = Patient;
