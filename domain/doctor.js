@@ -8,6 +8,19 @@ class Doctor {
     await this.doctorRepository.verifyDoctor(this.id.getId());
   }
 
+  async getPatientArrays() {
+    const patients = await this.doctorRepository.getPatients(this.id.getId());
+    return await Promise.all(
+      await patients.map(async (patient) => {
+        const status = await this.doctorRepository.getPatientStatus(patient.uid);
+        return await {
+          ...patient,
+          status: status === null ? 'Not tested' : status.covidStatus,
+        };
+      }),
+    );
+  }
+
   async getPatients() {
     return this.doctorRepository.getPatients(this.id.getId());
   }

@@ -8,6 +8,7 @@ import axios from "axios";
 import PatientBox from "../GeneralComponents/PatientBox";
 
 import { Accordion } from "react-bootstrap";
+import CovidData from "../GeneralComponents/CovidData";
 
 function MonitorPatients(props) {
   const [patientList, setPatientList] = useState([]);
@@ -49,11 +50,15 @@ function MonitorPatients(props) {
 
   return (
     <div>
+      <h3>Patients COVID Data</h3>
+          <CovidData/>
       <div className={styles["page-top-text"]}>
-        <h3>Your Patients</h3>
-        <hr />
+          <h3>Your Patients</h3>
+          <hr/>
       </div>
-      <div>{renderPatientList()}</div>
+      <div>
+          {renderPatientList()}
+      </div>
     </div>
   );
 }
