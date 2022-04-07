@@ -60,7 +60,10 @@ function PatientList(props) {
     return (
       <Accordion>
         {patientList
-          .filter((item) => searchTerm === '' || item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          .filter(
+            (item) =>
+              searchTerm === '' || item.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          )
           .filter((item) => !flagCheck || flagFilter(item)[localStorage.getItem('userType')])
           .map((patient, index) => (
             <PatientBox
@@ -80,7 +83,7 @@ function PatientList(props) {
   return (
     <div className={styles['role-outer-container']}>
       <div className={styles['todays-new-title']}>Patient List</div>
-      <hr/>
+      <hr />
       <div className={styles['side-by-side']}>
         <input
           type='text'
@@ -89,16 +92,17 @@ function PatientList(props) {
             setSearchTerm(event.target.value);
           }}
         />
-        {!checkIfAdmin() &&
-        <label className={styles['check-box']}>
-          <input
-            type='checkbox'
-            id='flagCheckBox'
-            checked={flagCheck}
-            onChange={handleFlagCheckChange}/>
-          <span>  flagged  </span>
-        </label>
-        }
+        {!checkIfAdmin() && (
+          <label className={styles['check-box']}>
+            <input
+              type='checkbox'
+              id='flagCheckBox'
+              checked={flagCheck}
+              onChange={handleFlagCheckChange}
+            />
+            <span> flagged </span>
+          </label>
+        )}
       </div>
       <div>{renderPatientList()}</div>
     </div>

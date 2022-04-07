@@ -1,58 +1,81 @@
-import {render, screen} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react';
+import {render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Notification from './Notification';
 
-const deleteNotification = (id) => {};
+describe('visual test of Notification', () => {
+  it('should load and display without error', async () => {
+    render(
+      <Notification
+        notificationId='1234'
+        timeStamp={123456799}
+        alertType='warning'
+        alertHeading='Heading'
+        alertMainText='Main Text'
+        modalHeading='Modal Heading'
+        modalMainText='Modal Main Text'
+        modalSubText='Modal Sub Text'
+        deleteNotification={() => jest.fn()}
+      />,
+    );
 
-test('should render notification without crashing', () => {
-    render(<Notification 
-                notificationId={"123"}
-                timeStamp={1214153236}
-                alertType={"warning"}
-                alertHeading={"Alert Heading"}
-                alertMainText={"Alert Text"}
-                modalHeading={"Alert Modal Heading"}
-                modalMainText={"Alert Modal Main Text"}
-                modalSubText={"Alert Modal Sub Text"}
-                deleteNotification={deleteNotification(1213131)}
-        />);
-    const notificationElement = screen.getByTestId('notification-1');
-    expect(notificationElement).toBeInTheDocument();
+    expect(screen.getByText(/^Heading/)).toBeInTheDocument();
+    expect(screen.getByText(/^Main Text/)).toBeInTheDocument();
+
+    userEvent.click(screen.getByText(/^More/));
+    userEvent.click(screen.getByText(/^View/));
+    expect(await screen.findByText(/^Modal Heading/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Modal Main Text/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Modal Sub Text/)).toBeInTheDocument();
+
+    expect(screen.getByTestId('card-color-id').className.split(' ')).toEqual(
+      expect.arrayContaining(['warning-color']),
+    );
   });
 
-it('renders view and delete button correctly', () => {
-    const {getByTestId} = render(<Notification
-        notificationId={"123"}
-        timeStamp={1214153236}
-        alertType={"warning"}
-        alertHeading={"Alert Heading"}
-        alertMainText={"Alert Text"}
-        modalHeading={"Alert Modal Heading"}
-        modalMainText={"Alert Modal Main Text"}
-        modalSubText={"Alert Modal Sub Text"}
-        deleteNotification={deleteNotification()}
-    />)
+  it('should be able to delete a notification', async () => {
+    const mockOnClick = jest.fn();
+    render(
+      <Notification
+        notificationId='1234'
+        timeStamp={123456799}
+        alertType='primary'
+        alertHeading='Heading'
+        alertMainText='Main Text'
+        modalHeading='Modal Heading'
+        modalMainText='Modal Main Text'
+        modalSubText='Modal Sub Text'
+        deleteNotification={mockOnClick}
+      />,
+    );
 
-    userEvent.click(screen.getByText("More"));
+    userEvent.click(screen.getByText(/^More/));
+    userEvent.click(screen.getByText(/^Delete/));
+    expect(mockOnClick).toHaveBeenCalledTimes(1);
+    expect((await screen.findByTestId('card-color-id')).className.split(' ')).toEqual(
+      expect.arrayContaining(['info-color']),
+    );
+  });
 
-    expect(screen.getByTestId('viewNotificationButton')).toBeInTheDocument()
-    expect(screen.getByTestId('deleteNotificationButton')).toBeInTheDocument()
-    
-})
+  it('should reflect urgent notification color', () => {
+    const mockOnClick = jest.fn();
+    render(
+      <Notification
+        notificationId='1234'
+        timeStamp={123456799}
+        alertType='urgent'
+        alertHeading='Heading'
+        alertMainText='Main Text'
+        modalHeading='Modal Heading'
+        modalMainText='Modal Main Text'
+        modalSubText='Modal Sub Text'
+        deleteNotification={mockOnClick}
+      />,
+    );
 
-/*it('renders delete button correctly', () => {
-    const {getByTestId} = render(<Notification
-        notificationId={"123"}
-        timeStamp={1214153236}
-        alertType={"warning"}
-        alertHeading={"Alert Heading"}
-        alertMainText={"Alert Text"}
-        modalHeading={"Alert Modal Heading"}
-        modalMainText={"Alert Modal Main Text"}
-        modalSubText={"Alert Modal Sub Text"}
-        deleteNotification={deleteNotification()}
-    />)
-    
-})*/
+    expect(screen.getByTestId('card-color-id').className.split(' ')).toEqual(
+      expect.arrayContaining(['urgent-color']),
+    );
+  });
+});

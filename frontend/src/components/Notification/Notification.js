@@ -1,81 +1,75 @@
-import styles from "./Notification.module.css";
+import styles from './Notification.module.css';
 import React, {useState} from 'react';
-import {Button, Card, Dropdown, DropdownButton} from "react-bootstrap";
-import {Modal} from "react-bootstrap";
+import {Button, Card, Dropdown, DropdownButton} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 
 function Notification(props) {
-    const [showing, setShowing] = useState(false);
+  const [showing, setShowing] = useState(false);
 
-    const handleModalClose = () => setShowing(false);
-    const handleModalShow = () => setShowing(true);
+  const handleModalClose = () => setShowing(false);
+  const handleModalShow = () => setShowing(true);
 
-    const id = props.notificationId;
-    const timeStamp = props.timeStamp;
+  const id = props.notificationId;
+  const timeStamp = props.timeStamp;
 
-    function showTimeStamp() {
-        return (
-            new Intl.DateTimeFormat('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            }).format(timeStamp)
-        );
-    }
+  function showTimeStamp() {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    }).format(timeStamp);
+  }
 
-    let color;
-    if (props.alertType === 'warning') color = 'warning-color';
-    else if (props.alertType === 'primary') color = 'info-color';
-    if (props.alertType === 'urgent') color = 'urgent-color';
+  let color;
+  if (props.alertType === 'warning') color = 'warning-color';
+  else if (props.alertType === 'primary') color = 'info-color';
+  if (props.alertType === 'urgent') color = 'urgent-color';
 
-    return (
-        <div className={styles["notification-box"]}>
-            <Card data-testid="notification-1" className={styles[color]}>
-                <Card.Header>{props.alertHeading}</Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        {props.alertMainText}
-                    </Card.Text>
-                    <div className="p-1">
-                        <DropdownButton className={styles["dropdown-noti"]} id="dropdown-basic-button" align="end" variant="secondary" title="More">
-                            <Dropdown.Item data-testid="viewNotificationButton" onClick={handleModalShow} variant="primary">View</Dropdown.Item>
-                            <Dropdown.Item data-testid="deleteNotificationButton" onClick={() => props.deleteNotification(id)} variant="primary">Delete</Dropdown.Item>
-                        </DropdownButton>
-                    </div>
-                </Card.Body>
-                <Card.Footer>{showTimeStamp()}</Card.Footer>
-            </Card>
+  return (
+    <div className={styles['notification-box']}>
+      <Card data-testid='card-color-id' className={styles[color]}>
+        <Card.Header>{props.alertHeading}</Card.Header>
+        <Card.Body>
+          <Card.Text>{props.alertMainText}</Card.Text>
+          <div className='p-1'>
+            <DropdownButton id='dropdown-basic-button' title='More'>
+              <Dropdown.Item onClick={handleModalShow} variant='primary'>
+                View
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => props.deleteNotification(id)} variant='primary'>
+                Delete
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
+        </Card.Body>
+        <Card.Footer>{showTimeStamp()}</Card.Footer>
+      </Card>
 
-            <div>
-                <Modal show={showing} onHide={handleModalClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{props.modalHeading}</Modal.Title>
-                    </Modal.Header>
+      <div>
+        <Modal show={showing} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{props.modalHeading}</Modal.Title>
+          </Modal.Header>
 
-                    <Modal.Body>
-                        <p>
-                            {props.modalMainText}
-                        </p>
-                        <hr/>
-                        <p className="mb-0">
-                            {props.modalSubText}
-                        </p>
-                    </Modal.Body>
+          <Modal.Body>
+            <p>{props.modalMainText}</p>
+            <hr />
+            <p className='mb-0'>{props.modalSubText}</p>
+          </Modal.Body>
 
-                    <Modal.Footer>
-                        <p>
-                            {showTimeStamp()}
-                        </p>
-                        <Button variant="secondary" onClick={handleModalClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
-        </div>
-    );
+          <Modal.Footer>
+            <p>{showTimeStamp()}</p>
+            <Button variant='secondary' onClick={handleModalClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    </div>
+  );
 }
 
 export default Notification;

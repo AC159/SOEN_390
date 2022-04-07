@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import {addDays, setHours, setMinutes} from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import useFetch from '../../../hook/useFetch';
 import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
 import Pagination from '../../../features/Pagination/Pagination';
 import styles from './Appointment.module.css';
@@ -13,8 +14,14 @@ import '../CommonPageStyling.css';
 
 function Appointment(props) {
   let {currentUser} = useAuth();
-  const [patientList, setPatientList] = useState([]);
-  const [appointments, setAppointments] = useState([]);
+  const [patientList, getPatientArray] = useFetch(
+    [],
+    `doctor/${currentUser.user.uid}/patientArray`,
+  );
+  const [appointments, getAppointments] = useFetch(
+    [],
+    `doctor/${currentUser.user.uid}/appointments`,
+  );
 
   let [patientId, setPatientId] = useState('');
   let [patientName, setPatientName] = useState('');
@@ -25,55 +32,32 @@ function Appointment(props) {
   let dateArr = [];
   let arrExcludedTimes = [];
 
-  //Get array of patients assigned to specific doctor.
-  const getPatientArray = async () => {
-    try {
-      const response = await axios.get(`doctor/${currentUser.user.uid}/patientArray`);
-      setPatientList(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getPatientArray();
   }, []);
 
-  //Returns patient ID based on selected patient name.
-  function id(pName) {
-    let patientArr = [];
-    let uName = pName;
-    for (const i of patientList) {
-      patientArr.push(i);
-    }
-
-    const index = patientArr.findIndex((item) => item.name === uName);
-    let patient = patientArr[index];
-    let pId = patient['uid'];
-
-    return pId;
-  }
-
   //Dropdown including all patients assigned to a doctor.
   const renderPatientList = () => {
     let optionPatient = patientList.map((patient, index) => (
-      <option data-testid='select-patient-name' key={index}>
+      <option
+        data-testid='select-patient-name'
+        key={index}
+        value={`${patient.uid}|${patient.name}`}
+      >
         {patient.name}
       </option>
     ));
+
     return (
       <div>
         <select
-          defaultValue={'Select'}
           data-testid='select-patient'
           onChange={(event) => {
-            setPatientId(id(event.target.value));
-            setPatientName(event.target.value);
+            const values = event.target.value.split('|');
+            setPatientId(values[0]);
+            setPatientName(values[1]);
           }}
         >
-          <option value='Select' disabled>
-            Select
-          </option>
           {optionPatient}
         </select>
       </div>
@@ -128,19 +112,9 @@ function Appointment(props) {
     }
   };
 
-  //Retrieve appointment information from database.
-  const getAppointments = async () => {
-    try {
-      const response = await axios.get(`doctor/${currentUser.user.uid}/appointments`);
-      setAppointments(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     getAppointments();
-  }, [appointments.length]);
+  }, [appointments]);
 
   //Change timestamp into readable date and time.
   //Also get appointment times already booked to exclude them from possible future bookings.
@@ -240,20 +214,28 @@ function Appointment(props) {
                       inline
                       showTimeSelect
                       timeIntervals={30}
-                      minTime={setHours(setMinutes(new Date(), 0), 7)}
-                      maxTime={setHours(setMinutes(new Date(), 0), 20)}
+                      minDate={addDays(new Date(), 1)}
+                      minTime={setHours(setMinutes(new Date(), 0), 9)}
+                      maxTime={setHours(setMinutes(new Date(), 0), 19)}
                       timeCaption='Time'
                       dateFormat='h:mm aa'
                       popperPlacement='top-end'
+                      data-testid='date-input'
                     />
                   </div>
                 </Col>
                 <Col sm={8}>
                   <div className={styles['appointmentInfo']}>
                     <p>Meeting Title:</p>
-                    <textarea onChange={(event) => setTitle(event.target.value)} />
-                    <p>More Info:</p>
                     <textarea
+                      data-testid='title-input'
+                      value={title}
+                      onChange={(event) => setTitle(event.target.value)}
+                    />
+                    <p>Meeting Details:</p>
+                    <textarea
+                      value={information}
+                      data-testid='meeting-detail-input'
                       className={styles['moreInfo']}
                       onChange={(event) => setInformation(event.target.value)}
                     />
@@ -261,16 +243,22 @@ function Appointment(props) {
                 </Col>
               </Row>
             </Container>
-            <br></br>
+            <div className={styles['selectPatient']}>
+              <p>Meeting Link:</p>
+              <textarea
+                data-testid='meeting-link-input'
+                value={meetingLink}
+                placeholder='https//zoom.us/zoom-link-example'
+                onChange={(event) => setMeetingLink(event.target.value)}
+              />
+            </div>
 
             <div class='col-md-12 text-center'>
               <Button
                 data-testid='viewBookAppointmentBtn'
                 class='btn btn-outline-dark justify-content-center'
                 variant='secondary'
-                onClick={(event) => {
-                  submitAppointment();
-                }}
+                onClick={() => submitAppointment()}
               >
                 Book Appointment
               </Button>

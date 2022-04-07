@@ -1,16 +1,15 @@
-import React from "react";
-import { useAuth } from "../Authentication/FirebaseAuth/FirebaseAuth";
-import { useState } from "react";
-import styles from "./UserProfile.module.css";
-import Modal from "react-bootstrap/Modal";
-import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
-import Navbar from "../Navbar/Navbar";
+import React, {useState} from 'react';
+import axios from 'axios';
+
+import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
+import Modal from 'react-bootstrap/Modal';
+import Navbar from '../Navbar/Navbar';
+import styles from './UserProfile.module.css';
 
 function UserProfile(props) {
-  let { currentUser } = useAuth();
-  let [phoneNumber, setPhoneNumber] = useState("");
-  let [address, setAddress] = useState("");
+  let {currentUser} = useAuth();
+  let [phoneNumber, setPhoneNumber] = useState('');
+  let [address, setAddress] = useState('');
 
   const [state, setState] = React.useState({
     phoneNumber: `${currentUser.dbData.phoneNumber}`,
@@ -25,7 +24,7 @@ function UserProfile(props) {
     console.log(`Current User ID: ${currentUser.user.uid}`);
     axios
       .post(`/user/update-profile/${currentUser.user.uid}`, {
-        userAttributes: { phoneNumber },
+        userAttributes: {phoneNumber},
       })
       .then(function (response) {
         console.log(response);
@@ -38,7 +37,7 @@ function UserProfile(props) {
     console.log(`Address: ${address}`);
     axios
       .post(`/user/update-profile/${currentUser.user.uid}`, {
-        userAttributes: { address },
+        userAttributes: {address},
       })
       .then(function (response) {
         console.log(response);
@@ -58,16 +57,16 @@ function UserProfile(props) {
 
   return (
     <div>
-      {" "}
+      {' '}
       <Navbar />
-      <div className={styles["container"]}>
-        <div className={styles["userInfo"]}>
-          <div className={styles["internalCard"]}>
+      <div className={styles['container']}>
+        <div className={styles['userInfo']}>
+          <div className={styles['internalCard']}>
             <div>Email: {currentUser.user.email}</div>
           </div>
 
           {/* SET UP phoneNumber PATH:  */}
-          <div className={styles["internalCard"]}>
+          <div className={styles['internalCard']}>
             <div>Phone Number: {state.phoneNumber}</div>
             <button onClick={handleShowOne}>Change Phone Number</button>
             <Modal show={showModalOne} onHide={handleCloseOne}>
@@ -77,9 +76,9 @@ function UserProfile(props) {
               <Modal.Body>
                 <label>Enter new phone number : &nbsp;</label>
                 <input
-                  type="text"
-                  placeholder="e.g. 5145145145"
-                  maxLength={"10"}
+                  type='text'
+                  placeholder='e.g. 5145145145'
+                  maxLength={'10'}
                   value={phoneNumber}
                   onChange={(event) => setPhoneNumber(event.target.value)}
                 />
@@ -90,7 +89,7 @@ function UserProfile(props) {
                   onClick={() => {
                     handleCloseOne();
                     submitPhoneForm();
-                    setState({ ...state, phoneNumber: phoneNumber });
+                    setState({...state, phoneNumber: phoneNumber});
                   }}
                 >
                   Save Changes
@@ -100,7 +99,7 @@ function UserProfile(props) {
           </div>
 
           {/* SET UP address PATH */}
-          <div className={styles["internalCard"]}>
+          <div className={styles['internalCard']}>
             <div>Address: {state.address}</div>
             <button onClick={handleShowTwo}>Change Address</button>
             <Modal show={showModalTwo} onHide={handleCloseTwo}>
@@ -110,8 +109,8 @@ function UserProfile(props) {
               <Modal.Body>
                 <label>Enter new address: &nbsp;</label>
                 <input
-                  type="text"
-                  placeholder=""
+                  type='text'
+                  placeholder=''
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
                 />
@@ -122,7 +121,7 @@ function UserProfile(props) {
                   onClick={() => {
                     handleCloseTwo();
                     submitAddressForm();
-                    setState({ ...state, address: address });
+                    setState({...state, address: address});
                   }}
                 >
                   Save Changes
@@ -132,7 +131,7 @@ function UserProfile(props) {
           </div>
 
           {/* Make following dynamic, based on user type will generate Patient Status/Medical License info */}
-          <div className={styles["internalCard"]}>
+          <div className={styles['internalCard']}>
             <div>
               {userType} status: &nbsp;
               <div>
@@ -143,14 +142,15 @@ function UserProfile(props) {
           </div>
         </div>
 
-        <div className={styles["profile"]}>
+        <div className={styles['profile']}>
           <div>{userType} Profile</div>
           {/* SET UP PROFILE PIC PATH:  */}
           <img
-            className={styles["profilePic"]}
-            src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
-           alt=""/>
-          <div className={styles["nameCard"]}>
+            className={styles['profilePic']}
+            src='https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
+            alt=''
+          />
+          <div className={styles['nameCard']}>
             {/* SET UP NAME + DESIGNATION (Dr. Mr. Ms. etc) + */}
             <div>{currentUser.dbData.name}</div>
           </div>
