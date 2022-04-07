@@ -4,7 +4,7 @@ import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
 import MonitorPatients from '../../components/Tabs/MonitorPatients';
 import Appointment from '../../components/Tabs/DoctorTabs/Appointment';
-import ContactPatients from "../../components/Tabs/DoctorTabs/ContactPatients";
+import NotificationBox from "../../components/NotificationBox/NotificationBox";
 
 const tabs = [
   {
@@ -22,10 +22,15 @@ const tabs = [
     title: 'Book Appointment',
     element: <Appointment />
   },
+    {
+    eventKey: 'notification',
+    title: 'Notification',
+    element: <NotificationBox />
+  },
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: <ContactPatients/>
+    // element: <ContactPatients/>
   },
 ]
 

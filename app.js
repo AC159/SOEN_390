@@ -33,26 +33,12 @@ const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}...`.brightBlue);
 });
 
-const io = socketio(server);
+process.on('exit', () => {
+  server.close();
+});
 
-io.on("connection", (socket) => {
-  console.log(`New websocket connection with socket id ${socket.id}`.magenta);
-
-  socket.on('join-chat-room', (chatId) => {
-    socket.join(chatId);
-  })
-
-  socket.on('private-message', async (msg) => {
-    console.log('Received message from client: ', msg);
-    // save the message in the database
-    msg.timestamp = Math.floor(Date.now() / 1000);
-    await app.locals.mongodb.db('test').collection('chats').insertOne(msg);
-    socket.to(msg.chatId).emit('private-message', msg);
-  });
-
-  socket.on('disconnect', () => {
-    console.log(`Websocket disconnected`.blue);
-  });
+process.on('SIGTERM', () => {
+  server.close();
 });
 
 module.exports = app;

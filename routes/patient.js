@@ -34,12 +34,11 @@ router.get('/get-status-forms/:userId', async (req, res) => {
     const userId = new UserId(req.params.userId);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.getPatientStatusForms();
-    res.status(200).json(data);
+    res.status(200).json({data: data});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 });
-
 
 router.post('/raise-flag/:userId', async (req, res) => {
   try {
@@ -66,8 +65,7 @@ router.get('/get-patients-covid-info/:officialId', async (req, res) => {
   }
 });
 
-
-router.post('/:userID/requestDoctor', async (req, res)=> {
+router.post('/:userID/requestDoctor', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userID);
@@ -75,7 +73,7 @@ router.post('/:userID/requestDoctor', async (req, res)=> {
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.requestDoctor(requestValue);
     res.status(200).json(data);
-    } catch (error) {
+  } catch (error) {
     res.status(400).json({error: error.message});
   }
 });
@@ -90,11 +88,10 @@ router.post('/submit-contact-tracing', async (req, res) => {
       patientUid: userId.getId(),
       emailList: req.body.emailList,
       date: req.body.date,
-      locationDescription: req.body.locationDescription
-    }
+      locationDescription: req.body.locationDescription,
+    };
     const response = await patient.postContactTracingReport(contactTracingReport);
     res.status(200).json(response);
-
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -121,7 +118,7 @@ router.get('/get-contact-tracing/:patientUid', async (req, res) => {
     const userId = new UserId(req.params.patientUid);
     const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
     const data = await patient.getContactTracingReports();
-    res.status(200).json(data);
+    res.status(200).json({data: data});
   } catch (error) {
     console.log(error.message);
     res.status(400).json({error: error.message});
@@ -150,6 +147,18 @@ router.post('/submit-traveler-form', async (req, res) => {
   }
 });
 
+router.get('/get-traveler-forms/:patientUid', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const userId = new UserId(req.params.patientUid);
+    const patient = new Patient(userId, null, null, null, null, null, null, new PatientRepository(mongo));
+    const data = await patient.getTravelerForm();
+    res.status(200).json({data});
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({error: error.message});
+  }
+});
 router.get('/get-traveler-form/:patientUid', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
@@ -162,6 +171,5 @@ router.get('/get-traveler-form/:patientUid', async (req, res) => {
     res.status(400).json({error: error.message});
   }
 });
-
 
 module.exports = router;
