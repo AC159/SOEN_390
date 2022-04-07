@@ -68,6 +68,7 @@ describe('visual test of Patient Modal component', () => {
       () => jest.fn(),
     ]);
     useFetch
+      .mockReturnValue([[], jest.fn()])
       .mockReturnValueOnce([[], mockFetchCTData])
       .mockReturnValueOnce([[], mockFetchPatientInfo]);
 

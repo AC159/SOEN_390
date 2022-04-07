@@ -6,8 +6,10 @@ import {DoctorPatientInfoList, HOPatientInfoList, AdnminPatientInfoList} from '.
 import useFetch from '../../hook/useFetch';
 import useInputField from '../../hook/useInputField';
 import PatientCTDataItem from './PatientCTDataItem';
+import PatientTravelDataItem from './PatientTravelDataItem';
 import patientIcon from '../../assets/patientIcon.png';
 import styles from './PatientBox.module.css';
+import moment from "moment";
 
 const initialQuestionsState = [{question: '', answer: ''}];
 const newQuestion = {question: '', answer: ''};
@@ -25,6 +27,10 @@ const PatientModal = ({
     [],
     `patient/get-contact-tracing/${patient.uid}`,
   );
+  const [patientTravelData, fetchPatientTravelData] = useFetch(
+    [],
+    `/patient/get-traveler-forms/${patient.uid}`,
+  );
   const [patientData, fetchPatientInfo] = useFetch([], `/patient/get-status-forms/${patient.uid}`);
   const [
     questions,
@@ -36,6 +42,10 @@ const PatientModal = ({
 
   useEffect(() => {
     fetchPatientCTData();
+  }, []);
+  
+  useEffect(() => {
+    fetchPatientTravelData();
   }, []);
 
   useEffect(() => {
@@ -267,6 +277,27 @@ const PatientModal = ({
                     </Accordion>
                   </div>
                 </Tab>
+              )}
+              {currentUser.dbData.userType === 'immigrationOfficial' && (
+                <Tab
+                className={styles['tab-outer']}
+                eventKey='travel-data'
+                title='Travel Data'
+                >
+                  <div className={styles['patient-info-tab-page']}>
+                    <h2 className={styles['patient-info-tab-title']}>Travel Data</h2>
+                    <hr />
+                      <Accordion>
+                        {patientTravelData.map((element, index) => (
+                          <PatientTravelDataItem
+                            key={index}
+                            element={element}
+                            index={index}
+                          />
+                        ))}
+                      </Accordion>
+                  </div>
+              </Tab>
               )}
             </Tabs>
           </div>

@@ -23,6 +23,12 @@ class ImmigrationOfficial {
   getId() {
     return this.userId.getId();
   }
+
+
+  async getTraveler() {
+    return await this.immigrationOfficialRepository.fetchTraveler(this.id.getId());
+  }
+
 }
 
 module.exports.ImmigrationOfficial = ImmigrationOfficial;

@@ -38,10 +38,20 @@ class ImmigrationOfficialRepository {
     return this.mongo.db('test').collection('user').findOne({userId: travelerId});
   }
 
+  
   async viewAllPatients(immigrationOfficialId) {
     await this.verifyImmigrationOfficial(immigrationOfficialId);
     return this.mongo.db('test').collection('user').find({userType: 'patient'}).toArray();
   }
+
+
+
+  fetchTraveler(userId) {
+    return this.mongo.db('test').collection('travelers').find({patientUid: userId}).sort({date: -1}).toArray();
+  }
+
+
+ 
 }
 
 module.exports = ImmigrationOfficialRepository;

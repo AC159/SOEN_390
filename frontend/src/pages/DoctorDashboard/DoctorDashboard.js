@@ -4,45 +4,39 @@ import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
 import MonitorPatients from '../../components/Tabs/MonitorPatients';
 import Appointment from '../../components/Tabs/DoctorTabs/Appointment';
-import NotificationBox from "../../components/NotificationBox/NotificationBox";
-import ContactPatients from "../../components/Tabs/DoctorTabs/ContactPatients";
+import NotificationBox from '../../components/NotificationBox/NotificationBox';
+import ContactPatients from '../../components/Tabs/DoctorTabs/ContactPatients';
 
 const tabs = [
   {
     eventKey: 'home',
     title: 'Home',
-    element: <Home />
+    element: <Home />,
   },
   {
     eventKey: 'monitor-patient',
     title: 'Monitor Patients',
-    element: <MonitorPatients />
+    element: <MonitorPatients />,
   },
   {
     eventKey: 'appointment',
     title: 'Book Appointment',
-    element: <Appointment />
+    element: <Appointment />,
   },
-    {
+  {
     eventKey: 'notification',
     title: 'Notification',
-    element: <NotificationBox />
+    element: <NotificationBox />,
   },
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: <ContactPatients/>
+    element: <ContactPatients />,
   },
-]
+];
 
 const DoctorDashboard = () => {
-
-  return (
-    <Dashboard
-      defaultActiveKey="home"
-      tabsList={tabs}
-    />
-  )
-}
+  return <Dashboard defaultActiveKey='home' tabsList={tabs} />;
+};
 
 export default DoctorDashboard;
