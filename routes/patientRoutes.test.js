@@ -5,6 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const PatientRepository = require('../repository/PatientRepository');
 const patientRepository = new PatientRepository();
 
+jest.mock('../WebSockets/socketIO');
 jest.mock('../repository/PatientRepository');
 jest.mock('mongodb');
 

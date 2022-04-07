@@ -1,17 +1,17 @@
-import {useEffect, useState} from "react";
-import {useAuth} from "../../Authentication/FirebaseAuth/FirebaseAuth";
-import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "./Appointment.module.css";
-import "../CommonPageStyling.css";
-import axios from "axios";
-import {addDays, setHours, setMinutes} from "date-fns";
-import {Button, Container, Row, Col} from "react-bootstrap";
+import {useEffect, useState} from 'react';
+import moment from 'moment';
+import axios from 'axios';
+import {Button, Container, Row, Col} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
+import {addDays, setHours, setMinutes} from 'date-fns';
+import 'react-datepicker/dist/react-datepicker.css';
 
-function Appointment() {
+import {useAuth} from '../../Authentication/FirebaseAuth/FirebaseAuth';
+import Pagination from '../../../features/Pagination/Pagination';
+import styles from './Appointment.module.css';
+import '../CommonPageStyling.css';
 
+function Appointment(props) {
   let {currentUser} = useAuth();
   const [patientList, setPatientList] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -19,7 +19,7 @@ function Appointment() {
   let [patientId, setPatientId] = useState('');
   let [patientName, setPatientName] = useState('');
   let [dateAndTime, setDateAndTime] = useState('');
-  let [title, setTitle] = useState('')
+  let [title, setTitle] = useState('');
   let [information, setInformation] = useState('');
   let [meetingLink, setMeetingLink] = useState('');
   let dateArr = [];
@@ -33,10 +33,10 @@ function Appointment() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getPatientArray().then();
+    getPatientArray();
   }, []);
 
   //Returns patient ID based on selected patient name.
@@ -47,53 +47,59 @@ function Appointment() {
       patientArr.push(i);
     }
 
-    const index = patientArr.findIndex(item => item.name === uName);
+    const index = patientArr.findIndex((item) => item.name === uName);
     let patient = patientArr[index];
-    let pId = patient["uid"];
+    let pId = patient['uid'];
 
-    return (
-      pId
-    )
+    return pId;
   }
 
   //Dropdown including all patients assigned to a doctor.
   const renderPatientList = () => {
-    let optionPatient = patientList.map((patient, index) =>
-      <option data-testid="select-patient-name" key={index}>{patient.name}</option>
-    );
+    let optionPatient = patientList.map((patient, index) => (
+      <option data-testid='select-patient-name' key={index}>
+        {patient.name}
+      </option>
+    ));
     return (
       <div>
-        <select defaultValue={'Select'} data-testid="select-patient" onChange={(event) => {
-          setPatientId(id(event.target.value));
-          setPatientName(event.target.value);
-        }}>
-          <option value="Select" disabled>Select</option>
+        <select
+          defaultValue={'Select'}
+          data-testid='select-patient'
+          onChange={(event) => {
+            setPatientId(id(event.target.value));
+            setPatientName(event.target.value);
+          }}
+        >
+          <option value='Select' disabled>
+            Select
+          </option>
           {optionPatient}
         </select>
       </div>
-    )
-  }
+    );
+  };
 
   //Submit appointment information into database.
   const submitAppointment = async () => {
     if (patientName === '') {
-      alert("Patient is required");
+      alert('Patient is required');
       return;
     }
     if (title === '') {
-      alert("Meeting Title is required");
+      alert('Meeting Title is required');
       return;
     }
     if (information === '') {
-      alert("Meeting Details is required");
+      alert('Meeting Details is required');
       return;
     }
     if (dateAndTime === '') {
-      alert("Date & Time is required");
+      alert('Date & Time is required');
       return;
     }
     if (meetingLink === '') {
-      alert("Meeting Link is required");
+      alert('Meeting Link is required');
       return;
     }
     try {
@@ -104,9 +110,10 @@ function Appointment() {
         dateAndTime: dateAndTime.getTime(),
         title: title,
         information: information,
-        meetingLink: meetingLink
+        meetingLink: meetingLink,
       };
-      axios.post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
+      axios
+        .post(`doctor/${currentUser.user.uid}/appointment`, userAttributes)
         .then(function (response) {
           console.log(response);
           setDateAndTime('');
@@ -115,11 +122,11 @@ function Appointment() {
           setMeetingLink('');
           getAppointments();
         });
-      alert("Created");
+      alert('Created');
     } catch (error) {
       console.log('Submit error: ', error);
     }
-  }
+  };
 
   //Retrieve appointment information from database.
   const getAppointments = async () => {
@@ -129,10 +136,10 @@ function Appointment() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getAppointments().then();
+    getAppointments();
   }, [appointments.length]);
 
   //Change timestamp into readable date and time.
@@ -143,8 +150,8 @@ function Appointment() {
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
-      minute: '2-digit'
-    }).format(timeStamp)
+      minute: '2-digit',
+    }).format(timeStamp);
 
     var year = parseInt(fullDate.slice(6, 10));
     var month = parseInt(fullDate.slice(0, 2)) - 1;
@@ -163,8 +170,8 @@ function Appointment() {
     let arrSpecificDates = [];
     for (let i = 0; i < dateArr.length; i++) {
       if (
-        moment(dateAndTime, moment.ISO_8601).format("YYYY/MM/DD") ===
-        moment(dateArr[i], moment.ISO_8601).format("YYYY/MM/DD")
+        moment(dateAndTime, moment.ISO_8601).format('YYYY/MM/DD') ===
+        moment(dateArr[i], moment.ISO_8601).format('YYYY/MM/DD')
       ) {
         arrSpecificDates.push(moment(dateArr[i], moment.ISO_8601).toObject());
       }
@@ -172,60 +179,59 @@ function Appointment() {
 
     for (let i = 0; i < arrSpecificDates.length; i++) {
       arrExcludedTimes.push(
-        setHours(
-          setMinutes(new Date(), arrSpecificDates[i].minutes),
-          arrSpecificDates[i].hours
-        )
+        setHours(setMinutes(new Date(), arrSpecificDates[i].minutes), arrSpecificDates[i].hours),
       );
     }
 
-    return (
-      fullDate
-    );
+    return fullDate;
   }
 
   //Show list of existing appointments.
   const renderAppointments = () => {
-    return <div data-testid="appointment-list" className={styles["noAppointmentsMessage"]}>
-      {appointments.length === 0 ? <div>You have no appointments at this time.</div> :
-
-        appointments.map((appointments, index) =>
-          <div key={index} className={styles["appointmentList"]}>
-            <div>
-              <h6>Patient:</h6>
-              <p>{appointments.patientName}</p>
+    return (
+      <div data-testid='appointment-list' className={styles['noAppointmentsMessage']}>
+        <Pagination
+          data={appointments}
+          emptyMessage='You have no appointments at this time.'
+          render={(appointments, index) => (
+            <div key={index} className={styles['appointmentList']}>
+              <div>
+                <h6>Patient:</h6>
+                <p>{appointments.patientName}</p>
+              </div>
+              <div>
+                <h6>Title:</h6>
+                <p>{appointments.title}</p>
+              </div>
+              <div>
+                <h6>Info:</h6>
+                <p>{appointments.information}</p>
+              </div>
+              <div>
+                <h6>Date and Time:</h6>
+                <p>{showTimeStamp(appointments.dateAndTime)}</p>
+              </div>
             </div>
-            <div>
-              <h6>Title:</h6>
-              <p>{appointments.title}</p>
-            </div>
-            <div>
-              <h6>Info:</h6>
-              <p>{appointments.information}</p>
-            </div>
-            <div>
-              <h6>Date and Time:</h6>
-              <p>{showTimeStamp(appointments.dateAndTime)}</p>
-            </div>
-          </div>
-        )}
-    </div>
-  }
+          )}
+        />
+      </div>
+    );
+  };
 
   return (
-    <div data-testid="appointment-1">
-      <div className={styles["addAppointment"]}>
+    <div data-testid='appointment-1'>
+      <div className={styles['addAppointment']}>
         <h4>Add Appointment</h4>
-        <div className={styles["form-group"]}>
-          <form className={styles["bookAppointmentForm"]}>
-            <div className={styles["selectPatient"]}>
+        <div className={styles['form-group']}>
+          <form className={styles['bookAppointmentForm']}>
+            <div className={styles['selectPatient']}>
               <p>Select Patient:</p>
               {renderPatientList()}
             </div>
             <Container>
               <Row>
                 <Col sm={4}>
-                  <div className={styles["datePicker"]}>
+                  <div className={styles['datePicker']}>
                     <p>Select Date & Time: </p>
                     <DatePicker
                       selected={dateAndTime}
@@ -234,41 +240,45 @@ function Appointment() {
                       inline
                       showTimeSelect
                       timeIntervals={30}
-                      minDate={addDays(new Date(), 1)}
-                      minTime={setHours(setMinutes(new Date(), 0), 9)}
-                      maxTime={setHours(setMinutes(new Date(), 0), 19)}
-                      timeCaption="Time"
-                      dateFormat="h:mm aa"
-                      popperPlacement="top-end"
+                      minTime={setHours(setMinutes(new Date(), 0), 7)}
+                      maxTime={setHours(setMinutes(new Date(), 0), 20)}
+                      timeCaption='Time'
+                      dateFormat='h:mm aa'
+                      popperPlacement='top-end'
                     />
                   </div>
                 </Col>
                 <Col sm={8}>
-                  <div className={styles["appointmentInfo"]}>
+                  <div className={styles['appointmentInfo']}>
                     <p>Meeting Title:</p>
-                    <textarea onChange={(event) => setTitle(event.target.value)}/>
-                    <p>Meeting Details:</p>
-                    <textarea className={styles["moreInfo"]} onChange={(event) => setInformation(event.target.value)}/>
+                    <textarea onChange={(event) => setTitle(event.target.value)} />
+                    <p>More Info:</p>
+                    <textarea
+                      className={styles['moreInfo']}
+                      onChange={(event) => setInformation(event.target.value)}
+                    />
                   </div>
                 </Col>
               </Row>
             </Container>
-            <div className={styles["selectPatient"]}>
-              <p>Meeting Link:</p>
-              <textarea placeholder="https//zoom.us/zoom-link-example" onChange={(event) => setMeetingLink(event.target.value)}/>
-            </div>
+            <br></br>
 
-            <div class="col-md-12 text-center">
-              <Button data-testid="viewBookAppointmentBtn" class="btn btn-outline-dark justify-content-center"
-                      variant="secondary" onClick={() => submitAppointment().then()}>
+            <div class='col-md-12 text-center'>
+              <Button
+                data-testid='viewBookAppointmentBtn'
+                class='btn btn-outline-dark justify-content-center'
+                variant='secondary'
+                onClick={(event) => {
+                  submitAppointment();
+                }}
+              >
                 Book Appointment
               </Button>
             </div>
           </form>
         </div>
       </div>
-
-      <h4 className={styles["scheduleAppointment"]}>Scheduled Appointments</h4>
+      <h4 className={styles['scheduleAppointment']}>Scheduled Appointments</h4>
       {renderAppointments()}
     </div>
   );

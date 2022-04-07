@@ -2,6 +2,8 @@ const request = require('supertest');
 const app = require('../app');
 const server = require('../app').server;
 const DoctorRepository = require('../repository/DoctorRepository');
+
+jest.mock('../WebSockets/socketIO');
 jest.mock('../repository/DoctorRepository');
 jest.mock('mongodb');
 

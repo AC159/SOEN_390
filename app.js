@@ -1,5 +1,5 @@
 require('dotenv').config();
-const connectToCluster = require('./database/mongodb');
+const {connectToCluster} = require('./database/mongodb');
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/index');
@@ -10,6 +10,7 @@ const immigrationOfficialRoutes = require('./routes/immigrationOfficial');
 const healthOfficialRoutes = require('./routes/healthOfficial');
 const notificationRoutes = require('./routes/notification');
 const bodyParser = require('body-parser');
+const createWebSocketConnection = require("./WebSockets/socketIO");
 const port = 3001;
 const socketio = require('socket.io');
 require('colors');
@@ -25,12 +26,13 @@ app.use('/immigration-official', immigrationOfficialRoutes);
 app.use('/health-official', healthOfficialRoutes);
 app.use('/notification', notificationRoutes);
 
-connectToCluster(process.env.MONGO_CLUSTER_URL).then((client) => {
-  app.locals.mongodb = client;
-});
-
 const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}...`.brightBlue);
+});
+
+connectToCluster(process.env.MONGO_CLUSTER_URL).then((client) => {
+  app.locals.mongodb = client;
+  createWebSocketConnection(client, server);
 });
 
 process.on('exit', () => {

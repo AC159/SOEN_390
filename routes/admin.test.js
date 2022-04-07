@@ -3,6 +3,8 @@ const app = require('../app');
 const server = require('../app').server;
 const MongoClient = require('mongodb').MongoClient;
 const AdminRepository = require('../repository/AdminRepository');
+
+jest.mock('../WebSockets/socketIO');
 jest.mock('../repository/AdminRepository');
 jest.mock('mongodb');
 

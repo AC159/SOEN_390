@@ -49,7 +49,7 @@ class Doctor {
       heading: appointmentInfo.title,
       mainText: appointmentInfo.information,
       subText: appointmentInfo.meetingLink,
-      timestamp: Date.now(),
+      timeStamp: Date.now(),
       userId: patientId,
     };
     await this.doctorRepository.insertNotification(notification);
