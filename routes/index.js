@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {User, UserId, Name} = require('../domain/user');
 const UserRepository = require('../repository/UserRepository');
+const Patient = require("../domain/patient");
+const PatientRepository = require("../repository/PatientRepository");
 
 router.get('/:userId/profile', async (req, res) => {
   try {
@@ -84,6 +86,19 @@ router.post('/sendInviteEmail', async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
     console.log(error.message);
+  }
+});
+
+router.get('/chats/:patientId/:doctorId', async (req, res) => {
+  try {
+    const mongo = req.app.locals.mongodb;
+    const user = new User(null, null, new UserRepository(mongo));
+    const chatId = req.params.patientId + '_' + req.params.doctorId;
+    const chats = await user.getChats(chatId);
+    res.status(200).json(chats);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({error: error.message});
   }
 });
 

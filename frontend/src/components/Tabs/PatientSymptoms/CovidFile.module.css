@@ -1,36 +1,40 @@
-
-.hidden_CovidFile{
-    display: none;
+/* TODO: remove - not usefull anymore */
+.hidden_CovidFile {
+  display: none;
 }
 
-.visible_CovidFile{
-    display: block;
+/* TODO: remove - not usefull anymore */
+.visible_CovidFile {
+  display: block;
 }
 
-.internal_CovidFile{
-    display: flow-root;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    color: white;
-
-    background: #005871;
-    margin: 5px;
-    border: 2px solid black;
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
+.internal_CovidFile {
+  display: flow-root;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  color: white;
+  background: #005871;
+  margin: 5px;
+  border: 2px solid black;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-.checkBox-Label_CovidFile{
-    width: 90%;
-    display: inline-block;
-    margin-left: 2%;
-    vertical-align: top;
-    padding-left: 5px;
+.checkBox-Label_CovidFile {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 25px 1fr;
+  cursor: pointer;
+  margin: 0.5em 0;
 }
 
-.button-edit_CovidFile{
-    float: right;
+.checkBox-Label_CovidFile > input[type="checkbox"] {
+  margin-right: 0.75em;
+  width: 14px;
 }
 
+.button-edit_CovidFile {
+  float: right;
+}

@@ -2,6 +2,8 @@ const request = require('supertest');
 const app = require('../app');
 const server = require('../app').server;
 const DoctorRepository = require('../repository/DoctorRepository');
+
+jest.mock('../WebSockets/socketIO');
 jest.mock('../repository/DoctorRepository');
 jest.mock('mongodb');
 
@@ -18,29 +20,16 @@ describe('integration test of doctor routes', () => {
             {
               uid: 'patient-1',
               name: 'John Doe',
+              covidStatus: 'Negative'
             },
             {
               uid: 'patient-2',
               name: 'Jane Doe',
+              covidStatus: 'Positive'
             },
           ])
           .mockImplementationOnce(() => {
             throw new Error('There was an error.');
-          });
-      jest.spyOn(DoctorRepository.prototype, 'getPatientStatus')
-          .mockImplementation((x) => {
-            if (x === 'patient-1') {
-              return {
-                covidStatus: 'Negative',
-              };
-            } else if (x === 'patient-2') {
-              return {
-                covidStatus: 'Positive',
-              };
-            }
-            return {
-              covidStatus: null,
-            };
           });
     });
 
@@ -52,12 +41,12 @@ describe('integration test of doctor routes', () => {
         {
           uid: 'patient-1',
           name: 'John Doe',
-          status: 'Negative',
+          covidStatus: 'Negative',
         },
         {
           uid: 'patient-2',
           name: 'Jane Doe',
-          status: 'Positive',
+          covidStatus: 'Positive',
         },
       ]));
     });

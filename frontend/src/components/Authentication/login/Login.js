@@ -61,7 +61,8 @@ function Login(props) {
   };
 
   return (
-    <div className={styles["container_Login"]}>
+      <div className={styles["wrapper_Login"]}>
+          <div className={styles["container_Login"]}>
       <div className={styles["container-top_Login"]}>
         <h2 className={styles["h2_Login"]}>Welcome to CoviCare</h2>
         <div className={styles["backDrop_login"]}>
@@ -109,6 +110,8 @@ function Login(props) {
         Don't have an account yet? <Link to={"/signup"}>Sign Up!</Link>
       </div>
     </div>
+      </div>
+
   );
 }
 

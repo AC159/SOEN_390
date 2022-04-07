@@ -5,9 +5,8 @@ import {Accordion, Stack} from 'react-bootstrap';
 import styles from './List.module.css';
 
 const List = (Component, {title, listUrl, searchMessage, render}) => {
-
-  const [list, setList] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
+  const [list, setList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchList = async () => {
@@ -17,50 +16,44 @@ const List = (Component, {title, listUrl, searchMessage, render}) => {
       } catch (e) {
         console.log(e);
       }
-    }
+    };
 
     fetchList();
     return () => {
-      setList([])
-    }
+      setList([]);
+    };
   }, [listUrl]);
 
   return (
     <div className={styles['role-outer-container']}>
       <div className={styles['todays-new-title']}>{title}</div>
-      <hr/>
+      <hr />
       <input
-        type="text" placeholder={searchMessage}
+        type='text'
+        placeholder={searchMessage}
         onChange={(event) => {
           setSearchTerm(event.target.value);
         }}
       />
-      <Component>
-        {list
-          .filter((item) => {
-            if (searchTerm === "")
-              return item;
-            if (item.name.toLowerCase().includes(searchTerm.toLowerCase()))
-              return item;
-          }
-          )
-          .map((item, index) => render(item, index))
-        }
-      </Component>
-      <div className={styles["request-container"]}/>
+      <Component>{list.filter((item) => searchTerm === '' || item.name.toLowerCase().includes(searchTerm.toLowerCase())).map((item, index) => render(item, index))}</Component>
+      <div className={styles['request-container']} />
     </div>
   );
 };
 
 export default List;
 
-const Div = ({children}) => <Stack gap={2}>{children}</Stack>
+const Div = ({children}) => <Stack gap={2}>{children}</Stack>;
 
-export const PatientList = (props) => List(Accordion, {
-  title: 'Patient List',
-  searchMessage: 'Search patient by name...',
-  ...props});
-export const DoctorList = (props) => List(Div, {
-  title: 'Doctor List',
-  searchMessage: 'Search doctor by name...',
-  ...props});
+export const PatientList = (props) =>
+  List(Accordion, {
+    title: 'Patient List',
+    searchMessage: 'Search patient by name...',
+    ...props,
+  });
+export const DoctorList = (props) =>
+  List(Div, {
+    title: 'Doctor List',
+    searchMessage: 'Search doctor by name...',
+    ...props,
+  });

@@ -1,16 +1,11 @@
 .Header {
   background-color: #005871;
-  border-radius: 5px;
-  padding: 20px;
-  border: solid 2px black;
-
-  margin: 10px;
+  margin-bottom: 40px;
 }
 
-.button {
+.button-navbar {
   width: auto;
   font-size: 70%;
-  margin: 20px;
 }
 
 .HeaderLogo {
@@ -19,8 +14,21 @@
   margin-right: 20px;
 }
 
+.logo-navbar{
+  max-width: 40%;
+}
 .HeaderInnerContainer {
   width: 100%;
+  padding: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1500px;
+}
+
+.HeaderInnerContainer::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .user-navbar-display {
@@ -34,17 +42,15 @@
   padding: 10px;
 }
 
-.user-navbar-display p {
-  padding: 10px;
-}
-
 .user-icon {
   float: right;
+  margin-left: 16px
 }
 
 @media (max-width: 1000px) {
-  .Header {
-    text-align: center;
+  .user-navbar-display {
+    float: none;
+    justify-content: start;
   }
 
   .link {

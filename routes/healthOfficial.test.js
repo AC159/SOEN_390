@@ -3,6 +3,7 @@ const HealthOfficialRepository = require('../repository/HealthOfficialRepository
 const app = require('../app');
 const server = require('../app').server;
 
+jest.mock('../WebSockets/socketIO');
 jest.mock('../repository/HealthOfficialRepository');
 jest.mock('mongodb');
 
