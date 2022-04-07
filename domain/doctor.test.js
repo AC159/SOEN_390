@@ -63,7 +63,7 @@ describe('test Doctor object', () => {
       const response = await doctor.getPatients();
 
       expect(mockFetchPatients).toHaveBeenCalledTimes(1);
-      expect(mockFetchPatientStatus).toHaveBeenCalledTimes(2);
+      expect(mockFetchPatientStatus).toHaveBeenCalledTimes(0);
       expect(response[0].uid).toBe('patient-1');
       expect(response[0].covidStatus).toBe('Negative');
       expect(response[1].uid).toBe('patient-2');
