@@ -3,6 +3,7 @@ const app = require('../app');
 const server = require('../app').server;
 const UserRepository = require('../repository/UserRepository');
 
+jest.mock('../WebSockets/socketIO');
 jest.mock('../repository/UserRepository');
 jest.mock('mongodb');
 

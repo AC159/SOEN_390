@@ -1,5 +1,5 @@
 const express = require('express');
-const {UserId} = require('../domain/user');
+const {UserId, User} = require('../domain/user');
 const Patient = require('../domain/patient');
 const PatientRepository = require('../repository/PatientRepository');
 const router = express.Router();
@@ -120,8 +120,8 @@ router.get('/get-contact-tracing/:patientUid', async (req, res) => {
     const data = await patient.getContactTracingReports();
     res.status(200).json({data: data});
   } catch (error) {
-    res.status(400).json({error: error.message});
     console.log(error.message);
+    res.status(400).json({error: error.message});
   }
 });
 

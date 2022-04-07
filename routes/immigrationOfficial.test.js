@@ -3,6 +3,7 @@ const ImmigrationOfficialRepository = require('../repository/ImmigrationOfficial
 const app = require('../app');
 const server = require('../app').server;
 
+jest.mock('../WebSockets/socketIO');
 jest.mock('mongodb');
 jest.mock('../repository/ImmigrationOfficialRepository');
 

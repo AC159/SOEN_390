@@ -5,6 +5,7 @@ const {User} = require('../domain/user');
 const app = require('../app');
 const server = require('../app').server;
 
+jest.mock('../WebSockets/socketIO');
 jest.mock('../domain/notification');
 jest.mock('mongodb');
 

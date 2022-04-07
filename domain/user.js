@@ -28,6 +28,10 @@ class User {
     return await this.userRepository.fetchAllNotifications(this.id.getId());
   }
 
+  async getChats(chatId) {
+    return await this.userRepository.getUserChats(chatId);
+  }
+
   async sendNonUserEmail(userEmail) {
     const subject = 'CoviCare New User CTR';
     const inviteMessage = 'Hi ' + userEmail + '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
