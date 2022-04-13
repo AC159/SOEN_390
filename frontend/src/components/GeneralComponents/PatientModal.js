@@ -9,7 +9,7 @@ import PatientCTDataItem from './PatientCTDataItem';
 import PatientTravelDataItem from './PatientTravelDataItem';
 import patientIcon from '../../assets/patientIcon.png';
 import styles from './PatientBox.module.css';
-import moment from "moment";
+import moment from 'moment';
 
 const initialQuestionsState = [{question: '', answer: ''}];
 const newQuestion = {question: '', answer: ''};
@@ -43,7 +43,7 @@ const PatientModal = ({
   useEffect(() => {
     fetchPatientCTData();
   }, []);
-  
+
   useEffect(() => {
     fetchPatientTravelData();
   }, []);
@@ -101,7 +101,7 @@ const PatientModal = ({
     } catch (error) {}
   };
 
-  const RenderPatientInfo = ({isFormSelected}) => {
+  const RenderPatientInfo = ({selectForm}) => {
     return patientData.map((element, index) => {
       if (currentUser.dbData.userType === 'doctor')
         return (
@@ -109,7 +109,7 @@ const PatientModal = ({
             key={index}
             element={element}
             index={index}
-            isFormSelected={isFormSelected}
+            isFormSelected={selectForm}
             setSelectedFormId={setSelectedFormId}
             selectedFormId={selectedFormId}
           />
@@ -279,25 +279,17 @@ const PatientModal = ({
                 </Tab>
               )}
               {currentUser.dbData.userType === 'immigrationOfficial' && (
-                <Tab
-                className={styles['tab-outer']}
-                eventKey='travel-data'
-                title='Travel Data'
-                >
+                <Tab className={styles['tab-outer']} eventKey='travel-data' title='Travel Data'>
                   <div className={styles['patient-info-tab-page']}>
                     <h2 className={styles['patient-info-tab-title']}>Travel Data</h2>
                     <hr />
-                      <Accordion>
-                        {patientTravelData.map((element, index) => (
-                          <PatientTravelDataItem
-                            key={index}
-                            element={element}
-                            index={index}
-                          />
-                        ))}
-                      </Accordion>
+                    <Accordion>
+                      {patientTravelData.map((element, index) => (
+                        <PatientTravelDataItem key={index} element={element} index={index} />
+                      ))}
+                    </Accordion>
                   </div>
-              </Tab>
+                </Tab>
               )}
             </Tabs>
           </div>
