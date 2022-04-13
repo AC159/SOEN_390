@@ -3,39 +3,33 @@ import React from 'react';
 import Dashboard from '../../features/Dashboard/Dashboard';
 import Home from '../../components/Tabs/Home';
 import PatientList from '../../components/Tabs/AdminTabs/PatientList';
-import NotificationBox from "../../components/NotificationBox/NotificationBox";
+import NotificationBox from '../../components/NotificationBox/NotificationBox';
 
 const tabs = [
   {
     eventKey: 'home',
     title: 'Home',
-    element: <Home />
+    element: <Home />,
   },
   {
     eventKey: 'monitor-patient',
     title: 'Monitor Patients',
-    element: <PatientList />
+    element: <PatientList />,
   },
   {
     eventKey: 'notification',
     title: 'Notification',
-    element: <NotificationBox />
+    element: <NotificationBox />,
   },
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: () => (<div>Contact</div>)
+    element: <div>Contacts</div>,
   },
-]
+];
 
 const IODashboard = () => {
-
-  return (
-    <Dashboard
-      defaultActiveKey="home"
-      tabsList={tabs}
-    />
-  )
-}
+  return <Dashboard defaultActiveKey='home' tabsList={tabs} />;
+};
 
 export default IODashboard;
