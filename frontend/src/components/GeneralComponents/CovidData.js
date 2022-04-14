@@ -1,30 +1,36 @@
-import {useEffect, useState} from 'react';
-import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
-import styles from './CovidData.module.css';
-import '../Tabs/CommonPageStyling.css';
+import {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {PieChart, Pie, Tooltip, Cell} from 'recharts';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts';
 import {Col, Container, Row} from 'react-bootstrap';
 
-function CovidData(props) {
+import {useAuth} from '../Authentication/FirebaseAuth/FirebaseAuth';
+import styles from './CovidData.module.css';
+import '../Tabs/CommonPageStyling.css';
+
+//Array of color for different categories in the pie chart.
+const COLORS = ['#2181B9', '#24AC78', '#D9BB23'];
+const initialStats = {
+  numPosPatients: 0,
+  numNegPatients: 0,
+  numNoTestPatients: 0,
+  numPatientsFlagged: 0,
+  numPatientsNotFlagged: 0,
+};
+
+function CovidData() {
   let {currentUser} = useAuth();
 
   const [patientList, setPatientList] = useState([]);
-  var numPosPatients = 0,
-    numNegPatients = 0,
-    numNoTestPatients = 0;
-  var numPatientsFlagged = 0,
-    numPatientsNotFlagged = 0;
-  var data1 = [];
-  var data2 = [];
+  const [statistics, setStatistics] = useState(initialStats);
+  const [patientsStatus, setPatientStatus] = useState([]);
+  const [patientFlag, setPatientFlag] = useState([]);
 
   //Gets the array of patients belonging to the doctor and their status.
   const getPatientArray = async () => {
     try {
       const response = await axios.get(`doctor/${currentUser.user.uid}/patientArrays`);
       setPatientList(response.data.data);
-      console.log(patientList);
     } catch (error) {
       console.log(error.response);
     }
@@ -32,31 +38,49 @@ function CovidData(props) {
 
   useEffect(() => {
     getPatientArray();
-  }, [patientList.length]);
+  }, []);
+
+  useEffect(() => {
+    patientList.forEach((patient) => {
+      statusData(patient.status);
+      flagData(patient.doctorFlagInfo.isFlagged);
+    });
+  }, [patientList]);
+
+  useEffect(() => {
+    makePatientStatusArr(
+      statistics.numPosPatients,
+      statistics.numNegPatients,
+      statistics.numNoTestPatients,
+    );
+    makePatientFlagArr(statistics.numPatientsFlagged, statistics.numPatientsNotFlagged);
+  }, [statistics]);
 
   //Counts the number of patients that are COVID positive, negative, and have not been tested.
   function statusData(patientStatus) {
     let p = patientStatus.toLowerCase();
 
-    if (p == 'positive') {
-      numPosPatients = numPosPatients + 1;
+    if (p === 'positive') {
+      setStatistics((prev) => ({...prev, numPosPatients: prev.numPosPatients + 1}));
     }
 
-    if (p == 'negative') {
-      numNegPatients = numNegPatients + 1;
+    if (p === 'negative') {
+      setStatistics((prev) => ({...prev, numNegPatients: prev.numNegPatients + 1}));
     }
 
-    if (p == 'not tested') {
-      numNoTestPatients = numNoTestPatients + 1;
+    if (p === 'not tested') {
+      setStatistics((prev) => ({...prev, numNoTestPatients: prev.numNoTestPatients + 1}));
     }
   }
 
   //Creates array of data with the current number patients that have tested positive, negative, or were not tested.
-  function makePatientStatusArr(pos, neg, noTest) {
-    var totalPatients = numPosPatients + numNegPatients + numNoTestPatients;
-    var percentPos = (numPosPatients / totalPatients) * 100;
-    var percentNeg = (numNegPatients / totalPatients) * 100;
-    var percentNoTest = (numNoTestPatients / totalPatients) * 100;
+  const makePatientStatusArr = (pos, neg, noTest) => {
+    let totalPatients =
+      statistics.numPosPatients + statistics.numNegPatients + statistics.numNoTestPatients;
+    // var totalPatients = numPosPatients + numNegPatients + numNoTestPatients;
+    var percentPos = (statistics.numPosPatients / totalPatients) * 100;
+    var percentNeg = (statistics.numNegPatients / totalPatients) * 100;
+    var percentNoTest = (statistics.numNoTestPatients / totalPatients) * 100;
 
     let pp = percentPos.toFixed(2);
     let pn = percentNeg.toFixed(2);
@@ -66,53 +90,37 @@ function CovidData(props) {
     let negName = pn + '% Negative';
     let noTestName = pnt + '% Not Tested';
 
-    data1 = [
+    setPatientStatus([
       {name: posName, value: pos},
       {name: negName, value: neg},
       {name: noTestName, value: noTest},
-    ];
-  }
+    ]);
+  };
 
   //Renders the labels "Positive", "Negative", and "Not Tested" on the pie chart.
   let renderLabel = function (entry) {
     return entry.name;
   };
 
-  //Array of color for different categories in the pie chart.
-  const COLORS = ['#2181B9', '#24AC78', '#D9BB23'];
-
   //Counts the number of patients that have been flagged versus the number of patients that have not.
   function flagData(patientFlag) {
     if (patientFlag) {
-      numPatientsFlagged = numPatientsFlagged + 1;
-    }
-    if (!patientFlag) {
-      numPatientsNotFlagged = numPatientsNotFlagged + 1;
+      setStatistics((prev) => ({...prev, numPatientsFlagged: prev.numPatientsFlagged + 1}));
+    } else {
+      setStatistics((prev) => ({...prev, numPatientsNotFlagged: prev.numPatientsNotFlagged + 1}));
     }
   }
 
   //Creates array of data with the current number patients that have been flagged and not flagged.
   function makePatientFlagArr(flag, noFlag) {
-    data2 = [
+    setPatientFlag([
       {name: 'Flagged', value: flag},
       {name: 'Not Flagged', value: noFlag},
-    ];
+    ]);
   }
 
   return (
     <div data-testid='covid-data' className={styles['covidData']}>
-      {patientList.map((patient, index) => (
-        <div key={index}>
-          {statusData(patient.status)}
-          {flagData(patient.doctorFlagInfo.isFlagged)}
-        </div>
-      ))}
-
-      <div>
-        {makePatientStatusArr(numPosPatients, numNegPatients, numNoTestPatients)}
-        {makePatientFlagArr(numPatientsFlagged, numPatientsNotFlagged)}
-      </div>
-
       <Container>
         <Row>
           <Col>
@@ -122,15 +130,16 @@ function CovidData(props) {
                 <Pie
                   dataKey='value'
                   isAnimationActive={false}
-                  data={data1}
+                  data={patientsStatus}
                   cx={315}
                   cy='50%'
                   innerRadius={90}
                   outerRadius={150}
                   paddingAngle={3}
                   label={renderLabel}
+                  data-testid='pie-chart'
                 >
-                  {data1.map((entry, index) => (
+                  {patientsStatus.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -145,7 +154,8 @@ function CovidData(props) {
               <BarChart
                 width={500}
                 height={400}
-                data={data2}
+                data={patientFlag}
+                data-testid='bar-chart'
                 margin={{
                   top: 20,
                   right: 10,
