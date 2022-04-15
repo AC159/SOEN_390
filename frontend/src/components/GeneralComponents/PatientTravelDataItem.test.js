@@ -20,6 +20,6 @@ describe('visual test of PatientTravelDataItem component', () => {
     render(<PatientTravelDataItem index={0} element={element} />);
 
     expect(screen.getByText(/pleasure/)).toBeInTheDocument();
-    expect(await screen.findByText(/Friday, January 2nd 1970, 5:17:36/)).toBeInTheDocument();
+    expect(await screen.findByText(/Friday, January 2nd 1970,/)).toBeInTheDocument();
   });
 });
