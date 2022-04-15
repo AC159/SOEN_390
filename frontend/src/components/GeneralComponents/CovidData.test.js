@@ -41,6 +41,19 @@ describe('visual test of the component', () => {
     expect(await screen.findByText('Current Patients Status')).toBeInTheDocument();
   });
 
+  it('should render nothing when error on fetch patient array', async () => {
+    axios.get.mockRejectedValueOnce(new Error('error'));
+    render(
+      <BrowserRouter>
+        <AuthContext.Provider value={auth}>
+          <CovidData />
+        </AuthContext.Provider>
+      </BrowserRouter>,
+    );
+
+    expect(await screen.findByText('Current Patients Status')).toBeInTheDocument();
+  });
+
   it('should increment patientCount depending on the type of patient', async () => {
     axios.get.mockReturnValueOnce({
       data: {

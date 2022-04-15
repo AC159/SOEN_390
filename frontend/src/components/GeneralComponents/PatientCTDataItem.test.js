@@ -74,6 +74,47 @@ test('it should trigger function on health official click', () => {
   expect(mockGet).toHaveBeenCalledTimes(1);
 });
 
+test('it should send an email if contact is unknown to system', async () => {
+  axios.get.mockReturnValue({
+    data: null,
+  });
+
+  render(
+    <AuthContext.Provider
+      value={{
+        currentUser: {
+          dbData: {
+            userType: 'healthOfficial',
+          },
+        },
+      }}
+    >
+      <PatientCTDataItem
+        element={{
+          timestamp: 123456678,
+          date: '2020-01-01',
+          emailList: ['jdoe@email.com'],
+        }}
+        index={0}
+        patientName='John Doe'
+      />
+    </AuthContext.Provider>,
+  );
+
+  userEvent.click(screen.getByText(/Notify /));
+  await expect(axios.get).toHaveBeenCalledTimes(1);
+  await expect(axios.post).toHaveBeenCalledWith(
+    '/user/sendInviteEmail',
+    expect.objectContaining({
+      userEmail: 'jdoe@email.com',
+      inviteMessage:
+        'A user of the CoviCare system notified us of your potential' +
+        ' contact with someone COVID Positive. You may want to join Covicare' +
+        ' to track your health.',
+    }),
+  );
+});
+
 test('it should not show button if not health official', () => {
   render(
     <AuthContext.Provider

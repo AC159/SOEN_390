@@ -9,7 +9,6 @@ import PatientCTDataItem from './PatientCTDataItem';
 import PatientTravelDataItem from './PatientTravelDataItem';
 import patientIcon from '../../assets/patientIcon.png';
 import styles from './PatientBox.module.css';
-import moment from 'moment';
 
 const initialQuestionsState = [{question: '', answer: ''}];
 const newQuestion = {question: '', answer: ''};
@@ -225,6 +224,7 @@ const PatientModal = ({
                           type='text'
                           name='question'
                           placeholder='Enter Question Here'
+                          data-testid="question-input"
                           value={item.question}
                           onChange={(event) => handleQuestionFieldChange(event, index)}
                           className={styles['question-input-field']}
@@ -233,6 +233,7 @@ const PatientModal = ({
                           <input
                             type='button'
                             value='X'
+                            data-testid="question-delete-button"
                             className={styles['qa-delete-button']}
                             onClick={() => handleDeleteQuestionField(index)} //passing index here as we want to delete a specific question
                           />

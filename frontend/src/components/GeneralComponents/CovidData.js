@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {PieChart, Pie, Tooltip, Cell} from 'recharts';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts';

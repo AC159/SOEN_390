@@ -16,8 +16,7 @@ function ContactDoctor(props) {
   let [isPriority, setIsPriority] = useState(false);
 
   const togglePriority = () => {
-    if (isPriority) setIsPriority(false);
-    else setIsPriority(true);
+    setIsPriority((prev) => !prev);
   };
 
   useEffect(() => {
