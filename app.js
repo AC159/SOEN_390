@@ -11,7 +11,7 @@ const healthOfficialRoutes = require('./routes/healthOfficial');
 const notificationRoutes = require('./routes/notification');
 const bodyParser = require('body-parser');
 const createWebSocketConnection = require("./WebSockets/socketIO");
-const port = process.env.PORT || 3001;
+// const port = process.env.PORT || 3001;
 const socketio = require('socket.io');
 require('colors');
 
@@ -26,8 +26,8 @@ app.use('/immigration-official', immigrationOfficialRoutes);
 app.use('/health-official', healthOfficialRoutes);
 app.use('/notification', notificationRoutes);
 
-const server = app.listen(port, () => {
-  console.log(`Server listening on port ${port}...`.brightBlue);
+const server = app.listen(process.env.PORT || 3001, () => {
+  console.log(`Server listening on port ${process.env.PORT}...`.brightBlue);
 });
 
 connectToCluster(process.env.MONGO_CLUSTER_URL).then((client) => {
