@@ -16,6 +16,7 @@ function Login(props) {
     try {
       const user = await auth.login(email, password);
       let userType, userStatus;
+      console.log('object');
 
       await axios
         .get(`/user/${user.user.uid}/getTypeAndStatus`)

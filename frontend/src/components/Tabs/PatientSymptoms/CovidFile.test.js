@@ -88,6 +88,7 @@ describe('visual test of the component', () => {
 
   it('should open modal when clicking on update', async () => {
     const mockFetchPatient = jest.fn();
+    patientData[0]['doctorQuestions'] = [{"answer": "", "question": "Question 2"}]
     useFetch.mockReturnValue([patientData, mockFetchPatient]);
 
     render(
@@ -110,6 +111,8 @@ describe('visual test of the component', () => {
     expect(await screen.findByText(/Select all the Symptoms you feel:/)).toBeInTheDocument();
     expect(await screen.findByText(/^Anything to add about your symptoms/)).toBeInTheDocument();
     expect(await screen.findByText(/^Anything to add about your health/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Questions from your doctor:/)).toBeInTheDocument();
+    expect((await screen.findAllByText(/^Question 2/)).length).toBeGreaterThanOrEqual(1);
   });
 
   it('should submit patient form on submit click', async () => {
@@ -183,9 +186,37 @@ describe('visual test of the component', () => {
     );
 
     userEvent.click(screen.getByText(/^Update$/));
+    userEvent.click(await screen.findByText(/Unusual fatigue/));
+    userEvent.click(await screen.findByText(/Unusual fatigue/));
     expect(await screen.findByText(/^Update a covid status form/)).toBeInTheDocument();
 
     userEvent.click(screen.getByTestId('form-button-action'));
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
+
+  it('should be able to remove covid status', async () => {
+    const mockFetchPatient = jest.fn();
+    useFetch.mockReturnValue([patientData, mockFetchPatient]);
+    axios.post.mockResolvedValueOnce({success: true});
+
+    render(
+      <BrowserRouter>
+        <AuthContext.Provider
+          value={{
+            currentUser: {
+              user: {
+                uid: '1234',
+              },
+            },
+          }}
+        >
+          <CovidFile />
+        </AuthContext.Provider>
+      </BrowserRouter>,
+    );
+
+    userEvent.click(screen.getByText(/^Update$/));
+    userEvent.selectOptions(await screen.findByTestId('covid-select'), ['None']);
+    expect(screen.queryByTestId('temp-input')).toBeNull();
+  })
 });

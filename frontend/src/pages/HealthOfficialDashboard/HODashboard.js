@@ -10,33 +10,27 @@ const tabs = [
   {
     eventKey: 'home',
     title: 'Home',
-    element: <Home />
+    element: <Home />,
   },
   {
     eventKey: 'monitor-patient',
     title: 'Monitor Patients',
-    element: <PatientList />
+    element: <PatientList />,
   },
-    {
+  {
     eventKey: 'notification',
     title: 'Notification',
-    element: <NotificationBox />
+    element: <NotificationBox />,
   },
   {
     eventKey: 'contact',
     title: 'Contact',
-    element: () => (<div>Contact</div>)
+    element: <div>Contacts</div>,
   },
-]
+];
 
 const HODashboard = () => {
-
-  return (
-    <Dashboard
-      defaultActiveKey="home"
-      tabsList={tabs}
-    />
-  )
-}
+  return <Dashboard defaultActiveKey='home' tabsList={tabs} />;
+};
 
 export default HODashboard;

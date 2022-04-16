@@ -1,15 +1,14 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 
 import PatientModal from './PatientModal';
-
 import useFetch from '../../hook/useFetch';
-import useInputField from '../../hook/useInputField';
 
 jest.mock('axios');
 jest.mock('../../hook/useFetch');
-jest.mock('../../hook/useInputField');
+// jest.mock('../../hook/useInputField');
 
 describe('visual test of Patient Modal component', () => {
   const patient = {
@@ -28,18 +27,10 @@ describe('visual test of Patient Modal component', () => {
 
   beforeEach(() => {
     useFetch.mockRestore();
-    useInputField.mockRestore();
   });
 
   it('should load and display', () => {
     useFetch.mockReturnValue([[], () => jest.fn()]);
-    useInputField.mockReturnValue([
-      [],
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-    ]);
     render(
       <PatientModal
         patient={patient}
@@ -60,13 +51,7 @@ describe('visual test of Patient Modal component', () => {
   it('should fetch patient info and patient CT Data on load', () => {
     const mockFetchCTData = jest.fn();
     const mockFetchPatientInfo = jest.fn();
-    useInputField.mockReturnValue([
-      [],
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-    ]);
+
     useFetch
       .mockReturnValue([[], jest.fn()])
       .mockReturnValueOnce([[], mockFetchCTData])
@@ -87,23 +72,7 @@ describe('visual test of Patient Modal component', () => {
   });
 
   it('should fire submit doctor questions', async () => {
-    let mockQuestion = ['', '', ''];
-    const mockSetQuestion = jest
-      .fn()
-      .mockName('mockQuestions')
-      .mockImplementation(() => {
-        console.log('OBJECTION');
-        mockQuestion = [];
-        console.log(mockQuestion);
-      });
     useFetch.mockReturnValue([[], jest.fn()]);
-    useInputField.mockImplementation(() => [
-      mockQuestion,
-      mockSetQuestion,
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-    ]);
     render(
       <PatientModal
         patient={patient}
@@ -115,26 +84,40 @@ describe('visual test of Patient Modal component', () => {
     );
 
     userEvent.click(screen.getByText(/Create Patient/));
+    userEvent.type(await screen.findByTestId('question-input'), 'Question 1');
+    expect(await screen.findByTestId('question-input')).toHaveValue('Question 1');
+    userEvent.click(await screen.findByText(/Add Question/))
+    userEvent.type((await screen.findAllByTestId('question-input'))[1], 'Question 2');
+    expect((await screen.findAllByTestId('question-input'))[1]).toHaveValue('Question 2');
+    userEvent.click((await screen.findAllByTestId('question-delete-button'))[0]);
     userEvent.click(await screen.findByTestId('doctor-question-button'));
 
-    expect(await mockSetQuestion).toHaveBeenCalledTimes(1);
+    await expect(axios.post).toHaveBeenCalledWith('/doctor/question-answer', 
+      expect.objectContaining({
+        doctorUid: '1234',
+        doctorQuestions: expect.arrayContaining([
+          expect.objectContaining({"answer": "", "question": "Question 2"})
+        ]),
+      })  
+    );
+    await expect(axios.post).toHaveBeenCalledWith('/doctor/question-answer', 
+      expect.objectContaining({
+        doctorUid: '1234',
+        doctorQuestions: expect.not.arrayContaining([
+          expect.objectContaining({"answer": "", "question": "Question 1"})
+        ]),
+      })  
+    );
   });
 
-  it('should be able to flag patient and see patient info has a doctor', () => {
-    useFetch
-      .mockReturnValue([[], () => {}])
-      .mockReturnValueOnce([[], () => jest.fn()])
-      .mockReturnValueOnce([
-        [{_id: '1234', covidStatus: 'Positive', timestamp: 12345678}],
-        () => jest.fn(),
-      ]);
-    useInputField.mockReturnValue([
-      [],
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-    ]);
+  it('should be able to flag patient and see patient info has a doctor', async () => {
+    const mockFetchPatient = jest.fn();
+    useFetch.mockImplementation((_, url) => {
+      if (url === `/patient/get-status-forms/${patient.uid}`)
+        return [[{_id: '1234', covidStatus: 'Positive', timestamp: 12345678}], mockFetchPatient];
+      else return [[], () => jest.fn()];
+    });
+
     render(
       <PatientModal
         patient={patient}
@@ -145,33 +128,27 @@ describe('visual test of Patient Modal component', () => {
       />,
     );
 
+    await expect(mockFetchPatient).toHaveBeenCalledWith(patient.uid);
     expect(screen.queryByText(/Patient has been flagged/)).toBeNull();
-    userEvent.click(screen.getByText(/Flag Patient/));
-    expect(screen.getByText(/Patient has been flagged/)).toBeDefined();
-    expect(screen.getByText(/Positive/)).toBeDefined();
+    userEvent.click(await screen.findByText(/Flag Patient/));
+    expect(await screen.findByText(/Patient has been flagged/)).toBeInTheDocument();
+    expect(await screen.findByText(/Unflag Patient/)).toBeInTheDocument();
   });
 
-  it('should be able to flag patient has an immigration official', () => {
+  it('should be able to flag patient has an immigration official', async () => {
     const user = {
       ...currentUser,
       dbData: {
         userType: 'immigrationOfficial',
       },
     };
-    useFetch
-      .mockReturnValue([[], () => {}])
-      .mockReturnValueOnce([[], () => jest.fn()])
-      .mockReturnValueOnce([
-        [{_id: '1234', covidStatus: 'Positive', timestamp: 12345678}],
-        () => jest.fn(),
-      ]);
-    useInputField.mockReturnValue([
-      [],
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-    ]);
+    const mockFetchPatient = jest.fn();
+    useFetch.mockImplementation((_, url) => {
+      if (url === `/patient/get-status-forms/${patient.uid}`)
+        return [[{_id: '1234', covidStatus: 'Positive', timestamp: 12345678}], mockFetchPatient];
+      else return [[], () => jest.fn()];
+    });
+
     render(
       <PatientModal
         patient={patient}
@@ -182,34 +159,27 @@ describe('visual test of Patient Modal component', () => {
       />,
     );
 
+    await expect(mockFetchPatient).toHaveBeenCalledWith(patient.uid);
     expect(screen.queryByText(/Patient has been flagged/)).toBeNull();
-    userEvent.click(screen.getByText(/Flag Patient/));
-    expect(screen.getByText(/Patient has been flagged/)).toBeDefined();
-    expect(screen.getByText(/Positive/)).toBeDefined();
+    userEvent.click(await screen.findByText(/Flag Patient/));
+    expect(await screen.findByText(/Patient has been flagged/)).toBeInTheDocument();
+    expect(await screen.findByText(/Unflag Patient/)).toBeInTheDocument();
   });
 
-  it('should be able to flag patient has an health official', () => {
+  it('should be able to flag patient has an health official', async () => {
     const user = {
       ...currentUser,
       dbData: {
         userType: 'healthOfficial',
       },
     };
-    useFetch
-      .mockReturnValue([[], () => {}])
-      .mockReturnValueOnce([[], () => jest.fn()])
-      .mockReturnValueOnce([
-        [{_id: '1234', covidStatus: 'Positive', timestamp: 12345678}],
-        () => jest.fn(),
-      ]);
+    const mockFetchPatient = jest.fn();
+    useFetch.mockImplementation((_, url) => {
+      if (url === `/patient/get-status-forms/${patient.uid}`)
+        return [[{_id: '1234', covidStatus: 'Positive', timestamp: 12345678}], mockFetchPatient];
+      else return [[], () => jest.fn()];
+    });
 
-    useInputField.mockReturnValue([
-      [],
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-      () => jest.fn(),
-    ]);
     render(
       <PatientModal
         patient={patient}
@@ -220,9 +190,10 @@ describe('visual test of Patient Modal component', () => {
       />,
     );
 
+    await expect(mockFetchPatient).toHaveBeenCalledWith(patient.uid);
     expect(screen.queryByText(/Patient has been flagged/)).toBeNull();
-    userEvent.click(screen.getByText(/Flag Patient/));
-    expect(screen.getByText(/Patient has been flagged/)).toBeDefined();
-    expect(screen.getByText(/Positive/)).toBeDefined();
+    userEvent.click(await screen.findByText(/Flag Patient/));
+    expect(await screen.findByText(/Patient has been flagged/)).toBeInTheDocument();
+    expect(await screen.findByText(/Unflag Patient/)).toBeInTheDocument();
   });
 });
