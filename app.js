@@ -11,7 +11,7 @@ const healthOfficialRoutes = require('./routes/healthOfficial');
 const notificationRoutes = require('./routes/notification');
 const bodyParser = require('body-parser');
 const createWebSocketConnection = require("./WebSockets/socketIO");
-const port = 3001;
+const port = process.env.PORT || 3001;
 const socketio = require('socket.io');
 require('colors');
 
