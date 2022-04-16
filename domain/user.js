@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const hbs = require('nodemailer-express-handlebars')
+const path = require('path')
 
 class User {
   constructor(userId, name, userRepository) {
@@ -33,9 +35,10 @@ class User {
   }
 
   async sendNonUserEmail(userEmail) {
-    const subject = 'CoviCare New User CTR';
-    const inviteMessage = 'Hi ' + userEmail + '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
-        'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.';
+    const subject = 'CoviCare CTR Alert';
+    const inviteMessage = 'This email is to inform that you were reported in the contact tracing report of one of our patients at CoviCare. ' +
+        'This means you were recently potentially in contact with someone COVID Positive. '+
+        '\n We advise you to create an account at CoviCare by going to covicare-soen390.herokuapp.com to reduce the risk of spreading the illness. Thank you.';
     return await this.sendUserEmail(userEmail, subject, inviteMessage);
   }
 
@@ -56,14 +59,42 @@ class User {
       },
     });
 
-    const info = await transporter.sendMail({
-      from: process.env.COVICARE_EMAIL,
-      to: userEmail,
-      subject: subject,
-      text: message
-    });
+    const handlebarOptions = {
+      viewEngine: {
+          partialsDir: path.resolve('./views/'),
+          defaultLayout: false,
+      },
+      viewPath: path.resolve('./views/'),
+    };
 
-    console.log('Message sent: ', info.messageId);
+    transporter.use('compile', hbs(handlebarOptions))
+
+    var mailOptions = {
+      from: process.env.COVICARE_EMAIL,
+      to: userEmail, 
+      subject: subject,
+      template: 'email',
+      context:{
+          email: userEmail, 
+          message: message,
+      },
+      attachments: [{
+        filename: 'MainLogo.png',
+        path: './frontend/src/assets/MainLogo.png',
+        cid: 'logo'
+      }]
+
+    };
+
+
+    const info = await transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+          return console.log(error);
+      }
+      console.log('Message sent: ' + info.response);
+  });
+
+    //console.log('Message sent: ', info.messageId);
     return info;
   }
 }

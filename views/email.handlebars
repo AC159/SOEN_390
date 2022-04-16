@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Contact Tracing Notification Email</title>
+
+        <style>
+            body{
+                background-color: #388699;
+            }
+            h2, h4, h5 {
+                color: white !important;
+                white-space: pre-line;
+            }
+            .header{
+                background-color: #005871;
+                border-radius: 10px;
+            }
+            .middle{
+                margin-top: 10px;
+            }
+            .footer{
+                margin-top: 10px;
+            }
+            .resources{
+                display: flex;
+                flex-direction: row !important; 
+                padding: 10px;
+                justify-content: center !important;
+            }
+            .card{
+                border: 2px solid black;
+                padding: 10px;
+                margin: 10px;
+                background-color: #45a1b9;
+                border-radius: 10px;
+                color: white !important;
+            }
+    
+        </style>
+    </head>
+    <body style="background-color:#388699; padding:10px; text-align:center; border: 5px solid #005871;">
+        <div class="header">
+            <img style="width: 200;" src="cid:logo">
+        </div>
+        <h2><a href="" style="color: white!important; text-decoration: unset!important;">Hello, {{email}}.</a></h2>
+        <h4>{{message}}</h4>
+
+        <h4>This email was auto-generated and was sent after a health official at CoviCare decided to alert you.</h4>
+
+        <div class="middle">
+            <hr>
+            <h2 style="text-decoration:underline">Some Important Resources</h2>
+            <div class="resources">
+                <div class="card">
+                    <h3>COVID-19 Testing</h3>
+                    <h3>Government of Quebec</h3>
+                    <p>Don't know where to get tested?</p>
+                    <a href="https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19">Here's a link to get tested</a>
+                </div>
+                <div class="card">
+                    <h3>Mental Health Services</h3>
+                    <h3>Government of Quebec</h3>
+                    <p>Feeling Overwhelmed?</p>
+                    <a href="https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19">Here are some resources to get you the support you need.</a>
+                </div>
+                <div class="card">
+                    <h3>#ScienceExplained</h3>
+                    <h3>COVID-19 Resources Canadac</h3>
+                    <p>Canada's #ScienceExplained is an initiative to help you understand various aspects of the pandemic through written and video information provided by experts.</p>
+                    <a href="https://www.quebec.ca/en/health/health-issues/a-z/2019-coronavirus/testing-for-covid-19">You can read more about it here. </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <hr>
+            <h4>This email is generated from a website that was made as a university project for a course.</h4>
+            <h4>Course: SOEN 390, Concordia University, Winter 2022</h4>
+        </div>
+    </body>
+</html>
