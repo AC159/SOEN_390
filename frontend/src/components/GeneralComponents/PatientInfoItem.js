@@ -16,7 +16,7 @@ const PatientInfoItem = ({type, element, index, render, doctorButton = (id) => {
     const predicates = {
       doctor: (value, key) => value && !['_id', 'patientUid', 'timestamp'].includes(key) && value.length !== 0,
       administrator: (_, key) => key === 'covidStatus',
-      healthOfficial: (value, key) => value && !['_id', 'patientUid', 'timestamp', 'temperature', 'otherSymptoms', 'symptomDetails', 'health'].includes(key) && value.length > 0,
+      healthOfficial: (value, key) => value && !['_id', 'patientUid', 'timestamp', 'temperature', 'otherSymptoms', 'symptomDetails', 'health', 'symptoms', 'doctorQuestions'].includes(key) && value.length > 0,
     };
 
     const predicate = predicates[type];

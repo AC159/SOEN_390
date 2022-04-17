@@ -158,7 +158,7 @@ const PatientModal = ({
                         : styles['patient-info-card-covidStatusP']
                     }
                   >
-                    {'COVID Status: ' + patient.status}
+                    {'COVID Status: ' + patient.covidStatus}
                   </span>
                   {isFlagged && (
                     <span className={styles['patient-info-card-flagStatusY']}>
@@ -172,7 +172,6 @@ const PatientModal = ({
                   </Button>
                 ) : (
                   <Button
-                    bsClass={styles['flag-button']}
                     variant='danger'
                     onClick={() => {
                       flagPatient();
