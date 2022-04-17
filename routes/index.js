@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {User, UserId, Name} = require('../domain/user');
 const UserRepository = require('../repository/UserRepository');
-const Patient = require("../domain/patient");
-const PatientRepository = require("../repository/PatientRepository");
 
 router.get('/:userId/profile', async (req, res) => {
   try {
@@ -49,7 +47,6 @@ router.post('/addNewUser', async (req, res) => {
 });
 
 router.post('/update-profile/:userId', async (req, res) => {
-  console.log(req.body);
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.userId);

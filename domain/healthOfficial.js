@@ -10,7 +10,11 @@ class HealthOfficial {
 
   async raiseFlag(patientId, newFlagValue) {
     await this.verifyHealthOfficial(this.userId.getId());
-    return await this.healthOfficialRepository.raiseFlag(this.userId.getId(), patientId, newFlagValue);
+    return await this.healthOfficialRepository.raiseFlag(
+      this.userId.getId(),
+      patientId,
+      newFlagValue,
+    );
   }
 
   async getUserCovidInfo(userId) {

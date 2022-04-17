@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 class User {
   constructor(userId, name, userRepository) {
@@ -34,14 +34,18 @@ class User {
 
   async sendNonUserEmail(userEmail) {
     const subject = 'CoviCare New User CTR';
-    const inviteMessage = 'Hi ' + userEmail + '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
-        'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.';
+    const inviteMessage =
+      'Hi ' +
+      userEmail +
+      ". This email is to inform that you were reported in one of our patient's contact tracing report. " +
+      'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.';
     return await this.sendUserEmail(userEmail, subject, inviteMessage);
   }
 
   async sendNewNotificationEmail(userEmail) {
     const subject = 'CoviCare New Notification !';
-    const message = 'Hi. This email is to inform that you just received a new notification. Please log in as soon as possible to see the message.';
+    const message =
+      'Hi. This email is to inform that you just received a new notification. Please log in as soon as possible to see the message.';
     return await this.sendUserEmail(userEmail, subject, message);
   }
 
@@ -60,7 +64,7 @@ class User {
       from: process.env.COVICARE_EMAIL,
       to: userEmail,
       subject: subject,
-      text: message
+      text: message,
     });
 
     console.log('Message sent: ', info.messageId);
