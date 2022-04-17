@@ -33,7 +33,7 @@ function ContactDoctor(props) {
     };
     fetchChat();
 
-    let socket = io('ws://localhost:3000');
+    let socket = io();
     socket.on('connect', () => {
       console.log('Connected client socket: ', socket.connected);
     });
