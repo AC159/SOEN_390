@@ -15,7 +15,7 @@ describe('visual test of Patient Modal component', () => {
   const patient = {
     uid: '1234',
     name: 'John Doe',
-    status: 'Positive',
+    covidStatus: 'Positive',
   };
   const currentUser = {
     user: {
@@ -223,6 +223,6 @@ describe('visual test of Patient Modal component', () => {
     expect(screen.queryByText(/Patient has been flagged/)).toBeNull();
     userEvent.click(screen.getByText(/Flag Patient/));
     expect(screen.getByText(/Patient has been flagged/)).toBeDefined();
-    expect(screen.getByText(/Positive/)).toBeDefined();
+    expect(screen.getByText(/Positive/)).toBeInTheDocument();
   });
 });
