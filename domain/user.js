@@ -37,7 +37,7 @@ class User {
     const inviteMessage =
       'Hi ' +
       userEmail +
-      ". This email is to inform that you were reported in one of our patient's contact tracing report. " +
+      '. This email is to inform that you were reported in one of our patient\'s contact tracing report. ' +
       'We advise you to create an account with CoviCare to reduce the risk of spreading the illness. Thank you.';
     return await this.sendUserEmail(userEmail, subject, inviteMessage);
   }

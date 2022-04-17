@@ -28,8 +28,8 @@ class UserRepository {
 
   fetchAllNotifications(userId) {
     return this.mongo.db('test')
-        .collection('notification')
-        .find({userId: userId}, {_id: 1}).toArray();
+      .collection('notification')
+      .find({userId: userId}, {_id: 1}).toArray();
   }
 
   fetchTypeAndStatus(userId) {
@@ -40,7 +40,6 @@ class UserRepository {
   getUserChats(chatId) {
     return this.mongo.db('test').collection('chats').find({chatId: chatId}).sort({timestamp: 1}).toArray();
   }
-
 }
 
 module.exports = UserRepository;

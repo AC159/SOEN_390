@@ -42,14 +42,14 @@ describe('test Patient status forms creation, update and retrieval', () => {
     const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
     await patient.postContactTracingReport();
     expect(patientRepository.addContactTracingReport).toHaveBeenCalledTimes(1);
-  })
+  });
 
   test('GET /patient/get-contact-tracing', async () => {
     const patientRepository = new PatientRepository();
     const patient = new Patient(userId, name, address, '4501234569', '1998-01-01', PatientStatus.Confirmed, true, patientRepository);
     await patient.getContactTracingReports();
     expect(patientRepository.fetchContactTracingReports).toHaveBeenCalledTimes(1);
-  })
+  });
 });
 
 
@@ -97,11 +97,11 @@ describe('test value object', () => {
       const city = 'Montreal';
       const province = 'Quebec';
       const address = new Address(
-          civicNumber,
-          street,
-          postalCode,
-          city,
-          province,
+        civicNumber,
+        street,
+        postalCode,
+        city,
+        province,
       );
 
       expect(address.getCivicNumber()).toEqual(civicNumber);
@@ -110,7 +110,7 @@ describe('test value object', () => {
       expect(address.getCity()).toEqual(city);
       expect(address.getProvince()).toEqual(province);
       expect(address.getAddress()).toEqual(
-          '1234 Guy Street, Montreal (Quebec), L5T 3E5',
+        '1234 Guy Street, Montreal (Quebec), L5T 3E5',
       );
     });
   });

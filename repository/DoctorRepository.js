@@ -7,7 +7,7 @@ class DoctorRepository {
 
   async verifyDoctor(doctorId) {
     const doctorData = await this.mongo.db('test').collection('user')
-        .findOne({uid: doctorId}, {userType: 1, userStatus: 1});
+      .findOne({uid: doctorId}, {userType: 1, userStatus: 1});
 
     if (doctorData === null || doctorData === undefined) {
       throw new Error('Not a valid doctor');
@@ -16,38 +16,38 @@ class DoctorRepository {
 
   getPatients(doctorId) {
     return this.mongo.db('test').collection('user')
-        .find({'userType': 'patient', 'patientInfo.doctorId': doctorId})
-        .project({_id: 0, name: 1, dob: 1, phoneNumber: 1, email: 1, uid: 1, patientInfo: 1, doctorFlagInfo: 1})
-        .toArray();
+      .find({'userType': 'patient', 'patientInfo.doctorId': doctorId})
+      .project({_id: 0, name: 1, dob: 1, phoneNumber: 1, email: 1, uid: 1, patientInfo: 1, doctorFlagInfo: 1})
+      .toArray();
   }
 
   getPatientStatus(patientId) {
     return this.mongo.db('test').collection('patientForms')
-        .find({patientUid: patientId})
-        .sort({timestamp: -1})
-        .limit(1)
-        .project({_id: 0, covidStatus: 1})
-        .next();
+      .find({patientUid: patientId})
+      .sort({timestamp: -1})
+      .limit(1)
+      .project({_id: 0, covidStatus: 1})
+      .next();
   }
 
   insertAppointment(appointment) {
     return this.mongo.db('test')
-        .collection('appointment')
-        .insertOne(appointment);
+      .collection('appointment')
+      .insertOne(appointment);
   }
 
   findAppointments(doctorId) {
     return this.mongo.db('test')
-        .collection('appointment')
-        .find({doctorId: doctorId})
-        .project({_id: 0})
-        .toArray();
+      .collection('appointment')
+      .find({doctorId: doctorId})
+      .project({_id: 0})
+      .toArray();
   }
 
   insertNotification(notification) {
     return this.mongo.db('test')
-        .collection('notification')
-        .insertOne(notification);
+      .collection('notification')
+      .insertOne(notification);
   }
 
   async raiseFlag(doctorId, userId, newFlagValue) {
@@ -56,8 +56,8 @@ class DoctorRepository {
     if (newFlagValue === true) newId = doctorId;
     else newId = '';
     return await this.mongo.db('test')
-        .collection('user')
-        .updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
+      .collection('user')
+      .updateOne({uid: userId}, {$set: {doctorFlagInfo: {isFlagged: newFlagValue, flaggingUser: newId}}});
   }
 
   storeQuestions(formData) {
