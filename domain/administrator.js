@@ -36,10 +36,13 @@ class Administrator {
     const user = await this.adminRepository.approveUser(userId);
     switch (user.value.userType) {
       case 'patient':
-        this.adminRepository.setUserDefaultInformation(userId, {patientInfo: {doctor: ''},
+        this.adminRepository.setUserDefaultInformation(userId, {
+          patientInfo: {doctor: ''},
           doctorFlagInfo: {isFlagged: false, flaggingUser: ''},
           immigrationOfficerFlagInfo: {isFlagged: false, flaggingUser: ''},
-          healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ''}, wantToBeAssignedToDoctor: false});
+          healthOfficialFlagInfo: {isFlagged: false, flaggingUser: ''},
+          wantToBeAssignedToDoctor: false,
+        });
         break;
       case 'doctor':
         this.adminRepository.setUserDefaultInformation(userId, {doctorInfo: {patientCount: 0}});
@@ -79,10 +82,10 @@ class Administrator {
     const response = await this.adminRepository.fetchDoctors();
 
     return response.map((doctor) => ({
-      'uid': doctor.uid,
-      'name': doctor.name,
-      'address': doctor.address,
-      'patientCount': doctor.doctorInfo.patientCount,
+      uid: doctor.uid,
+      name: doctor.name,
+      address: doctor.address,
+      patientCount: doctor.doctorInfo.patientCount,
     }));
   }
 

@@ -21,4 +21,43 @@ describe('test ImmigrationOfficial object', () => {
       expect(repository.viewAllPatients).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should be able to get user covid info', async () => {
+    const repo = new ImmigrationOfficialRepository('');
+    const official = new ImmigrationOfficial(new UserId('1234'), repo);
+    repo.viewUserCovidInformation.mockReturnValue('success');
+
+    const info = await official.getUserCovidInfo('0987');
+
+    expect(repo.viewUserCovidInformation).toHaveBeenCalledWith('1234', '0987');
+    expect(info).toEqual('success');
+  });
+
+  it('should be able to get traveler info', async () => {
+    const repo = new ImmigrationOfficialRepository('');
+    const official = new ImmigrationOfficial(new UserId('1234'), repo);
+    repo.viewTravelerProfile.mockReturnValue('success');
+
+    const info = await official.getTravelerInfo('0987');
+
+    expect(repo.viewTravelerProfile).toHaveBeenCalledWith('1234', '0987');
+    expect(info).toEqual('success');
+  });
+
+  it('should be able to get traveler', async () => {
+    const repo = new ImmigrationOfficialRepository('');
+    const official = new ImmigrationOfficial(new UserId('1234'), repo);
+    repo.fetchTraveler.mockReturnValue([{name: 'John Doe'}]);
+
+    const info = await official.getTraveler();
+
+    expect(repo.fetchTraveler).toHaveBeenCalledWith('1234');
+    expect(info).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'John Doe',
+        }),
+      ]),
+    );
+  });
 });

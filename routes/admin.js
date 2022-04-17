@@ -65,7 +65,6 @@ router.post('/:adminId/approve-user', async (req, res) => {
     const userId = req.body.userId;
     const adminId = new UserId(req.params.adminId);
     const adminRepository = new AdminRepository(req.app.locals.mongodb);
-
     const admin = new Administrator(adminId, adminRepository);
     const response = await admin.approvePendingUser(userId);
 
