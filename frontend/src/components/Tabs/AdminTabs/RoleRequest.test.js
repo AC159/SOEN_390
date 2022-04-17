@@ -74,4 +74,23 @@ describe('visual test of RoleRequest Component', () => {
 
     expect(await screen.findByText(/John Doe wants to join as a Doctor/)).toBeInTheDocument();
   });
+
+  it('should output nothing when element is null', async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        users: null,
+        doctors: null,
+        healthOfficials: null,
+        immigrationOfficials: null,
+      },
+    });
+
+    render(
+      <AuthContext.Provider value={auth}>
+        <RoleRequest />
+      </AuthContext.Provider>,
+    );
+
+    expect(await screen.findByText(/Role Requests/)).toBeInTheDocument();
+  });
 });

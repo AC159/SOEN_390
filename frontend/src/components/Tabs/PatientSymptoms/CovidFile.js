@@ -206,6 +206,7 @@ function CovidFile(props) {
             <h6>Select your Covid Status:</h6>
             <select
               value={covidStat}
+              data-testid="covid-select"
               onChange={(event) => {
                 setCovidStat(event.target.value);
                 if (event.target.value === 'None') {
@@ -268,6 +269,7 @@ function CovidFile(props) {
                 <h6>What is your temperature?</h6>
                 <input
                   type='number'
+                  data-testid="temp-input"
                   defaultValue={
                     selectedFormIndex >= 0 ? patientData[selectedFormIndex].temperature : null
                   }

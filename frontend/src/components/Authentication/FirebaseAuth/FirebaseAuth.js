@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from 'react';
 import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-} from "firebase/auth";
-import axios from "axios";
+} from 'firebase/auth';
+import axios from 'axios';
 
 export const AuthContext = React.createContext();
 
@@ -14,7 +14,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-function FirebaseAuthProvider({ children }) {
+function FirebaseAuthProvider({children}) {
   const [currentUser, setCurrentUser] = useState({});
   const auth = getAuth();
 
@@ -35,22 +35,23 @@ function FirebaseAuthProvider({ children }) {
         throw error;
       }
     } catch (error) {
-        throw error;
+      throw error;
     }
-  }
+  };
 
   const createTestNotificationsForNewUser = async (userId) => {
     return await axios.post(`/notification/${userId}/createTestNotifications`);
-  }
+  };
 
   const login = async (email, password) => {
+    console.log('object');
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       return response;
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   const logout = () => {
     return signOut(auth);
@@ -59,11 +60,11 @@ function FirebaseAuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userData) => {
       if (userData && userData.uid) {
-        console.log("onAuthStateChanged: ", userData);
+        console.log('onAuthStateChanged: ', userData);
         const dbResponse = await axios.get(`/user/${userData.uid}/profile`);
-        console.log("DB response: ", dbResponse);
-        setCurrentUser({ user: userData, dbData: dbResponse.data });
-        console.log("Current user: ", currentUser);
+        console.log('DB response: ', dbResponse);
+        setCurrentUser({user: userData, dbData: dbResponse.data});
+        console.log('Current user: ', currentUser);
       }
     });
     return unsubscribe;

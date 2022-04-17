@@ -14,13 +14,16 @@ const PatientInfoItem = ({type, element, index, render, doctorButton = (id) => {
     setDate(moment(new Date(element.timestamp * 1000)).format('dddd, MMMM Do YYYY, h:mm:ss a'));
 
     const predicates = {
-      doctor: (value, key) => value && !['_id', 'patientUid', 'timestamp'].includes(key) && value.length !== 0,
+      doctor: (value, key) =>
+        value && !['_id', 'patientUid', 'timestamp'].includes(key) && value.length !== 0,
       administrator: (_, key) => key === 'covidStatus',
       healthOfficial: (value, key) => value && !['_id', 'patientUid', 'timestamp', 'temperature', 'otherSymptoms', 'symptomDetails', 'health', 'symptoms', 'doctorQuestions'].includes(key) && value.length > 0,
     };
 
     const predicate = predicates[type];
-    const data = Object.fromEntries(Object.entries(element).filter(([key, value], _) => predicate(value, key)));
+    const data = Object.fromEntries(
+      Object.entries(element).filter(([key, value], _) => predicate(value, key)),
+    );
 
     setInfo(data);
   }, [type, element]);
@@ -38,7 +41,13 @@ const PatientInfoItem = ({type, element, index, render, doctorButton = (id) => {
 
 export default PatientInfoItem;
 
-export const DoctorPatientInfoList = ({element, index, isFormSelected, setSelectedFormId, selectedFormId}) => {
+export const DoctorPatientInfoList = ({
+  element,
+  index,
+  isFormSelected,
+  setSelectedFormId,
+  selectedFormId,
+}) => {
   return (
     <PatientInfoItem
       type='doctor'
