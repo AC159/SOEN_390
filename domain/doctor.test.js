@@ -109,5 +109,81 @@ describe('test Doctor object', () => {
         expect(mockInsertNotification).toHaveBeenCalledTimes(0);
       });
     });
+
+    it('should get Patient Array', async () => {
+      const doctorRepo = new DoctorRepository('');
+      doctorRepo.getPatients.mockResolvedValueOnce([
+        {
+          uid: '4321',
+        },
+        {
+          uid: '5432',
+        },
+      ]);
+      doctorRepo.getPatientStatus.mockImplementation((id) => {
+        if (id === '4321') return {covidStatus: 'Positive'};
+        else return null;
+      });
+
+      const doctor = new Doctor(new UserId('12345'), doctorRepo);
+      const patients = await doctor.getPatientArrays();
+
+      expect(doctorRepo.getPatients).toHaveBeenCalledWith('12345');
+      expect(doctorRepo.getPatientStatus).toHaveBeenCalledWith('4321');
+      expect(patients).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            uid: '4321',
+            status: 'Positive',
+          }),
+          expect.objectContaining({
+            uid: '5432',
+            status: 'Not tested',
+          }),
+        ]),
+      );
+    });
+
+    it('should be able to post questions', async () => {
+      const doctorRepo = new DoctorRepository('');
+      doctorRepo.storeQuestions.mockReturnValue({
+        succes: true,
+      });
+
+      const doctor = new Doctor(new UserId('12345'), doctorRepo);
+      const res = await doctor.postQuestions([{answer: '', question: 'a question?'}]);
+
+      expect(doctorRepo.storeQuestions).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          expect.objectContaining({
+            answer: '',
+            question: 'a question?',
+          }),
+        ]),
+      );
+      expect(res).toEqual(expect.objectContaining({succes: true}));
+    });
+
+    it('should be able to get appointments', async () => {
+      const doctorRepo = new DoctorRepository('');
+      doctorRepo.findAppointments.mockReturnValue([
+        {
+          appointmentId: 1,
+        },
+      ]);
+
+      const doctor = new Doctor(new UserId('12345'), doctorRepo);
+      const appointment = await doctor.getAppointments();
+
+      expect(doctorRepo.verifyDoctor).toHaveBeenCalledTimes(1);
+      expect(doctorRepo.findAppointments).toHaveBeenCalledWith('12345');
+      expect(appointment).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            appointmentId: 1,
+          }),
+        ]),
+      );
+    });
   });
 });

@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
 const hbs = require('nodemailer-express-handlebars')
 const path = require('path')
+const nodemailer = require('nodemailer');
+
 
 class User {
   constructor(userId, name, userRepository) {
@@ -44,7 +46,8 @@ class User {
 
   async sendNewNotificationEmail(userEmail) {
     const subject = 'CoviCare New Notification !';
-    const message = 'Hi. This email is to inform that you just received a new notification. Please log in as soon as possible to see the message.';
+    const message =
+      'Hi. This email is to inform that you just received a new notification. Please log in as soon as possible to see the message.';
     return await this.sendUserEmail(userEmail, subject, message);
   }
 

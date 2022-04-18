@@ -11,7 +11,10 @@ router.post('/:immigrationOfficialId/raise-flag', async (req, res) => {
     const newFlagValue = req.body.flagValue;
     const immigrationOfficialRepository = new ImmigrationOfficialRepository(req.app.locals.mongodb);
 
-    const immigrationOfficial = new ImmigrationOfficial(immigrationOfficialId, immigrationOfficialRepository);
+    const immigrationOfficial = new ImmigrationOfficial(
+      immigrationOfficialId,
+      immigrationOfficialRepository,
+    );
     const response = await immigrationOfficial.raiseFlag(patientId, newFlagValue);
     res.status(201).json({data: response});
   } catch (e) {
@@ -23,13 +26,11 @@ router.get('/:immigrationOfficialId/user-covid-info', async (req, res) => {
   try {
     const userId = req.body.userId;
     const immigrationOfficialId = new UserId(req.params.immigrationOfficialId);
-    const immigrationOfficialRepository = new ImmigrationOfficialRepository(
-        req.body.mongo,
-    );
+    const immigrationOfficialRepository = new ImmigrationOfficialRepository(req.body.mongo);
 
     const immigrationOfficial = new ImmigrationOfficial(
-        immigrationOfficialId,
-        immigrationOfficialRepository,
+      immigrationOfficialId,
+      immigrationOfficialRepository,
     );
     const profile = await immigrationOfficial.getUserCovidInfo(userId);
     res.status(200).json({profile});
@@ -42,13 +43,11 @@ router.get('/:immigrationOfficialId/traveler-info', async (req, res) => {
   try {
     const travelerId = req.body.travelerId;
     const immigrationOfficialId = new UserId(req.params.immigrationOfficialId);
-    const immigrationOfficialRepository = new ImmigrationOfficialRepository(
-        req.body.mongo,
-    );
+    const immigrationOfficialRepository = new ImmigrationOfficialRepository(req.body.mongo);
 
     const immigrationOfficial = new ImmigrationOfficial(
-        immigrationOfficialId,
-        immigrationOfficialRepository,
+      immigrationOfficialId,
+      immigrationOfficialRepository,
     );
     const response = await immigrationOfficial.getTravelerInfo(travelerId);
     res.status(200).json({data: response});
@@ -61,7 +60,10 @@ router.get('/:immigrationOfficialId/patients', async (req, res) => {
   try {
     const immigrationOfficialId = new UserId(req.params.immigrationOfficialId);
     const immigrationOfficialRepository = new ImmigrationOfficialRepository(req.app.locals.mongodb);
-    const immigrationOfficial = new ImmigrationOfficial(immigrationOfficialId, immigrationOfficialRepository);
+    const immigrationOfficial = new ImmigrationOfficial(
+      immigrationOfficialId,
+      immigrationOfficialRepository,
+    );
     const response = await immigrationOfficial.getAllPatients();
     res.status(200).json({data: response});
   } catch (error) {
@@ -70,12 +72,14 @@ router.get('/:immigrationOfficialId/patients', async (req, res) => {
   }
 });
 
-
 router.get('/get-travlers-form/:patientUid', async (req, res) => {
   try {
     const mongo = req.app.locals.mongodb;
     const userId = new UserId(req.params.patientUid);
-    const immigrationOfficial = new ImmigrationOfficial(userId, new ImmigrationOfficialRepository(mongo));
+    const immigrationOfficial = new ImmigrationOfficial(
+      userId,
+      new ImmigrationOfficialRepository(mongo),
+    );
     const data = await immigrationOfficial.getTraveler();
     res.status(200).json(data);
   } catch (error) {

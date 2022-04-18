@@ -33,18 +33,6 @@ class Doctor {
     return await this.doctorRepository.storeQuestions(formData);
   }
 
-  getPatientFile(patient) {
-    throw new Error(`${this.getPatientFile.name} is not implemented.`);
-  }
-
-  viewPatient(patient) {
-    throw new Error(`${this.viewPatient.name} is not implemented.`);
-  }
-
-  flagPatient(patient) {
-    throw new Error(`${this.flagPatient.name} is not implemented.`);
-  }
-
   async createAppointment(patientId, appointmentInfo) {
     this.verifyDoctor();
     const appointment = {
@@ -71,14 +59,6 @@ class Doctor {
   async getAppointments() {
     this.verifyDoctor();
     return await this.doctorRepository.findAppointments(this.id.getId());
-  }
-
-  createForm() {
-    throw new Error(`${this.createForm.name} is not implemented.`);
-  }
-
-  uploadLiscence(license) {
-    throw new Error(`${this.uploadLiscence.name} is not implemented.`);
   }
 }
 

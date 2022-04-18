@@ -56,7 +56,7 @@ router.post('/addNewNotification', async (req, res) => {
       mainText: req.body.mainText,
       subText: req.body.subText,
       timeStamp: Date.now(),
-      userId: req.body.patientUid
+      userId: req.body.patientUid,
     };
     const response = await notification.createNotification(notificationData);
 
