@@ -3,6 +3,8 @@
 ## The Deployed App
 https://covicare-soen390.herokuapp.com/
 
+(we were not able to install smtp on the server)
+
 ## Team Members
 
 | Name                      | Github Username |
