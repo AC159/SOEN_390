@@ -54,7 +54,7 @@ function NotificationBox() {
     <div className={styles['outer-container']}>
       <Row className={styles['notification-container']}>
         <Pagination
-          itemPerPage={4}
+          itemPerPage={6}
           data={notifications}
           emptyMessage='No new notifications!'
           render={(notification) => (
