@@ -194,6 +194,6 @@ describe('visual test of Patient Modal component', () => {
     expect(screen.queryByText(/Patient has been flagged/)).toBeNull();
     userEvent.click(screen.getByText(/Flag Patient/));
     expect(screen.getByText(/Patient has been flagged/)).toBeDefined();
-    expect(screen.getByText(/Positive/)).toBeInTheDocument();
+    expect(screen.getByText(/COVID Status: Positive/)).toBeInTheDocument();
   });
 });
