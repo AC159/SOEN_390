@@ -7,7 +7,7 @@
     "start": "node ./app",
     "client": "cd frontend && npm start",
     "dev": "concurrently \"nodemon run start\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "heroku-postbuild": "cd frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "jest --testPathIgnorePatterns='/frontend/' --coveragePathIgnorePatterns='/repository' --runInBand",
     "lint": "eslint ./ --fix",
     "format": "prettier --write ."
