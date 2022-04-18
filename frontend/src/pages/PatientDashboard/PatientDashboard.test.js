@@ -10,6 +10,7 @@ jest.mock('axios');
 describe('test PatientDashboard page', () => {
   const auth = {
     currentUser: {
+      dbData: {userStatus: 'PENDING'},
       user: {
         uid: '1234',
       },

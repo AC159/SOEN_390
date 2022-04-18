@@ -14,6 +14,7 @@ window.scrollTo = jest.fn();
 describe('test Doctor Dashboard page', () => {
   const auth = {
     currentUser: {
+      dbData: {userStatus: 'PENDING'},
       user: {
         uid: '1234',
       },

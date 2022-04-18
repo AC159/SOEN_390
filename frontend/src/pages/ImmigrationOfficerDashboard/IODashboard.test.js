@@ -12,6 +12,7 @@ jest.mock('axios');
 describe('test Immigration Officer Dashboard page', () => {
   const auth = {
     currentUser: {
+      dbData: {userStatus: 'PENDING'},
       user: {
         uid: '1234',
       },

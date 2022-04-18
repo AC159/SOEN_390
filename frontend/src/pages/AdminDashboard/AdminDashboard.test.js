@@ -12,6 +12,7 @@ jest.mock('axios');
 describe('test admin page', () => {
   const auth = {
     currentUser: {
+      dbData: {userStatus: 'PENDING'},
       user: {
         uid: '1234',
       },
