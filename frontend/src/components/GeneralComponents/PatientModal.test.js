@@ -14,7 +14,7 @@ describe('visual test of Patient Modal component', () => {
   const patient = {
     uid: '1234',
     name: 'John Doe',
-    status: 'Positive',
+    covidStatus: 'Positive',
   };
   const currentUser = {
     user: {
@@ -192,8 +192,8 @@ describe('visual test of Patient Modal component', () => {
 
     await expect(mockFetchPatient).toHaveBeenCalledWith(patient.uid);
     expect(screen.queryByText(/Patient has been flagged/)).toBeNull();
-    userEvent.click(await screen.findByText(/Flag Patient/));
-    expect(await screen.findByText(/Patient has been flagged/)).toBeInTheDocument();
-    expect(await screen.findByText(/Unflag Patient/)).toBeInTheDocument();
+    userEvent.click(screen.getByText(/Flag Patient/));
+    expect(screen.getByText(/Patient has been flagged/)).toBeDefined();
+    expect(screen.getByText(/COVID Status: Positive/)).toBeInTheDocument();
   });
 });
