@@ -1,5 +1,8 @@
 # Covid tracking app for SOEN 390
 
+## The Deployed App
+https://covicare-soen390.herokuapp.com/
+
 ## Team Members
 
 | Name                      | Github Username |
