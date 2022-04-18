@@ -15,7 +15,7 @@ function Navbar(props) {
 
   useEffect(() => {
     console.log(userLink);
-    if(currentUser.dbData.userStatus === null)
+    if(currentUser.dbData.userStatus == "PENDING")
       setUserLink('/general-dashboard');
     else
     {

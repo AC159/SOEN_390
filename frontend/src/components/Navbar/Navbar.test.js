@@ -13,6 +13,7 @@ describe('visual test of the component', () => {
           value={{
             currentUser: {
               // user: 'john@email.com',
+              userStatus: "PENDING"
             },
             logout: () => {},
           }}
@@ -32,6 +33,7 @@ describe('visual test of the component', () => {
           value={{
             currentUser: {
               user: {email: 'john@email.com'},
+              userStatus: "PENDING"
             },
             logout: () => {},
           }}
@@ -48,6 +50,7 @@ describe('visual test of the component', () => {
     const providerProps = {
       currentUser: {
         user: {email: 'john@email.com'},
+        userStatus: "PENDING"
       },
       logout: () => {},
     };
@@ -67,6 +70,7 @@ describe('visual test of the component', () => {
     const providerProps = {
       currentUser: {
         user: {email: 'john@email.com'},
+        userStatus: "PENDING"
       },
       logout: mockLogout,
     };
@@ -89,6 +93,7 @@ describe('visual test of the component', () => {
     const providerProps = {
       currentUser: {
         user: {email: 'john@email.com'},
+        userStatus: "PENDING"
       },
       logout: mockLogout,
     };
@@ -109,6 +114,7 @@ describe('visual test of the component', () => {
     const providerProps = {
       currentUser: {
         user: {email: 'john@email.com'},
+        userStatus: "PENDING"
       },
       logout: () => {},
     };
