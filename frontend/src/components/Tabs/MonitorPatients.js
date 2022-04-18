@@ -52,6 +52,7 @@ function MonitorPatients(props) {
     <div>
       <h3>Patients COVID Data</h3>
           <CovidData/>
+      <br/>
       <div className={styles["page-top-text"]}>
           <h3>Your Patients</h3>
           <hr/>

@@ -84,7 +84,7 @@ function ContactDoctor(props) {
         <div className={styles['chat-box-title']}>
           <div>
             <p>Chat with your Doctor</p>
-            <h3>Dr. Roman Roy</h3>
+            <h3>{currentUser.dbData.patientInfo.doctor}</h3>
           </div>
         </div>
         <div className={styles['chat-container']}>
